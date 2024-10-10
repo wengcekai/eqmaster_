@@ -1,0 +1,179 @@
+
+.bar-item[data-v-aad32a68] {
+  width: 40%; /* 这里你可以根据需要调整宽度 */
+  height: 5px;
+  background-color: rgba(255, 255, 255, 0.3);
+  /* 默认灰色背景 */
+  border-radius: 20px;
+  margin-left: 10px;
+}
+.active[data-v-aad32a68] {
+  background-color: #D9D9D9; /* active状态为白色背景 */
+}
+
+.continue-button-container[data-v-f52b0df4] {
+	width: 100%;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	bottom: 1.5625rem;
+	z-index: 3;
+	/* 确保按钮层级高于其他元素 */
+}
+.background-image[data-v-f52b0df4] {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	/* 背景图片在最底层 */
+}
+.continue-btn[data-v-f52b0df4] {
+	width: 80%;
+	/* 调整这里的值来控制按钮距离底部的高度 */
+	background-color: #ffcc66;
+	border: none;
+	border-radius: 25px;
+	font-size: 15px;
+	color: #000;
+	z-index: 3;
+}
+.overlay[data-v-f52b0df4] {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(46, 46, 47, 0.75);
+	z-index: 2;
+	/* 叠加层在背景图片之上 */
+}
+.back-button[data-v-f52b0df4] {
+	width: 24px;
+	height: 24px;
+}
+.navbar[data-v-f52b0df4] {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding: 0.625rem;
+	position: relative;
+	z-index: 3;
+	margin-top: 2.5rem;
+	margin-left: 0.625rem;
+	/* 确保导航栏在叠加层之上 */
+}
+.back-button[data-v-f52b0df4] {
+	width: 24px;
+	height: 24px;
+}
+.progress-bar[data-v-f52b0df4] {
+	flex: 1;
+	width: 100%;
+	height: 20px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+.content[data-v-f52b0df4] {
+	padding: 20px;
+	text-align: center;
+	position: relative;
+	z-index: 3;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 6.25rem;
+	/* 确保页面内容在叠加层之上 */
+}
+.container[data-v-f52b0df4] {
+	display: flex;
+	flex-direction: column;
+	background-image: url('../../static/battlefield/background.png');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 100vh;
+	overflow: hidden;
+	touch-action: none;
+}
+.content[data-v-f52b0df4] {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+}
+.task-word[data-v-f52b0df4] {
+		color: #fff;
+		width: 100%;
+		text-align: start;
+}
+.task-header[data-v-f52b0df4] {
+		margin-top: 0.9375rem;
+		text-align: center;
+		color: #fff;
+}
+.main-title[data-v-f52b0df4] {
+		font-size: 1.25rem;
+		font-weight: bold;
+		color: #fff;
+}
+.sub-title[data-v-f52b0df4] {
+		font-size: 34px;
+		margin-top: 0.9375rem;
+		font-weight: 700;
+		color: #fff;
+}
+.task-list[data-v-f52b0df4] {
+		width: 100%;
+		margin-top: 3.125rem;
+		display: flex;
+		min-height: 1.25rem;
+		flex-direction: row;
+		justify-content: flex-start;
+}
+.task-item[data-v-f52b0df4] {
+		display: flex;
+		flex-direction: row;
+		gap: 0.375rem;
+		justify-content: flex-start;
+		align-items: center;
+		font-size: 0.875rem;
+		margin-bottom: 0.625rem;
+		width: 100%;
+		margin-top: 0.9375rem;
+		margin-left: 1.5625rem;
+}
+
+
+/* 确保内容区域占满屏幕高度 */
+.task-header[data-v-f52b0df4],
+	.task-list[data-v-f52b0df4] {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+}
+.index-circle[data-v-f52b0df4] {
+		width: 1.875rem;
+		height: 1.875rem;
+		border-radius: 0.9375rem;
+		background-color: rgba(255, 255, 255, 0.3);
+		color: #fff;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: solid;
+		border-color: #fff;
+		border-width: 0.03125rem;
+}
+.index-word[data-v-f52b0df4] {
+		color: #fff;
+		font-size: 0.78125rem;
+}
