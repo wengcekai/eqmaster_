@@ -4,8 +4,8 @@
 		<view class="overlay"></view>
 
 		<view class="navbar" :class="{ shadowed: shouldShadow }">
-			<image class="back-button" src="/static/battlefield/back-iconpng.png"></image>
-			<reward-bar :gemCount="100"></reward-bar>
+			<image class="back-button" src="/static/battlefield/back-iconpng.png" @tap="goToDashboard"></image>
+			<reward-bar :gemCount="2"></reward-bar>
 			<view class="setting-group">
 				<image class="setting-item" src="/static/battlefield/copy.png"></image>
 				<image class="setting-item" src="/static/battlefield/setting.png"></image>
@@ -14,16 +14,14 @@
 
 		<view class="npc-group" :class="{ shadowed: shouldShadow }">
 			<npc-status v-for="npc in npcs" :key="npc.characterName" :health="npc.health" :avatar="npc.avatar"
-				:characterName="npc.characterName">
-			</npc-status>
+				:characterName="npc.characterName"></npc-status>
 		</view>
 
-		<view class="chat-history-container" :class="{ shadowed: shouldShadow }" v-if="state!='NpcTalk'">
+		<view class="chat-history-container" :class="{ shadowed: shouldShadow }" v-if="state !== 'NpcTalk'">
 			<template v-for="(chat, index) in displayedMessages">
 				<self-chat-box v-if="chat.role === 'user'" :key="index" :wording="chat.content"></self-chat-box>
-				<npc-chat-box v-else-if="chat.role === '领导' || chat.role === '同事A' || chat.role === '同事B'"
-					:key="'npc-' + index" :avatar="getBattlefieldAvatar(chat.role)" :name="chat.role"
-					:dialog="chat.content"></npc-chat-box>
+				<npc-chat-box v-else-if="['领导', '同事A', '同事B'].includes(chat.role)" :key="'npc-' + index"
+					:avatar="getBattlefieldAvatar(chat.role)" :name="chat.role" :dialog="chat.content"></npc-chat-box>
 				<tipping-chat-box v-else-if="chat.role === 'tipping'" :key="'tipping' + index"
 					:tip="chat.content"></tipping-chat-box>
 			</template>
@@ -39,13 +37,24 @@
 				<image class="action-icon" src="/static/battlefield/keyboard.png"></image>
 			</view>
 			<view class="middle-container">
+				<!-- 录音弹框 -->
+				<view v-if="isRecording" class="recording-box">
+					<view class="waveform">
+						<!-- 声波动画 -->
+						<view class="wave"></view>
+					</view>
+					<text class="timer">{{ remainingTime }}s</text>
+					<text class="cancel-text" v-if="isCanceling">松开手指，取消发送</text>
+					<text class="cancel-text" v-else>上滑取消发送</text>
+				</view>
 				<view class="action-item action-item-middle" @touchstart="handleClickRecording"
-					@touchend="handleRecordingDone">
+					@touchend="handleRecordingDone" @touchmove="handleTouchMove">
 					<image class="action-icon action-icon-middle" src="/static/battlefield/microphone.png"></image>
 				</view>
 			</view>
 			<view class="action-item" v-if="!isRecording">
-				<image class="action-icon" src="/static/battlefield/streamline.png" @click="clickHintButton"></image>
+				<image class="action-icon-hint" src="/static/battlefield/streamline.png" @click="clickHintButton">
+				</image>
 			</view>
 		</view>
 
@@ -59,9 +68,8 @@
 			</view>
 		</view>
 
-		<view class="judge-container" v-if="state==='judge'">
-			<judge :title="judgeTitle" :wording="judgeContent" @judge="gotoNextRound" :good-judge="isGoodReply">
-			</judge>
+		<view class="judge-container" v-if="state === 'judge'">
+			<judge :title="judgeTitle" :wording="judgeContent" @judge="gotoNextRound" :good-judge="isGoodReply"></judge>
 		</view>
 	</view>
 </template>
@@ -85,11 +93,11 @@
 		evalBattlefield,
 	} from '/scripts/battlefield-chat';
 	import {
-		getBattlefieldAvatar
+		getBattlefieldAvatar,
 	} from '../../scripts/locate_name';
 	import {
 		filterChatHistory,
-		getNpcIndex
+		getNpcIndex,
 	} from '../../scripts/battlefield-chat';
 
 	export default {
@@ -112,19 +120,17 @@
 				task1Title: '一句话让同事们赞不绝口',
 				task2Title: '情绪过山车',
 				isGoodReply: true,
-				state: '', // Current state
+				state: 'NpcTalk', // Current state
 				showTippingCard: false, // Controls the tipping card visibility
 				talkingNpc: 0,
 				displayedNpcChatIndex: 0, // Tracks the last displayed NPC chat
 				npcDialog: 'NPC dialogue here', // Replace with actual dialogue
 				// Other data properties
 				someoneTalk: true,
-				state: 'NpcTalk', // Current state
 				chattingHistory: [{
 					role: '领导',
 					content: '唉，我最近有点上火，医生嘱咐我要清淡饮食。这些重口味的菜我可真不敢吃了，不然怕是吃完嘴上火气就更旺了。',
 				}, ],
-				talkingNpc: 0,
 				showInput: false,
 				focusInput: false,
 				npcs: [{
@@ -144,32 +150,114 @@
 					},
 				],
 				tempFilePath: '', // 临时录音文件路径
-				isRecording: false, // Controls the display state of left and right icons
-				getBattlefieldAvatar
+				isRecording: false, // Controls the display state of recording box
+				remainingTime: 30, // 录音剩余时间
+				isCanceling: false, // 判断是否处于取消状态
+				touchStartY: 0, // 记录touchstart的位置
+				touchThreshold: -100, // 上滑取消的阈值（负值表示向上滑动）
+				countdownInterval: null, // 倒计时的定时器
+				getBattlefieldAvatar,
 			};
 		},
 		methods: {
-			handleClickRecording() {
-				this.isRecording = true;
-				this.startRecording();
+			goToDashboard() {
+				uni.navigateTo({
+					url: '/pages/dashboard/dashboard?currentView=dashboard2',
+				});
 			},
+			handleClickRecording(e) {
+				// console.log("click start , isRecording: ", this.isRecording)
+				this.isRecording = true;
+				this.isCanceling = false;
+				this.remainingTime = 30;
+				this.touchStartY = e.touches[0].clientY;
+				this.startRecording();
+				this.startCountdown();
+			},
+			handleTouchMove(e) {
+				console.log("move start , isRecording: ", this.isRecording)
+				if (!this.isRecording) return;
+				const currentY = e.touches[0].clientY;
+				const distance = currentY - this.touchStartY;
+				if (distance < this.touchThreshold) {
+					this.isCanceling = true;
+					console.log("canceled")
+				} else {
+					this.isCanceling = false;
+					console.log("not canceled")
+				}
+			},
+			handleRecordingDone() {
+				if (!this.isRecording) return;
+				recorderManager.stop();
+				clearInterval(this.countdownInterval);
+				this.isRecording = false;
+
+
+				// if (this.isCanceling) {
+				//   this.cancelRecording();
+				// } else {
+				//   this.sendRecording();
+				// }
+			},
+			resetRecording() {
+				this.isRecording = false;
+				this.isCanceling = false;
+				this.remainingTime = 30;
+				clearInterval(this.countdownInterval);
+			},
+			startCountdown() {
+				this.countdownInterval = setInterval(() => {
+					if (this.remainingTime > 0) {
+						this.remainingTime--;
+					} else {
+						this.handleRecordingDone();
+					}
+				}, 1000);
+			},
+			resetRecording() {
+				this.isRecording = false;
+				this.isCanceling = false;
+				this.remainingTime = 30;
+				clearInterval(this.countdownInterval);
+			},
+			// cancelRecording() {
+			//   // 取消录音逻辑，比如删除临时文件或提示用户
+			//   console.log('录音已取消');
+			//   // 这里可以添加更多的取消逻辑，如提示用户
+			//   uni.showToast({
+			//     title: '录音已取消',
+			//     icon: 'none',
+			//   });
+			// },
+			// sendRecording() {
+			// 	// 发送录音逻辑，比如上传文件
+			// 	console.log('录音已发送');
+			// 	// 这里可以添加更多的发送逻辑，如调用上传接口
+			// 	uni.showToast({
+			// 		title: '录音已发送',
+			// 		icon: 'success',
+			// 	});
+			// },
 			async gotoNextRound() {
 				if (!this.isGoodReply) {
 					this.retry();
 					return;
 				}
 				const nextRound = await continueChat(this.chattingHistory);
-				console.log("next round data", nextRound);
+				console.log('next round data', nextRound);
 
 				this.chattingHistory = this.chattingHistory.concat(nextRound.dialog);
-				console.log("after concat, chatting history:", this.chattingHistory);
+				console.log('after concat, chatting history:', this.chattingHistory);
 
 				let someoneTalked = false;
-				for (; this.displayedNpcChatIndex < this.chattingHistory.length; ++this.displayedNpcChatIndex) {
-					let npcIndex = getNpcIndex((this.chattingHistory[this.displayedNpcChatIndex]));
+				for (; this.displayedNpcChatIndex < this.chattingHistory.length;
+					++this.displayedNpcChatIndex
+				) {
+					let npcIndex = getNpcIndex(this.chattingHistory[this.displayedNpcChatIndex]);
 					if (npcIndex >= 0) {
 						this.talkingNpc = npcIndex;
-						console.log("someone talk:", this.talkingNpc);
+						console.log('someone talk:', this.talkingNpc);
 						someoneTalked = true;
 						break;
 					}
@@ -187,22 +275,15 @@
 			},
 			startRecording() {
 				const options = {
-					duration: 60000, // 最大录音时长 60 秒
+					duration: 30000, // 最大录音时长 30 秒
 					sampleRate: 16000, // 采样率，Azure 推荐16kHz
 					numberOfChannels: 1, // 单声道
 					encodeBitRate: 16000, // 编码码率
 					format: 'wav', // 设置录音格式为 wav
 				};
 				recorderManager.start(options);
+				console.log('开始录音');
 			},
-			handleRecordingDone() {
-				console.log('Released');
-				if (this.isRecording) {
-					recorderManager.stop();
-					this.isRecording = false;
-				}
-			},
-
 			getNextState() {
 				if (this.state === 'NpcTalk' && this.chattingHistory.length === 0) {
 					console.log('Dismiss npc');
@@ -225,34 +306,32 @@
 				this.state = 'hint';
 			},
 
-			uploadAndRecognizeSpeech(filePath) {
-				return new Promise((resolve, reject) => {
-					uni.uploadFile({
+			async uploadAndRecognizeSpeech(filePath) {
+				try {
+					const response = await uni.uploadFile({
 						url: 'https://eqmaster.azurewebsites.net/upload-audio/', // 替换为你的 FastAPI 服务地址
 						filePath: filePath, // 录音的 WAV 文件路径
 						name: 'file', // 与 FastAPI 后端的字段名保持一致
 						header: {
-							'Content-Type': 'multipart/form-data' // 确保使用 multipart/form-data 进行文件上传
+							'Content-Type': 'multipart/form-data', // 确保使用 multipart/form-data 进行文件上传
 						},
-						success: (uploadRes) => {
-							console.log('文件上传成功:', uploadRes);
-							const response = JSON.parse(uploadRes.data); // 解析返回的 JSON 数据
-							const transcript = response.transcript; // 获取返回的识别文本
-							resolve(transcript); // 成功返回识别结果
-						},
-						fail: (err) => {
-							console.error('文件上传失败:', err);
-							reject(err);
-						}
 					});
-				});
+
+					console.log('文件上传成功:', response);
+					const resData = JSON.parse(response.data); // 解析返回的 JSON 数据
+					const transcript = resData.transcript; // 获取返回的识别文本
+					return transcript; // 成功返回识别结果
+				} catch (error) {
+					console.error('文件上传失败:', error);
+					throw error;
+				}
 			},
 
-			dismissNpcTalk() {
+			async dismissNpcTalk() {
 				let foundNpcMessage = false;
 				const history = this.chattingHistory;
 				for (let i = this.displayedNpcChatIndex + 1; i < history.length; i++) {
-					if (history[i].role != 'user') {
+					if (history[i].role !== 'user') {
 						// Found the next NPC message
 						this.displayedNpcChatIndex = i;
 						this.talkingNpc = this.getNpcIndexByName(history[i].role);
@@ -263,28 +342,28 @@
 				}
 				if (!foundNpcMessage) {
 					// No more NPC messages; change state to 'userTalk'
-					console.log("no more npc, now user turn.")
+					console.log('no more npc, now user turn.');
 					this.state = 'userTalk';
 				}
 			},
 
 			// Helper method to get NPC index by name
 			getNpcIndexByName(name) {
-				return this.npcs.findIndex(npc => npc.characterName === name);
+				return this.npcs.findIndex((npc) => npc.characterName === name);
 			},
 			async Pass() {
 				const evaluationResult = await evalBattlefield(this.chattingHistory);
 				console.log('evaluation result:', evaluationResult);
 				uni.setStorage({
 					key: 'evalResult',
-					data: evaluationResult
-				})
+					data: evaluationResult,
+				});
 
 				setTimeout(() => {
 					uni.navigateTo({
-						url: '/pages/battlefield/battlefield-summary'
-					}), 500
-				});
+						url: '/pages/battlefield/battlefield-summary',
+					});
+				}, 500);
 			},
 			handleContainerClick() {
 				if (this.state === 'NpcTalk') {
@@ -299,6 +378,13 @@
 				});
 				recorderManager.onStop(async (res) => {
 					console.log('Recorder stop', res);
+
+					// 如果录音被取消，则不进行上传或其他处理
+					if (this.isCanceling) {
+						console.log("Recording was canceled, no further action taken.");
+						this.resetRecording(); // 重置录音状态
+						return; // 直接返回，避免后续逻辑执行
+					}
 					const path = res.tempFilePath;
 
 					try {
@@ -316,22 +402,23 @@
 							return acc + parseInt(mood.mood, 10);
 						}, 0);
 
-						this.isGoodReply = totalScore > 0 ? true : false;
-						this.judgeTitle = this.isGoodReply ? "做的好" : "继续努力";
+						this.isGoodReply = totalScore > 0;
+						this.judgeTitle = this.isGoodReply ? '做的好' : '继续努力';
 						if (!this.task1Finished) {
-							const allPositive = judgeResult.moods.every(item => parseInt(item.mood, 10) > 0);
+							const allPositive = judgeResult.moods.every(
+								(item) => parseInt(item.mood, 10) > 0
+							);
 							if (allPositive) {
 								this.task1Finished = true;
-								this.judgeTitle =
-									`${this.task1Title} (1/1)`;
+								this.judgeTitle = `${this.task1Title} (1/1)`;
 							}
 						}
 
 						this.judgeContent = judgeResult.comments;
 						this.state = 'judge';
 
-						// 遍历 judgeResult.moods 并根据角色调整 this.mood 的值
-						judgeResult.moods.forEach(item => {
+						// 遍历 judgeResult.moods 并根据角色调整 this.npcs 的 health 值
+						judgeResult.moods.forEach((item) => {
 							let randomValue;
 							if (item.role === '领导') {
 								if (parseInt(item.mood, 10) > 0) {
@@ -377,31 +464,34 @@
 			},
 		},
 		onLoad(option) {
+			console.log("loaded")
 			uni.getStorage({
 				key: 'chats',
 				success: (res) => {
-					console.log("chatting histories,", res.data);
+					console.log('chatting histories,', res.data);
 					this.chattingHistory = res.data;
-				}
+				},
 			});
 
 			this.initRecorderManager();
 		},
-
+		watch: {
+			isCanceling(newValue) {
+				console.log("isCanceling : ", newValue)
+				if (newValue) {
+					console.log("Doing canceling ")
+					this.handleRecordingDone();
+				}
+			}
+		},
 		computed: {
 			shouldShadow() {
-				return (
-					this.state === 'NpcTalk' ||
-					this.isRecording ||
-					this.showTippingCard
-				);
+				return this.state === 'NpcTalk' || this.isRecording || this.showTippingCard;
 			},
 
 			displayedMessages() {
-				const userChats = this.chattingHistory.filter(chat => chat.role === 'user');
-				const npcChats = this.chattingHistory.filter(chat =>
-					chat.role === '领导' || chat.role === '同事A' || chat.role === '同事B'
-				);
+				const userChats = this.chattingHistory.filter((chat) => chat.role === 'user');
+				const npcChats = this.chattingHistory.filter((chat) => ['领导', '同事A', '同事B'].includes(chat.role));
 
 				// 只保留来自 'user' 的最新一条
 				const latestUserChat = userChats.slice(-1); // 取最后一条
@@ -411,14 +501,11 @@
 
 				// 合并 'user' 的消息和 'npc' 的消息
 				return [...latestNpcChats, ...latestUserChat];
-
 			},
 
 			displayedHistory() {
-				const userChats = this.chattingHistory.filter(chat => chat.role === 'user');
-				const npcChats = this.chattingHistory.filter(chat =>
-					chat.role === '领导' || chat.role === '同事A' || chat.role === '同事B'
-				);
+				const userChats = this.chattingHistory.filter((chat) => chat.role === 'user');
+				const npcChats = this.chattingHistory.filter((chat) => ['领导', '同事A', '同事B'].includes(chat.role));
 
 				// 只保留来自 'user' 的最新一条
 				const latestUserChat = userChats.slice(-1); // 取最后一条
@@ -428,12 +515,10 @@
 
 				// 合并 'user' 的消息和 'npc' 的消息
 				return [...latestNpcChats, ...latestUserChat];
-			}
-
-		}
+			},
+		},
 	};
 </script>
-
 
 <style scoped>
 	@import "./common.css";
@@ -530,6 +615,12 @@
 		height: 40px;
 	}
 
+	.action-icon-hint {
+		width: 30px;
+		height: 30px;
+		box-shadow: 0 0 18px #fed397;
+	}
+
 	.action-item {
 		width: 40px;
 		height: 40px;
@@ -543,20 +634,68 @@
 	.action-item-middle {
 		width: 50px;
 		height: 50px;
-		border-radius: 25px;
-		background: linear-gradient(180deg, rgba(253, 242, 211, 1) 0%, rgba(241, 188, 116, 1) 100%);
+		border-radius: 50%;
+		background: linear-gradient(180deg,
+				rgba(253, 242, 211, 1) 0%,
+				rgba(241, 188, 116, 1) 100%);
 	}
 
 	.middle-container {
 		width: 56px;
 		height: 56px;
-		border-radius: 28px;
+		border-radius: 50%;
 		background-color: transparent;
 		border: 2rpx solid rgba(253, 242, 211, 1);
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		position: absolute;
+		bottom: -10rpx;
 		box-shadow: 0px 0px 4px 0px rgba(254, 211, 151, 1);
+	}
+
+	.recording-box {
+		position: fixed;
+		top: 30%;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 300rpx;
+		height: 300rpx;
+		background-color: rgba(0, 0, 0, 0.8);
+		color: #fff;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		border-radius: 20rpx;
+		z-index: 5;
+		/* 确保录音框在最上层 */
+	}
+
+	.waveform {
+		width: 80%;
+		height: 150rpx;
+		margin-bottom: 20rpx;
+		background-color: rgba(255, 255, 255, 0.1);
+		/* Placeholder for wave animation */
+	}
+
+	.timer {
+		font-size: 40rpx;
+		margin-bottom: 10rpx;
+	}
+
+	.cancel-text {
+		font-size: 20rpx;
+		color: #ff6666;
+	}
+
+	.wave {
+		width: 100%;
+		height: 100%;
+		background-image: url('/static/battlefield/giphy.gif');
+		/* 动态声波效果 */
+		background-size: cover;
 	}
 
 	.npc-talk-container {
@@ -569,6 +708,7 @@
 
 	.shadowed {
 		z-index: 2;
+		opacity: 0.5;
 	}
 
 	.input-container {
@@ -583,7 +723,6 @@
 		/* 增加一些内边距 */
 		background-color: rgba(255, 255, 255, 0.9);
 		/* 可选的背景色，用于强调输入框 */
-
 	}
 
 	.keyboard-container {
@@ -597,7 +736,7 @@
 		width: 100%;
 		z-index: 3;
 		position: absolute;
-		height: 300px;
+		height: 500rpx;
 		bottom: 0px;
 	}
 

@@ -43,7 +43,7 @@
 		border-radius: 10px;
 		padding: 12px;
 		margin-top: 100rpx;
-		
+
 		width: 80%;
 		box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 		line-height: 1.5;
@@ -80,7 +80,7 @@
 		top: -30rpx;
 		width: 90rpx;
 		height: 90rpx;
-		border-radius: 45rpx;
+		border-radius: 50%;
 		overflow: hidden;
 		border: solid;
 		border-color: #eeaf62;
