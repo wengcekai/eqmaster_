@@ -47,7 +47,7 @@ if (uni.restoreGlobal) {
     }
     return target;
   };
-  const _sfc_main$x = {
+  const _sfc_main$y = {
     data() {
       return {
         showSplash: true,
@@ -82,7 +82,7 @@ if (uni.restoreGlobal) {
       }, 300);
     }
   };
-  function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$x(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       $data.showSplash ? (vue.openBlock(), vue.createElementBlock("view", {
         key: 0,
@@ -110,7 +110,7 @@ if (uni.restoreGlobal) {
       vue.createElementVNode("text", { class: "login-text" }, "登录已有账号")
     ]);
   }
-  const PagesLandingLanding = /* @__PURE__ */ _export_sfc(_sfc_main$x, [["render", _sfc_render$w], ["__scopeId", "data-v-f45ff4f6"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/landing/landing.vue"]]);
+  const PagesLandingLanding = /* @__PURE__ */ _export_sfc(_sfc_main$y, [["render", _sfc_render$x], ["__scopeId", "data-v-f45ff4f6"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/landing/landing.vue"]]);
   const BASE_URL = "https://eqmaster.azurewebsites.net/chat/batttlefield";
   const EVAL_URL = "https://eqmaster.azurewebsites.net/eval/battlefield";
   function sendRequest(person_id, course_id, chat_content, url = BASE_URL) {
@@ -219,7 +219,7 @@ if (uni.restoreGlobal) {
     return -1;
   }
   const _imports_0$e = "/static/battlefield/background.png";
-  const _sfc_main$w = {
+  const _sfc_main$x = {
     async mounted() {
       const result = await startField(1, "string");
       formatAppLog("log", "at pages/battlefield/battlefield-loading.vue:18", "result from start field:", result);
@@ -232,7 +232,7 @@ if (uni.restoreGlobal) {
       });
     }
   };
-  function _sfc_render$v(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "background-image loading-container" }, [
       vue.createElementVNode("image", {
         class: "background-image",
@@ -245,8 +245,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesBattlefieldBattlefieldLoading = /* @__PURE__ */ _export_sfc(_sfc_main$w, [["render", _sfc_render$v], ["__scopeId", "data-v-f3b7f371"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/battlefield/battlefield-loading.vue"]]);
-  const _sfc_main$v = {
+  const PagesBattlefieldBattlefieldLoading = /* @__PURE__ */ _export_sfc(_sfc_main$x, [["render", _sfc_render$w], ["__scopeId", "data-v-f3b7f371"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/battlefield/battlefield-loading.vue"]]);
+  const _sfc_main$w = {
     props: {
       name: {
         type: String,
@@ -262,7 +262,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$u(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$v(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "card-container" }, [
       vue.createElementVNode("view", { class: "avatar-container" }, [
         vue.createElementVNode("image", {
@@ -289,9 +289,9 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const NpcComment = /* @__PURE__ */ _export_sfc(_sfc_main$v, [["render", _sfc_render$u], ["__scopeId", "data-v-dd44ef29"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/components/NpcComment.vue"]]);
+  const NpcComment = /* @__PURE__ */ _export_sfc(_sfc_main$w, [["render", _sfc_render$v], ["__scopeId", "data-v-dd44ef29"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/NpcComment.vue"]]);
   const _imports_0$d = "/static/summary-bg.png";
-  const _sfc_main$u = {
+  const _sfc_main$v = {
     components: {
       NpcComment
       // 注册组件
@@ -340,7 +340,7 @@ if (uni.restoreGlobal) {
       });
     }
   };
-  function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$u(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_npc_comment = vue.resolveComponent("npc-comment");
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("scroll-view", {
@@ -424,8 +424,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesBattlefieldBattlefieldSummary = /* @__PURE__ */ _export_sfc(_sfc_main$u, [["render", _sfc_render$t], ["__scopeId", "data-v-2b5d4ef4"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/battlefield/battlefield-summary.vue"]]);
-  const _sfc_main$t = {
+  const PagesBattlefieldBattlefieldSummary = /* @__PURE__ */ _export_sfc(_sfc_main$v, [["render", _sfc_render$u], ["__scopeId", "data-v-2b5d4ef4"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/battlefield/battlefield-summary.vue"]]);
+  const _sfc_main$u = {
     props: {
       isActive: {
         type: Boolean,
@@ -434,7 +434,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock(
       "view",
       {
@@ -445,9 +445,9 @@ if (uni.restoreGlobal) {
       /* CLASS */
     );
   }
-  const ProgressBar = /* @__PURE__ */ _export_sfc(_sfc_main$t, [["render", _sfc_render$s], ["__scopeId", "data-v-aad32a68"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/components/ProgressBar.vue"]]);
+  const ProgressBar = /* @__PURE__ */ _export_sfc(_sfc_main$u, [["render", _sfc_render$t], ["__scopeId", "data-v-aad32a68"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/ProgressBar.vue"]]);
   const _imports_0$c = "/static/battlefield/back-iconpng.png";
-  const _sfc_main$s = {
+  const _sfc_main$t = {
     components: {
       ProgressBar
       // 注册组件
@@ -465,7 +465,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$r(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_progress_bar = vue.resolveComponent("progress-bar");
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("view", { class: "overlay" }),
@@ -504,7 +504,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesBattlefieldBattlefieldTask = /* @__PURE__ */ _export_sfc(_sfc_main$s, [["render", _sfc_render$r], ["__scopeId", "data-v-f52b0df4"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/battlefield/battlefield-task.vue"]]);
+  const PagesBattlefieldBattlefieldTask = /* @__PURE__ */ _export_sfc(_sfc_main$t, [["render", _sfc_render$s], ["__scopeId", "data-v-f52b0df4"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/battlefield/battlefield-task.vue"]]);
   const _imports_0$b = "/static/dashboard/ciwei.png";
   const _imports_1$6 = "/static/diamond.png";
   const _imports_2$5 = "/static/fullbutton.png";
@@ -525,7 +525,7 @@ if (uni.restoreGlobal) {
   const _imports_17 = "/static/dashboard2/plgon9.jpg";
   const _imports_18 = "/static/dashboard2/icon2.jpg";
   const _imports_19 = "/static/dashboard2/icon1.jpg";
-  const _sfc_main$r = {
+  const _sfc_main$s = {
     data() {
       return {
         currentView: "dashboard2",
@@ -746,6 +746,11 @@ if (uni.restoreGlobal) {
         });
         this.closePopup();
       },
+      navigateToBattlefieldIntro() {
+        uni.navigateTo({
+          url: `/pages/battlefield/battlefield-intro?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.homepageData.response.personal_info.job_id}`
+        });
+      },
       toProfilePage() {
         if (this.canNavigateToProfile) {
           this.getHomepageData();
@@ -755,19 +760,19 @@ if (uni.restoreGlobal) {
             tag: this.selectedTags.join(","),
             contact_relationship: this.selectedOption
           };
-          formatAppLog("log", "at pages/dashboard/dashboard.vue:472", "Sending data to create contact profile:", requestData);
+          formatAppLog("log", "at pages/dashboard/dashboard.vue:478", "Sending data to create contact profile:", requestData);
           uni.request({
             url: "https://eqmaster.azurewebsites.net/create_contact_profile",
             method: "POST",
             data: requestData,
             success: (res) => {
               if (res.statusCode === 200) {
-                formatAppLog("log", "at pages/dashboard/dashboard.vue:481", "Contact profile created successfully:", res.data);
+                formatAppLog("log", "at pages/dashboard/dashboard.vue:487", "Contact profile created successfully:", res.data);
                 uni.navigateTo({
                   url: `/pages/profile/profile?personal_name=${encodeURIComponent(this.username)}&name=${encodeURIComponent(this.profileName)}&jobId=${this.jobId}&relation=${encodeURIComponent(this.selectedOption)}&tags=${encodeURIComponent(JSON.stringify(this.selectedTags))}&contactId=${res.data.contact_id}`
                 });
               } else {
-                formatAppLog("error", "at pages/dashboard/dashboard.vue:487", "Failed to create contact profile:", res.statusCode, res.data);
+                formatAppLog("error", "at pages/dashboard/dashboard.vue:493", "Failed to create contact profile:", res.statusCode, res.data);
                 uni.showToast({
                   title: `创建档案失败: ${res.statusCode}`,
                   icon: "none"
@@ -775,7 +780,7 @@ if (uni.restoreGlobal) {
               }
             },
             fail: (err) => {
-              formatAppLog("error", "at pages/dashboard/dashboard.vue:495", "Error creating contact profile:", err);
+              formatAppLog("error", "at pages/dashboard/dashboard.vue:501", "Error creating contact profile:", err);
               uni.showToast({
                 title: "网络错误，请稍后重试",
                 icon: "none"
@@ -786,8 +791,8 @@ if (uni.restoreGlobal) {
       },
       toProfilePage1(contact) {
         this.getHomepageData();
-        formatAppLog("log", "at pages/dashboard/dashboard.vue:506", "Navigating to profile page for contact:", contact);
-        formatAppLog("log", "at pages/dashboard/dashboard.vue:507", "Navigating to profile page for contact:", this.homepageData.response.personal_info.name);
+        formatAppLog("log", "at pages/dashboard/dashboard.vue:512", "Navigating to profile page for contact:", contact);
+        formatAppLog("log", "at pages/dashboard/dashboard.vue:513", "Navigating to profile page for contact:", this.homepageData.response.personal_info.name);
         if (this.canNavigateToProfile) {
           this.getHomepageData();
           const requestData = {
@@ -796,19 +801,19 @@ if (uni.restoreGlobal) {
             tag: contact.tag,
             contact_relationship: contact.contact_relationship
           };
-          formatAppLog("log", "at pages/dashboard/dashboard.vue:519", "Sending data to create contact profile:", requestData);
+          formatAppLog("log", "at pages/dashboard/dashboard.vue:525", "Sending data to create contact profile:", requestData);
           uni.request({
             url: "https://eqmaster.azurewebsites.net/create_contact_profile",
             method: "POST",
             data: requestData,
             success: (res) => {
               if (res.statusCode === 200) {
-                formatAppLog("log", "at pages/dashboard/dashboard.vue:528", "Contact profile created successfully:", res.data);
+                formatAppLog("log", "at pages/dashboard/dashboard.vue:534", "Contact profile created successfully:", res.data);
                 uni.navigateTo({
                   url: `/pages/profile/profile?personal_name=${encodeURIComponent(this.username)}&name=${encodeURIComponent(contact.name)}&jobId=${this.jobId}&relation=${encodeURIComponent(contact.contact_relationship)}&tags=${encodeURIComponent(contact.tag)}&contactId=${res.data.contact_id}`
                 });
               } else {
-                formatAppLog("error", "at pages/dashboard/dashboard.vue:533", "Failed to create contact profile:", res.statusCode, res.data);
+                formatAppLog("error", "at pages/dashboard/dashboard.vue:539", "Failed to create contact profile:", res.statusCode, res.data);
                 uni.showToast({
                   title: `创建档案失败: ${res.statusCode}`,
                   icon: "none"
@@ -816,7 +821,7 @@ if (uni.restoreGlobal) {
               }
             },
             fail: (err) => {
-              formatAppLog("error", "at pages/dashboard/dashboard.vue:541", "Error creating contact profile:", err);
+              formatAppLog("error", "at pages/dashboard/dashboard.vue:547", "Error creating contact profile:", err);
               uni.showToast({
                 title: "网络错误，请稍后重试",
                 icon: "none"
@@ -835,7 +840,7 @@ if (uni.restoreGlobal) {
           uni.navigateTo({
             url: "weixin://",
             success: () => {
-              formatAppLog("log", "at pages/dashboard/dashboard.vue:561", "WeChat opened successfully");
+              formatAppLog("log", "at pages/dashboard/dashboard.vue:567", "WeChat opened successfully");
             },
             fail: () => {
               uni.showToast({
@@ -845,7 +850,7 @@ if (uni.restoreGlobal) {
             }
           });
         } catch (error) {
-          formatAppLog("error", "at pages/dashboard/dashboard.vue:573", "Error opening WeChat:", error);
+          formatAppLog("error", "at pages/dashboard/dashboard.vue:579", "Error opening WeChat:", error);
           uni.showToast({
             title: "Unable to open WeChat",
             icon: "none"
@@ -885,7 +890,7 @@ if (uni.restoreGlobal) {
             });
           },
           fail: (err) => {
-            formatAppLog("error", "at pages/dashboard/dashboard.vue:617", "Failed to copy text:", err);
+            formatAppLog("error", "at pages/dashboard/dashboard.vue:623", "Failed to copy text:", err);
             uni.showToast({
               title: "复制失败",
               icon: "none"
@@ -912,7 +917,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$r(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("scroll-view", {
         "scroll-y": "",
@@ -1352,7 +1357,7 @@ if (uni.restoreGlobal) {
             class: "dashboard2-illustration35",
             src: _imports_17,
             mode: "widthFix",
-            onClick: _cache[16] || (_cache[16] = (...args) => _ctx.navigateToBattlefieldIntro && _ctx.navigateToBattlefieldIntro(...args))
+            onClick: _cache[16] || (_cache[16] = (...args) => $options.navigateToBattlefieldIntro && $options.navigateToBattlefieldIntro(...args))
           }),
           vue.createElementVNode("view", { class: "dashboard2-card3" }, [
             vue.createElementVNode("image", {
@@ -1376,9 +1381,9 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesDashboardDashboard = /* @__PURE__ */ _export_sfc(_sfc_main$r, [["render", _sfc_render$q], ["__scopeId", "data-v-75e816e7"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/dashboard/dashboard.vue"]]);
+  const PagesDashboardDashboard = /* @__PURE__ */ _export_sfc(_sfc_main$s, [["render", _sfc_render$r], ["__scopeId", "data-v-75e816e7"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/dashboard/dashboard.vue"]]);
   const _imports_2$3 = "/static/battlefield/diamond.png";
-  const _sfc_main$q = {
+  const _sfc_main$r = {
     props: {
       gemCount: {
         type: Number,
@@ -1386,7 +1391,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$p(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "gem-container" }, [
       vue.createElementVNode("image", {
         class: "gem-icon",
@@ -1402,8 +1407,8 @@ if (uni.restoreGlobal) {
       )
     ]);
   }
-  const RewardBar = /* @__PURE__ */ _export_sfc(_sfc_main$q, [["render", _sfc_render$p], ["__scopeId", "data-v-860e4543"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/components/RewardBar.vue"]]);
-  const _sfc_main$p = {
+  const RewardBar = /* @__PURE__ */ _export_sfc(_sfc_main$r, [["render", _sfc_render$q], ["__scopeId", "data-v-860e4543"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/RewardBar.vue"]]);
+  const _sfc_main$q = {
     props: {
       health: {
         type: Number,
@@ -1434,7 +1439,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$p(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "character-container" }, [
       vue.createCommentVNode(" 血条 "),
       vue.createElementVNode("view", { class: "blood-container" }, [
@@ -1470,9 +1475,9 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const NpcStatus = /* @__PURE__ */ _export_sfc(_sfc_main$p, [["render", _sfc_render$o], ["__scopeId", "data-v-dafce8e7"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/components/NpcStatus.vue"]]);
+  const NpcStatus = /* @__PURE__ */ _export_sfc(_sfc_main$q, [["render", _sfc_render$p], ["__scopeId", "data-v-dafce8e7"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/NpcStatus.vue"]]);
   const _imports_0$a = "/static/battlefield/character_background.png";
-  const _sfc_main$o = {
+  const _sfc_main$p = {
     props: {
       avatar: {
         type: String,
@@ -1488,7 +1493,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "inner-container" }, [
       vue.createElementVNode("view", { class: "bubble-container" }, [
         vue.createElementVNode("image", {
@@ -1519,8 +1524,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const LargeAvatarBubble = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["render", _sfc_render$n], ["__scopeId", "data-v-f3476ae6"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/components/LargeAvatarBubble.vue"]]);
-  const _sfc_main$n = {
+  const LargeAvatarBubble = /* @__PURE__ */ _export_sfc(_sfc_main$p, [["render", _sfc_render$o], ["__scopeId", "data-v-f3476ae6"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/LargeAvatarBubble.vue"]]);
+  const _sfc_main$o = {
     props: {
       title: {
         type: String,
@@ -1554,7 +1559,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock(
       "view",
       {
@@ -1602,11 +1607,11 @@ if (uni.restoreGlobal) {
       /* STYLE */
     );
   }
-  const Judge = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$m], ["__scopeId", "data-v-a1094024"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/components/Judge.vue"]]);
+  const Judge = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["render", _sfc_render$n], ["__scopeId", "data-v-a1094024"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/Judge.vue"]]);
   const _imports_0$9 = "/static/battlefield/quit.png";
   const _imports_1$5 = "/static/battlefield/tipping-left.png";
   const _imports_3$3 = "/static/battlefield/tipping-right.png";
-  const _sfc_main$m = {
+  const _sfc_main$n = {
     props: {
       quit: {
         type: Function,
@@ -1649,7 +1654,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("view", { class: "modal" }, [
         vue.createElementVNode("image", {
@@ -1733,10 +1738,10 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const Tipping = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$l], ["__scopeId", "data-v-6f0eed4e"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/components/Tipping.vue"]]);
+  const Tipping = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$m], ["__scopeId", "data-v-6f0eed4e"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/Tipping.vue"]]);
   const _imports_0$8 = "/static/battlefield/question-mark.png";
   const _imports_1$4 = "/static/battlefield/tip-yellow.png";
-  const _sfc_main$l = {
+  const _sfc_main$m = {
     props: {
       tip: {
         type: String,
@@ -1744,7 +1749,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "tip-container" }, [
       vue.createElementVNode("image", {
         class: "tip-background",
@@ -1766,8 +1771,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const TippingChatBox = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$k], ["__scopeId", "data-v-23a165a0"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/components/TippingChatBox.vue"]]);
-  const _sfc_main$k = {
+  const TippingChatBox = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$l], ["__scopeId", "data-v-23a165a0"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/TippingChatBox.vue"]]);
+  const _sfc_main$l = {
     props: {
       wording: {
         type: String,
@@ -1775,7 +1780,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "bubble-container" }, [
       vue.createElementVNode(
         "text",
@@ -1786,8 +1791,8 @@ if (uni.restoreGlobal) {
       )
     ]);
   }
-  const SelfChatBox = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$j], ["__scopeId", "data-v-ca8700c1"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/components/SelfChatBox.vue"]]);
-  const _sfc_main$j = {
+  const SelfChatBox = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$k], ["__scopeId", "data-v-ca8700c1"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/SelfChatBox.vue"]]);
+  const _sfc_main$k = {
     props: {
       avatar: {
         type: String,
@@ -1803,7 +1808,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "bubble-container" }, [
       vue.createElementVNode("view", { class: "background-parent" }, [
         vue.createElementVNode("view", { class: "user-info" }, [
@@ -1839,7 +1844,7 @@ if (uni.restoreGlobal) {
       )
     ]);
   }
-  const NpcChatBox = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$i], ["__scopeId", "data-v-7860702c"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/components/NpcChatBox.vue"]]);
+  const NpcChatBox = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$j], ["__scopeId", "data-v-7860702c"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/NpcChatBox.vue"]]);
   function findLastName(str) {
     const regex = /(小李|小王)(?!.*(小李|小王))/;
     const match = str.match(regex);
@@ -1869,7 +1874,7 @@ if (uni.restoreGlobal) {
   const _imports_5$2 = "/static/battlefield/microphone.png";
   const _imports_6$1 = "/static/battlefield/streamline.png";
   const recorderManager = uni.getRecorderManager();
-  const _sfc_main$i = {
+  const _sfc_main$j = {
     components: {
       RewardBar,
       NpcStatus,
@@ -2190,7 +2195,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_reward_bar = vue.resolveComponent("reward-bar");
     const _component_npc_status = vue.resolveComponent("npc-status");
     const _component_self_chat_box = vue.resolveComponent("self-chat-box");
@@ -2394,8 +2399,8 @@ if (uni.restoreGlobal) {
       ])) : vue.createCommentVNode("v-if", true)
     ]);
   }
-  const PagesBattlefieldBattlefieldPlayground = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$h], ["__scopeId", "data-v-520df1b5"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/battlefield/battlefield-playground.vue"]]);
-  const _sfc_main$h = {
+  const PagesBattlefieldBattlefieldPlayground = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$i], ["__scopeId", "data-v-520df1b5"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/battlefield/battlefield-playground.vue"]]);
+  const _sfc_main$i = {
     components: {
       ProgressBar
       // 注册组件
@@ -2425,7 +2430,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_progress_bar = vue.resolveComponent("progress-bar");
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("view", { class: "overlay" }),
@@ -2454,9 +2459,9 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesBattlefieldBattlefieldIntro = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$g], ["__scopeId", "data-v-29c1a59c"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/battlefield/battlefield-intro.vue"]]);
+  const PagesBattlefieldBattlefieldIntro = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$h], ["__scopeId", "data-v-29c1a59c"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/battlefield/battlefield-intro.vue"]]);
   const _imports_0$7 = "/static/cta.png";
-  const _sfc_main$g = {
+  const _sfc_main$h = {
     data() {
       return {
         score: 28,
@@ -2706,7 +2711,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("view", { class: "splash-screen" }, [
         vue.createElementVNode("text", { class: "splash-text" }, "接下来，\\n一起来看看你的职场人格类型吧！"),
@@ -2757,7 +2762,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesResultLoading = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$f], ["__scopeId", "data-v-af79a7c4"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/result/loading.vue"]]);
+  const PagesResultLoading = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$g], ["__scopeId", "data-v-af79a7c4"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/result/loading.vue"]]);
   function drawRadar(canvasId, data) {
     formatAppLog("log", "at scripts/draw_radar.js:22", "started to draw radar chart");
     formatAppLog("log", "at scripts/draw_radar.js:23", "data", data);
@@ -2840,7 +2845,7 @@ if (uni.restoreGlobal) {
   const _imports_3$1 = "/static/star.png";
   const _imports_4$1 = "/static/up.png";
   const _imports_5$1 = "/static/up3.png";
-  const _sfc_main$f = {
+  const _sfc_main$g = {
     data() {
       return {
         score: 28,
@@ -3017,7 +3022,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_vew = vue.resolveComponent("vew");
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("scroll-view", {
@@ -3351,9 +3356,9 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesResultResult = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$e], ["__scopeId", "data-v-b615976f"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/result/result.vue"]]);
+  const PagesResultResult = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$f], ["__scopeId", "data-v-b615976f"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/result/result.vue"]]);
   const _imports_0$5 = "/static/bg1.png";
-  const _sfc_main$e = {
+  const _sfc_main$f = {
     data() {
       return {
         userInfoStyle: {
@@ -3510,7 +3515,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("image", {
         class: "background-image",
@@ -3554,10 +3559,10 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesTestTest5 = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$d], ["__scopeId", "data-v-f87db42d"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/test/test5.vue"]]);
+  const PagesTestTest5 = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$e], ["__scopeId", "data-v-f87db42d"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/test/test5.vue"]]);
   const _imports_0$4 = "/static/rec-right.png";
   const _imports_2 = "/static/icon3.png";
-  const _sfc_main$d = {
+  const _sfc_main$e = {
     props: {
       userName: {
         type: String,
@@ -3577,7 +3582,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "bubble-container" }, [
       vue.createElementVNode("view", { class: "text-box" }, [
         vue.createElementVNode("view", { class: "user-info" }, [
@@ -3619,8 +3624,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const OnboardingChatBubble = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__scopeId", "data-v-9e1372ab"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/components/OnboardingChatBubble.vue"]]);
-  const _sfc_main$c = {
+  const OnboardingChatBubble = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$d], ["__scopeId", "data-v-9e1372ab"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/OnboardingChatBubble.vue"]]);
+  const _sfc_main$d = {
     components: {
       OnboardingChatBubble
       // 注册组件
@@ -3717,7 +3722,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_onboarding_chat_bubble = vue.resolveComponent("onboarding-chat-bubble");
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("image", {
@@ -3737,9 +3742,9 @@ if (uni.restoreGlobal) {
       }, null, 8, ["userName", "avatar", "dismiss", "description"])
     ]);
   }
-  const PagesTestTest1 = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__scopeId", "data-v-f400b819"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/test/test1.vue"]]);
+  const PagesTestTest1 = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__scopeId", "data-v-f400b819"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/test/test1.vue"]]);
   const _imports_1$2 = "/static/signa.png";
-  const _sfc_main$b = {
+  const _sfc_main$c = {
     data() {
       return {
         userId: "",
@@ -3841,7 +3846,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("image", {
         class: "background-image",
@@ -3883,11 +3888,11 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesTestTest = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a], ["__scopeId", "data-v-727d09f0"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/test/test.vue"]]);
+  const PagesTestTest = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__scopeId", "data-v-727d09f0"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/test/test.vue"]]);
   const _imports_0$3 = "/static/jobicon.png";
   const _imports_1$1 = "/static/relationshipicon.png";
   const _imports_0$2 = "/static/arrowright.png";
-  const _sfc_main$a = {
+  const _sfc_main$b = {
     data() {
       return {
         jobOptions: ["难以融入新环境", "棘手的同事关系", "与上级维持良好关系", "难回的消息", "尴尬的饭局等社交场合", "困难的工作沟通"],
@@ -3959,7 +3964,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("view", { class: "text-content" }, [
         vue.createElementVNode("text", { class: "question" }, "🤔 你希望提升哪些方面的高情商应对能力呢？"),
@@ -4025,8 +4030,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesPreferencePreference2 = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9], ["__scopeId", "data-v-50f1e56a"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/preference/preference2.vue"]]);
-  const _sfc_main$9 = {
+  const PagesPreferencePreference2 = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a], ["__scopeId", "data-v-50f1e56a"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/preference/preference2.vue"]]);
+  const _sfc_main$a = {
     data() {
       const date = /* @__PURE__ */ new Date();
       const _years = [];
@@ -4086,7 +4091,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "date-picker-container" }, [
       vue.createElementVNode("view", { class: "mask top" }),
       vue.createElementVNode("picker-view", {
@@ -4165,8 +4170,8 @@ if (uni.restoreGlobal) {
       vue.createElementVNode("view", { class: "mask bottom" })
     ]);
   }
-  const DatePicker = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8], ["__scopeId", "data-v-9f4f5132"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/components/DatePicker.vue"]]);
-  const _sfc_main$8 = {
+  const DatePicker = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9], ["__scopeId", "data-v-9f4f5132"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/DatePicker.vue"]]);
+  const _sfc_main$9 = {
     components: {
       DatePicker
     },
@@ -4210,7 +4215,7 @@ if (uni.restoreGlobal) {
     }
   };
   const _imports_0$1 = "/static/picture1.png";
-  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_date_picker = vue.resolveComponent("date-picker");
     return vue.openBlock(), vue.createElementBlock(
       vue.Fragment,
@@ -4244,8 +4249,8 @@ if (uni.restoreGlobal) {
       /* STABLE_FRAGMENT */
     );
   }
-  const PagesPreferencePreference1 = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/preference/preference1.vue"]]);
-  const _sfc_main$7 = {
+  const PagesPreferencePreference1 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/preference/preference1.vue"]]);
+  const _sfc_main$8 = {
     data() {
       return {
         selectedGender: null,
@@ -4305,7 +4310,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock(
       vue.Fragment,
       null,
@@ -4360,8 +4365,8 @@ if (uni.restoreGlobal) {
       /* STABLE_FRAGMENT */
     );
   }
-  const PagesPreferencePreference = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6], ["__scopeId", "data-v-7539d408"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/preference/preference.vue"]]);
-  const _sfc_main$6 = {
+  const PagesPreferencePreference = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__scopeId", "data-v-7539d408"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/preference/preference.vue"]]);
+  const _sfc_main$7 = {
     data() {
       return {
         userInfoStyle: {
@@ -4513,7 +4518,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("image", {
         class: "background-image",
@@ -4556,8 +4561,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesTestTest2 = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__scopeId", "data-v-51a7cd0a"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/test/test2.vue"]]);
-  const _sfc_main$5 = vue.defineComponent({
+  const PagesTestTest2 = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6], ["__scopeId", "data-v-51a7cd0a"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/test/test2.vue"]]);
+  const _sfc_main$6 = vue.defineComponent({
     data() {
       return {
         scenarioText: "",
@@ -4629,7 +4634,7 @@ if (uni.restoreGlobal) {
     }
   });
   const _imports_0 = "/static/Group 3.png";
-  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("view", { class: "text-content" }, [
         vue.createElementVNode(
@@ -4656,8 +4661,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesPreferencePreference3 = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$4], ["__scopeId", "data-v-95eb0c6e"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/preference/preference3.vue"]]);
-  const _sfc_main$4 = {
+  const PagesPreferencePreference3 = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__scopeId", "data-v-95eb0c6e"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/preference/preference3.vue"]]);
+  const _sfc_main$5 = {
     data() {
       return {
         userInfoStyle: {
@@ -4750,7 +4755,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("image", {
         class: "background-image",
@@ -4793,13 +4798,13 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesTestTest3 = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3], ["__scopeId", "data-v-a9c4f038"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/test/test3.vue"]]);
+  const PagesTestTest3 = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$4], ["__scopeId", "data-v-a9c4f038"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/test/test3.vue"]]);
   const _imports_1 = "/static/renew.png";
   const _imports_3 = "/static/edit.png";
   const _imports_4 = "/static/lock.png";
   const _imports_5 = "/static/dashboard/trick-fake.png";
   const _imports_6 = "/static/Placeholder.png";
-  const _sfc_main$3 = {
+  const _sfc_main$4 = {
     data() {
       return {
         name: "",
@@ -5103,7 +5108,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("scroll-view", {
         "scroll-y": "",
@@ -5373,8 +5378,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesProfileProfile = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__scopeId", "data-v-dd383ca2"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/profile/profile.vue"]]);
-  const _sfc_main$2 = {
+  const PagesProfileProfile = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3], ["__scopeId", "data-v-dd383ca2"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/profile/profile.vue"]]);
+  const _sfc_main$3 = {
     data() {
       return {
         username: "",
@@ -5417,7 +5422,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("view", { class: "login-box" }, [
         vue.createElementVNode("text", { class: "title" }, "登录"),
@@ -5455,8 +5460,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesLoginLogin = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__scopeId", "data-v-e4e4508d"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/login/login.vue"]]);
-  const _sfc_main$1 = {
+  const PagesLoginLogin = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__scopeId", "data-v-e4e4508d"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/login/login.vue"]]);
+  const _sfc_main$2 = {
     data() {
       return {
         username: "",
@@ -5482,7 +5487,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createCommentVNode(" 背景图片 "),
       vue.createElementVNode("image", {
@@ -5524,7 +5529,128 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesExperienceExperience = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__scopeId", "data-v-5164d016"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/pages/experience/experience.vue"]]);
+  const PagesExperienceExperience = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__scopeId", "data-v-5164d016"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/experience/experience.vue"]]);
+  const _sfc_main$1 = {
+    data() {
+      return {
+        // Removed progress variable
+        bezierPoints: [],
+        // 存储贝塞尔曲线的采样点
+        canvasWidth: 0,
+        // 动态获取画布宽度
+        canvasHeight: 0,
+        // 动态获取画布高度
+        circleRadius: 90,
+        // 调整后的圆的半径
+        circleDistance: 100,
+        // 控制两个半圆之间的横向距离
+        verticalOffset: 50
+        // 新增的垂直偏移量
+      };
+    },
+    mounted() {
+      uni.getSystemInfo({
+        success: (res) => {
+          this.canvasWidth = res.windowWidth * 0.8;
+          this.canvasHeight = this.canvasWidth * 2;
+          this.calculateBezierPoints();
+          this.drawSProgress();
+        }
+      });
+    },
+    methods: {
+      calculateBezierPoints() {
+        const width = this.canvasWidth;
+        this.canvasHeight;
+        const radius = this.circleRadius;
+        const offset = this.verticalOffset;
+        const points = [];
+        const steps = 100;
+        const loops = 1;
+        const initX = width / 2;
+        const initY = offset;
+        points.push({ x: initX, y: initY });
+        for (let i = 0; i <= steps / 2; i++) {
+          const angle = -Math.PI / 2 + Math.PI * i / steps;
+          const x = width / 2 + radius * Math.cos(angle) + this.circleDistance / 2;
+          const y = radius + radius * Math.sin(angle) + offset;
+          points.push({ x, y });
+        }
+        for (let loop = 0; loop < loops; loop++) {
+          const baseY = loop * 4 * radius;
+          for (let i = steps / 2; i <= steps; i++) {
+            const angle = -Math.PI / 2 + Math.PI * i / steps;
+            const x = width / 2 + radius * Math.cos(angle) + this.circleDistance / 2;
+            const y = baseY + radius + radius * Math.sin(angle) + offset;
+            points.push({ x, y });
+          }
+          for (let i = 0; i <= steps / 2; i++) {
+            const angle = Math.PI / 2 + Math.PI * i / steps;
+            const x = width / 2 + radius * Math.cos(angle) - this.circleDistance / 2;
+            const y = baseY + 4 * radius - (radius + radius * Math.sin(angle)) + offset;
+            points.push({ x, y });
+          }
+          for (let i = steps / 2; i <= steps; i++) {
+            const angle = Math.PI / 2 + Math.PI * i / steps;
+            const x = width / 2 + radius * Math.cos(angle) - this.circleDistance / 2;
+            const y = baseY + 4 * radius - (radius + radius * Math.sin(angle)) + offset;
+            points.push({ x, y });
+          }
+          for (let i = 0; i <= steps / 2; i++) {
+            const angle = -Math.PI / 2 + Math.PI * i / steps;
+            const x = width / 2 + radius * Math.cos(angle) + this.circleDistance / 2;
+            const y = baseY + 4 * radius + radius + radius * Math.sin(angle) + offset;
+            points.push({ x, y });
+          }
+        }
+        const keyPoints = {
+          leftCenter: points[steps + Math.floor(steps / 2) + 1],
+          rightCenter: points[Math.floor(steps / 2)]
+        };
+        this.bezierPoints = points;
+        this.keyPoints = keyPoints;
+      },
+      drawSProgress() {
+        const ctx = uni.createCanvasContext("sProgress", this);
+        const width = this.canvasWidth;
+        const height = this.canvasHeight;
+        ctx.clearRect(0, 0, width, height);
+        ctx.beginPath();
+        ctx.moveTo(this.bezierPoints[0].x, this.bezierPoints[0].y);
+        for (let i = 1; i < this.bezierPoints.length; i++) {
+          ctx.lineTo(this.bezierPoints[i].x, this.bezierPoints[i].y);
+        }
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = "#ddd";
+        ctx.stroke();
+        this.drawKeyPoints(ctx);
+        ctx.draw();
+      },
+      drawKeyPoints(ctx) {
+        const keyPoints = this.keyPoints;
+        const radius = 5;
+        ctx.beginPath();
+        ctx.arc(keyPoints.leftCenter.x, keyPoints.leftCenter.y, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = "grey";
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(keyPoints.rightCenter.x, keyPoints.rightCenter.y, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = "grey";
+        ctx.fill();
+      }
+      // Removed calculateProgressSteps method
+    }
+  };
+  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
+      vue.createElementVNode("canvas", {
+        "canvas-id": "sProgress",
+        class: "progress-canvas"
+      }),
+      vue.createCommentVNode(" Removed progress text display ")
+    ]);
+  }
+  const ComponentsSProgressBar = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__scopeId", "data-v-b77c9478"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/SProgressBar.vue"]]);
   __definePage("pages/landing/landing", PagesLandingLanding);
   __definePage("pages/battlefield/battlefield-loading", PagesBattlefieldBattlefieldLoading);
   __definePage("pages/battlefield/battlefield-summary", PagesBattlefieldBattlefieldSummary);
@@ -5546,6 +5672,7 @@ if (uni.restoreGlobal) {
   __definePage("pages/profile/profile", PagesProfileProfile);
   __definePage("pages/login/login", PagesLoginLogin);
   __definePage("pages/experience/experience", PagesExperienceExperience);
+  __definePage("components/SProgressBar", ComponentsSProgressBar);
   const _sfc_main = {
     onLaunch: function() {
       formatAppLog("log", "at App.vue:5", "App Launch");
@@ -5560,7 +5687,7 @@ if (uni.restoreGlobal) {
       formatAppLog("log", "at App.vue:32", "App Exit");
     }
   };
-  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__file", "/Users/wengcekai/Desktop/eqmaster-kt/EQMaster_ios/test/App.vue"]]);
+  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/App.vue"]]);
   function createApp() {
     const app = vue.createVueApp(App);
     return {

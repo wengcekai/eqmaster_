@@ -1,7 +1,7 @@
 <template>
   <view class="container">
     <canvas canvas-id="sProgress" class="progress-canvas"></canvas>
-    <view class="progress-text">{{ progress }}%</view>
+    <!-- Removed progress text display -->
   </view>
 </template>
 
@@ -9,59 +9,93 @@
 export default {
   data() {
     return {
-      progress: 0, // 初始进度
-      intervalId: null,
+      // Removed progress variable
       bezierPoints: [], // 存储贝塞尔曲线的采样点
+      canvasWidth: 0, // 动态获取画布宽度
+      canvasHeight: 0, // 动态获取画布高度
+      circleRadius: 90, // 调整后的圆的半径
+      circleDistance: 100, // 控制两个半圆之间的横向距离
+      verticalOffset: 50 // 新增的垂直偏移量
     };
   },
   mounted() {
-    this.calculateBezierPoints(); // 计算贝塞尔曲线的采样点
-    this.startProgress(); // 开始进度更新
+    uni.getSystemInfo({
+      success: (res) => {
+        this.canvasWidth = res.windowWidth * 0.8; // 动态设置画布宽度为窗口宽度的80%
+        this.canvasHeight = this.canvasWidth * 2; // 动态设置高度为宽度的两倍
+        this.calculateBezierPoints(); // 计算贝塞尔曲线的采样点
+        this.drawSProgress(); // 直接绘制进度条
+      },
+    });
   },
   methods: {
-    // 计算贝塞尔曲线的采样点
     calculateBezierPoints() {
-      const width = 300;
-      const height = 150;
-
-      // 定义贝塞尔曲线的控制点
-      const p0 = { x: 20, y: height / 2 };
-      const p1 = { x: 100, y: 0 };
-      const p2 = { x: 200, y: height };
-      const p3 = { x: 280, y: height / 2 };
+      const width = this.canvasWidth; // 使用动态宽度
+      const height = this.canvasHeight; // 使用动态高度
+      const radius = this.circleRadius; // 使用 circleRadius 变量
+      const offset = this.verticalOffset; // 使用 verticalOffset 变量
 
       const points = [];
-      const steps = 100; // 采样点数量
+      const steps = 100; // 每个半圆的采样点数量
+      const loops = 1; // 总循环次数，可以根据需要调整
 
-      for (let i = 0; i <= steps; i++) {
-        const t = i / steps;
-        const point = this.getCubicBezierPoint(t, p0, p1, p2, p3);
-        points.push(point);
+      // 曲线初始点
+      const initX = width / 2;
+      const initY = offset;
+      points.push({ x: initX, y: initY });
+
+      for (let i = 0; i <= steps / 2; i++) {
+          const angle = (-Math.PI / 2) + (Math.PI * i) / steps;
+          const x = width / 2 + radius * Math.cos(angle) + this.circleDistance / 2;
+          const y = radius + radius * Math.sin(angle) + offset;
+          points.push({ x, y });
+        }
+
+      for (let loop = 0; loop < loops; loop++) {
+        const baseY = loop * 4 * radius; // 每个循环的基础Y坐标
+
+        // 组件1
+        for (let i = steps / 2; i <= steps; i++) {
+          const angle = (-Math.PI / 2) + (Math.PI * i) / steps;
+          const x = width / 2 + radius * Math.cos(angle) + this.circleDistance / 2;
+          const y = baseY + radius + radius * Math.sin(angle) + offset;
+          points.push({ x, y });
+        }
+        for (let i = 0; i <= steps / 2; i++) {
+          const angle = Math.PI / 2 + (Math.PI * i) / steps;
+          const x = width / 2 + radius * Math.cos(angle) - this.circleDistance / 2;
+          const y = baseY + 4 * radius - (radius + radius * Math.sin(angle)) + offset;
+          points.push({ x, y });
+        }
+
+        // 组件2
+        for (let i = steps / 2; i <= steps; i++) {
+          const angle = Math.PI / 2 + (Math.PI * i) / steps;
+          const x = width / 2 + radius * Math.cos(angle) - this.circleDistance / 2;
+          const y = baseY + 4 * radius - (radius + radius * Math.sin(angle)) + offset;
+          points.push({ x, y });
+        }
+        for (let i = 0; i <= steps / 2; i++) {
+          const angle = (-Math.PI / 2) + (Math.PI * i) / steps;
+          const x = width / 2 + radius * Math.cos(angle) + this.circleDistance / 2;
+          const y = baseY + 4 * radius + radius + radius * Math.sin(angle) + offset;
+          points.push({ x, y });
+        }
       }
 
+      // 定义关键节点
+      const keyPoints = {
+        leftCenter: points[steps + Math.floor(steps / 2) + 1],
+        rightCenter: points[Math.floor(steps / 2)],
+      };
+
       this.bezierPoints = points;
+      this.keyPoints = keyPoints;
     },
-    // 获取三次贝塞尔曲线上指定 t 的点
-    getCubicBezierPoint(t, p0, p1, p2, p3) {
-      const x =
-        Math.pow(1 - t, 3) * p0.x +
-        3 * Math.pow(1 - t, 2) * t * p1.x +
-        3 * (1 - t) * Math.pow(t, 2) * p2.x +
-        Math.pow(t, 3) * p3.x;
-
-      const y =
-        Math.pow(1 - t, 3) * p0.y +
-        3 * Math.pow(1 - t, 2) * t * p1.y +
-        3 * (1 - t) * Math.pow(t, 2) * p2.y +
-        Math.pow(t, 3) * p3.y;
-
-      return { x, y };
-    },
-    // 绘制 S 形进度条
     drawSProgress() {
       const ctx = uni.createCanvasContext('sProgress', this);
-      const width = 300;
-      const height = 150;
+      const width = this.canvasWidth; // 使用动态宽度
+      const height = this.canvasHeight; // 使用动态高度
 
       // 清空画布
       ctx.clearRect(0, 0, width, height);
@@ -76,36 +110,30 @@ export default {
       ctx.strokeStyle = '#ddd';
       ctx.stroke();
 
-      // 绘制进度条（绿色）
-      const progressSteps = Math.floor((this.progress / 100) * this.bezierPoints.length);
+      // Removed progress drawing logic
 
-      if (progressSteps > 0) {
-        ctx.beginPath();
-        ctx.moveTo(this.bezierPoints[0].x, this.bezierPoints[0].y);
-        for (let i = 1; i <= progressSteps; i++) {
-          ctx.lineTo(this.bezierPoints[i].x, this.bezierPoints[i].y);
-        }
-        ctx.lineWidth = 6;
-        ctx.strokeStyle = '#4caf50';
-        ctx.stroke();
-      }
+      // 绘制关键节点
+      this.drawKeyPoints(ctx);
 
       ctx.draw();
     },
-    // 开始更新进度
-    startProgress() {
-      this.intervalId = setInterval(() => {
-        if (this.progress >= 100) {
-          clearInterval(this.intervalId);
-        } else {
-          this.progress += 1; // 每次增加1%的进度
-          this.drawSProgress(); // 重新绘制进度条
-        }
-      }, 100); // 每100ms更新一次
+    drawKeyPoints(ctx) {
+      const keyPoints = this.keyPoints;
+      const radius = 5; // 圆的半径
+
+      // 绘制左半圆中心点
+      ctx.beginPath();
+      ctx.arc(keyPoints.leftCenter.x, keyPoints.leftCenter.y, radius, 0, 2 * Math.PI);
+      ctx.fillStyle = 'grey'; // 保持灰色
+      ctx.fill();
+
+      // 绘制右半圆中心点
+      ctx.beginPath();
+      ctx.arc(keyPoints.rightCenter.x, keyPoints.rightCenter.y, radius, 0, 2 * Math.PI);
+      ctx.fillStyle = 'grey'; // 保持灰色
+      ctx.fill();
     },
-  },
-  onUnload() {
-    clearInterval(this.intervalId);
+    // Removed calculateProgressSteps method
   },
 };
 </script>
@@ -115,21 +143,19 @@ export default {
   width: 100%;
   height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
   flex-direction: column;
   background-color: #f5f5f5;
 }
 
 .progress-canvas {
-  width: 300px;
-  height: 150px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
+  width: 600rpx; /* Adjust canvas size */
+  height: 1200rpx;
+  margin: 20rpx; /* Add margin to control spacing */
 }
 
 .progress-text {
-  margin-top: 10px;
-  font-size: 18px;
+  /* Removed styling for progress text */
 }
 </style>

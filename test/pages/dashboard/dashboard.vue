@@ -457,6 +457,12 @@
 				});
 				this.closePopup();
 			},
+			navigateToBattlefieldIntro() {
+			    uni.navigateTo({
+			     url: `/pages/battlefield/battlefield-intro?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.homepageData.response.personal_info.job_id}`
+			
+			    });
+			},
 			toProfilePage() {
 				if (this.canNavigateToProfile) {
 					// 准备要发送的数据

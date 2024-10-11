@@ -115,7 +115,7 @@
       "style": "dark",
       "background": "#FFFFFF"
     },
-    "arguments": "{\"name\":\"\",\"path\":\"\",\"query\":\"\"}",
+    "arguments": "{\"path\":\"components/SProgressBar\"}",
     "uniStatistics": {
       "enable": false
     },
