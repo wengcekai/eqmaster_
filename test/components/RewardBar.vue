@@ -4,7 +4,7 @@
 		<view v-for="n in 3" :key="n" class="gem">
 			<!-- 根据 gemCount 的值，亮起相应数量的绿色星星 -->
 			<image class="gem-icon"
-				:src="n <= gemCount ? '/static/battlefield/star.svg' : '/static/battlefield/starDark.svg'"
+				:src="n <= gemCount ? '/static/battlefield/mingcute_star-fill.svg' : '/static/battlefield/mingcute_star-grey.svg'"
 				mode="aspectFit">
 			</image>
 		</view>

@@ -15,7 +15,7 @@
 .avatar-container[data-v-dd44ef29] {
 		width: 1.875rem;
 		height: 1.875rem;
-		border-radius: 0.9375rem;
+		border-radius: 50%;
 		border: solid 1px #F2Bc74;
 		flex-shrink: 0;
 }

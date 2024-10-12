@@ -110,7 +110,7 @@ if (uni.restoreGlobal) {
       vue.createElementVNode("text", { class: "login-text" }, "登录已有账号")
     ]);
   }
-  const PagesLandingLanding = /* @__PURE__ */ _export_sfc(_sfc_main$y, [["render", _sfc_render$x], ["__scopeId", "data-v-f45ff4f6"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/landing/landing.vue"]]);
+  const PagesLandingLanding = /* @__PURE__ */ _export_sfc(_sfc_main$y, [["render", _sfc_render$x], ["__scopeId", "data-v-f45ff4f6"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/landing/landing.vue"]]);
   const BASE_URL = "https://eqmaster.azurewebsites.net/chat/batttlefield";
   const EVAL_URL = "https://eqmaster.azurewebsites.net/eval/battlefield";
   function sendRequest(person_id, course_id, chat_content, url = BASE_URL) {
@@ -245,7 +245,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesBattlefieldBattlefieldLoading = /* @__PURE__ */ _export_sfc(_sfc_main$x, [["render", _sfc_render$w], ["__scopeId", "data-v-f3b7f371"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/battlefield/battlefield-loading.vue"]]);
+  const PagesBattlefieldBattlefieldLoading = /* @__PURE__ */ _export_sfc(_sfc_main$x, [["render", _sfc_render$w], ["__scopeId", "data-v-f3b7f371"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/battlefield/battlefield-loading.vue"]]);
   const _sfc_main$w = {
     props: {
       name: {
@@ -289,7 +289,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const NpcComment = /* @__PURE__ */ _export_sfc(_sfc_main$w, [["render", _sfc_render$v], ["__scopeId", "data-v-dd44ef29"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/NpcComment.vue"]]);
+  const NpcComment = /* @__PURE__ */ _export_sfc(_sfc_main$w, [["render", _sfc_render$v], ["__scopeId", "data-v-dd44ef29"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/components/NpcComment.vue"]]);
   const _imports_0$d = "/static/summary-bg.png";
   const _sfc_main$v = {
     components: {
@@ -424,7 +424,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesBattlefieldBattlefieldSummary = /* @__PURE__ */ _export_sfc(_sfc_main$v, [["render", _sfc_render$u], ["__scopeId", "data-v-2b5d4ef4"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/battlefield/battlefield-summary.vue"]]);
+  const PagesBattlefieldBattlefieldSummary = /* @__PURE__ */ _export_sfc(_sfc_main$v, [["render", _sfc_render$u], ["__scopeId", "data-v-2b5d4ef4"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/battlefield/battlefield-summary.vue"]]);
   const _sfc_main$u = {
     props: {
       isActive: {
@@ -445,7 +445,7 @@ if (uni.restoreGlobal) {
       /* CLASS */
     );
   }
-  const ProgressBar = /* @__PURE__ */ _export_sfc(_sfc_main$u, [["render", _sfc_render$t], ["__scopeId", "data-v-aad32a68"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/ProgressBar.vue"]]);
+  const ProgressBar = /* @__PURE__ */ _export_sfc(_sfc_main$u, [["render", _sfc_render$t], ["__scopeId", "data-v-aad32a68"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/components/ProgressBar.vue"]]);
   const _imports_0$c = "/static/battlefield/back-iconpng.png";
   const _sfc_main$t = {
     components: {
@@ -491,9 +491,21 @@ if (uni.restoreGlobal) {
             vue.createElementVNode("view", { class: "index-circle" }, [
               vue.createElementVNode("text", { class: "index-word" }, " 1 ")
             ]),
-            vue.createElementVNode("text", { class: "task-word" }, "一句话让同事们赞不绝口：用一句话让每位同事心情绪愉悦。")
+            vue.createCommentVNode(' <text class="task-word">一句话让同事们赞不绝口：用一句话让每位同事心情绪愉悦。</text> '),
+            vue.createElementVNode("text", { class: "task-word" }, "得到领导的夸赞× 2")
           ]),
-          vue.createCommentVNode(' 				<view class="task-item">\r\n					<view class="index-circle">\r\n						<text class="index-word">\r\n							2\r\n						</text>\r\n					</view>\r\n					<text class="task-word">情绪过山车：让同事B对你不满，随后安抚他</text>\r\n				</view> ')
+          vue.createElementVNode("view", { class: "task-item" }, [
+            vue.createElementVNode("view", { class: "index-circle" }, [
+              vue.createElementVNode("text", { class: "index-word" }, " 2 ")
+            ]),
+            vue.createElementVNode("text", { class: "task-word" }, "引起宾客愤怒少于1次")
+          ]),
+          vue.createElementVNode("view", { class: "task-item" }, [
+            vue.createElementVNode("view", { class: "index-circle" }, [
+              vue.createElementVNode("text", { class: "index-word" }, " 3 ")
+            ]),
+            vue.createElementVNode("text", { class: "task-word" }, "点出让众人满意的菜品")
+          ])
         ])
       ]),
       vue.createElementVNode("view", { class: "continue-button-container" }, [
@@ -504,7 +516,128 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesBattlefieldBattlefieldTask = /* @__PURE__ */ _export_sfc(_sfc_main$t, [["render", _sfc_render$s], ["__scopeId", "data-v-f52b0df4"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/battlefield/battlefield-task.vue"]]);
+  const PagesBattlefieldBattlefieldTask = /* @__PURE__ */ _export_sfc(_sfc_main$t, [["render", _sfc_render$s], ["__scopeId", "data-v-f52b0df4"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/battlefield/battlefield-task.vue"]]);
+  const _sfc_main$s = {
+    data() {
+      return {
+        // Removed progress variable
+        bezierPoints: [],
+        // 存储贝塞尔曲线的采样点
+        canvasWidth: 0,
+        // 动态获取画布宽度
+        canvasHeight: 0,
+        // 动态获取画布高度
+        circleRadius: 90,
+        // 调整后的圆的半径
+        circleDistance: 100,
+        // 控制两个半圆之间的横向距离
+        verticalOffset: 50
+        // 新增的垂直偏移量
+      };
+    },
+    mounted() {
+      uni.getSystemInfo({
+        success: (res) => {
+          this.canvasWidth = res.windowWidth * 0.8;
+          this.canvasHeight = this.canvasWidth * 2;
+          this.calculateBezierPoints();
+          this.drawSProgress();
+        }
+      });
+    },
+    methods: {
+      calculateBezierPoints() {
+        const width = this.canvasWidth;
+        this.canvasHeight;
+        const radius = this.circleRadius;
+        const offset = this.verticalOffset;
+        const points = [];
+        const steps = 100;
+        const loops = 1;
+        const initX = width / 2;
+        const initY = offset;
+        points.push({ x: initX, y: initY });
+        for (let i = 0; i <= steps / 2; i++) {
+          const angle = -Math.PI / 2 + Math.PI * i / steps;
+          const x = width / 2 + radius * Math.cos(angle) + this.circleDistance / 2;
+          const y = radius + radius * Math.sin(angle) + offset;
+          points.push({ x, y });
+        }
+        for (let loop = 0; loop < loops; loop++) {
+          const baseY = loop * 4 * radius;
+          for (let i = steps / 2; i <= steps; i++) {
+            const angle = -Math.PI / 2 + Math.PI * i / steps;
+            const x = width / 2 + radius * Math.cos(angle) + this.circleDistance / 2;
+            const y = baseY + radius + radius * Math.sin(angle) + offset;
+            points.push({ x, y });
+          }
+          for (let i = 0; i <= steps / 2; i++) {
+            const angle = Math.PI / 2 + Math.PI * i / steps;
+            const x = width / 2 + radius * Math.cos(angle) - this.circleDistance / 2;
+            const y = baseY + 4 * radius - (radius + radius * Math.sin(angle)) + offset;
+            points.push({ x, y });
+          }
+          for (let i = steps / 2; i <= steps; i++) {
+            const angle = Math.PI / 2 + Math.PI * i / steps;
+            const x = width / 2 + radius * Math.cos(angle) - this.circleDistance / 2;
+            const y = baseY + 4 * radius - (radius + radius * Math.sin(angle)) + offset;
+            points.push({ x, y });
+          }
+          for (let i = 0; i <= steps / 2; i++) {
+            const angle = -Math.PI / 2 + Math.PI * i / steps;
+            const x = width / 2 + radius * Math.cos(angle) + this.circleDistance / 2;
+            const y = baseY + 4 * radius + radius + radius * Math.sin(angle) + offset;
+            points.push({ x, y });
+          }
+        }
+        const keyPoints = {
+          leftCenter: points[steps + Math.floor(steps / 2) + 1],
+          rightCenter: points[Math.floor(steps / 2)]
+        };
+        this.bezierPoints = points;
+        this.keyPoints = keyPoints;
+      },
+      drawSProgress() {
+        const ctx = uni.createCanvasContext("sProgress", this);
+        const width = this.canvasWidth;
+        const height = this.canvasHeight;
+        ctx.clearRect(0, 0, width, height);
+        ctx.beginPath();
+        ctx.moveTo(this.bezierPoints[0].x, this.bezierPoints[0].y);
+        for (let i = 1; i < this.bezierPoints.length; i++) {
+          ctx.lineTo(this.bezierPoints[i].x, this.bezierPoints[i].y);
+        }
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = "#ddd";
+        ctx.stroke();
+        this.drawKeyPoints(ctx);
+        ctx.draw();
+      },
+      drawKeyPoints(ctx) {
+        const keyPoints = this.keyPoints;
+        const radius = 5;
+        ctx.beginPath();
+        ctx.arc(keyPoints.leftCenter.x, keyPoints.leftCenter.y, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = "grey";
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(keyPoints.rightCenter.x, keyPoints.rightCenter.y, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = "grey";
+        ctx.fill();
+      }
+      // Removed calculateProgressSteps method
+    }
+  };
+  function _sfc_render$r(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
+      vue.createElementVNode("canvas", {
+        "canvas-id": "sProgress",
+        class: "progress-canvas"
+      }),
+      vue.createCommentVNode(" Removed progress text display ")
+    ]);
+  }
+  const ComponentsSProgressBar = /* @__PURE__ */ _export_sfc(_sfc_main$s, [["render", _sfc_render$r], ["__scopeId", "data-v-b77c9478"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/components/SProgressBar.vue"]]);
   const _imports_0$b = "/static/dashboard/ciwei.png";
   const _imports_1$6 = "/static/diamond.png";
   const _imports_2$5 = "/static/fullbutton.png";
@@ -521,11 +654,9 @@ if (uni.restoreGlobal) {
   const _imports_13 = "/static/addlater1.png";
   const _imports_14 = "/static/dashboard2/star.jpg";
   const _imports_15 = "/static/dashboard2/1.jpg";
-  const _imports_16 = "/static/dashboard2/xiuluochang.jpg";
-  const _imports_17 = "/static/dashboard2/plgon9.jpg";
-  const _imports_18 = "/static/dashboard2/icon2.jpg";
-  const _imports_19 = "/static/dashboard2/icon1.jpg";
-  const _sfc_main$s = {
+  const _imports_16 = "/static/dashboard2/icon2.jpg";
+  const _imports_17 = "/static/dashboard2/icon1.jpg";
+  const _sfc_main$r = {
     data() {
       return {
         currentView: "dashboard2",
@@ -540,31 +671,14 @@ if (uni.restoreGlobal) {
         selectedOptions: [],
         jobId: null,
         num: null,
+        finishComponents: 2,
+        totalComponents: 5,
+        isLoading: true,
+        error: null,
         homepageData: {
           response: {
-            personal_info: {
-              name: "",
-              tag: "",
-              tag_description: "",
-              job_id: ""
-            },
-            eq_scores: {
-              score: 0,
-              dimension1_score: 0,
-              dimension1_detail: "",
-              dimension2_score: 0,
-              dimension2_detail: "",
-              dimension3_score: 0,
-              dimension3_detail: "",
-              dimension4_score: 0,
-              dimension4_detail: "",
-              dimension5_score: 0,
-              dimension5_detail: "",
-              summary: "",
-              detail: "",
-              overall_suggestion: "",
-              detail_summary: ""
-            },
+            personal_info: { name: "" },
+            eq_scores: { score: 0, overall_suggestion: "" },
             contacts: []
           }
         },
@@ -628,44 +742,48 @@ if (uni.restoreGlobal) {
         return this.profileName.trim() !== "" && this.selectedTags.length > 0;
       },
       userCard() {
-        const scores = this.homepageData.response.eq_scores;
-        formatAppLog("log", "at pages/dashboard/dashboard.vue:324", "jobid:", this.jobId);
-        formatAppLog("log", "at pages/dashboard/dashboard.vue:325", "results for backgrounds:", scores);
-        const minScore = Math.min(scores.dimension1_score, scores.dimension2_score, scores.dimension3_score, scores.dimension4_score, scores.dimension5_score);
-        if (minScore === scores.dimension1_score) {
-          formatAppLog("log", "at pages/dashboard/dashboard.vue:330", "usercard src:", "水豚");
+        var _a, _b;
+        const scores = (_b = (_a = this.homepageData) == null ? void 0 : _a.response) == null ? void 0 : _b.eq_scores;
+        formatAppLog("log", "at pages/dashboard/dashboard.vue:271", "jobid:", this.jobId);
+        formatAppLog("log", "at pages/dashboard/dashboard.vue:272", "results for backgrounds:", scores);
+        const minScore = Math.min((scores == null ? void 0 : scores.dimension1_score) || 0, (scores == null ? void 0 : scores.dimension2_score) || 0, (scores == null ? void 0 : scores.dimension3_score) || 0, (scores == null ? void 0 : scores.dimension4_score) || 0, (scores == null ? void 0 : scores.dimension5_score) || 0);
+        if (minScore === (scores == null ? void 0 : scores.dimension1_score)) {
+          formatAppLog("log", "at pages/dashboard/dashboard.vue:277", "usercard src:", "水豚");
           return "/static/dashboard/shuitu.png";
-        } else if (minScore === scores.dimension2_score) {
-          formatAppLog("log", "at pages/dashboard/dashboard.vue:333", "usercard src:", "猴子");
+        } else if (minScore === (scores == null ? void 0 : scores.dimension2_score)) {
+          formatAppLog("log", "at pages/dashboard/dashboard.vue:280", "usercard src:", "猴子");
           return "/static/dashboard/houzi.png";
-        } else if (minScore === scores.dimension3_score) {
-          formatAppLog("log", "at pages/dashboard/dashboard.vue:336", "usercard src:", "刺猬");
+        } else if (minScore === (scores == null ? void 0 : scores.dimension3_score)) {
+          formatAppLog("log", "at pages/dashboard/dashboard.vue:283", "usercard src:", "刺猬");
           return "/static/dashboard/ciwei.png";
-        } else if (minScore === scores.dimension4_score) {
-          formatAppLog("log", "at pages/dashboard/dashboard.vue:339", "usercard src:", "鸵鸟");
+        } else if (minScore === (scores == null ? void 0 : scores.dimension4_score)) {
+          formatAppLog("log", "at pages/dashboard/dashboard.vue:286", "usercard src:", "鸵鸟");
           return "/static/dashboard/tuoniao.png";
-        } else if (minScore === scores.dimension5_score) {
-          formatAppLog("log", "at pages/dashboard/dashboard.vue:342", "usercard src:", "狼");
+        } else if (minScore === (scores == null ? void 0 : scores.dimension5_score)) {
+          formatAppLog("log", "at pages/dashboard/dashboard.vue:289", "usercard src:", "狼");
           return "/static/dashboard/lang.png";
         }
       }
     },
+    components: {
+      SProgressBar: ComponentsSProgressBar
+    },
     onLoad(option) {
-      formatAppLog("log", "at pages/dashboard/dashboard.vue:348", "Received options:", option);
+      formatAppLog("log", "at pages/dashboard/dashboard.vue:298", "Received options:", option);
       this.userId = option.userId || "";
       this.username = decodeURIComponent(option.username || "Dgidegfiugrwi");
       this.jobId = option.jobId || "154ee592-287b-4675-b8bd-8f88de348476";
       this.getHomepageData();
-      formatAppLog("log", "at pages/dashboard/dashboard.vue:360", "Parsed data:", {
+      formatAppLog("log", "at pages/dashboard/dashboard.vue:310", "Parsed data:", {
         userId: this.userId,
         username: this.username,
         jobId: this.jobId
       });
-      formatAppLog("log", "at pages/dashboard/dashboard.vue:366", "Received options:", option);
+      formatAppLog("log", "at pages/dashboard/dashboard.vue:316", "Received options:", option);
       if (option.currentView) {
         this.currentView = option.currentView;
       }
-      formatAppLog("log", "at pages/dashboard/dashboard.vue:373", "Current View:", this.currentView);
+      formatAppLog("log", "at pages/dashboard/dashboard.vue:323", "Current View:", this.currentView);
       this.intervalId = setInterval(() => {
         this.getHomepageData();
       }, 5e4);
@@ -686,7 +804,7 @@ if (uni.restoreGlobal) {
       circleLeftPosition(value) {
         const percentage1 = value / this.maxScore * 100;
         const progressBarWidth = uni.getSystemInfoSync().windowWidth * 0.8;
-        formatAppLog("log", "at pages/dashboard/dashboard.vue:401", percentage1);
+        formatAppLog("log", "at pages/dashboard/dashboard.vue:351", percentage1);
         return percentage1 / 100 * progressBarWidth;
       },
       navigateToGuide() {
@@ -697,23 +815,30 @@ if (uni.restoreGlobal) {
       },
       getHomepageData() {
         const that = this;
-        formatAppLog("log", "at pages/dashboard/dashboard.vue:411", "Fetching homepage data with jobId:", this.jobId);
+        this.isLoading = true;
+        this.error = null;
+        formatAppLog("log", "at pages/dashboard/dashboard.vue:363", "Fetching homepage data with jobId:", this.jobId);
         uni.request({
           url: `https://eqmaster.azurewebsites.net/get_homepage/${this.jobId}`,
           method: "POST",
           success(response) {
             if (response.statusCode === 200) {
               that.homepageData = response.data;
-              formatAppLog("log", "at pages/dashboard/dashboard.vue:418", "Homepage data received:", that.homepageData);
+              formatAppLog("log", "at pages/dashboard/dashboard.vue:370", "Homepage data received:", that.homepageData);
               that.$nextTick(() => {
                 that.drawRadar();
               });
             } else {
-              formatAppLog("error", "at pages/dashboard/dashboard.vue:423", "Failed to fetch homepage data:", response.statusCode);
+              that.error = `Failed to fetch homepage data: ${response.statusCode}`;
+              formatAppLog("error", "at pages/dashboard/dashboard.vue:376", that.error);
             }
           },
           fail(error) {
-            formatAppLog("error", "at pages/dashboard/dashboard.vue:427", "Error fetching homepage data:", error);
+            that.error = "Error fetching homepage data";
+            formatAppLog("error", "at pages/dashboard/dashboard.vue:381", that.error, error);
+          },
+          complete() {
+            that.isLoading = false;
           }
         });
       },
@@ -739,7 +864,7 @@ if (uni.restoreGlobal) {
         }
       },
       createProfile() {
-        formatAppLog("log", "at pages/dashboard/dashboard.vue:453", "创建档案", {
+        formatAppLog("log", "at pages/dashboard/dashboard.vue:410", "创建档案", {
           name: this.profileName,
           option: this.selectedOption,
           tags: this.selectedTags
@@ -747,32 +872,34 @@ if (uni.restoreGlobal) {
         this.closePopup();
       },
       navigateToBattlefieldIntro() {
+        var _a, _b, _c;
         uni.navigateTo({
-          url: `/pages/battlefield/battlefield-intro?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.homepageData.response.personal_info.job_id}`
+          url: `/pages/battlefield/battlefield-intro?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${(_c = (_b = (_a = this.homepageData) == null ? void 0 : _a.response) == null ? void 0 : _b.personal_info) == null ? void 0 : _c.job_id}`
         });
       },
       toProfilePage() {
+        var _a, _b, _c;
         if (this.canNavigateToProfile) {
           this.getHomepageData();
           const requestData = {
-            personal_name: this.homepageData.response.personal_info.name || "",
+            personal_name: ((_c = (_b = (_a = this.homepageData) == null ? void 0 : _a.response) == null ? void 0 : _b.personal_info) == null ? void 0 : _c.name) || "",
             name: this.profileName,
             tag: this.selectedTags.join(","),
             contact_relationship: this.selectedOption
           };
-          formatAppLog("log", "at pages/dashboard/dashboard.vue:478", "Sending data to create contact profile:", requestData);
+          formatAppLog("log", "at pages/dashboard/dashboard.vue:435", "Sending data to create contact profile:", requestData);
           uni.request({
             url: "https://eqmaster.azurewebsites.net/create_contact_profile",
             method: "POST",
             data: requestData,
             success: (res) => {
               if (res.statusCode === 200) {
-                formatAppLog("log", "at pages/dashboard/dashboard.vue:487", "Contact profile created successfully:", res.data);
+                formatAppLog("log", "at pages/dashboard/dashboard.vue:444", "Contact profile created successfully:", res.data);
                 uni.navigateTo({
                   url: `/pages/profile/profile?personal_name=${encodeURIComponent(this.username)}&name=${encodeURIComponent(this.profileName)}&jobId=${this.jobId}&relation=${encodeURIComponent(this.selectedOption)}&tags=${encodeURIComponent(JSON.stringify(this.selectedTags))}&contactId=${res.data.contact_id}`
                 });
               } else {
-                formatAppLog("error", "at pages/dashboard/dashboard.vue:493", "Failed to create contact profile:", res.statusCode, res.data);
+                formatAppLog("error", "at pages/dashboard/dashboard.vue:450", "Failed to create contact profile:", res.statusCode, res.data);
                 uni.showToast({
                   title: `创建档案失败: ${res.statusCode}`,
                   icon: "none"
@@ -780,7 +907,7 @@ if (uni.restoreGlobal) {
               }
             },
             fail: (err) => {
-              formatAppLog("error", "at pages/dashboard/dashboard.vue:501", "Error creating contact profile:", err);
+              formatAppLog("error", "at pages/dashboard/dashboard.vue:458", "Error creating contact profile:", err);
               uni.showToast({
                 title: "网络错误，请稍后重试",
                 icon: "none"
@@ -790,30 +917,31 @@ if (uni.restoreGlobal) {
         }
       },
       toProfilePage1(contact) {
+        var _a, _b, _c, _d, _e, _f;
         this.getHomepageData();
-        formatAppLog("log", "at pages/dashboard/dashboard.vue:512", "Navigating to profile page for contact:", contact);
-        formatAppLog("log", "at pages/dashboard/dashboard.vue:513", "Navigating to profile page for contact:", this.homepageData.response.personal_info.name);
+        formatAppLog("log", "at pages/dashboard/dashboard.vue:469", "Navigating to profile page for contact:", contact);
+        formatAppLog("log", "at pages/dashboard/dashboard.vue:470", "Navigating to profile page for contact:", (_c = (_b = (_a = this.homepageData) == null ? void 0 : _a.response) == null ? void 0 : _b.personal_info) == null ? void 0 : _c.name);
         if (this.canNavigateToProfile) {
           this.getHomepageData();
           const requestData = {
-            personal_name: this.homepageData.response.personal_info.name || "",
-            name: contact.name,
-            tag: contact.tag,
-            contact_relationship: contact.contact_relationship
+            personal_name: ((_f = (_e = (_d = this.homepageData) == null ? void 0 : _d.response) == null ? void 0 : _e.personal_info) == null ? void 0 : _f.name) || "",
+            name: (contact == null ? void 0 : contact.name) || "",
+            tag: (contact == null ? void 0 : contact.tag) || "",
+            contact_relationship: (contact == null ? void 0 : contact.contact_relationship) || ""
           };
-          formatAppLog("log", "at pages/dashboard/dashboard.vue:525", "Sending data to create contact profile:", requestData);
+          formatAppLog("log", "at pages/dashboard/dashboard.vue:482", "Sending data to create contact profile:", requestData);
           uni.request({
             url: "https://eqmaster.azurewebsites.net/create_contact_profile",
             method: "POST",
             data: requestData,
             success: (res) => {
               if (res.statusCode === 200) {
-                formatAppLog("log", "at pages/dashboard/dashboard.vue:534", "Contact profile created successfully:", res.data);
+                formatAppLog("log", "at pages/dashboard/dashboard.vue:491", "Contact profile created successfully:", res.data);
                 uni.navigateTo({
-                  url: `/pages/profile/profile?personal_name=${encodeURIComponent(this.username)}&name=${encodeURIComponent(contact.name)}&jobId=${this.jobId}&relation=${encodeURIComponent(contact.contact_relationship)}&tags=${encodeURIComponent(contact.tag)}&contactId=${res.data.contact_id}`
+                  url: `/pages/profile/profile?personal_name=${encodeURIComponent(this.username)}&name=${encodeURIComponent((contact == null ? void 0 : contact.name) || "")}&jobId=${this.jobId}&relation=${encodeURIComponent((contact == null ? void 0 : contact.contact_relationship) || "")}&tags=${encodeURIComponent((contact == null ? void 0 : contact.tag) || "")}&contactId=${res.data.contact_id}`
                 });
               } else {
-                formatAppLog("error", "at pages/dashboard/dashboard.vue:539", "Failed to create contact profile:", res.statusCode, res.data);
+                formatAppLog("error", "at pages/dashboard/dashboard.vue:496", "Failed to create contact profile:", res.statusCode, res.data);
                 uni.showToast({
                   title: `创建档案失败: ${res.statusCode}`,
                   icon: "none"
@@ -821,7 +949,7 @@ if (uni.restoreGlobal) {
               }
             },
             fail: (err) => {
-              formatAppLog("error", "at pages/dashboard/dashboard.vue:547", "Error creating contact profile:", err);
+              formatAppLog("error", "at pages/dashboard/dashboard.vue:504", "Error creating contact profile:", err);
               uni.showToast({
                 title: "网络错误，请稍后重试",
                 icon: "none"
@@ -840,7 +968,7 @@ if (uni.restoreGlobal) {
           uni.navigateTo({
             url: "weixin://",
             success: () => {
-              formatAppLog("log", "at pages/dashboard/dashboard.vue:567", "WeChat opened successfully");
+              formatAppLog("log", "at pages/dashboard/dashboard.vue:524", "WeChat opened successfully");
             },
             fail: () => {
               uni.showToast({
@@ -850,7 +978,7 @@ if (uni.restoreGlobal) {
             }
           });
         } catch (error) {
-          formatAppLog("error", "at pages/dashboard/dashboard.vue:579", "Error opening WeChat:", error);
+          formatAppLog("error", "at pages/dashboard/dashboard.vue:536", "Error opening WeChat:", error);
           uni.showToast({
             title: "Unable to open WeChat",
             icon: "none"
@@ -870,42 +998,6 @@ if (uni.restoreGlobal) {
       generateSPath(progress) {
         return `M 0 25 C ${progress * 0.25} 0, ${progress * 0.75} 0, ${progress} 25 S ${progress * 1.75} 50, ${progress * 2} 25`;
       },
-      // openWeChat() {
-      // 	// Use the WeChat URL scheme to open the app
-      // 	uni.navigateTo({
-      // 		url: 'weixin://'
-      // 	});
-      // },
-      // openNewPopup() {
-      // 	this.showNewPopup = true;
-      // },
-      openNewPopup() {
-        this.showNewPopup = true;
-        uni.setClipboardData({
-          data: "wxid 3cnxu4266mt012",
-          success: () => {
-            uni.showToast({
-              title: "微信号已复制",
-              icon: "success"
-            });
-          },
-          fail: (err) => {
-            formatAppLog("error", "at pages/dashboard/dashboard.vue:623", "Failed to copy text:", err);
-            uni.showToast({
-              title: "复制失败",
-              icon: "none"
-            });
-          }
-        });
-      },
-      closeNewPopup() {
-        this.showNewPopup = false;
-      },
-      // navigateToDashboard2() {
-      // 	uni.navigateTo({
-      // 		url: '/pages/dashboard/dashboard2'
-      // 	});
-      // },
       navigateToDashboard() {
         this.switchView("dashboard");
       },
@@ -917,7 +1009,9 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$r(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t;
+    const _component_SProgressBar = vue.resolveComponent("SProgressBar");
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("scroll-view", {
         "scroll-y": "",
@@ -927,334 +1021,323 @@ if (uni.restoreGlobal) {
           key: 0,
           class: "content"
         }, [
-          vue.createCommentVNode(" 保持原有的主内容 "),
-          vue.createElementVNode(
-            "text",
-            { class: "score-title-head" },
-            "早，" + vue.toDisplayString($data.homepageData.response.personal_info.name) + "！",
+          vue.createCommentVNode(" 添加错误处理和加载状态 "),
+          $data.isLoading ? (vue.openBlock(), vue.createElementBlock("view", { key: 0 }, "加载中...")) : $data.error ? (vue.openBlock(), vue.createElementBlock(
+            "view",
+            { key: 1 },
+            vue.toDisplayString($data.error),
             1
             /* TEXT */
-          ),
-          vue.createCommentVNode(" 添加插图 "),
-          vue.createElementVNode("view", { class: "dashboard1-card-o" }, [
-            vue.createElementVNode("image", {
-              class: "illustration1",
-              src: _imports_0$b,
-              mode: "widthFix"
-            }),
-            vue.createCommentVNode(" 添加白色卡片 "),
-            vue.createElementVNode("view", { class: "card" }, [
+          )) : (vue.openBlock(), vue.createElementBlock("view", { key: 2 }, [
+            vue.createCommentVNode(" 使用可选链操作符和默认值 "),
+            vue.createElementVNode(
+              "text",
+              { class: "score-title-head" },
+              "早，" + vue.toDisplayString(((_c = (_b = (_a = $data.homepageData) == null ? void 0 : _a.response) == null ? void 0 : _b.personal_info) == null ? void 0 : _c.name) || "用户") + "！",
+              1
+              /* TEXT */
+            ),
+            vue.createCommentVNode(" 添加插图 "),
+            vue.createElementVNode("view", { class: "dashboard1-card-o" }, [
               vue.createElementVNode("image", {
-                class: "illustration3",
-                src: _imports_1$6,
+                class: "illustration1",
+                src: _imports_0$b,
                 mode: "widthFix"
               }),
-              vue.createElementVNode(
-                "text",
-                { class: "score-value-large" },
-                vue.toDisplayString(Math.round(120)),
-                1
-                /* TEXT */
-              ),
-              vue.createCommentVNode(' <text class="score-value-large">{{ Math.round(homepageData.response.eq_scores.score) }}</text> '),
-              vue.createElementVNode("view", { class: "progress-bar" }, [
-                vue.createCommentVNode(' <view class="progress" :style="{ width: progressWidth(42) }"></view> '),
+              vue.createCommentVNode(" 添加白色卡片 "),
+              vue.createElementVNode("view", { class: "card" }, [
+                vue.createElementVNode("image", {
+                  class: "illustration3",
+                  src: _imports_1$6,
+                  mode: "widthFix"
+                }),
                 vue.createElementVNode(
-                  "view",
-                  {
-                    class: "progress",
-                    style: vue.normalizeStyle({ width: $options.progressWidth($data.homepageData.response.eq_scores.score) })
-                  },
-                  null,
-                  4
-                  /* STYLE */
-                )
-              ]),
-              vue.createElementVNode(
-                "text",
-                { class: "card-description" },
-                vue.toDisplayString($data.homepageData.response.eq_scores.overall_suggestion),
-                1
-                /* TEXT */
-              ),
-              vue.createElementVNode("image", {
-                class: "illustration31",
-                src: _imports_2$5,
-                mode: "widthFix",
-                onClick: _cache[0] || (_cache[0] = (...args) => $options.navigateToResult && $options.navigateToResult(...args))
-              })
-            ])
-          ]),
-          vue.createCommentVNode(' <image class="illustration1" :src="userCard" mode="widthFix"></image> '),
-          vue.createElementVNode("text", { class: "card-title1" }, "今日锦囊"),
-          vue.createElementVNode("image", {
-            class: "illustration32",
-            src: $data.tipImageSrc,
-            mode: "widthFix",
-            onClick: _cache[1] || (_cache[1] = (...args) => $options.toggleTipImage && $options.toggleTipImage(...args))
-          }, null, 8, ["src"]),
-          vue.createElementVNode("text", { class: "card-title1" }, "我的人脉网"),
-          vue.createElementVNode("text", { class: "card-title15" }, "AI 战略家通过分析多维关系，帮助您建立职场联系"),
-          vue.createCommentVNode(" 添加白色卡片1 "),
-          vue.createElementVNode("view", { class: "card1" }, [
-            vue.createElementVNode("text", { class: "card-title14" }, "添加微信助手，获取深度职场分析！"),
-            vue.createElementVNode("image", {
-              class: "illustration33",
-              src: _imports_3$4,
-              mode: "widthFix",
-              onClick: _cache[2] || (_cache[2] = (...args) => $options.openNewPopup && $options.openNewPopup(...args))
-            }),
-            vue.createElementVNode("image", {
-              class: "illustration34",
-              src: _imports_4$3,
-              mode: "widthFix"
-            })
-          ]),
-          vue.createElementVNode("view", { class: "dashboard1-card-o" }, [
-            vue.createElementVNode("image", {
-              class: "illustration35",
-              src: _imports_5$3,
-              mode: "widthFix",
-              onClick: _cache[3] || (_cache[3] = (...args) => $options.openPopup && $options.openPopup(...args))
-            }),
-            vue.createElementVNode("view", { class: "peoplecontain" }, [
-              (vue.openBlock(true), vue.createElementBlock(
-                vue.Fragment,
-                null,
-                vue.renderList($data.homepageData.response.contacts, (contact, index) => {
-                  return vue.openBlock(), vue.createElementBlock(
+                  "text",
+                  { class: "score-value-large" },
+                  vue.toDisplayString(Math.round(((_f = (_e = (_d = $data.homepageData) == null ? void 0 : _d.response) == null ? void 0 : _e.eq_scores) == null ? void 0 : _f.score) || 0)),
+                  1
+                  /* TEXT */
+                ),
+                vue.createElementVNode("view", { class: "progress-bar" }, [
+                  vue.createElementVNode(
                     "view",
                     {
-                      key: index,
-                      class: vue.normalizeClass(["cardjuese", index % 2 === 1 ? "lower-card" : ""])
+                      class: "progress",
+                      style: vue.normalizeStyle({ width: $options.progressWidth(((_i = (_h = (_g = $data.homepageData) == null ? void 0 : _g.response) == null ? void 0 : _h.eq_scores) == null ? void 0 : _i.score) || 0) })
                     },
-                    [
-                      vue.createElementVNode("view", {
-                        class: "card-a",
-                        onClick: ($event) => $options.toProfilePage1(contact)
-                      }, [
-                        vue.createElementVNode("view", { class: "card1inner" }, [
-                          vue.createElementVNode("image", {
-                            class: "illustrationhead",
-                            src: _imports_2$4,
-                            mode: "widthFix"
-                          }),
-                          vue.createElementVNode("view", { class: "card2inner" }, [
-                            vue.createCommentVNode(' <text class="usercard-title1">{{ contact }}</text> '),
-                            vue.createElementVNode(
-                              "text",
-                              { class: "usercard-title1" },
-                              vue.toDisplayString($options.truncateName(contact.name)),
-                              1
-                              /* TEXT */
-                            ),
-                            vue.createElementVNode(
-                              "text",
-                              { class: "usercard-title2" },
-                              vue.toDisplayString(contact.contact_relationship),
-                              1
-                              /* TEXT */
-                            )
-                          ])
-                        ]),
-                        vue.createElementVNode("view", { class: "white-line" }),
-                        vue.createCommentVNode(' <text class="usercard-title3">同事对你印象如何？导入聊天记录截图一探究竟吧！</text> '),
-                        vue.createElementVNode(
-                          "text",
-                          { class: "usercard-title3" },
-                          vue.toDisplayString(contact.relationship_analysis),
-                          1
-                          /* TEXT */
-                        )
-                      ], 8, ["onClick"]),
-                      vue.createCommentVNode(" 如果卡片有更多内容，可以在这里添加 ")
-                    ],
-                    2
-                    /* CLASS */
-                  );
-                }),
-                128
-                /* KEYED_FRAGMENT */
-              )),
-              vue.createCommentVNode(" 添加一个空的占位卡片 "),
-              vue.createElementVNode("view", {
-                class: "cardjuese1",
-                style: { "visibility": "hidden" }
+                    null,
+                    4
+                    /* STYLE */
+                  )
+                ]),
+                vue.createElementVNode(
+                  "text",
+                  { class: "card-description" },
+                  vue.toDisplayString(((_l = (_k = (_j = $data.homepageData) == null ? void 0 : _j.response) == null ? void 0 : _k.eq_scores) == null ? void 0 : _l.overall_suggestion) || "暂无建议"),
+                  1
+                  /* TEXT */
+                ),
+                vue.createElementVNode("image", {
+                  class: "illustration31",
+                  src: _imports_2$5,
+                  mode: "widthFix",
+                  onClick: _cache[0] || (_cache[0] = (...args) => $options.navigateToResult && $options.navigateToResult(...args))
+                })
+              ])
+            ]),
+            vue.createElementVNode("text", { class: "card-title1" }, "今日锦囊"),
+            vue.createElementVNode("image", {
+              class: "illustration32",
+              src: $data.tipImageSrc,
+              mode: "widthFix",
+              onClick: _cache[1] || (_cache[1] = (...args) => $options.toggleTipImage && $options.toggleTipImage(...args))
+            }, null, 8, ["src"]),
+            vue.createElementVNode("text", { class: "card-title1" }, "我的人脉网"),
+            vue.createElementVNode("text", { class: "card-title15" }, "AI 战略家通过分析多维关系，帮助您建立职场联系"),
+            vue.createCommentVNode(" 添加白色卡片1 "),
+            vue.createElementVNode("view", { class: "card1" }, [
+              vue.createElementVNode("text", { class: "card-title14" }, "添加微信助手，获取深度职场分析！"),
+              vue.createElementVNode("image", {
+                class: "illustration33",
+                src: _imports_3$4,
+                mode: "widthFix",
+                onClick: _cache[2] || (_cache[2] = (...args) => _ctx.openNewPopup && _ctx.openNewPopup(...args))
+              }),
+              vue.createElementVNode("image", {
+                class: "illustration34",
+                src: _imports_4$3,
+                mode: "widthFix"
               })
-            ])
-          ]),
-          $data.showPopup ? (vue.openBlock(), vue.createElementBlock("view", {
-            key: 0,
-            class: "popup-overlay"
-          }, [
-            vue.createElementVNode("view", {
-              class: "popup-content",
-              onClick: _cache[11] || (_cache[11] = vue.withModifiers(() => {
-              }, ["stop"]))
-            }, [
-              vue.createElementVNode("view", { class: "popup-header" }, [
-                vue.createElementVNode("text", { class: "popup-title" }, "创建人脉档案"),
-                vue.createElementVNode("text", {
-                  class: "popup-close",
-                  onClick: _cache[4] || (_cache[4] = (...args) => $options.closePopup && $options.closePopup(...args))
-                }, "×")
-              ]),
-              vue.withDirectives(vue.createElementVNode(
-                "input",
-                {
-                  class: "popup-input",
-                  "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $data.profileName = $event),
-                  placeholder: "请输入名字"
-                },
-                null,
-                512
-                /* NEED_PATCH */
-              ), [
-                [vue.vModelText, $data.profileName]
-              ]),
-              vue.createElementVNode("view", { class: "popup-section" }, [
-                vue.createElementVNode("text", { class: "popup-question" }, "TA是你的？")
-              ]),
-              vue.createElementVNode("view", { class: "popup-options" }, [
-                vue.createElementVNode(
-                  "text",
-                  {
-                    class: vue.normalizeClass(["popup-option", { active: $data.selectedOption === "subordinate" }]),
-                    onClick: _cache[6] || (_cache[6] = ($event) => $options.selectOption("subordinate"))
-                  },
-                  "同事",
-                  2
-                  /* CLASS */
-                ),
-                vue.createElementVNode(
-                  "text",
-                  {
-                    class: vue.normalizeClass(["popup-option1", { active: $data.selectedOption === "supervisor" }]),
-                    onClick: _cache[7] || (_cache[7] = ($event) => $options.selectOption("supervisor"))
-                  },
-                  "老板",
-                  2
-                  /* CLASS */
-                ),
-                vue.createElementVNode(
-                  "text",
-                  {
-                    class: vue.normalizeClass(["popup-option2", { active: $data.selectedOption === "下属" }]),
-                    onClick: _cache[8] || (_cache[8] = ($event) => $options.selectOption("下属"))
-                  },
-                  "下属",
-                  2
-                  /* CLASS */
-                )
-              ]),
-              vue.createElementVNode("view", { class: "popup-section" }, [
-                vue.createElementVNode("text", { class: "popup-question" }, "哪些标签可以用来形容TA？"),
-                vue.createCommentVNode(' <text class="popup-tag custom-tag">自定义标签</text> ')
-              ]),
-              vue.createElementVNode("view", { class: "popup-tags" }, [
+            ]),
+            vue.createElementVNode("view", { class: "dashboard1-card-o" }, [
+              vue.createElementVNode("image", {
+                class: "illustration35",
+                src: _imports_5$3,
+                mode: "widthFix",
+                onClick: _cache[3] || (_cache[3] = (...args) => $options.openPopup && $options.openPopup(...args))
+              }),
+              vue.createElementVNode("view", { class: "peoplecontain" }, [
                 (vue.openBlock(true), vue.createElementBlock(
                   vue.Fragment,
                   null,
-                  vue.renderList($options.currentTags, (tag) => {
-                    return vue.openBlock(), vue.createElementBlock("text", {
-                      key: tag,
-                      class: vue.normalizeClass(["popup-tag", { active: $data.selectedTags.includes(tag) }]),
-                      onClick: ($event) => $options.toggleTag(tag)
-                    }, vue.toDisplayString(tag), 11, ["onClick"]);
+                  vue.renderList(((_n = (_m = $data.homepageData) == null ? void 0 : _m.response) == null ? void 0 : _n.contacts) || [], (contact, index) => {
+                    return vue.openBlock(), vue.createElementBlock(
+                      "view",
+                      {
+                        key: index,
+                        class: vue.normalizeClass(["cardjuese", index % 2 === 1 ? "lower-card" : ""])
+                      },
+                      [
+                        vue.createElementVNode("view", {
+                          class: "card-a",
+                          onClick: ($event) => $options.toProfilePage1(contact)
+                        }, [
+                          vue.createElementVNode("view", { class: "card1inner" }, [
+                            vue.createElementVNode("image", {
+                              class: "illustrationhead",
+                              src: _imports_2$4,
+                              mode: "widthFix"
+                            }),
+                            vue.createElementVNode("view", { class: "card2inner" }, [
+                              vue.createElementVNode(
+                                "text",
+                                { class: "usercard-title1" },
+                                vue.toDisplayString($options.truncateName((contact == null ? void 0 : contact.name) || "")),
+                                1
+                                /* TEXT */
+                              ),
+                              vue.createElementVNode(
+                                "text",
+                                { class: "usercard-title2" },
+                                vue.toDisplayString((contact == null ? void 0 : contact.contact_relationship) || ""),
+                                1
+                                /* TEXT */
+                              )
+                            ])
+                          ]),
+                          vue.createElementVNode("view", { class: "white-line" }),
+                          vue.createElementVNode(
+                            "text",
+                            { class: "usercard-title3" },
+                            vue.toDisplayString((contact == null ? void 0 : contact.relationship_analysis) || ""),
+                            1
+                            /* TEXT */
+                          )
+                        ], 8, ["onClick"]),
+                        vue.createCommentVNode(" 如果卡片有更多内容，可以在这里添加 ")
+                      ],
+                      2
+                      /* CLASS */
+                    );
                   }),
                   128
                   /* KEYED_FRAGMENT */
-                ))
-              ]),
-              !$data.isExpanded ? (vue.openBlock(), vue.createElementBlock("image", {
-                key: 0,
-                onClick: _cache[9] || (_cache[9] = (...args) => $options.expand && $options.expand(...args)),
-                src: _imports_6$2,
-                class: "expand-image"
-              })) : vue.createCommentVNode("v-if", true),
-              vue.createCommentVNode(' <button class="popup-button" @click="createProfile">创建档案</button> '),
-              vue.createCommentVNode(" Updated button with simplified disabled style "),
-              vue.createElementVNode(
-                "button",
-                {
-                  class: "popup-button",
-                  onClick: _cache[10] || (_cache[10] = (...args) => $options.toProfilePage && $options.toProfilePage(...args)),
-                  style: vue.normalizeStyle({ opacity: $options.canNavigateToProfile ? 1 : 0.5 })
-                },
-                " 创建档案 ",
-                4
-                /* STYLE */
-              ),
-              vue.createCommentVNode(" New button "),
-              vue.createCommentVNode(' <image class="illustration39" src="/static/createperson.png" mode="widthFix" @click="openPopup"></image> ')
-            ])
-          ])) : vue.createCommentVNode("v-if", true),
-          vue.createCommentVNode(" 添加白色卡片2 "),
-          vue.createCommentVNode(" 添加蓝色按钮 "),
-          vue.createCommentVNode(' <button class="guide-button" @click="navigateToGuide">开启高情商之旅</button> '),
-          vue.createElementVNode("view", { class: "card3" }, [
-            vue.createElementVNode("image", {
-              class: "illustration36",
-              src: _imports_8,
-              mode: "widthFix"
-            }),
-            vue.createElementVNode("image", {
-              class: "illustration37",
-              src: _imports_9,
-              mode: "widthFix",
-              onClick: _cache[12] || (_cache[12] = (...args) => $options.navigateToDashboard2 && $options.navigateToDashboard2(...args))
-            }),
-            vue.createElementVNode("image", {
-              class: "illustration38",
-              src: _imports_10,
-              mode: "widthFix"
-            })
-          ]),
-          vue.createCommentVNode(" New Popup "),
-          $data.showNewPopup ? (vue.openBlock(), vue.createElementBlock("view", {
-            key: 1,
-            class: "popup-overlay"
-          }, [
-            vue.createElementVNode("view", {
-              class: "popup-content",
-              onClick: _cache[15] || (_cache[15] = vue.withModifiers(() => {
-              }, ["stop"]))
+                )),
+                vue.createCommentVNode(" 添加一个空的占位卡片 "),
+                vue.createElementVNode("view", {
+                  class: "cardjuese1",
+                  style: { "visibility": "hidden" }
+                })
+              ])
+            ]),
+            $data.showPopup ? (vue.openBlock(), vue.createElementBlock("view", {
+              key: 0,
+              class: "popup-overlay"
             }, [
-              vue.createCommentVNode(' <view class="popup-header"> '),
-              vue.createCommentVNode(' <text class="popup-title"> </text> '),
-              vue.createCommentVNode(' <text class="popup-close" @click="closeNewPopup">×</text> '),
-              vue.createCommentVNode(" </view> "),
-              vue.createCommentVNode(" Add your new popup content here "),
-              vue.createCommentVNode(" <text>这是新弹窗的内容</text> "),
-              vue.createElementVNode("view", { class: "popup-wordy" }, [
-                vue.createCommentVNode(' <image class="illustration" src="/static/gou.png" mode="widthFix"></image> '),
-                vue.createElementVNode("image", {
-                  class: "popup-icon2",
-                  src: _imports_11,
-                  mode: "widthFix"
-                }),
-                vue.createElementVNode("text", { class: "popup-title" }, " 微信号复制成功"),
-                vue.createElementVNode("text", { class: "popup-notitle" }, " 微信号:wxid 3cnxu4266mt012"),
-                vue.createElementVNode("text", { class: "popup-notitle" }, " 是否立即跳转微信添加助手?"),
-                vue.createElementVNode("view", { class: "popup-icon" }, [
+              vue.createElementVNode("view", {
+                class: "popup-content",
+                onClick: _cache[11] || (_cache[11] = vue.withModifiers(() => {
+                }, ["stop"]))
+              }, [
+                vue.createElementVNode("view", { class: "popup-header" }, [
+                  vue.createElementVNode("text", { class: "popup-title" }, "创建人脉档案"),
+                  vue.createElementVNode("text", {
+                    class: "popup-close",
+                    onClick: _cache[4] || (_cache[4] = (...args) => $options.closePopup && $options.closePopup(...args))
+                  }, "×")
+                ]),
+                vue.withDirectives(vue.createElementVNode(
+                  "input",
+                  {
+                    class: "popup-input",
+                    "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $data.profileName = $event),
+                    placeholder: "请输入名字"
+                  },
+                  null,
+                  512
+                  /* NEED_PATCH */
+                ), [
+                  [vue.vModelText, $data.profileName]
+                ]),
+                vue.createElementVNode("view", { class: "popup-section" }, [
+                  vue.createElementVNode("text", { class: "popup-question" }, "TA是你的？")
+                ]),
+                vue.createElementVNode("view", { class: "popup-options" }, [
+                  vue.createElementVNode(
+                    "text",
+                    {
+                      class: vue.normalizeClass(["popup-option", { active: $data.selectedOption === "subordinate" }]),
+                      onClick: _cache[6] || (_cache[6] = ($event) => $options.selectOption("subordinate"))
+                    },
+                    "同事",
+                    2
+                    /* CLASS */
+                  ),
+                  vue.createElementVNode(
+                    "text",
+                    {
+                      class: vue.normalizeClass(["popup-option1", { active: $data.selectedOption === "supervisor" }]),
+                      onClick: _cache[7] || (_cache[7] = ($event) => $options.selectOption("supervisor"))
+                    },
+                    "老板",
+                    2
+                    /* CLASS */
+                  ),
+                  vue.createElementVNode(
+                    "text",
+                    {
+                      class: vue.normalizeClass(["popup-option2", { active: $data.selectedOption === "下属" }]),
+                      onClick: _cache[8] || (_cache[8] = ($event) => $options.selectOption("下属"))
+                    },
+                    "下属",
+                    2
+                    /* CLASS */
+                  )
+                ]),
+                vue.createElementVNode("view", { class: "popup-section" }, [
+                  vue.createElementVNode("text", { class: "popup-question" }, "哪些标签可以用来形容TA？")
+                ]),
+                vue.createElementVNode("view", { class: "popup-tags" }, [
+                  (vue.openBlock(true), vue.createElementBlock(
+                    vue.Fragment,
+                    null,
+                    vue.renderList($options.currentTags, (tag) => {
+                      return vue.openBlock(), vue.createElementBlock("text", {
+                        key: tag,
+                        class: vue.normalizeClass(["popup-tag", { active: $data.selectedTags.includes(tag) }]),
+                        onClick: ($event) => $options.toggleTag(tag)
+                      }, vue.toDisplayString(tag), 11, ["onClick"]);
+                    }),
+                    128
+                    /* KEYED_FRAGMENT */
+                  ))
+                ]),
+                !$data.isExpanded ? (vue.openBlock(), vue.createElementBlock("image", {
+                  key: 0,
+                  onClick: _cache[9] || (_cache[9] = (...args) => $options.expand && $options.expand(...args)),
+                  src: _imports_6$2,
+                  class: "expand-image"
+                })) : vue.createCommentVNode("v-if", true),
+                vue.createCommentVNode(" Updated button with simplified disabled style "),
+                vue.createElementVNode(
+                  "button",
+                  {
+                    class: "popup-button",
+                    onClick: _cache[10] || (_cache[10] = (...args) => $options.toProfilePage && $options.toProfilePage(...args)),
+                    style: vue.normalizeStyle({ opacity: $options.canNavigateToProfile ? 1 : 0.5 })
+                  },
+                  " 创建档案 ",
+                  4
+                  /* STYLE */
+                )
+              ])
+            ])) : vue.createCommentVNode("v-if", true),
+            vue.createCommentVNode(" 添加蓝色按钮 "),
+            vue.createElementVNode("view", { class: "card3" }, [
+              vue.createElementVNode("image", {
+                class: "illustration36",
+                src: _imports_8,
+                mode: "widthFix"
+              }),
+              vue.createElementVNode("image", {
+                class: "illustration37",
+                src: _imports_9,
+                mode: "widthFix",
+                onClick: _cache[12] || (_cache[12] = (...args) => $options.navigateToDashboard2 && $options.navigateToDashboard2(...args))
+              }),
+              vue.createElementVNode("image", {
+                class: "illustration38",
+                src: _imports_10,
+                mode: "widthFix"
+              })
+            ]),
+            vue.createCommentVNode(" New Popup "),
+            $data.showNewPopup ? (vue.openBlock(), vue.createElementBlock("view", {
+              key: 1,
+              class: "popup-overlay"
+            }, [
+              vue.createElementVNode("view", {
+                class: "popup-content",
+                onClick: _cache[15] || (_cache[15] = vue.withModifiers(() => {
+                }, ["stop"]))
+              }, [
+                vue.createElementVNode("view", { class: "popup-wordy" }, [
                   vue.createElementVNode("image", {
-                    class: "popup-icon1",
-                    src: _imports_12,
-                    onClick: _cache[13] || (_cache[13] = (...args) => $options.closeNewPopup && $options.closeNewPopup(...args)),
+                    class: "popup-icon2",
+                    src: _imports_11,
                     mode: "widthFix"
                   }),
-                  vue.createElementVNode("image", {
-                    class: "popup-icon1",
-                    src: _imports_13,
-                    mode: "widthFix",
-                    onClick: _cache[14] || (_cache[14] = (...args) => $options.openWeChat && $options.openWeChat(...args))
-                  }),
-                  vue.createCommentVNode(' <image class="popup-icon1" src="/static/openwechat.png" mode="widthFix"></image> ')
+                  vue.createElementVNode("text", { class: "popup-title" }, " 微信号复制成功"),
+                  vue.createElementVNode("text", { class: "popup-notitle" }, " 微信号:wxid 3cnxu4266mt012"),
+                  vue.createElementVNode("text", { class: "popup-notitle" }, " 是否立即跳转微信添加助手?"),
+                  vue.createElementVNode("view", { class: "popup-icon" }, [
+                    vue.createElementVNode("image", {
+                      class: "popup-icon1",
+                      src: _imports_12,
+                      onClick: _cache[13] || (_cache[13] = (...args) => _ctx.closeNewPopup && _ctx.closeNewPopup(...args)),
+                      mode: "widthFix"
+                    }),
+                    vue.createElementVNode("image", {
+                      class: "popup-icon1",
+                      src: _imports_13,
+                      mode: "widthFix",
+                      onClick: _cache[14] || (_cache[14] = (...args) => $options.openWeChat && $options.openWeChat(...args))
+                    })
+                  ])
                 ])
-              ]),
-              vue.createCommentVNode(" Add more elements as needed ")
-            ])
-          ])) : vue.createCommentVNode("v-if", true)
+              ])
+            ])) : vue.createCommentVNode("v-if", true)
+          ]))
         ])) : $data.currentView === "dashboard2" ? (vue.openBlock(), vue.createElementBlock("view", {
           key: 1,
           class: "dashboard2-content"
@@ -1270,7 +1353,7 @@ if (uni.restoreGlobal) {
               vue.createElementVNode(
                 "text",
                 { class: "dashboard2-score-value-large-y" },
-                vue.toDisplayString(Math.round(120)),
+                vue.toDisplayString(Math.round(((_q = (_p = (_o = $data.homepageData) == null ? void 0 : _o.response) == null ? void 0 : _p.eq_scores) == null ? void 0 : _q.score) || 0)),
                 1
                 /* TEXT */
               )
@@ -1314,7 +1397,7 @@ if (uni.restoreGlobal) {
                     "view",
                     {
                       class: "dashboard2-progress",
-                      style: vue.normalizeStyle({ width: $options.progressWidth($data.homepageData.response.eq_scores.dimension3_score) })
+                      style: vue.normalizeStyle({ width: $options.progressWidth(((_t = (_s = (_r = $data.homepageData) == null ? void 0 : _r.response) == null ? void 0 : _s.eq_scores) == null ? void 0 : _t.dimension3_score) || 0) })
                     },
                     null,
                     4
@@ -1324,51 +1407,25 @@ if (uni.restoreGlobal) {
               ])
             ])
           ]),
-          vue.createCommentVNode(' <view class="dashboard2-card-o">\r\n					<view class="dashboard2-progress-bar1">\r\n						<view class="dashboard2-progress" :style="{ width: progressWidth(homepageData.response.eq_scores.dimension3_score) }"></view>\r\n					</view>\r\n				</view> '),
           vue.createElementVNode("view", { class: "dashboard2-card-o" }, [
-            (vue.openBlock(), vue.createElementBlock("svg", {
-              class: "dashboard2-progress-bar1",
-              width: "100%",
-              height: "50",
-              viewBox: "0 0 200 50"
-            }, [
-              vue.createCommentVNode(" 静态测试 S 形曲线 "),
-              vue.createElementVNode("path", {
-                d: "M 0 25 C 25 0, 75 0, 100 25 S 175 50, 200 25",
-                fill: "none",
-                stroke: "black",
-                "stroke-width": "2"
-              }),
-              vue.createCommentVNode(" 动态生成 S 形路径 "),
-              vue.createElementVNode("path", {
-                d: $options.generateSPath($options.progressWidth($data.homepageData.response.eq_scores.dimension3_score)),
-                fill: "none",
-                stroke: "blue",
-                "stroke-width": "5"
-              }, null, 8, ["d"])
-            ]))
+            vue.createCommentVNode(" 调用进度条组件 "),
+            vue.createVNode(_component_SProgressBar, {
+              finishComponents: 1,
+              totalComponents: 5
+            }),
+            vue.createCommentVNode(' <image class="dashboard2-xiuluochang-image" src="/static/dashboard2/xiuluochang.jpg" mode="aspectFill" /> ')
           ]),
-          vue.createElementVNode("image", {
-            class: "dashboard2-xiuluochang-image",
-            src: _imports_16,
-            mode: "aspectFill"
-          }),
-          vue.createElementVNode("image", {
-            class: "dashboard2-illustration35",
-            src: _imports_17,
-            mode: "widthFix",
-            onClick: _cache[16] || (_cache[16] = (...args) => $options.navigateToBattlefieldIntro && $options.navigateToBattlefieldIntro(...args))
-          }),
+          vue.createCommentVNode(' <image class="dashboard2-illustration35" src="/static/dashboard2/plgon9.jpg" mode="widthFix" @click="navigateToBattlefieldIntro"></image> '),
           vue.createElementVNode("view", { class: "dashboard2-card3" }, [
             vue.createElementVNode("image", {
               class: "dashboard2-illustration36",
-              src: _imports_18,
+              src: _imports_16,
               mode: "widthFix",
-              onClick: _cache[17] || (_cache[17] = ($event) => $options.switchView("dashboard"))
+              onClick: _cache[16] || (_cache[16] = ($event) => $options.switchView("dashboard"))
             }),
             vue.createElementVNode("image", {
               class: "dashboard2-illustration37",
-              src: _imports_19,
+              src: _imports_17,
               mode: "widthFix"
             }),
             vue.createElementVNode("image", {
@@ -1381,9 +1438,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesDashboardDashboard = /* @__PURE__ */ _export_sfc(_sfc_main$s, [["render", _sfc_render$r], ["__scopeId", "data-v-75e816e7"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/dashboard/dashboard.vue"]]);
-  const _imports_2$3 = "/static/battlefield/diamond.png";
-  const _sfc_main$r = {
+  const PagesDashboardDashboard = /* @__PURE__ */ _export_sfc(_sfc_main$r, [["render", _sfc_render$q], ["__scopeId", "data-v-75e816e7"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/dashboard/dashboard.vue"]]);
+  const _sfc_main$q = {
     props: {
       gemCount: {
         type: Number,
@@ -1391,24 +1447,33 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$p(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "gem-container" }, [
-      vue.createElementVNode("image", {
-        class: "gem-icon",
-        src: _imports_2$3,
-        mode: "aspectFit"
-      }),
-      vue.createElementVNode(
-        "text",
-        { class: "gem-count" },
-        vue.toDisplayString($props.gemCount),
-        1
-        /* TEXT */
-      )
+      vue.createCommentVNode(' <image class="gem-icon" src="/static/battlefield/diamond.png" mode="aspectFit"></image> '),
+      (vue.openBlock(), vue.createElementBlock(
+        vue.Fragment,
+        null,
+        vue.renderList(3, (n) => {
+          return vue.createElementVNode("view", {
+            key: n,
+            class: "gem"
+          }, [
+            vue.createCommentVNode(" 根据 gemCount 的值，亮起相应数量的绿色星星 "),
+            vue.createElementVNode("image", {
+              class: "gem-icon",
+              src: n <= $props.gemCount ? "/static/battlefield/mingcute_star-fill.svg" : "/static/battlefield/mingcute_star-grey.svg",
+              mode: "aspectFit"
+            }, null, 8, ["src"])
+          ]);
+        }),
+        64
+        /* STABLE_FRAGMENT */
+      ))
     ]);
   }
-  const RewardBar = /* @__PURE__ */ _export_sfc(_sfc_main$r, [["render", _sfc_render$q], ["__scopeId", "data-v-860e4543"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/RewardBar.vue"]]);
-  const _sfc_main$q = {
+  const RewardBar = /* @__PURE__ */ _export_sfc(_sfc_main$q, [["render", _sfc_render$p], ["__scopeId", "data-v-860e4543"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/components/RewardBar.vue"]]);
+  const _sfc_main$p = {
+    name: "NpcStatus",
     props: {
       health: {
         type: Number,
@@ -1426,9 +1491,21 @@ if (uni.restoreGlobal) {
         // 默认角色名字
       }
     },
+    data() {
+      return {
+        prevHealth: this.health,
+        // 保存之前的健康值
+        showIndicator: false,
+        // 控制指示器的显示
+        indicatorColor: "#EDFB8B",
+        // 指示器颜色（默认绿色）
+        indicatorTimeout: null
+        // 定时器引用
+      };
+    },
     computed: {
       healthBarStyle() {
-        const color = this.health < 50 ? "#FF4D4F" : "#52C41A";
+        const color = this.health < 33 ? "#FF6262" : "#9EE44D";
         const width = `${this.health}%`;
         return {
           width,
@@ -1436,10 +1513,60 @@ if (uni.restoreGlobal) {
           transition: "width 0.5s ease, background-color 0.5s ease"
           // 动态变化的平滑效果
         };
+      },
+      indicatorStyle() {
+        return {
+          position: "absolute",
+          top: "50%",
+          // 垂直居中
+          transform: "translateY(-50%)",
+          left: "80%",
+          // 放置在背景条的末端
+          marginLeft: "-18rpx",
+          // 调整圆圈与血条末端的间距
+          width: "20px",
+          height: "20px",
+          borderRadius: "50%",
+          border: `2px solid ${this.indicatorColor}`,
+          // 空心圈的边框颜色
+          backgroundColor: "transparent",
+          // 背景透明
+          boxShadow: `0 0 8px ${this.indicatorColor}`,
+          // 发光效果
+          animation: "fadeOutScale 2s forwards"
+          // 使用新的动画效果
+        };
+      }
+    },
+    watch: {
+      health(newVal, oldVal) {
+        if (newVal > oldVal) {
+          this.indicatorColor = "#EDFB8B";
+        } else if (newVal < oldVal) {
+          this.indicatorColor = "#FE8C8C";
+        } else {
+          return;
+        }
+        this.showIndicator = true;
+        formatAppLog("log", "at components/NpcStatus.vue:86", "show the circle");
+        if (this.indicatorTimeout) {
+          clearTimeout(this.indicatorTimeout);
+        }
+        this.indicatorTimeout = setTimeout(() => {
+          this.showIndicator = false;
+          this.indicatorTimeout = null;
+        }, 2e3);
+        formatAppLog("log", "at components/NpcStatus.vue:98", "hide the circle");
+        this.prevHealth = newVal;
+      }
+    },
+    beforeUnmount() {
+      if (this.indicatorTimeout) {
+        clearTimeout(this.indicatorTimeout);
       }
     }
   };
-  function _sfc_render$p(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "character-container" }, [
       vue.createCommentVNode(" 血条 "),
       vue.createElementVNode("view", { class: "blood-container" }, [
@@ -1452,7 +1579,20 @@ if (uni.restoreGlobal) {
                 class: "health-bar-foreground",
                 style: vue.normalizeStyle($options.healthBarStyle)
               },
-              null,
+              [
+                vue.createCommentVNode(" 血条终点的指示器 "),
+                $data.showIndicator ? (vue.openBlock(), vue.createElementBlock(
+                  "view",
+                  {
+                    key: 0,
+                    class: "health-bar-indicator",
+                    style: vue.normalizeStyle($options.indicatorStyle)
+                  },
+                  null,
+                  4
+                  /* STYLE */
+                )) : vue.createCommentVNode("v-if", true)
+              ],
               4
               /* STYLE */
             )
@@ -1475,9 +1615,9 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const NpcStatus = /* @__PURE__ */ _export_sfc(_sfc_main$q, [["render", _sfc_render$p], ["__scopeId", "data-v-dafce8e7"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/NpcStatus.vue"]]);
+  const NpcStatus = /* @__PURE__ */ _export_sfc(_sfc_main$p, [["render", _sfc_render$o], ["__scopeId", "data-v-dafce8e7"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/components/NpcStatus.vue"]]);
   const _imports_0$a = "/static/battlefield/character_background.png";
-  const _sfc_main$p = {
+  const _sfc_main$o = {
     props: {
       avatar: {
         type: String,
@@ -1493,7 +1633,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "inner-container" }, [
       vue.createElementVNode("view", { class: "bubble-container" }, [
         vue.createElementVNode("image", {
@@ -1524,8 +1664,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const LargeAvatarBubble = /* @__PURE__ */ _export_sfc(_sfc_main$p, [["render", _sfc_render$o], ["__scopeId", "data-v-f3476ae6"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/LargeAvatarBubble.vue"]]);
-  const _sfc_main$o = {
+  const LargeAvatarBubble = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["render", _sfc_render$n], ["__scopeId", "data-v-f3476ae6"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/components/LargeAvatarBubble.vue"]]);
+  const _sfc_main$n = {
     props: {
       title: {
         type: String,
@@ -1559,7 +1699,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock(
       "view",
       {
@@ -1607,11 +1747,12 @@ if (uni.restoreGlobal) {
       /* STYLE */
     );
   }
-  const Judge = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["render", _sfc_render$n], ["__scopeId", "data-v-a1094024"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/Judge.vue"]]);
+  const Judge = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$m], ["__scopeId", "data-v-a1094024"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/components/Judge.vue"]]);
   const _imports_0$9 = "/static/battlefield/quit.png";
   const _imports_1$5 = "/static/battlefield/tipping-left.png";
+  const _imports_2$3 = "/static/battlefield/diamond.png";
   const _imports_3$3 = "/static/battlefield/tipping-right.png";
-  const _sfc_main$n = {
+  const _sfc_main$m = {
     props: {
       quit: {
         type: Function,
@@ -1654,7 +1795,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("view", { class: "modal" }, [
         vue.createElementVNode("image", {
@@ -1738,10 +1879,10 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const Tipping = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$m], ["__scopeId", "data-v-6f0eed4e"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/Tipping.vue"]]);
+  const Tipping = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$l], ["__scopeId", "data-v-6f0eed4e"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/components/Tipping.vue"]]);
   const _imports_0$8 = "/static/battlefield/question-mark.png";
   const _imports_1$4 = "/static/battlefield/tip-yellow.png";
-  const _sfc_main$m = {
+  const _sfc_main$l = {
     props: {
       tip: {
         type: String,
@@ -1749,7 +1890,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "tip-container" }, [
       vue.createElementVNode("image", {
         class: "tip-background",
@@ -1771,8 +1912,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const TippingChatBox = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$l], ["__scopeId", "data-v-23a165a0"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/TippingChatBox.vue"]]);
-  const _sfc_main$l = {
+  const TippingChatBox = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$k], ["__scopeId", "data-v-23a165a0"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/components/TippingChatBox.vue"]]);
+  const _sfc_main$k = {
     props: {
       wording: {
         type: String,
@@ -1780,7 +1921,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "bubble-container" }, [
       vue.createElementVNode(
         "text",
@@ -1791,8 +1932,8 @@ if (uni.restoreGlobal) {
       )
     ]);
   }
-  const SelfChatBox = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$k], ["__scopeId", "data-v-ca8700c1"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/SelfChatBox.vue"]]);
-  const _sfc_main$k = {
+  const SelfChatBox = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$j], ["__scopeId", "data-v-ca8700c1"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/components/SelfChatBox.vue"]]);
+  const _sfc_main$j = {
     props: {
       avatar: {
         type: String,
@@ -1808,7 +1949,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "bubble-container" }, [
       vue.createElementVNode("view", { class: "background-parent" }, [
         vue.createElementVNode("view", { class: "user-info" }, [
@@ -1844,7 +1985,7 @@ if (uni.restoreGlobal) {
       )
     ]);
   }
-  const NpcChatBox = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$j], ["__scopeId", "data-v-7860702c"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/NpcChatBox.vue"]]);
+  const NpcChatBox = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$i], ["__scopeId", "data-v-7860702c"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/components/NpcChatBox.vue"]]);
   function findLastName(str) {
     const regex = /(小李|小王)(?!.*(小李|小王))/;
     const match = str.match(regex);
@@ -1874,7 +2015,7 @@ if (uni.restoreGlobal) {
   const _imports_5$2 = "/static/battlefield/microphone.png";
   const _imports_6$1 = "/static/battlefield/streamline.png";
   const recorderManager = uni.getRecorderManager();
-  const _sfc_main$j = {
+  const _sfc_main$i = {
     components: {
       RewardBar,
       NpcStatus,
@@ -1894,7 +2035,7 @@ if (uni.restoreGlobal) {
         task1Title: "一句话让同事们赞不绝口",
         task2Title: "情绪过山车",
         isGoodReply: true,
-        state: "",
+        state: "NpcTalk",
         // Current state
         showTippingCard: false,
         // Controls the tipping card visibility
@@ -1905,13 +2046,10 @@ if (uni.restoreGlobal) {
         // Replace with actual dialogue
         // Other data properties
         someoneTalk: true,
-        state: "NpcTalk",
-        // Current state
         chattingHistory: [{
           role: "领导",
           content: "唉，我最近有点上火，医生嘱咐我要清淡饮食。这些重口味的菜我可真不敢吃了，不然怕是吃完嘴上火气就更旺了。"
         }],
-        talkingNpc: 0,
         showInput: false,
         focusInput: false,
         npcs: [
@@ -1934,30 +2072,109 @@ if (uni.restoreGlobal) {
         tempFilePath: "",
         // 临时录音文件路径
         isRecording: false,
-        // Controls the display state of left and right icons
+        // Controls the display state of recording box
+        remainingTime: 30,
+        // 录音剩余时间
+        isCanceling: false,
+        // 判断是否处于取消状态
+        touchStartY: 0,
+        // 记录touchstart的位置
+        touchThreshold: -100,
+        // 上滑取消的阈值（负值表示向上滑动）
+        countdownInterval: null,
+        // 倒计时的定时器
         getBattlefieldAvatar
       };
     },
     methods: {
-      handleClickRecording() {
-        this.isRecording = true;
-        this.startRecording();
+      goToDashboard() {
+        uni.navigateTo({
+          url: "/pages/dashboard/dashboard?currentView=dashboard2"
+        });
       },
+      handleClickRecording(e) {
+        this.isRecording = true;
+        this.isCanceling = false;
+        this.remainingTime = 30;
+        this.touchStartY = e.touches[0].clientY;
+        this.startRecording();
+        this.startCountdown();
+      },
+      handleTouchMove(e) {
+        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:178", "move start , isRecording: ", this.isRecording);
+        if (!this.isRecording)
+          return;
+        const currentY = e.touches[0].clientY;
+        const distance = currentY - this.touchStartY;
+        if (distance < this.touchThreshold) {
+          this.isCanceling = true;
+          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:184", "canceled");
+        } else {
+          this.isCanceling = false;
+          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:187", "not canceled");
+        }
+      },
+      handleRecordingDone() {
+        if (!this.isRecording)
+          return;
+        recorderManager.stop();
+        clearInterval(this.countdownInterval);
+        this.isRecording = false;
+      },
+      resetRecording() {
+        this.isRecording = false;
+        this.isCanceling = false;
+        this.remainingTime = 30;
+        clearInterval(this.countdownInterval);
+      },
+      startCountdown() {
+        this.countdownInterval = setInterval(() => {
+          if (this.remainingTime > 0) {
+            this.remainingTime--;
+          } else {
+            this.handleRecordingDone();
+          }
+        }, 1e3);
+      },
+      resetRecording() {
+        this.isRecording = false;
+        this.isCanceling = false;
+        this.remainingTime = 30;
+        clearInterval(this.countdownInterval);
+      },
+      // cancelRecording() {
+      //   // 取消录音逻辑，比如删除临时文件或提示用户
+      //   __f__('log','at pages/battlefield/battlefield-playground.vue:226','录音已取消');
+      //   // 这里可以添加更多的取消逻辑，如提示用户
+      //   uni.showToast({
+      //     title: '录音已取消',
+      //     icon: 'none',
+      //   });
+      // },
+      // sendRecording() {
+      // 	// 发送录音逻辑，比如上传文件
+      // 	__f__('log','at pages/battlefield/battlefield-playground.vue:235','录音已发送');
+      // 	// 这里可以添加更多的发送逻辑，如调用上传接口
+      // 	uni.showToast({
+      // 		title: '录音已发送',
+      // 		icon: 'success',
+      // 	});
+      // },
       async gotoNextRound() {
         if (!this.isGoodReply) {
           this.retry();
           return;
         }
         const nextRound = await continueChat(this.chattingHistory);
-        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:162", "next round data", nextRound);
+        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:248", "next round data", nextRound);
         this.chattingHistory = this.chattingHistory.concat(nextRound.dialog);
-        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:165", "after concat, chatting history:", this.chattingHistory);
+        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:251", "after concat, chatting history:", this.chattingHistory);
         let someoneTalked = false;
         for (; this.displayedNpcChatIndex < this.chattingHistory.length; ++this.displayedNpcChatIndex) {
           let npcIndex = getNpcIndex(this.chattingHistory[this.displayedNpcChatIndex]);
           if (npcIndex >= 0) {
             this.talkingNpc = npcIndex;
-            formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:172", "someone talk:", this.talkingNpc);
+            formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:260", "someone talk:", this.talkingNpc);
             someoneTalked = true;
             break;
           }
@@ -1972,8 +2189,8 @@ if (uni.restoreGlobal) {
       },
       startRecording() {
         const options = {
-          duration: 6e4,
-          // 最大录音时长 60 秒
+          duration: 3e4,
+          // 最大录音时长 30 秒
           sampleRate: 16e3,
           // 采样率，Azure 推荐16kHz
           numberOfChannels: 1,
@@ -1984,36 +2201,30 @@ if (uni.restoreGlobal) {
           // 设置录音格式为 wav
         };
         recorderManager.start(options);
-      },
-      handleRecordingDone() {
-        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:199", "Released");
-        if (this.isRecording) {
-          recorderManager.stop();
-          this.isRecording = false;
-        }
+        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:285", "开始录音");
       },
       getNextState() {
         if (this.state === "NpcTalk" && this.chattingHistory.length === 0) {
-          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:208", "Dismiss npc");
+          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:289", "Dismiss npc");
           this.state = "userTalk";
         }
       },
       handleTippingQuit() {
-        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:215", "Clicked quit tipping");
+        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:296", "Clicked quit tipping");
         this.state = "userTalk";
       },
       help() {
-        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:219", "Choose help card");
+        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:300", "Choose help card");
       },
       hint() {
-        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:222", "Choose hint card");
+        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:303", "Choose hint card");
       },
       clickHintButton() {
         this.state = "hint";
       },
-      uploadAndRecognizeSpeech(filePath) {
-        return new Promise((resolve, reject) => {
-          uni.uploadFile({
+      async uploadAndRecognizeSpeech(filePath) {
+        try {
+          const response = await uni.uploadFile({
             url: "https://eqmaster.azurewebsites.net/upload-audio/",
             // 替换为你的 FastAPI 服务地址
             filePath,
@@ -2023,25 +2234,22 @@ if (uni.restoreGlobal) {
             header: {
               "Content-Type": "multipart/form-data"
               // 确保使用 multipart/form-data 进行文件上传
-            },
-            success: (uploadRes) => {
-              formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:238", "文件上传成功:", uploadRes);
-              const response = JSON.parse(uploadRes.data);
-              const transcript = response.transcript;
-              resolve(transcript);
-            },
-            fail: (err) => {
-              formatAppLog("error", "at pages/battlefield/battlefield-playground.vue:244", "文件上传失败:", err);
-              reject(err);
             }
           });
-        });
+          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:320", "文件上传成功:", response);
+          const resData = JSON.parse(response.data);
+          const transcript = resData.transcript;
+          return transcript;
+        } catch (error) {
+          formatAppLog("error", "at pages/battlefield/battlefield-playground.vue:325", "文件上传失败:", error);
+          throw error;
+        }
       },
-      dismissNpcTalk() {
+      async dismissNpcTalk() {
         let foundNpcMessage = false;
         const history = this.chattingHistory;
         for (let i = this.displayedNpcChatIndex + 1; i < history.length; i++) {
-          if (history[i].role != "user") {
+          if (history[i].role !== "user") {
             this.displayedNpcChatIndex = i;
             this.talkingNpc = this.getNpcIndexByName(history[i].role);
             this.npcDialog = history[i].content;
@@ -2050,7 +2258,7 @@ if (uni.restoreGlobal) {
           }
         }
         if (!foundNpcMessage) {
-          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:266", "no more npc, now user turn.");
+          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:345", "no more npc, now user turn.");
           this.state = "userTalk";
         }
       },
@@ -2060,7 +2268,7 @@ if (uni.restoreGlobal) {
       },
       async Pass() {
         const evaluationResult = await evalBattlefield(this.chattingHistory);
-        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:277", "evaluation result:", evaluationResult);
+        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:356", "evaluation result:", evaluationResult);
         uni.setStorage({
           key: "evalResult",
           data: evaluationResult
@@ -2069,7 +2277,7 @@ if (uni.restoreGlobal) {
           uni.navigateTo({
             url: "/pages/battlefield/battlefield-summary"
           });
-        });
+        }, 500);
       },
       handleContainerClick() {
         if (this.state === "NpcTalk") {
@@ -2078,14 +2286,19 @@ if (uni.restoreGlobal) {
       },
       initRecorderManager() {
         recorderManager.onStart(() => {
-          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:298", "Recorder start");
+          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:377", "Recorder start");
         });
         recorderManager.onStop(async (res) => {
-          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:301", "Recorder stop", res);
+          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:380", "Recorder stop", res);
+          if (this.isCanceling) {
+            formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:384", "Recording was canceled, no further action taken.");
+            this.resetRecording();
+            return;
+          }
           const path = res.tempFilePath;
           try {
             const transcript = await this.uploadAndRecognizeSpeech(path);
-            formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:306", "识别结果:", transcript);
+            formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:392", "识别结果:", transcript);
             this.chattingHistory.push({
               role: "user",
               content: transcript
@@ -2095,10 +2308,12 @@ if (uni.restoreGlobal) {
             const totalScore = judgeResult.moods.reduce((acc, mood) => {
               return acc + parseInt(mood.mood, 10);
             }, 0);
-            this.isGoodReply = totalScore > 0 ? true : false;
+            this.isGoodReply = totalScore > 0;
             this.judgeTitle = this.isGoodReply ? "做的好" : "继续努力";
             if (!this.task1Finished) {
-              const allPositive = judgeResult.moods.every((item) => parseInt(item.mood, 10) > 0);
+              const allPositive = judgeResult.moods.every(
+                (item) => parseInt(item.mood, 10) > 0
+              );
               if (allPositive) {
                 this.task1Finished = true;
                 this.judgeTitle = `${this.task1Title} (1/1)`;
@@ -2156,20 +2371,30 @@ if (uni.restoreGlobal) {
               await this.Pass();
             }
           } catch (error) {
-            formatAppLog("error", "at pages/battlefield/battlefield-playground.vue:374", "在用户说话反馈过程中有错发生哦：", error);
+            formatAppLog("error", "at pages/battlefield/battlefield-playground.vue:461", "在用户说话反馈过程中有错发生哦：", error);
           }
         });
       }
     },
     onLoad(option) {
+      formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:467", "loaded");
       uni.getStorage({
         key: "chats",
         success: (res) => {
-          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:383", "chatting histories,", res.data);
+          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:471", "chatting histories,", res.data);
           this.chattingHistory = res.data;
         }
       });
       this.initRecorderManager();
+    },
+    watch: {
+      isCanceling(newValue) {
+        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:480", "isCanceling : ", newValue);
+        if (newValue) {
+          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:482", "Doing canceling ");
+          this.handleRecordingDone();
+        }
+      }
     },
     computed: {
       shouldShadow() {
@@ -2177,25 +2402,21 @@ if (uni.restoreGlobal) {
       },
       displayedMessages() {
         const userChats = this.chattingHistory.filter((chat) => chat.role === "user");
-        const npcChats = this.chattingHistory.filter(
-          (chat) => chat.role === "领导" || chat.role === "同事A" || chat.role === "同事B"
-        );
+        const npcChats = this.chattingHistory.filter((chat) => ["领导", "同事A", "同事B"].includes(chat.role));
         const latestUserChat = userChats.slice(-1);
         const latestNpcChats = npcChats.slice(-3);
         return [...latestNpcChats, ...latestUserChat];
       },
       displayedHistory() {
         const userChats = this.chattingHistory.filter((chat) => chat.role === "user");
-        const npcChats = this.chattingHistory.filter(
-          (chat) => chat.role === "领导" || chat.role === "同事A" || chat.role === "同事B"
-        );
+        const npcChats = this.chattingHistory.filter((chat) => ["领导", "同事A", "同事B"].includes(chat.role));
         const latestUserChat = userChats.slice(-1);
         const latestNpcChats = npcChats.slice(-3);
         return [...latestNpcChats, ...latestUserChat];
       }
     }
   };
-  function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_reward_bar = vue.resolveComponent("reward-bar");
     const _component_npc_status = vue.resolveComponent("npc-status");
     const _component_self_chat_box = vue.resolveComponent("self-chat-box");
@@ -2206,7 +2427,7 @@ if (uni.restoreGlobal) {
     const _component_judge = vue.resolveComponent("judge");
     return vue.openBlock(), vue.createElementBlock("view", {
       class: "container",
-      onClick: _cache[5] || (_cache[5] = (...args) => $options.handleContainerClick && $options.handleContainerClick(...args))
+      onClick: _cache[7] || (_cache[7] = (...args) => $options.handleContainerClick && $options.handleContainerClick(...args))
     }, [
       vue.createElementVNode("image", {
         class: "background-image",
@@ -2222,9 +2443,10 @@ if (uni.restoreGlobal) {
         [
           vue.createElementVNode("image", {
             class: "back-button",
-            src: _imports_0$c
+            src: _imports_0$c,
+            onClick: _cache[0] || (_cache[0] = (...args) => $options.goToDashboard && $options.goToDashboard(...args))
           }),
-          vue.createVNode(_component_reward_bar, { gemCount: 100 }),
+          vue.createVNode(_component_reward_bar, { gemCount: 2 }),
           vue.createElementVNode("view", { class: "setting-group" }, [
             vue.createElementVNode("image", {
               class: "setting-item",
@@ -2263,7 +2485,7 @@ if (uni.restoreGlobal) {
         2
         /* CLASS */
       ),
-      $data.state != "NpcTalk" ? (vue.openBlock(), vue.createElementBlock(
+      $data.state !== "NpcTalk" ? (vue.openBlock(), vue.createElementBlock(
         "view",
         {
           key: 0,
@@ -2281,7 +2503,7 @@ if (uni.restoreGlobal) {
                   chat.role === "user" ? (vue.openBlock(), vue.createBlock(_component_self_chat_box, {
                     key: index,
                     wording: chat.content
-                  }, null, 8, ["wording"])) : chat.role === "领导" || chat.role === "同事A" || chat.role === "同事B" ? (vue.openBlock(), vue.createBlock(_component_npc_chat_box, {
+                  }, null, 8, ["wording"])) : ["领导", "同事A", "同事B"].includes(chat.role) ? (vue.openBlock(), vue.createBlock(_component_npc_chat_box, {
                     key: "npc-" + index,
                     avatar: $data.getBattlefieldAvatar(chat.role),
                     name: chat.role,
@@ -2321,7 +2543,7 @@ if (uni.restoreGlobal) {
           !$data.isRecording ? (vue.openBlock(), vue.createElementBlock("view", {
             key: 0,
             class: "action-item",
-            onClick: _cache[0] || (_cache[0] = ($event) => {
+            onClick: _cache[1] || (_cache[1] = ($event) => {
               $data.showInput = true;
               $data.focusInput = true;
             })
@@ -2332,12 +2554,37 @@ if (uni.restoreGlobal) {
             })
           ])) : vue.createCommentVNode("v-if", true),
           vue.createElementVNode("view", { class: "middle-container" }, [
+            vue.createCommentVNode(" 录音弹框 "),
+            $data.isRecording ? (vue.openBlock(), vue.createElementBlock("view", {
+              key: 0,
+              class: "recording-box"
+            }, [
+              vue.createElementVNode("view", { class: "waveform" }, [
+                vue.createCommentVNode(" 声波动画 "),
+                vue.createElementVNode("view", { class: "wave" })
+              ]),
+              vue.createElementVNode(
+                "text",
+                { class: "timer" },
+                vue.toDisplayString($data.remainingTime) + "s",
+                1
+                /* TEXT */
+              ),
+              $data.isCanceling ? (vue.openBlock(), vue.createElementBlock("text", {
+                key: 0,
+                class: "cancel-text"
+              }, "松开手指，取消发送")) : (vue.openBlock(), vue.createElementBlock("text", {
+                key: 1,
+                class: "cancel-text"
+              }, "上滑取消发送"))
+            ])) : vue.createCommentVNode("v-if", true),
             vue.createElementVNode(
               "view",
               {
                 class: "action-item action-item-middle",
-                onTouchstart: _cache[1] || (_cache[1] = (...args) => $options.handleClickRecording && $options.handleClickRecording(...args)),
-                onTouchend: _cache[2] || (_cache[2] = (...args) => $options.handleRecordingDone && $options.handleRecordingDone(...args))
+                onTouchstart: _cache[2] || (_cache[2] = (...args) => $options.handleClickRecording && $options.handleClickRecording(...args)),
+                onTouchend: _cache[3] || (_cache[3] = (...args) => $options.handleRecordingDone && $options.handleRecordingDone(...args)),
+                onTouchmove: _cache[4] || (_cache[4] = (...args) => $options.handleTouchMove && $options.handleTouchMove(...args))
               },
               [
                 vue.createElementVNode("image", {
@@ -2354,9 +2601,9 @@ if (uni.restoreGlobal) {
             class: "action-item"
           }, [
             vue.createElementVNode("image", {
-              class: "action-icon",
+              class: "action-icon-hint",
               src: _imports_6$1,
-              onClick: _cache[3] || (_cache[3] = (...args) => $options.clickHintButton && $options.clickHintButton(...args))
+              onClick: _cache[5] || (_cache[5] = (...args) => $options.clickHintButton && $options.clickHintButton(...args))
             })
           ])) : vue.createCommentVNode("v-if", true)
         ],
@@ -2382,7 +2629,7 @@ if (uni.restoreGlobal) {
             type: "text",
             focus: $data.focusInput,
             placeholder: "请输入...",
-            onBlur: _cache[4] || (_cache[4] = ($event) => $data.showInput = false)
+            onBlur: _cache[6] || (_cache[6] = ($event) => $data.showInput = false)
           }, null, 40, ["focus"])
         ])) : vue.createCommentVNode("v-if", true)
       ]),
@@ -2399,38 +2646,22 @@ if (uni.restoreGlobal) {
       ])) : vue.createCommentVNode("v-if", true)
     ]);
   }
-  const PagesBattlefieldBattlefieldPlayground = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$i], ["__scopeId", "data-v-520df1b5"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/battlefield/battlefield-playground.vue"]]);
-  const _sfc_main$i = {
+  const PagesBattlefieldBattlefieldPlayground = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$h], ["__scopeId", "data-v-520df1b5"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/battlefield/battlefield-playground.vue"]]);
+  const _sfc_main$h = {
     components: {
       ProgressBar
       // 注册组件
     },
-    data() {
-      return {
-        userId: "",
-        username: "",
-        jobId: ""
-      };
-    },
-    onLoad(option) {
-      this.userId = option.userId || "";
-      this.username = decodeURIComponent(option.username || "");
-      this.jobId = option.jobId || "";
-      formatAppLog("log", "at pages/battlefield/battlefield-intro.vue:46", "Received parameters:", {
-        userId: this.userId,
-        username: this.username,
-        jobId: this.jobId
-      });
-    },
     methods: {
       navigateToNextPage() {
         uni.navigateTo({
-          url: `/pages/battlefield/battlefield-summary?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.jobId}`
+          url: "/pages/battlefield/battlefield-task"
+          // Replace this with the actual path to your next page
         });
       }
     }
   };
-  function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_progress_bar = vue.resolveComponent("progress-bar");
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("view", { class: "overlay" }),
@@ -2459,9 +2690,9 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesBattlefieldBattlefieldIntro = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$h], ["__scopeId", "data-v-29c1a59c"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/battlefield/battlefield-intro.vue"]]);
+  const PagesBattlefieldBattlefieldIntro = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$g], ["__scopeId", "data-v-29c1a59c"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/battlefield/battlefield-intro.vue"]]);
   const _imports_0$7 = "/static/cta.png";
-  const _sfc_main$h = {
+  const _sfc_main$g = {
     data() {
       return {
         score: 28,
@@ -2711,7 +2942,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("view", { class: "splash-screen" }, [
         vue.createElementVNode("text", { class: "splash-text" }, "接下来，\\n一起来看看你的职场人格类型吧！"),
@@ -2762,7 +2993,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesResultLoading = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$g], ["__scopeId", "data-v-af79a7c4"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/result/loading.vue"]]);
+  const PagesResultLoading = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$f], ["__scopeId", "data-v-af79a7c4"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/result/loading.vue"]]);
   function drawRadar(canvasId, data) {
     formatAppLog("log", "at scripts/draw_radar.js:22", "started to draw radar chart");
     formatAppLog("log", "at scripts/draw_radar.js:23", "data", data);
@@ -2845,7 +3076,7 @@ if (uni.restoreGlobal) {
   const _imports_3$1 = "/static/star.png";
   const _imports_4$1 = "/static/up.png";
   const _imports_5$1 = "/static/up3.png";
-  const _sfc_main$g = {
+  const _sfc_main$f = {
     data() {
       return {
         score: 28,
@@ -3022,7 +3253,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_vew = vue.resolveComponent("vew");
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("scroll-view", {
@@ -3356,9 +3587,9 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesResultResult = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$f], ["__scopeId", "data-v-b615976f"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/result/result.vue"]]);
+  const PagesResultResult = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$e], ["__scopeId", "data-v-b615976f"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/result/result.vue"]]);
   const _imports_0$5 = "/static/bg1.png";
-  const _sfc_main$f = {
+  const _sfc_main$e = {
     data() {
       return {
         userInfoStyle: {
@@ -3515,7 +3746,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("image", {
         class: "background-image",
@@ -3559,10 +3790,10 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesTestTest5 = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$e], ["__scopeId", "data-v-f87db42d"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/test/test5.vue"]]);
+  const PagesTestTest5 = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$d], ["__scopeId", "data-v-f87db42d"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/test/test5.vue"]]);
   const _imports_0$4 = "/static/rec-right.png";
   const _imports_2 = "/static/icon3.png";
-  const _sfc_main$e = {
+  const _sfc_main$d = {
     props: {
       userName: {
         type: String,
@@ -3582,7 +3813,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "bubble-container" }, [
       vue.createElementVNode("view", { class: "text-box" }, [
         vue.createElementVNode("view", { class: "user-info" }, [
@@ -3624,8 +3855,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const OnboardingChatBubble = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$d], ["__scopeId", "data-v-9e1372ab"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/OnboardingChatBubble.vue"]]);
-  const _sfc_main$d = {
+  const OnboardingChatBubble = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__scopeId", "data-v-9e1372ab"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/components/OnboardingChatBubble.vue"]]);
+  const _sfc_main$c = {
     components: {
       OnboardingChatBubble
       // 注册组件
@@ -3722,7 +3953,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_onboarding_chat_bubble = vue.resolveComponent("onboarding-chat-bubble");
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("image", {
@@ -3742,9 +3973,9 @@ if (uni.restoreGlobal) {
       }, null, 8, ["userName", "avatar", "dismiss", "description"])
     ]);
   }
-  const PagesTestTest1 = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__scopeId", "data-v-f400b819"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/test/test1.vue"]]);
+  const PagesTestTest1 = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__scopeId", "data-v-f400b819"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/test/test1.vue"]]);
   const _imports_1$2 = "/static/signa.png";
-  const _sfc_main$c = {
+  const _sfc_main$b = {
     data() {
       return {
         userId: "",
@@ -3846,7 +4077,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("image", {
         class: "background-image",
@@ -3888,11 +4119,11 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesTestTest = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__scopeId", "data-v-727d09f0"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/test/test.vue"]]);
+  const PagesTestTest = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a], ["__scopeId", "data-v-727d09f0"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/test/test.vue"]]);
   const _imports_0$3 = "/static/jobicon.png";
   const _imports_1$1 = "/static/relationshipicon.png";
   const _imports_0$2 = "/static/arrowright.png";
-  const _sfc_main$b = {
+  const _sfc_main$a = {
     data() {
       return {
         jobOptions: ["难以融入新环境", "棘手的同事关系", "与上级维持良好关系", "难回的消息", "尴尬的饭局等社交场合", "困难的工作沟通"],
@@ -3964,7 +4195,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("view", { class: "text-content" }, [
         vue.createElementVNode("text", { class: "question" }, "🤔 你希望提升哪些方面的高情商应对能力呢？"),
@@ -4030,8 +4261,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesPreferencePreference2 = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a], ["__scopeId", "data-v-50f1e56a"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/preference/preference2.vue"]]);
-  const _sfc_main$a = {
+  const PagesPreferencePreference2 = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9], ["__scopeId", "data-v-50f1e56a"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/preference/preference2.vue"]]);
+  const _sfc_main$9 = {
     data() {
       const date = /* @__PURE__ */ new Date();
       const _years = [];
@@ -4091,7 +4322,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "date-picker-container" }, [
       vue.createElementVNode("view", { class: "mask top" }),
       vue.createElementVNode("picker-view", {
@@ -4170,8 +4401,8 @@ if (uni.restoreGlobal) {
       vue.createElementVNode("view", { class: "mask bottom" })
     ]);
   }
-  const DatePicker = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9], ["__scopeId", "data-v-9f4f5132"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/DatePicker.vue"]]);
-  const _sfc_main$9 = {
+  const DatePicker = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8], ["__scopeId", "data-v-9f4f5132"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/components/DatePicker.vue"]]);
+  const _sfc_main$8 = {
     components: {
       DatePicker
     },
@@ -4215,7 +4446,7 @@ if (uni.restoreGlobal) {
     }
   };
   const _imports_0$1 = "/static/picture1.png";
-  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_date_picker = vue.resolveComponent("date-picker");
     return vue.openBlock(), vue.createElementBlock(
       vue.Fragment,
@@ -4249,8 +4480,8 @@ if (uni.restoreGlobal) {
       /* STABLE_FRAGMENT */
     );
   }
-  const PagesPreferencePreference1 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/preference/preference1.vue"]]);
-  const _sfc_main$8 = {
+  const PagesPreferencePreference1 = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/preference/preference1.vue"]]);
+  const _sfc_main$7 = {
     data() {
       return {
         selectedGender: null,
@@ -4310,7 +4541,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock(
       vue.Fragment,
       null,
@@ -4365,8 +4596,8 @@ if (uni.restoreGlobal) {
       /* STABLE_FRAGMENT */
     );
   }
-  const PagesPreferencePreference = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__scopeId", "data-v-7539d408"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/preference/preference.vue"]]);
-  const _sfc_main$7 = {
+  const PagesPreferencePreference = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6], ["__scopeId", "data-v-7539d408"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/preference/preference.vue"]]);
+  const _sfc_main$6 = {
     data() {
       return {
         userInfoStyle: {
@@ -4518,7 +4749,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("image", {
         class: "background-image",
@@ -4561,8 +4792,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesTestTest2 = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6], ["__scopeId", "data-v-51a7cd0a"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/test/test2.vue"]]);
-  const _sfc_main$6 = vue.defineComponent({
+  const PagesTestTest2 = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__scopeId", "data-v-51a7cd0a"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/test/test2.vue"]]);
+  const _sfc_main$5 = vue.defineComponent({
     data() {
       return {
         scenarioText: "",
@@ -4634,7 +4865,7 @@ if (uni.restoreGlobal) {
     }
   });
   const _imports_0 = "/static/Group 3.png";
-  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("view", { class: "text-content" }, [
         vue.createElementVNode(
@@ -4661,8 +4892,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesPreferencePreference3 = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__scopeId", "data-v-95eb0c6e"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/preference/preference3.vue"]]);
-  const _sfc_main$5 = {
+  const PagesPreferencePreference3 = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$4], ["__scopeId", "data-v-95eb0c6e"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/preference/preference3.vue"]]);
+  const _sfc_main$4 = {
     data() {
       return {
         userInfoStyle: {
@@ -4755,7 +4986,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("image", {
         class: "background-image",
@@ -4798,13 +5029,13 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesTestTest3 = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$4], ["__scopeId", "data-v-a9c4f038"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/test/test3.vue"]]);
+  const PagesTestTest3 = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3], ["__scopeId", "data-v-a9c4f038"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/test/test3.vue"]]);
   const _imports_1 = "/static/renew.png";
   const _imports_3 = "/static/edit.png";
   const _imports_4 = "/static/lock.png";
   const _imports_5 = "/static/dashboard/trick-fake.png";
   const _imports_6 = "/static/Placeholder.png";
-  const _sfc_main$4 = {
+  const _sfc_main$3 = {
     data() {
       return {
         name: "",
@@ -5108,7 +5339,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("scroll-view", {
         "scroll-y": "",
@@ -5378,8 +5609,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesProfileProfile = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3], ["__scopeId", "data-v-dd383ca2"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/profile/profile.vue"]]);
-  const _sfc_main$3 = {
+  const PagesProfileProfile = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__scopeId", "data-v-dd383ca2"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/profile/profile.vue"]]);
+  const _sfc_main$2 = {
     data() {
       return {
         username: "",
@@ -5422,7 +5653,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createElementVNode("view", { class: "login-box" }, [
         vue.createElementVNode("text", { class: "title" }, "登录"),
@@ -5460,8 +5691,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesLoginLogin = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__scopeId", "data-v-e4e4508d"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/login/login.vue"]]);
-  const _sfc_main$2 = {
+  const PagesLoginLogin = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__scopeId", "data-v-e4e4508d"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/login/login.vue"]]);
+  const _sfc_main$1 = {
     data() {
       return {
         username: "",
@@ -5487,7 +5718,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createCommentVNode(" 背景图片 "),
       vue.createElementVNode("image", {
@@ -5529,128 +5760,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesExperienceExperience = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__scopeId", "data-v-5164d016"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/pages/experience/experience.vue"]]);
-  const _sfc_main$1 = {
-    data() {
-      return {
-        // Removed progress variable
-        bezierPoints: [],
-        // 存储贝塞尔曲线的采样点
-        canvasWidth: 0,
-        // 动态获取画布宽度
-        canvasHeight: 0,
-        // 动态获取画布高度
-        circleRadius: 90,
-        // 调整后的圆的半径
-        circleDistance: 100,
-        // 控制两个半圆之间的横向距离
-        verticalOffset: 50
-        // 新增的垂直偏移量
-      };
-    },
-    mounted() {
-      uni.getSystemInfo({
-        success: (res) => {
-          this.canvasWidth = res.windowWidth * 0.8;
-          this.canvasHeight = this.canvasWidth * 2;
-          this.calculateBezierPoints();
-          this.drawSProgress();
-        }
-      });
-    },
-    methods: {
-      calculateBezierPoints() {
-        const width = this.canvasWidth;
-        this.canvasHeight;
-        const radius = this.circleRadius;
-        const offset = this.verticalOffset;
-        const points = [];
-        const steps = 100;
-        const loops = 1;
-        const initX = width / 2;
-        const initY = offset;
-        points.push({ x: initX, y: initY });
-        for (let i = 0; i <= steps / 2; i++) {
-          const angle = -Math.PI / 2 + Math.PI * i / steps;
-          const x = width / 2 + radius * Math.cos(angle) + this.circleDistance / 2;
-          const y = radius + radius * Math.sin(angle) + offset;
-          points.push({ x, y });
-        }
-        for (let loop = 0; loop < loops; loop++) {
-          const baseY = loop * 4 * radius;
-          for (let i = steps / 2; i <= steps; i++) {
-            const angle = -Math.PI / 2 + Math.PI * i / steps;
-            const x = width / 2 + radius * Math.cos(angle) + this.circleDistance / 2;
-            const y = baseY + radius + radius * Math.sin(angle) + offset;
-            points.push({ x, y });
-          }
-          for (let i = 0; i <= steps / 2; i++) {
-            const angle = Math.PI / 2 + Math.PI * i / steps;
-            const x = width / 2 + radius * Math.cos(angle) - this.circleDistance / 2;
-            const y = baseY + 4 * radius - (radius + radius * Math.sin(angle)) + offset;
-            points.push({ x, y });
-          }
-          for (let i = steps / 2; i <= steps; i++) {
-            const angle = Math.PI / 2 + Math.PI * i / steps;
-            const x = width / 2 + radius * Math.cos(angle) - this.circleDistance / 2;
-            const y = baseY + 4 * radius - (radius + radius * Math.sin(angle)) + offset;
-            points.push({ x, y });
-          }
-          for (let i = 0; i <= steps / 2; i++) {
-            const angle = -Math.PI / 2 + Math.PI * i / steps;
-            const x = width / 2 + radius * Math.cos(angle) + this.circleDistance / 2;
-            const y = baseY + 4 * radius + radius + radius * Math.sin(angle) + offset;
-            points.push({ x, y });
-          }
-        }
-        const keyPoints = {
-          leftCenter: points[steps + Math.floor(steps / 2) + 1],
-          rightCenter: points[Math.floor(steps / 2)]
-        };
-        this.bezierPoints = points;
-        this.keyPoints = keyPoints;
-      },
-      drawSProgress() {
-        const ctx = uni.createCanvasContext("sProgress", this);
-        const width = this.canvasWidth;
-        const height = this.canvasHeight;
-        ctx.clearRect(0, 0, width, height);
-        ctx.beginPath();
-        ctx.moveTo(this.bezierPoints[0].x, this.bezierPoints[0].y);
-        for (let i = 1; i < this.bezierPoints.length; i++) {
-          ctx.lineTo(this.bezierPoints[i].x, this.bezierPoints[i].y);
-        }
-        ctx.lineWidth = 4;
-        ctx.strokeStyle = "#ddd";
-        ctx.stroke();
-        this.drawKeyPoints(ctx);
-        ctx.draw();
-      },
-      drawKeyPoints(ctx) {
-        const keyPoints = this.keyPoints;
-        const radius = 5;
-        ctx.beginPath();
-        ctx.arc(keyPoints.leftCenter.x, keyPoints.leftCenter.y, radius, 0, 2 * Math.PI);
-        ctx.fillStyle = "grey";
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(keyPoints.rightCenter.x, keyPoints.rightCenter.y, radius, 0, 2 * Math.PI);
-        ctx.fillStyle = "grey";
-        ctx.fill();
-      }
-      // Removed calculateProgressSteps method
-    }
-  };
-  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
-      vue.createElementVNode("canvas", {
-        "canvas-id": "sProgress",
-        class: "progress-canvas"
-      }),
-      vue.createCommentVNode(" Removed progress text display ")
-    ]);
-  }
-  const ComponentsSProgressBar = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__scopeId", "data-v-b77c9478"], ["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/components/SProgressBar.vue"]]);
+  const PagesExperienceExperience = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__scopeId", "data-v-5164d016"], ["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/pages/experience/experience.vue"]]);
   __definePage("pages/landing/landing", PagesLandingLanding);
   __definePage("pages/battlefield/battlefield-loading", PagesBattlefieldBattlefieldLoading);
   __definePage("pages/battlefield/battlefield-summary", PagesBattlefieldBattlefieldSummary);
@@ -5687,7 +5797,7 @@ if (uni.restoreGlobal) {
       formatAppLog("log", "at App.vue:32", "App Exit");
     }
   };
-  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__file", "/Users/wengcekai/Desktop/eqmaster-kt/eqmaster_/test/App.vue"]]);
+  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__file", "/Users/peipeiwang/wppDev/eqmaster_/test/App.vue"]]);
   function createApp() {
     const app = vue.createVueApp(App);
     return {

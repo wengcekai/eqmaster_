@@ -1,23 +1,33 @@
 
 .gem-container[data-v-860e4543] {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  width: 7.8125rem;
-  background-color: rgba(16, 16, 16, 0.4); /* 半透明背景 */
-  border-radius: 1.5625rem; /* 圆角背景 */
-  padding: 10px 20px; /* 内边距 */
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		align-items: center;
+		width: 7.8125rem;
+		background-color: rgba(16, 16, 16, 0.4);
+		/* 半透明背景 */
+		border-radius: 1.5625rem;
+		/* 圆角背景 */
+		padding: 10px 20px;
+		/* 内边距 */
+}
+.gem[data-v-860e4543] {
+		display: flex;
+		align-items: center;
+		/* margin-right: 10rpx; */
 }
 .gem-icon[data-v-860e4543] {
-  width: 28px;
-  height: 28px;
-  margin-right: 10px; /* 图标与数字之间的间距 */
+		width: 28px;
+		height: 28px;
 }
 .gem-count[data-v-860e4543] {
-  color: #ffcc66; /* 数	字颜色 */
-  font-size: 24px; /* 字体大小 */
-  font-weight: bold; /* 字体加粗 */
+		color: #ffcc66;
+		/* 数	字颜色 */
+		font-size: 24px;
+		/* 字体大小 */
+		font-weight: bold;
+		/* 字体加粗 */
 }
 
 
@@ -55,7 +65,7 @@
 		position: absolute;
 		top: 0;
 		left: 0;
-		/* 添加只在上方显示阴影的代码 */
+		/* 只在上方显示阴影 */
 		overflow: visible;
 		box-shadow: 0 -6px 6px -3px rgba(255, 255, 255, 0.3);
 }
@@ -78,7 +88,7 @@
 .avatar[data-v-dafce8e7] {
 		width: 70px;
 		height: 70px;
-		border-radius: 35px;
+		border-radius: 50%;
 		background-color: #fff;
 		object-fit: cover;
 		border: 2px solid rgba(0, 0, 0, 0.1);
@@ -95,6 +105,23 @@
 		border-radius: 10px;
 }
 
+	/* 指示器样式 */
+.health-bar-indicator[data-v-dafce8e7] {
+		/* 样式由内联样式控制 */
+}
+
+	/* 动画效果 */
+@keyframes fadeOutScale-dafce8e7 {
+0% {
+			opacity: 1;
+			transform: scale(1);
+}
+100% {
+			opacity: 0;
+			transform: scale(1.5);
+}
+}
+
 
 .inner-container[data-v-f3476ae6] {
 		width: 100%;
@@ -107,11 +134,11 @@
 		z-index: 11;
 }
 .avatar[data-v-f3476ae6] {
-		width: 15.625rem;
-		height: 15.625rem;
-		position:  absolute;
-		top: -15.625rem;
-		left: 3.125rem;
+		width: 20.4375rem;
+		height: 19.625rem;
+		position: absolute;
+		top: -19.6875rem;
+		left: 1.5rem;
 }
 .bubble-container[data-v-f3476ae6] {
 		position: absolute;
@@ -148,6 +175,7 @@
 		font-size: 16px;
 		text-align: left;
 		color: #FFFFFF;
+		z-index: 3;
 }
 
 
@@ -372,7 +400,7 @@
 		border-radius: 10px;
 		padding: 12px;
 		margin-top: 3.125rem;
-		
+
 		width: 80%;
 		box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 		line-height: 1.5;
@@ -405,7 +433,7 @@
 		top: -0.9375rem;
 		width: 2.8125rem;
 		height: 2.8125rem;
-		border-radius: 1.40625rem;
+		border-radius: 50%;
 		overflow: hidden;
 		border: solid;
 		border-color: #eeaf62;
@@ -437,7 +465,7 @@
 	align-items: center;
 	justify-content: center;
 	position: absolute;
-	bottom: 1.5625rem;
+	bottom: 2.5rem;
 	z-index: 3;
 	/* 确保按钮层级高于其他元素 */
 }
@@ -452,12 +480,16 @@
 }
 .continue-btn[data-v-520df1b5] {
 	width: 80%;
+	height: 44px;
+	line-height: 44px;
 	/* 调整这里的值来控制按钮距离底部的高度 */
-	background-color: #ffcc66;
+	background-color: #f2bc74;
 	border: none;
 	border-radius: 25px;
 	font-size: 15px;
+	font-weight: 400;
 	color: #000;
+	padding: 10px, 23px;
 	z-index: 3;
 }
 .overlay[data-v-520df1b5] {
@@ -600,6 +632,11 @@
 		width: 40px;
 		height: 40px;
 }
+.action-icon-hint[data-v-520df1b5] {
+		width: 30px;
+		height: 30px;
+		box-shadow: 0 0 18px #fed397;
+}
 .action-item[data-v-520df1b5] {
 		width: 40px;
 		height: 40px;
@@ -612,19 +649,62 @@
 .action-item-middle[data-v-520df1b5] {
 		width: 50px;
 		height: 50px;
-		border-radius: 25px;
-		background: linear-gradient(180deg, rgba(253, 242, 211, 1) 0%, rgba(241, 188, 116, 1) 100%);
+		border-radius: 50%;
+		background: linear-gradient(180deg,
+				rgba(253, 242, 211, 1) 0%,
+				rgba(241, 188, 116, 1) 100%);
 }
 .middle-container[data-v-520df1b5] {
 		width: 56px;
 		height: 56px;
-		border-radius: 28px;
+		border-radius: 50%;
 		background-color: transparent;
 		border: 0.0625rem solid rgba(253, 242, 211, 1);
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		position: absolute;
+		bottom: -0.3125rem;
 		box-shadow: 0px 0px 4px 0px rgba(254, 211, 151, 1);
+}
+.recording-box[data-v-520df1b5] {
+		position: fixed;
+		top: 30%;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 9.375rem;
+		height: 9.375rem;
+		background-color: rgba(0, 0, 0, 0.8);
+		color: #fff;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		border-radius: 0.625rem;
+		z-index: 5;
+		/* 确保录音框在最上层 */
+}
+.waveform[data-v-520df1b5] {
+		width: 80%;
+		height: 4.6875rem;
+		margin-bottom: 0.625rem;
+		background-color: rgba(255, 255, 255, 0.1);
+		/* Placeholder for wave animation */
+}
+.timer[data-v-520df1b5] {
+		font-size: 1.25rem;
+		margin-bottom: 0.3125rem;
+}
+.cancel-text[data-v-520df1b5] {
+		font-size: 0.625rem;
+		color: #ff6666;
+}
+.wave[data-v-520df1b5] {
+		width: 100%;
+		height: 100%;
+		background-image: url('../../static/battlefield/giphy.gif');
+		/* 动态声波效果 */
+		background-size: cover;
 }
 .npc-talk-container[data-v-520df1b5] {
 		width: 100%;
@@ -635,6 +715,7 @@
 }
 .shadowed[data-v-520df1b5] {
 		z-index: 2;
+		opacity: 0.5;
 }
 .input-container[data-v-520df1b5] {
 		position: fixed;
@@ -659,7 +740,7 @@
 		width: 100%;
 		z-index: 3;
 		position: absolute;
-		height: 300px;
+		height: 15.625rem;
 		bottom: 0px;
 }
 .tipping-card[data-v-520df1b5] {

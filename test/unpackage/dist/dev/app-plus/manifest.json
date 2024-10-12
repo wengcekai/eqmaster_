@@ -115,7 +115,7 @@
       "style": "dark",
       "background": "#FFFFFF"
     },
-    "arguments": "{\"path\":\"components/SProgressBar\"}",
+    "arguments": "{\"path\":\"pages/battlefield/battlefield-playground\"}",
     "uniStatistics": {
       "enable": false
     },
