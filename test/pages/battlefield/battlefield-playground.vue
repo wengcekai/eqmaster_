@@ -7,7 +7,7 @@
 			<image class="back-button" src="/static/battlefield/back-iconpng.png"></image>
 			<reward-bar :gemCount="100"></reward-bar>
 			<view class="setting-group">
-				<image class="setting-item" src="/static/battlefield/copy.png"></image>
+				<image class="setting-item" src="/static/battlefield/copy.png" @click="missionShow = true"></image>
 				<image class="setting-item" src="/static/battlefield/setting.png"></image>
 			</view>
 		</view>
@@ -35,7 +35,7 @@
 		</view>
 
 		<view class="player-action-container" :class="{ shadowed: shouldShadow }">
-			<view class="action-item" v-if="!isRecording" @click="showInput = true; focusInput = true;">
+			<view class="action-item" v-if="!isRecording" @click="handleClickInput()">
 				<image class="action-icon" src="/static/battlefield/keyboard.png"></image>
 			</view>
 			<view class="middle-container">
@@ -53,15 +53,24 @@
 			<tipping :quit="handleTippingQuit" :hint="hint" :help="help"></tipping>
 		</view>
 
-		<view class="keyboard-container">
-			<view v-if="showInput" class="input-container">
-				<input type="text" :focus="focusInput" placeholder="请输入..." @blur="showInput = false" />
+		<view class="popup-overlay" v-if="showInput" @click="showInput = false;">
+			<view  class="input-container" @click.stop>
+				<!-- <input type="text" :focus="focusInput" placeholder="请输入..." /> -->
+				<textarea placeholder="请输入文字" v-model="inputContent" auto-height @blur="inputRecordingBlur" />
 			</view>
 		</view>
 
 		<view class="judge-container" v-if="state==='judge'">
 			<judge :title="judgeTitle" :wording="judgeContent" @judge="gotoNextRound" :good-judge="isGoodReply">
 			</judge>
+		</view>
+		
+		<view v-if="showCardPopup" class="popup-overlay">
+			<CueCardsVue @closeCueCard="closeCueCard" @exchangeClick="exchangeClick" />
+		</view>
+		
+		<view v-if="missionShow" class="judge-mission-container">
+			<MissionList :listData="missionResultList" @closeMissionCard="closeMissionCard" />
 		</view>
 	</view>
 </template>
@@ -76,6 +85,8 @@
 	import TippingChatBox from '/components/TippingChatBox.vue';
 	import SelfChatBox from '/components/SelfChatBox.vue';
 	import NpcChatBox from '/components/NpcChatBox.vue';
+	import MissionList from '../../components/MissionList.vue';
+	import CueCardsVue from '../../components/CueCards.vue';
 	import {
 		reply,
 		startField,
@@ -102,6 +113,8 @@
 			TippingChatBox,
 			SelfChatBox,
 			NpcChatBox,
+			MissionList,
+			CueCardsVue
 		},
 		data() {
 			return {
@@ -145,12 +158,28 @@
 				],
 				tempFilePath: '', // 临时录音文件路径
 				isRecording: false, // Controls the display state of left and right icons
-				getBattlefieldAvatar
+				getBattlefieldAvatar,
+				showCardPopup: false,
+				selectedCard: 0,
+				missionShow: false,
+				inputContent: '',
+				missionResultList: [
+					{
+						num: 10,
+						content: '',
+					},
+					{
+						num: 30,
+						content: '',
+					},
+				],
 			};
 		},
 		methods: {
 			handleClickRecording() {
 				this.isRecording = true;
+				this.showInput = false;	
+				this.inputContent = '';
 				this.startRecording();
 			},
 			async gotoNextRound() {
@@ -181,7 +210,18 @@
 
 				this.state = 'NpcTalk';
 			},
-
+			async exchangeClick(selectedCard) {
+				// console.log(selectedCard);
+				const validChats = filterChatHistory(this.chattingHistory);
+				let judgeResult = null;
+				if(selectedCard == 1) {
+					judgeResult = await helpReply(validChats);
+				} 
+				if(selectedCard == 2) {
+					judgeResult = await hint(validChats);
+				}
+				await this.handleRecorderReply(judgeResult);
+			},
 			retry() {
 				this.state = 'userTalk';
 			},
@@ -202,7 +242,18 @@
 					this.isRecording = false;
 				}
 			},
-
+			async inputRecordingBlur() {
+				this.showInput = false;
+				console.log('输入结果:', this.inputContent);
+				this.chattingHistory.push({
+					role: 'user',
+					content: this.inputContent,
+				});
+				const validChats = filterChatHistory(this.chattingHistory);
+				const judgeResult = await reply(validChats);
+				await this.handleRecorderReply(judgeResult);
+				this.inputContent = '';
+			},
 			getNextState() {
 				if (this.state === 'NpcTalk' && this.chattingHistory.length === 0) {
 					console.log('Dismiss npc');
@@ -215,6 +266,12 @@
 				console.log('Clicked quit tipping');
 				this.state = 'userTalk'; // Change state
 			},
+			// showInput = true; focusInput = true;
+			handleClickInput() {
+				this.showInput = true; 
+				this.focusInput = true;
+				this.inputContent = '';
+			},
 			help() {
 				console.log('Choose help card');
 			},
@@ -223,6 +280,7 @@
 			},
 			clickHintButton() {
 				this.state = 'hint';
+				this.showCardPopup = true;
 			},
 
 			uploadAndRecognizeSpeech(filePath) {
@@ -308,65 +366,11 @@
 							role: 'user',
 							content: transcript,
 						});
-
 						const validChats = filterChatHistory(this.chattingHistory);
 						const judgeResult = await reply(validChats);
 
-						const totalScore = judgeResult.moods.reduce((acc, mood) => {
-							return acc + parseInt(mood.mood, 10);
-						}, 0);
-
-						this.isGoodReply = totalScore > 0 ? true : false;
-						this.judgeTitle = this.isGoodReply ? "做的好" : "继续努力";
-						if (!this.task1Finished) {
-							const allPositive = judgeResult.moods.every(item => parseInt(item.mood, 10) > 0);
-							if (allPositive) {
-								this.task1Finished = true;
-								this.judgeTitle =
-									`${this.task1Title} (1/1)`;
-							}
-						}
-
-						this.judgeContent = judgeResult.comments;
-						this.state = 'judge';
-
-						// 遍历 judgeResult.moods 并根据角色调整 this.mood 的值
-						judgeResult.moods.forEach(item => {
-							let randomValue;
-							if (item.role === '领导') {
-								if (parseInt(item.mood, 10) > 0) {
-									// 正数，增加 20 到 30 的随机值
-									randomValue = Math.floor(Math.random() * 11) + 20;
-									this.npcs[0].health = Math.min(this.npcs[0].health + randomValue,
-										100); // 保证最大值为100
-								} else if (parseInt(item.mood, 10) < 0) {
-									// 负数，减少 30 到 40 的随机值
-									randomValue = Math.floor(Math.random() * 11) + 30;
-									this.npcs[0].health = Math.max(this.npcs[0].health - randomValue,
-										0); // 保证最小值为0
-								}
-							} else if (item.role === '同事A') {
-								if (parseInt(item.mood, 10) > 0) {
-									randomValue = Math.floor(Math.random() * 11) + 20;
-									this.npcs[1].health = Math.min(this.npcs[1].health + randomValue,
-										100); // 保证最大值为100
-								} else if (parseInt(item.mood, 10) < 0) {
-									randomValue = Math.floor(Math.random() * 11) + 30;
-									this.npcs[1].health = Math.max(this.npcs[1].health - randomValue,
-										0); // 保证最小值为0
-								}
-							} else if (item.role === '同事B') {
-								if (parseInt(item.mood, 10) > 0) {
-									randomValue = Math.floor(Math.random() * 11) + 20;
-									this.npcs[2].health = Math.min(this.npcs[2].health + randomValue,
-										100); // 保证最大值为100
-								} else if (parseInt(item.mood, 10) < 0) {
-									randomValue = Math.floor(Math.random() * 11) + 30;
-									this.npcs[2].health = Math.max(this.npcs[2].health - randomValue,
-										0); // 保证最小值为0
-								}
-							}
-						});
+						await this.handleRecorderReply(judgeResult);
+						
 						if (this.task1Finished) {
 							await this.Pass();
 						}
@@ -375,6 +379,71 @@
 					}
 				});
 			},
+			async handleRecorderReply(judgeResult) {
+				if(judgeResult) {
+					const totalScore = judgeResult.moods.reduce((acc, mood) => {
+						return acc + parseInt(mood.mood, 10);
+					}, 0);
+	
+					this.isGoodReply = totalScore > 0 ? true : false;
+					this.judgeTitle = this.isGoodReply ? "做的好" : "继续努力";
+					if (!this.task1Finished) {
+						const allPositive = judgeResult.moods.every(item => parseInt(item.mood, 10) > 0);
+						if (allPositive) {
+							this.task1Finished = true;
+							this.judgeTitle =
+								`${this.task1Title} (1/1)`;
+						}
+					}
+	
+					this.judgeContent = judgeResult.comments;
+					this.state = 'judge';
+	
+					// 遍历 judgeResult.moods 并根据角色调整 this.mood 的值
+					judgeResult.moods.forEach(item => {
+						let randomValue;
+						if (item.role === '领导') {
+							if (parseInt(item.mood, 10) > 0) {
+								// 正数，增加 20 到 30 的随机值
+								randomValue = Math.floor(Math.random() * 11) + 20;
+								this.npcs[0].health = Math.min(this.npcs[0].health + randomValue,
+									100); // 保证最大值为100
+							} else if (parseInt(item.mood, 10) < 0) {
+								// 负数，减少 30 到 40 的随机值
+								randomValue = Math.floor(Math.random() * 11) + 30;
+								this.npcs[0].health = Math.max(this.npcs[0].health - randomValue,
+									0); // 保证最小值为0
+							}
+						} else if (item.role === '同事A') {
+							if (parseInt(item.mood, 10) > 0) {
+								randomValue = Math.floor(Math.random() * 11) + 20;
+								this.npcs[1].health = Math.min(this.npcs[1].health + randomValue,
+									100); // 保证最大值为100
+							} else if (parseInt(item.mood, 10) < 0) {
+								randomValue = Math.floor(Math.random() * 11) + 30;
+								this.npcs[1].health = Math.max(this.npcs[1].health - randomValue,
+									0); // 保证最小值为0
+							}
+						} else if (item.role === '同事B') {
+							if (parseInt(item.mood, 10) > 0) {
+								randomValue = Math.floor(Math.random() * 11) + 20;
+								this.npcs[2].health = Math.min(this.npcs[2].health + randomValue,
+									100); // 保证最大值为100
+							} else if (parseInt(item.mood, 10) < 0) {
+								randomValue = Math.floor(Math.random() * 11) + 30;
+								this.npcs[2].health = Math.max(this.npcs[2].health - randomValue,
+									0); // 保证最小值为0
+							}
+						}
+					});
+				}
+			},
+			closeCueCard() {
+				this.showCardPopup = false
+			},
+			closeMissionCard() {
+				this.missionShow = false;
+			}
 		},
 		onLoad(option) {
 			uni.getStorage({
@@ -439,7 +508,7 @@
 	@import "./common.css";
 
 	.container {
-		position: relative;
+		/* position: relative; */
 		width: 100%;
 		height: 100%;
 		color: #fff;
@@ -578,16 +647,21 @@
 		bottom: 200rpx;
 		/* 将其固定在屏幕底部 */
 		display: flex;
-		justify-content: center;
-		padding: 10px 0;
+		/* justify-content: center; */
+		padding: 20rpx 0;
+		border-radius: 40rpx;
 		/* 增加一些内边距 */
-		background-color: rgba(255, 255, 255, 0.9);
+		background-color: #FDEDC8;
 		/* 可选的背景色，用于强调输入框 */
-
+		textarea {
+			padding: 0 20rpx;
+			color: #252529;
+		}
 	}
 
 	.keyboard-container {
 		width: 100%;
+		z-index: 3;
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
@@ -631,5 +705,34 @@
 	.chat-history-container.shadowed,
 	.player-action-container.shadowed {
 		opacity: 0.5;
+	}
+	
+	.popup-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		z-index: 1000;
+		padding: 10rpx;
+	}
+
+	.judge-mission-container {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		z-index: 1000;
 	}
 </style>
