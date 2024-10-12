@@ -32,21 +32,28 @@
 				:wording="chattingHistory[displayedNpcChatIndex].content"></large-avatar-bubble>
 		</view>
 
+
+		<!-- 录音弹框 -->
+		<!-- avoid opacity inheriting -->
+		<view v-if="isRecording" class="recording-box">
+			<text class="timer">{{ remainingTime }}''</text>
+			<view class="waveform">
+				<!-- 声波动画 -->
+				<view class="wave"></view>
+				<view class="wave"></view>
+				<view class="wave"></view>
+				<view class="wave"></view>
+				<view class="wave"></view>
+			</view>
+
+			<text class="cancel-text">松开发送，上滑取消</text>
+		</view>
+
 		<view class="player-action-container" :class="{ shadowed: shouldShadow }">
 			<view class="action-item" v-if="!isRecording" @click="showInput = true; focusInput = true;">
 				<image class="action-icon" src="/static/battlefield/keyboard.png"></image>
 			</view>
 			<view class="middle-container">
-				<!-- 录音弹框 -->
-				<view v-if="isRecording" class="recording-box">
-					<view class="waveform">
-						<!-- 声波动画 -->
-						<view class="wave"></view>
-					</view>
-					<text class="timer">{{ remainingTime }}s</text>
-					<text class="cancel-text" v-if="isCanceling">松开手指，取消发送</text>
-					<text class="cancel-text" v-else>上滑取消发送</text>
-				</view>
 				<view class="action-item action-item-middle" @touchstart="handleClickRecording"
 					@touchend="handleRecordingDone" @touchmove="handleTouchMove">
 					<image class="action-icon action-icon-middle" src="/static/battlefield/microphone.png"></image>
@@ -652,50 +659,105 @@
 		position: absolute;
 		bottom: -10rpx;
 		box-shadow: 0px 0px 4px 0px rgba(254, 211, 151, 1);
+		z-index: 100;
 	}
 
 	.recording-box {
-		position: fixed;
-		top: 30%;
+		position: absolute;
+		z-index: 11;
+		top: 76%;
 		left: 50%;
 		transform: translateX(-50%);
-		width: 300rpx;
-		height: 300rpx;
-		background-color: rgba(0, 0, 0, 0.8);
-		color: #fff;
+		width: 406rpx;
+		height: 160rpx;
+		background-color: #fdedc8;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		border-radius: 20rpx;
-		z-index: 5;
+		border-radius: 32rpx;
 		/* 确保录音框在最上层 */
 	}
 
 	.waveform {
+		position: absolute;
+		left: 20%;
+		top: 12%;
 		width: 80%;
 		height: 150rpx;
 		margin-bottom: 20rpx;
-		background-color: rgba(255, 255, 255, 0.1);
-		/* Placeholder for wave animation */
+		display: flex;
+		flex-direction: row-reverse;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.timer {
-		font-size: 40rpx;
+		position: relative;
+		left: -15%;
+		top: 12%;
+		color: #252529;
+		font-size: 30rpx;
 		margin-bottom: 10rpx;
 	}
 
 	.cancel-text {
-		font-size: 20rpx;
-		color: #ff6666;
+		position: relative;
+		top: 50%;
+		font-size: 26rpx;
+		line-height: 34rpx;
+		color: white;
 	}
 
 	.wave {
-		width: 100%;
-		height: 100%;
-		background-image: url('/static/battlefield/giphy.gif');
-		/* 动态声波效果 */
-		background-size: cover;
+		width: 10rpx;
+		/* 每个波形条的宽度 */
+		background-color: #ff8e3a;
+		/* 初始颜色 */
+		border-radius: 5px;
+		margin-left: 10rpx;
+		/* 圆角效果 */
+		animation: audio-wave 2s ease-in-out infinite;
+	}
+
+	.wave:nth-child(1) {
+		animation-delay: 0.1s;
+	}
+
+	.wave:nth-child(2) {
+		animation-delay: 0.2s;
+	}
+
+	.wave:nth-child(3) {
+		animation-delay: 0.3s;
+	}
+
+	.wave:nth-child(4) {
+		animation-delay: 0.4s;
+	}
+
+	.wave:nth-child(5) {
+		animation-delay: 0.5s;
+	}
+
+	@keyframes audio-wave {
+
+		0%,
+		100% {
+			height: 15rpx;
+			/* 波形条的最小高度 */
+			background-color: #2f2f38;
+			transform: translateY(0);
+		}
+
+		50% {
+			height: 60rpx;
+			/* 波形条的最大高度 */
+			background-color: #2f2f38;
+			opacity: 52%;
+			transform: translateY(-15px);
+			/* 向上移动一点，制造波动效果 */
+		}
 	}
 
 	.npc-talk-container {

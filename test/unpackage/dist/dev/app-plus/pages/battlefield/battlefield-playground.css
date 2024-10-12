@@ -666,45 +666,92 @@
 		position: absolute;
 		bottom: -0.3125rem;
 		box-shadow: 0px 0px 4px 0px rgba(254, 211, 151, 1);
+		z-index: 100;
 }
 .recording-box[data-v-520df1b5] {
-		position: fixed;
-		top: 30%;
+		position: absolute;
+		z-index: 11;
+		top: 76%;
 		left: 50%;
 		transform: translateX(-50%);
-		width: 9.375rem;
-		height: 9.375rem;
-		background-color: rgba(0, 0, 0, 0.8);
-		color: #fff;
+		width: 12.6875rem;
+		height: 5rem;
+		background-color: #fdedc8;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		border-radius: 0.625rem;
-		z-index: 5;
+		border-radius: 1rem;
 		/* 确保录音框在最上层 */
 }
 .waveform[data-v-520df1b5] {
+		position: absolute;
+		left: 20%;
+		top: 12%;
 		width: 80%;
 		height: 4.6875rem;
 		margin-bottom: 0.625rem;
-		background-color: rgba(255, 255, 255, 0.1);
-		/* Placeholder for wave animation */
+		display: flex;
+		flex-direction: row-reverse;
+		justify-content: center;
+		align-items: center;
 }
 .timer[data-v-520df1b5] {
-		font-size: 1.25rem;
+		position: relative;
+		left: -15%;
+		top: 12%;
+		color: #252529;
+		font-size: 0.9375rem;
 		margin-bottom: 0.3125rem;
 }
 .cancel-text[data-v-520df1b5] {
-		font-size: 0.625rem;
-		color: #ff6666;
+		position: relative;
+		top: 50%;
+		font-size: 0.8125rem;
+		line-height: 1.0625rem;
+		color: white;
 }
 .wave[data-v-520df1b5] {
-		width: 100%;
-		height: 100%;
-		background-image: url('../../static/battlefield/giphy.gif');
-		/* 动态声波效果 */
-		background-size: cover;
+		width: 0.3125rem;
+		/* 每个波形条的宽度 */
+		background-color: #ff8e3a;
+		/* 初始颜色 */
+		border-radius: 5px;
+		margin-left: 0.3125rem;
+		/* 圆角效果 */
+		animation: audio-wave-520df1b5 2s ease-in-out infinite;
+}
+.wave[data-v-520df1b5]:nth-child(1) {
+		animation-delay: 0.1s;
+}
+.wave[data-v-520df1b5]:nth-child(2) {
+		animation-delay: 0.2s;
+}
+.wave[data-v-520df1b5]:nth-child(3) {
+		animation-delay: 0.3s;
+}
+.wave[data-v-520df1b5]:nth-child(4) {
+		animation-delay: 0.4s;
+}
+.wave[data-v-520df1b5]:nth-child(5) {
+		animation-delay: 0.5s;
+}
+@keyframes audio-wave-520df1b5 {
+0%,
+		100% {
+			height: 0.46875rem;
+			/* 波形条的最小高度 */
+			background-color: #2f2f38;
+			transform: translateY(0);
+}
+50% {
+			height: 1.875rem;
+			/* 波形条的最大高度 */
+			background-color: #2f2f38;
+			opacity: 52%;
+			transform: translateY(-15px);
+			/* 向上移动一点，制造波动效果 */
+}
 }
 .npc-talk-container[data-v-520df1b5] {
 		width: 100%;
