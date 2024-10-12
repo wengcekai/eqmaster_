@@ -3,9 +3,9 @@
 		<view class="splash-screen">
 			<text class="splash-text">接下来，\n一起来看看你的职场人格类型吧！</text>
 
-			<image class="splash-image" src="/static/cta.png" mode="widthFix"
+			<image class="splash-image" src="/static/cta-new.png" mode="widthFix"
 				:style="{ left: splashImageLeft1 + 'rpx' }"></image>
-			<image class="splash-image" src="/static/cta.png" mode="widthFix"
+			<image class="splash-image" src="/static/cta-new.png" mode="widthFix"
 				:style="{ left: splashImageLeft2 + 'rpx' }"></image>
 
 			<text class="splash-progress-text">{{ progress }}%</text>

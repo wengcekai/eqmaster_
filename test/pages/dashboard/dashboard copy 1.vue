@@ -75,10 +75,6 @@
 				</view>
 
 
-
-
-
-
 				<view v-if="showPopup" class="popup-overlay">
 					<view class="popup-content" @click.stop>
 						<view class="popup-header">
@@ -193,23 +189,9 @@
 					</view>
 				</view> -->
 
-				<view class="dashboard2-card-o">
-				  <svg class="dashboard2-progress-bar1" width="100%" height="50" viewBox="0 0 200 50">
-				    <!-- 静态测试 S 形曲线 -->
-				    <path 
-				      d="M 0 25 C 25 0, 75 0, 100 25 S 175 50, 200 25" 
-				      fill="none" 
-				      stroke="black" 
-				      stroke-width="2"
-				    />
-				    <!-- 动态生成 S 形路径 -->
-				    <path 
-				      :d="generateSPath(progressWidth(homepageData.response.eq_scores.dimension3_score))" 
-				      fill="none" 
-				      stroke="blue" 
-				      stroke-width="5"
-				    />
-				  </svg>
+				<view>
+				  <!-- 调用进度条组件 -->
+				  <SProgressBar :finishComponents="2" :totalComponents="5" />
 				</view>
 
 				
@@ -226,7 +208,10 @@
 </template>
 
 <script>
+	import SProgressBar from '@/components/SProgressBar.vue'; // 根据实际路径调整
+	
 	export default {
+		
 		data() {
 			return {
 				currentView: 'dashboard2',
@@ -239,6 +224,8 @@
 				selectedOptions: [],
 				jobId: null,
 				num: null,
+				finishComponents: 2,
+				totalComponents: 5,
 				homepageData: {
 					response: {
 						personal_info: {
@@ -267,6 +254,8 @@
 						contacts: []
 					}
 				},
+
+				
 				intervalId: null,
 				showSplash: false, // 默认不显示闪屏
 				progress: 0,
@@ -343,6 +332,9 @@
 					return '/static/dashboard/lang.png';
 				}
 			}
+		},
+		components: {
+			SProgressBar
 		},
 		onLoad(option) {
 			console.log('Received options:', option);
@@ -456,6 +448,12 @@
 					tags: this.selectedTags
 				});
 				this.closePopup();
+			},
+			navigateToBattlefieldIntro() {
+			    uni.navigateTo({
+			     url: `/pages/battlefield/battlefield-intro?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.homepageData.response.personal_info.job_id}`
+			
+			    });
 			},
 			toProfilePage() {
 				if (this.canNavigateToProfile) {
