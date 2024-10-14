@@ -106,7 +106,8 @@
 		filterChatHistory,
 		getNpcIndex,
 	} from '../../scripts/battlefield-chat';
-
+	import Task from '../../models/Task';
+	import TaskList from '../../models/TaskList';
 	export default {
 		components: {
 			RewardBar,
@@ -122,10 +123,7 @@
 			return {
 				judgeTitle: '',
 				judgeContent: '',
-				task1Finished: false,
-				task2Finished: false,
-				task1Title: '一句话让同事们赞不绝口',
-				task2Title: '情绪过山车',
+				taskList: new TaskList([]),
 				isGoodReply: true,
 				state: 'NpcTalk', // Current state
 				showTippingCard: false, // Controls the tipping card visibility
@@ -165,6 +163,33 @@
 				countdownInterval: null, // 倒计时的定时器
 				getBattlefieldAvatar,
 			};
+		},
+		created() {
+			// 动态添加任务到 taskList
+			this.taskList.addTask(new Task(1, '一句话让同事们赞不绝口', async (judgeResult) => {
+				const allPositive = judgeResult.moods.every((item) => parseInt(item.mood, 10) > 0);
+				// const allPositive = judgeResult.moods.some((item) => parseInt(item.mood, 10) > 0);
+				if (allPositive && !this.taskList.getTask(1).once) {
+					this.judgeTitle =
+						`${this.taskList.getTask(0).title} (${this.taskList.doneTaskLength + 1}/${this.taskList.taskLength})`;
+					return true;
+				}
+				return false;
+			}));
+			this.taskList.addTask(new Task(2, '让小B不高兴', async (judgeResult) => {
+				let res = "";
+				judgeResult.moods.filter((mood) => {
+					if (mood.role === "同事B")
+						res = mood.mood;
+				})
+				const bMood = parseInt(res ? res : 0, 10);
+				if (bMood < 0 && !this.taskList.getTask(1).once) {
+					this.judgeTitle =
+						`${this.taskList.getTask(1).title} (${this.taskList.doneTaskLength + 1}/${this.taskList.taskLength})`;
+					return true;
+				}
+				return false;
+			}));
 		},
 		methods: {
 			goToDashboard() {
@@ -228,24 +253,6 @@
 				this.remainingTime = 30;
 				clearInterval(this.countdownInterval);
 			},
-			// cancelRecording() {
-			//   // 取消录音逻辑，比如删除临时文件或提示用户
-			//   console.log('录音已取消');
-			//   // 这里可以添加更多的取消逻辑，如提示用户
-			//   uni.showToast({
-			//     title: '录音已取消',
-			//     icon: 'none',
-			//   });
-			// },
-			// sendRecording() {
-			// 	// 发送录音逻辑，比如上传文件
-			// 	console.log('录音已发送');
-			// 	// 这里可以添加更多的发送逻辑，如调用上传接口
-			// 	uni.showToast({
-			// 		title: '录音已发送',
-			// 		icon: 'success',
-			// 	});
-			// },
 			async gotoNextRound() {
 				if (!this.isGoodReply) {
 					this.retry();
@@ -396,7 +403,16 @@
 
 					try {
 						const transcript = await this.uploadAndRecognizeSpeech(path);
-						console.log('识别结果:', transcript);
+						if (transcript.length === 0) {
+							this.isCanceling = true;
+							console.log("record is none, canceling...");
+							this.resetRecording(); // 重置录音状态
+							uni.showToast({
+								title: '好像没有听清哦～',
+								icon: 'none',
+							});
+							return; // 直接返回，避免后续逻辑执行
+						}
 						this.chattingHistory.push({
 							role: 'user',
 							content: transcript,
@@ -404,28 +420,23 @@
 
 						const validChats = filterChatHistory(this.chattingHistory);
 						const judgeResult = await reply(validChats);
-
+						console.log("get judge result: ", judgeResult)
 						const totalScore = judgeResult.moods.reduce((acc, mood) => {
 							return acc + parseInt(mood.mood, 10);
 						}, 0);
 
 						this.isGoodReply = totalScore > 0;
 						this.judgeTitle = this.isGoodReply ? '做的好' : '继续努力';
-						if (!this.task1Finished) {
-							const allPositive = judgeResult.moods.every(
-								(item) => parseInt(item.mood, 10) > 0
-							);
-							if (allPositive) {
-								this.task1Finished = true;
-								this.judgeTitle = `${this.task1Title} (1/1)`;
-							}
-						}
 
+						const done = await this.taskList.execute(judgeResult);
+						console.log("Done :", done)
 						this.judgeContent = judgeResult.comments;
 						this.state = 'judge';
+						console.log("state has been changed")
 
 						// 遍历 judgeResult.moods 并根据角色调整 this.npcs 的 health 值
 						judgeResult.moods.forEach((item) => {
+							console.log("遍历moods");
 							let randomValue;
 							if (item.role === '领导') {
 								if (parseInt(item.mood, 10) > 0) {
@@ -461,8 +472,11 @@
 								}
 							}
 						});
-						if (this.task1Finished) {
-							await this.Pass();
+						// if (this.task1Finished && this.task2Finished) {
+						// 	await this.Pass();
+						// }
+						if (done) {
+							await this.Pass()
 						}
 					} catch (error) {
 						console.error('在用户说话反馈过程中有错发生哦：', error);
@@ -682,9 +696,9 @@
 	.waveform {
 		position: absolute;
 		left: 20%;
-		top: 12%;
+		top: 20%;
 		width: 80%;
-		height: 150rpx;
+		height: 120rpx;
 		margin-bottom: 20rpx;
 		display: flex;
 		flex-direction: row-reverse;
@@ -744,14 +758,14 @@
 
 		0%,
 		100% {
-			height: 15rpx;
+			height: 10rpx;
 			/* 波形条的最小高度 */
 			background-color: #2f2f38;
 			transform: translateY(0);
 		}
 
 		50% {
-			height: 60rpx;
+			height: 40rpx;
 			/* 波形条的最大高度 */
 			background-color: #2f2f38;
 			opacity: 52%;
@@ -798,7 +812,7 @@
 		width: 100%;
 		z-index: 3;
 		position: absolute;
-		height: 500rpx;
+		height: 350rpx;
 		bottom: 0px;
 	}
 

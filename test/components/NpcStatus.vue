@@ -156,11 +156,11 @@
 
 	.health-bar-line {
 		position: absolute;
-		left: 50%;
+		left: 33%;
 		width: 2rpx;
 		height: 10px;
 		background-color: #ffffff;
-		z-index: 3;
+		z-index: 12;
 		/* 中间的白线 */
 	}
 

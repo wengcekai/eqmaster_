@@ -22,8 +22,8 @@
 							1
 						</text>
 					</view>
-					<!-- <text class="task-word">一句话让同事们赞不绝口：用一句话让每位同事心情绪愉悦。</text> -->
-					<text class="task-word">得到领导的夸赞× 2</text>
+					<text class="task-word">一句话让每个人心情愉悦</text>
+					<!-- <text class="task-word">得到领导的夸赞× 2</text> -->
 				</view>
 				<view class="task-item">
 					<view class="index-circle">
@@ -31,15 +31,7 @@
 							2
 						</text>
 					</view>
-					<text class="task-word">引起宾客愤怒少于1次</text>
-				</view>
-				<view class="task-item">
-					<view class="index-circle">
-						<text class="index-word">
-							3
-						</text>
-					</view>
-					<text class="task-word">点出让众人满意的菜品</text>
+					<text class="task-word">让老板对你点得菜满意</text>
 				</view>
 			</view>
 		</view>
