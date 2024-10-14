@@ -9,15 +9,18 @@
 				:style="{ left: splashImageLeft2 + 'rpx' }"></image>
 
 			<text class="splash-progress-text">{{ progress }}%</text>
+
 			<view class="splash-progress-bar">
 				<view class="splash-progress-fill" :style="{ width: progress + '%' }"></view>
 			</view>
-			<text class="status-text">你的动物人格报告合成中</text>
+			<text class="status-text">努力分析中...</text>
 		</view>
 	</view>
 </template>
 
 <script>
+	import apiService from '@/services/api-service';
+
 	export default {
 		data() {
 			return {
@@ -147,85 +150,38 @@
 				console.log(percentage1)
 				return (percentage1 / 100) * progressBarWidth;
 			},
-			getHomepageData() {
-				const that = this;
-				uni.request({
-					url: `https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/get_homepage/${this.jobId}`,
-					method: 'POST',
-					success(response) {
-						let result = {}
-						if (response.statusCode === 200) {
-							result = response.data;
-							console.log('Homepage data received:', result);
-						} else {
-							let mock = {
-								"response": {
-									"personal_info": {
-										"name": "John Doe",
-										"tag": "Engineer",
-										"tag_description": "A detail-oriented engineer with a passion for problem-solving.",
-										"job_id": "12345"
-									},
-									"eq_scores": {
-										"score": 46,
-										"dimension1_score": 54,
-										"dimension1_detail": "Shows excellent emotional regulation in stressful situations.",
-										"dimension2_score": 26,
-										"dimension2_detail": "Displays strong empathy towards others' feelings.",
-										"dimension3_score": 42,
-										"dimension3_detail": "Able to make decisions without letting emotions interfere.",
-										"dimension4_score": 50,
-										"dimension4_detail": "Communicates emotions clearly and effectively.",
-										"dimension5_score": 44,
-										"dimension5_detail": "Manages interpersonal relationships with ease.",
-										"summary": "Overall, emotionally intelligent and adaptive.",
-										"detail": "John demonstrates balanced emotional intelligence across all areas.",
-										"overall_suggestion": "Continue to enhance emotional regulation and interpersonal communication.",
-										"detail_summary": "A well-rounded emotional intelligence profile with strong interpersonal skills."
-									},
-								}
-							};
-							result = mock;
+			async getHomepageData() {
+				try {
+					const result = await apiService.getHomepageData(this.jobId);
+					console.log('Homepage data received:', result);
 
-							console.error('Failed to fetch homepage data:', response.statusCode);
+					// Clear intervals and timeouts
+					this.clearIntervals();
+
+					// Store the response in local storage
+					uni.setStorage({
+						key: 'response',
+						data: result
+					});
+
+					// Navigate to the next page
+					const nextPageUrl = `/pages/result/result?jobId=${this.jobId}&userId=${this.userId}&username=${encodeURIComponent(this.username)}&gender=${this.gender}&birthday=${encodeURIComponent(JSON.stringify(this.birthday))}&options=${encodeURIComponent(JSON.stringify(this.selectedOptions))}&num=${this.num}`;
+
+					console.log("begin to navigate");
+					uni.navigateTo({
+						url: nextPageUrl,
+						fail: (err) => {
+							console.error('Navigation failed:', err);
+							uni.showToast({
+								title: '页面跳转失败',
+								icon: 'none'
+							});
 						}
-
-						if (that.interval) {
-							clearInterval(that.interval);
-							that.interval = null;
-						}
-						if (that.progressInterval) {
-							clearInterval(that.progressInterval);
-							that.interval = null;
-						}
-						if (that.timeoutInterval) {
-							clearInterval((that.timeoutInterval));
-							that.timeoutInterval = null;
-						}
-
-						const nextPageUrl = `/pages/result/result?jobId=${this.jobId}&userId=${this.userId}&username=${encodeURIComponent(this.username)}&gender=${this.gender}&birthday=${encodeURIComponent(JSON.stringify(this.birthday))}&options=${encodeURIComponent(JSON.stringify(this.selectedOptions))}&num=${this.num}`;
-
-						uni.setStorage({
-							key: 'response',
-							data: result
-						});
-
-						console.log("begin to navigate");
-						uni.navigateTo({
-							url: nextPageUrl,
-							fail: (err) => {
-								console.error('Navigation failed:', err);
-								uni.showToast({
-									title: '页面跳转失败',
-									icon: 'none'
-								});
-							}
-						});
-					},
-					fail(error) {
-						console.error('Error fetching homepage data:', error);
-					}
-				});
+					});
+				} catch (error) {
+					console.error('Error fetching homepage data:', error);
+					// Handle the error (e.g., show an error message to the user)
+				}
 			},
 			startProgress() {
 				const totalDuration = 30000; // 10秒
@@ -258,6 +214,20 @@
 			},
 			expand() {
 				this.isExpanded = true; // 只展开，不再收起
+			},
+			clearIntervals() {
+				if (this.interval) {
+					clearInterval(this.interval);
+					this.interval = null;
+				}
+				if (this.progressInterval) {
+					clearInterval(this.progressInterval);
+					this.progressInterval = null;
+				}
+				if (this.timeoutInterval) {
+					clearTimeout(this.timeoutInterval);
+					this.timeoutInterval = null;
+				}
 			},
 		},
 		mounted() {
@@ -364,7 +334,7 @@
 	}
 
 	.splash-progress-bar {
-		width: 70%;
+		width: 20%;
 		position: absolute;
 		height: 20rpx;
 		top: 78vh;

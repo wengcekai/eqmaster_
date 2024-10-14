@@ -18,7 +18,7 @@
 }
 .background-image[data-v-51a7cd0a] {
 	position: absolute;
-	top: 0;
+	top: 0.15625rem;
 	left: 0;
 	width: 100%;
 	height: 100%;
@@ -31,18 +31,39 @@
 	height: 100vh;
 	overflow: hidden;
 	touch-action: none;
+	align-items: center;
+}
+.continue-button[data-v-51a7cd0a] {
+		width: 1.25rem;
+		height: 1.25rem;
+		background-color: #F2BC74;
+		border-radius: 1.5625rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0.9375rem;
 }
 .button-container[data-v-51a7cd0a] {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		bottom: 3.125rem;
+}
+
+/* .button-container {
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	position: absolute;
-	bottom: 3.125rem;
-}
+	bottom: 100rpx;
+} */
 
 /* 继续按钮设置 */
-.continue-button[data-v-51a7cd0a] {
+
+/* .continue-button {
 	width: 50px;
 	height: 50px;
 	background-color: #8BC34A;
@@ -51,7 +72,7 @@
 	justify-content: center;
 	align-items: center;
 	align-self: center;
-}
+} */
 .arrow[data-v-51a7cd0a] {
 	color: #242424;
 	font-size: 20px;
@@ -70,7 +91,7 @@
 	width: 100%;
 	height: 3.125rem;
 	position: relative;
-	top: 4vh;
+	top: 3.125rem;
 	left: 50%;
 	transform: translate(-50%, 0);
 	display: flex;
@@ -82,6 +103,36 @@
 	color: #ffffff;
 	font-size: 0.78125rem;
 	z-index: 3;
+}
+
+/* Add any additional styles you need */
+.progress-container[data-v-51a7cd0a] {
+	position: absolute;
+	top: 3.75rem;
+	left: 1.25rem;
+	right: 1.25rem;
+	display: flex;
+	align-items: center;
+}
+.progress-bar[data-v-51a7cd0a] {
+	flex-grow: 1;
+	height: 0.15625rem;
+	background-color: #101010;
+	border-radius: 0.15625rem;
+	overflow: hidden;
+	width: 90%;
+	margin-right: 0.625rem;
+}
+.progress[data-v-51a7cd0a] {
+	height: 100%;
+	background-color: #FFFFFF;
+	transition: width 0.3s ease;
+}
+.progress-text[data-v-51a7cd0a] {
+	color: #FFFFFF;
+	font-size: 0.75rem;
+	min-width: 1.875rem;
+	text-align: right;
 }
 .options-container[data-v-51a7cd0a] {
 		position: absolute;

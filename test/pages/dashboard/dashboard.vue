@@ -186,6 +186,7 @@
 
 <script>
 	import SProgressBar from '@/components/SProgressBar.vue'; // 根据实际路径调整
+	import apiService from '../../services/api-service';
 	
 	export default {
 		
@@ -356,34 +357,25 @@
 					url: `/pages/dashboard/dashboard?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.jobId}` // 添加查询参数
 				});
 			},
-			getHomepageData() {
-				const that = this;
-				this.isLoading = true;
-				this.error = null;
-				console.log('Fetching homepage data with jobId:', this.jobId);
-				uni.request({
-					url: `https://eqmaster.azurewebsites.net/get_homepage/${this.jobId}`,
-					method: 'POST',
-					success(response) {
-						if (response.statusCode === 200) {
-							that.homepageData = response.data;
-							console.log('Homepage data received:', that.homepageData);
-							that.$nextTick(() => {
-								that.drawRadar();
-							});
-						} else {
-							that.error = `Failed to fetch homepage data: ${response.statusCode}`;
-							console.error(that.error);
-						}
-					},
-					fail(error) {
-						that.error = 'Error fetching homepage data';
-						console.error(that.error, error);
-					},
-					complete() {
-						that.isLoading = false;
-					}
-				});
+			async getHomepageData() {
+				try {
+					this.isLoading = true;
+					this.error = null;
+					console.log('Fetching homepage data with jobId:', this.jobId);
+					
+					const data = await apiService.getHomepageData(this.jobId);
+					this.homepageData = data;
+					console.log('Homepage data received:', this.homepageData);
+					
+					this.$nextTick(() => {
+						this.drawRadar();
+					});
+				} catch (error) {
+					this.error = 'Error fetching homepage data';
+					console.error(this.error, error);
+				} finally {
+					this.isLoading = false;
+				}
 			},
 			expand() {
 				this.isExpanded = true; // 只展开，不再收起
