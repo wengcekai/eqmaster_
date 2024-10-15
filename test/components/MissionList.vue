@@ -87,107 +87,104 @@
 	.content {
 		/* display: flex; */
 		padding: 40rpx 36rpx 96rpx 32rpx;
-		.card-header {
-			display: block;
-			.title {
-				width: 100%;
-				position: relative;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				font-size: 48rpx;
-				font-weight: 700;
-				color: #8C5225;
-				.card-close-image {
-					position: absolute;
-					right: 0;
-					width: 48rpx;
-					height: 48rpx;
-				}
-			}
-		}
-		.list {
-			display: block;
-			text-align: center;
-			width: 686rpx;
-			height: 500rpx;
-			gap: 16rpx;
-			opacity: 0px;
-			margin-top: 40rpx;
-			color: #8C5225;
-			.item {
-				display: flex;
+	}
+	.card-header {
+		display: block;
+	}
+	.title {
+		width: 100%;
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 48rpx;
+		font-weight: 700;
+		color: #8C5225;
+	}
+	.card-close-image {
+		position: absolute;
+		right: 0;
+		width: 48rpx;
+		height: 48rpx;
+	}
+	.list {
+		display: block;
+		text-align: center;
+		width: 686rpx;
+		height: 500rpx;
+		gap: 16rpx;
+		opacity: 0px;
+		margin-top: 40rpx;
+		color: #8C5225;
+	}
+	.item {
+		display: flex;
 /* 				height: 156rpx; */
-				align-items: center;
-				background-color: #FFFFFF;
-				margin-bottom: 16rpx;
-				padding: 24rpx 32rpx;
-				border-radius: 24rpx;
-				gap: 32rpx;
-				.left {
-					.radiocheck-image {
-						width: 53.34rpx;
-						height: 53.34rpx;
-					}
-				}
-				.right {
-					text-align: left;
-					display: block;
-					font-size: 34rpx;
-					.bottom {
-						.blood-container {
-							height: 56rpx;
-							/* padding: 20rpx 0; */
-							display: flex;
-							gap: 44rpx;
-							/* flex-direction: column; */
-							align-items: center;
-						}
-						
-						.health-bar-container {
-							width: 436rpx;
-							height: 20rpx;
-							/* margin-bottom: 10rpx; */
-							position: relative;
-							overflow: visible;
-						}
-						
-						.health-bar-background {
-							display: flex;
-							align-items: center;
-							width: 100%;
-							height: 100%;
-							background-color: rgba(0, 0, 0, 0.3);
-							border-radius: 5px;
-							position: relative;
-							overflow: visible;
-							z-index: 3;
-						}
-						
-						.health-bar-foreground {
-							margin-top: 2rpx;
-							height: 16rpx;
-							border-radius: 5px;
-							position: absolute;
-							top: 0;
-							left: 0;
-							/* 添加只在上方显示阴影的代码 */
-							overflow: visible;
-							box-shadow: 0 -6px 6px -3px rgba(255, 255, 255, 0.3);
-						}
-						
-						.health-bar-line {
-							position: absolute;
-							left: 50%;
-							width: 2rpx;
-							height: 10px;
-							background-color: #ffffff;
-							z-index: 3;
-							/* 中间的白线 */
-						}
-					}
-				}
-			}
-		}
+		align-items: center;
+		background-color: #FFFFFF;
+		margin-bottom: 16rpx;
+		padding: 24rpx 32rpx;
+		border-radius: 24rpx;
+		gap: 32rpx;
+	}
+	.radiocheck-image {
+		width: 53.34rpx;
+		height: 53.34rpx;
+	}
+	.right {
+		text-align: left;
+		display: block;
+		font-size: 34rpx;
+	}
+
+	.blood-container {
+		height: 56rpx;
+		/* padding: 20rpx 0; */
+		display: flex;
+		gap: 44rpx;
+		/* flex-direction: column; */
+		align-items: center;
+	}
+	
+	.health-bar-container {
+		width: 436rpx;
+		height: 20rpx;
+		/* margin-bottom: 10rpx; */
+		position: relative;
+		overflow: visible;
+	}
+	
+	.health-bar-background {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.3);
+		border-radius: 5px;
+		position: relative;
+		overflow: visible;
+		z-index: 3;
+	}
+	
+	.health-bar-foreground {
+		margin-top: 2rpx;
+		height: 16rpx;
+		border-radius: 5px;
+		position: absolute;
+		top: 0;
+		left: 0;
+		/* 添加只在上方显示阴影的代码 */
+		overflow: visible;
+		box-shadow: 0 -6px 6px -3px rgba(255, 255, 255, 0.3);
+	}
+	
+	.health-bar-line {
+		position: absolute;
+		left: 50%;
+		width: 2rpx;
+		height: 10px;
+		background-color: #ffffff;
+		z-index: 3;
+		/* 中间的白线 */
 	}
 </style>
