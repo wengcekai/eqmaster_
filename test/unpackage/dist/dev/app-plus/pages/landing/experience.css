@@ -1,0 +1,97 @@
+
+.container[data-v-8c7f65be] {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+		background-color: #1c1c1e;
+		/* 确保背景颜色覆盖整个页面 */
+		position: relative;
+		overflow: hidden;
+		touch-action: none;
+}
+.background-image[data-v-8c7f65be] {
+		position: absolute;
+		top: 40px;
+		right: 0px;
+		width: 30%;
+		height: 100vh;
+		/* 确保背景图片覆盖整个视窗 */
+		z-index: 1;
+		/* 确保背景图片位于内容之下 */
+}
+.content[data-v-8c7f65be] {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		/* 将内容区域向上对齐 */
+		padding: 1.25rem 0.625rem;
+		z-index: 1;
+		/* 确保内容位于背景图片之上 */
+		position: relative;
+		padding: 20px;
+		margin-left: 0.3125rem;
+}
+.text-content[data-v-8c7f65be] {
+		
+		/* 增加底部间距 */
+		margin-top: 4.53125rem;
+		/* 增加底部间距 */
+}
+.greeting[data-v-8c7f65be] {
+		font-size: 1.1875rem;
+		color: #ffffff;
+		margin-bottom: 0.625rem;
+		font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-weight: bold;
+}
+.question[data-v-8c7f65be] {
+		font-size: 1.1875rem;
+		color: #ffffff;
+		margin-bottom: 0.3125rem;
+		font-weight: bold;
+		font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.question1[data-v-8c7f65be] {
+		font-size: 0.875rem;
+		color: #bcbcbc;
+		margin-bottom: 5.9375rem;
+		font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.subtitle[data-v-8c7f65be] {
+		font-size: 0.875rem;
+		color: #8e8e93;
+		font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.name-input[data-v-8c7f65be] {
+		width: 90%;
+		background-color: #2c2c2e;
+		border-radius: 0.625rem;
+		padding: 0.625rem 0.9375rem;
+		color: #ffffff;
+		font-size: 1rem;
+		margin-top: 3.125rem;
+		margin-bottom: 4.6875rem;
+}
+.button-container[data-v-8c7f65be] {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-top: auto;
+		margin-bottom: 34.375rem;
+		/* 调整底部间距，避免过大的白色区域 */
+}
+.continue-button[data-v-8c7f65be] {
+		width: 1.25rem;
+		height: 1.25rem;
+		background-color: #8BC34A;
+		border-radius: 1.5625rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0.9375rem;
+}
+.arrow[data-v-8c7f65be] {
+		color: #242424;
+		font-size: 1.5625rem;
+}

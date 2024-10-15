@@ -1,0 +1,177 @@
+
+.card-container[data-v-dd44ef29] {
+		display: flex;
+		align-items: flex-start;
+		padding: 10px;
+		border-radius: 10px;
+		background-color: #454552;
+		margin: 10px 0;
+}
+.avatar[data-v-dd44ef29] {
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+}
+.avatar-container[data-v-dd44ef29] {
+		width: 1.875rem;
+		height: 1.875rem;
+		border-radius: 50%;
+		border: solid 1px #F2Bc74;
+		flex-shrink: 0;
+}
+.description[data-v-dd44ef29] {
+		margin-left: 20px;
+		color: #fff;
+		display: flex;
+		flex-direction: column;
+}
+.name[data-v-dd44ef29] {
+		font-weight: bold;
+		font-size: 16px;
+}
+.comment[data-v-dd44ef29] {
+		font-size: 14px;
+		font-weight: 400;
+		margin-top: 5px;
+}
+
+
+.container[data-v-2b5d4ef4] {
+		width: 100%;
+		min-height: 100vh;
+		background-image:
+			linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9)),
+			url('../../static/battlefield/background.png');
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding-left: 10px;
+}
+.comments[data-v-2b5d4ef4] {
+		margin-top: 20px;
+		margin-left: 6px;
+}
+.comment-title[data-v-2b5d4ef4] {
+		color: #fff;
+		font-weight: bold;
+}
+.comment-header[data-v-2b5d4ef4] {
+		position: relative;
+}
+.score-title2[data-v-2b5d4ef4] {
+		color: #fff;
+		margin-left: 3px;
+}
+.card[data-v-2b5d4ef4] {
+		width: 90%;
+		height: 30vh;
+		margin-top: 2vh;
+		background-color: #373742;
+		z-index: 3;
+		border-radius: 20px;
+		position: relative;
+		overflow: visible;
+		padding: 10px;
+}
+.first-card[data-v-2b5d4ef4] {
+		height: 25vh;
+		margin-top: 10vh;
+}
+.head-image[data-v-2b5d4ef4] {
+		position: absolute;
+		top: -5vh;
+		left: 25%;
+		width: 50%;
+		z-index: 4;
+}
+.progress-container[data-v-2b5d4ef4] {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+}
+.progress-bar1[data-v-2b5d4ef4] {
+		margin-left: 10px;
+		width: 85%;
+		height: 0.46875rem;
+		background-color: #7d7b7e;
+		border-radius: 0.46875rem;
+		overflow: hidden;
+		margin-top: 0.46875rem;
+		margin-bottom: 0.46875rem;
+}
+.progress[data-v-2b5d4ef4] {
+		height: 100%;
+		background-color: #F2Bc74;
+}
+.score[data-v-2b5d4ef4] {
+		margin: 10px;
+		margin-left: 10px;
+		width: 80%;
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		gap: 10px;
+		align-items: center;
+}
+.summary-dimension[data-v-2b5d4ef4] {
+		margin-top: 3px;
+		font-weight: bold;
+		color: #fff;
+}
+.course-score[data-v-2b5d4ef4] {
+		color: #F2Bc74;
+}
+.down-line[data-v-2b5d4ef4] {
+		position: absolute;
+		width: 18%;
+		bottom: 4px;
+		height: 3px;
+		background-color: rgba(242, 188, 116, 0.8);
+}
+.sub-card[data-v-2b5d4ef4] {
+		margin-right: 5px;
+}
+.second-card[data-v-2b5d4ef4] {
+		height: auto;
+}
+.third-card-title[data-v-2b5d4ef4] {
+		margin-top: 0.625rem;
+		margin-left: 0.625rem;
+		position: relative;
+}
+.second-line[data-v-2b5d4ef4] {
+		width: 28%;
+}
+.suggestion[data-v-2b5d4ef4] {
+		margin-top: 5px;
+		color: #fff;
+}
+.third-card[data-v-2b5d4ef4] {
+		height: auto;
+		margin-bottom: 3vh;
+}
+.guide-button[data-v-2b5d4ef4] {
+		width: 80%;
+		height: 3.125rem;
+		background-color: #9EE44D;
+		color: #252529;
+		font-size: 1.125rem;
+		border-radius: 1.5625rem;
+		text-align: center;
+		line-height: 3.125rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		/* margin-bottom: 30rpx; */
+		z-index: 1000;
+		/* 确保按钮悬浮在其他内容之上 */
+		position: fixed;
+		/* 固定定位 */
+		bottom: 40px;
+		transform: translateX(-50%);
+		/* 调整水平位置以居中 */
+		left: 50%;
+		/* 水平居中 */
+}
