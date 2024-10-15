@@ -1,4 +1,4 @@
-const API_ENDPOINT = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/';
+const API_ENDPOINT = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net';
 // const API_ENDPOINT = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/';
 
 export default {
@@ -149,6 +149,25 @@ export default {
     try {
       const response = await uni.request({
         url: `${API_ENDPOINT}/start_scenario/${jobId}`,
+        method: 'POST'
+      });
+      
+      if (response.statusCode === 200) {
+        console.error('response:', response);
+        return response.data;
+      } else {
+        throw new Error(`Failed to start scenario: ${response.statusCode}`);
+      }
+    } catch (error) {
+      console.error('Error starting scenario:', error);
+      throw error;
+    }
+  },
+  
+  async startScenarioWithScenarioId(jobId, scenarioId) {
+    try {
+      const response = await uni.request({
+        url: `${API_ENDPOINT}/start_scenario_by_scenario_id/${jobId}/${scenarioId}`,
         method: 'POST'
       });
       

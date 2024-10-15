@@ -30,10 +30,31 @@
 		components: {
 			ProgressBar, // 注册组件
 		},
+		data() {
+			return {
+				userId: '',
+				username: '',
+				jobId: ''
+			};
+		},
+		onLoad(option) {
+			// Receive and decode the parameters
+			this.userId = option.userId || '';
+			this.username = decodeURIComponent(option.username || '');
+			this.jobId = option.jobId || '';
+
+			console.log('Received parameters:', {
+				userId: this.userId,
+				username: this.username,
+				jobId: this.jobId
+			});
+
+			// Use these parameters as needed in your component
+		},
 		methods: {
 			navigateToNextPage() {
 				uni.navigateTo({
-					url: '/pages/battlefield/battlefield-task' // Replace this with the actual path to your next page
+					url: `/pages/battlefield/battlefield-summary?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.jobId}`
 				});
 			}
 		}
@@ -42,7 +63,6 @@
 
 <style scoped>
 	@import "./common.css";
-
 	.navbar {
 		display: flex;
 		flex-direction: row;
@@ -85,14 +105,13 @@
 
 	.title {
 		font-size: 24px;
-		font-weight: 700;
+		font-weight: bold;
 		color: #fff;
 		/* 具体设置白色 */
 	}
 
 	.subtitle {
-		font-size: 34px;
-		font-weight: 700;
+		font-size: 20px;
 		margin: 10px 0;
 		color: #fff;
 		/* 具体设置白色 */
@@ -105,10 +124,8 @@
 	}
 
 	.description {
-		font-size: 17px;
-		font-weight: 350;
-		align-items: center;
-		line-height: 25.5px;
+		font-size: 16px;
+		line-height: 1.6;
 		color: #fff;
 		/* 具体设置白色 */
 	}

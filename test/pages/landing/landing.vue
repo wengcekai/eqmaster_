@@ -101,6 +101,7 @@
 		transition: transform 0.2s;
 		border-color: #ffffff;
 		background-color: #ffffff;
+		z-index: 6;
 	}
 
 	.button1 {

@@ -299,7 +299,7 @@
 		align-items: center;
 		padding-top: 100rpx;
 		width: 100%;
-		height: 100%;
+		height: 100vh;
 		overflow-y: auto;
 		-webkit-overflow-scrolling: touch;
 	}

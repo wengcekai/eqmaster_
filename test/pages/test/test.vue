@@ -3,6 +3,7 @@
     <!-- 背景图 -->
     <image class="background-image" :src="`/static/bg${scenarioId}.png`" mode="aspectFill" />
 
+    <!-- 进度条 -->
     <view class="progress-container">
       <view class="progress-bar">
         <view class="progress" :style="{ width: `${progress}%` }"></view>
@@ -193,6 +194,10 @@ export default {
         .then((res) => {
           console.log('Backend response:', res);
           this.jobId = res.job_id;
+		  const indexes = this.username.split("##")
+		  this.scenarioId = indexes[1] !== undefined && !isNaN(parseInt(indexes[1], 10))
+		    ? parseInt(indexes[1], 10)
+		    : undefined;
           this.getScenarioData();
         })
         .catch((err) => {
@@ -200,22 +205,29 @@ export default {
         });
     },
     getScenarioData() {
-      const requestMethod = this.isFirstScene
-        ? apiService.startScenario(this.jobId)
-        : apiService.getCurrentScenario(this.jobId);
+		
+      // const requestMethod = (this.scenarioId && this.scenarioId >= 0 && this.scenarioId <= 9) 
+		    // ? apiService.startScenarioWithScenarioId(this.jobId, this.scenarioId) : this.isFirstScene
+      //   ? apiService.startScenario(this.jobId)
+      //   : apiService.getCurrentScenario(this.jobId);
+		
+	  const requestMethod = this.isFirstScene ? 
+	  ((this.scenarioId && this.scenarioId >= 0 && this.scenarioId <= 9) 
+	  ? apiService.startScenarioWithScenarioId(this.jobId, this.scenarioId) 
+	  : apiService.startScenario(this.jobId)) 
+	  : apiService.getCurrentScenario(this.jobId);
 
-      return requestMethod
+      requestMethod
         .then((res) => {
           console.log('Scenario data:', res.scenario_id);
           this.scenarioData = res.scene.scenes || res;
-          this.scenarioId = res.scenario_id || 1;
+          this.scenarioId = res.scenario_id || 1; // Update scenarioId here
           this.handleScenarioData();
           this.updateProgress();
           this.isFirstScene = false;
         })
         .catch((err) => {
           console.error('Error getting scenario data:', err);
-          throw err; // Re-throw the error to be caught in navigateToTest3
         });
     },
     handleScenarioData() {
@@ -253,25 +265,8 @@ export default {
       this.getScenarioData();
     },
     navigateToTest3() {
-      // Show loading indicator
-      uni.showLoading({
-        title: '加载中...'
-      });
-
-      // Get new scenario data first
-      this.getScenarioData().then(() => {
-        // Update the page only after new data is loaded
-        this.currentPage = 'test3';
-        // Hide loading indicator
-        uni.hideLoading();
-      }).catch(error => {
-        console.error('Error loading scenario data:', error);
-        uni.hideLoading();
-        uni.showToast({
-          title: '加载失败，请重试',
-          icon: 'none'
-        });
-      });
+      this.currentPage = 'test3';
+      this.getScenarioData();
     },
     navigateToTest4() {
       this.currentPage = 'test4';

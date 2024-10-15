@@ -53,7 +53,7 @@
 	.judge-container {
 		border-radius: 12px;
 		width: 100%;
-		height: 20px;
+		height: 15vh;
 		position: absolute;
 		display: flex;
 		flex-direction: column;

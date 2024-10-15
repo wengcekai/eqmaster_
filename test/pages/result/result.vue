@@ -255,7 +255,6 @@
 						console.log('########successfully retrieved data', res);
 						this.homepageData = res.data;
 						console.log('begin to draw radar');
-						this.drawRadar();
 					}
 				});
 			} catch (e) {
@@ -288,6 +287,7 @@
 					}
 				});
 			}
+			this.drawRadar();
 		},
 		methods: {
 			progressWidth(value) {
