@@ -5,8 +5,21 @@
 			<!-- 如需调试信息，可取消注释以下行 -->
 			<!-- <text>homepageData: {{ JSON.stringify(homepageData) }}</text> -->
 			<!-- </view> -->
+			<image class="head-image"
+				:src="this.isPass ? '/static/battlefield/IP_Green.svg' : '/static/battlefield/IP_Grey.svg'"
+				mode="aspectFit"></image>
 			<view class="card first-card">
-				<image class="head-image" src="/static/summary-bg.png" mode="aspectFill"></image>
+				<view class="status-text">
+					{{ isPass ? '你真棒！' : '很遗憾...' }}
+				</view>
+				<reward-bar :style="{ backgroundColor: 'transparent', width: '300rpx' }" :gemCount="gemCount"
+					gem-icon-width="40px" gem-icon-height="40px"></reward-bar>
+				<view class="diamond-wrapper">
+					<image class="diamond-image" src="/static/battlefield/diamond.png" mode="aspectFill"></image>
+					<text class="diamond-text">
+						{{ isPass ? '+10！' : '+3' }}
+					</text>
+				</view>
 			</view>
 
 			<view class="card second-card">
@@ -55,10 +68,12 @@
 </template>
 
 <script>
+	import RewardBar from '/components/RewardBar.vue';
 	import NpcComment from '/components/NpcComment.vue'; // 引入组件
 	export default {
 		components: {
 			NpcComment, // 注册组件
+			RewardBar,
 		},
 		data() {
 			return {
@@ -95,6 +110,19 @@
 		},
 
 		onLoad() {
+			uni.getStorage({
+				key: 'isPass',
+				success: (res) => {
+					// 根据存储的值更新 isPass
+					console.log("res: ", res);
+					this.isPass = res.data || false; // 如果 res.data 为 undefined，则默认为 false
+				},
+				fail: () => {
+					console.warn('获取 isPass 值失败');
+					this.isPass = false; // 失败时可以设置默认值
+					// console.log("this.isPass: ", this.isPass);
+				}
+			});
 			const evalResult = uni.getStorage({
 				key: 'evalResult',
 
@@ -120,6 +148,8 @@
 				},
 				fail: (err) => {
 					console.error('获取 Gem Count 失败:', err);
+					const gemCount = 0;
+					this.diamondAdd = 3;
 				}
 			});
 
@@ -138,6 +168,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		padding-top: 40px;
 		padding-left: 10px;
 	}
 
@@ -175,14 +206,47 @@
 	.first-card {
 		height: 25vh;
 		margin-top: 10vh;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.head-image {
 		position: absolute;
-		top: -5vh;
-		left: 25%;
+		left: 23%;
+		top: -5%;
 		width: 50%;
 		z-index: 4;
+	}
+
+	.status-text {
+		color: #fff;
+		text-align: center;
+		font-size: 56rpx;
+		line-height: 64rpx;
+		height: 64rpx;
+		margin-top: 80rpx;
+		font-weight: 700;
+	}
+
+	.diamond-wrapper {
+		margin-top: 10rpx;
+	}
+
+	.diamond-image {
+		width: 60rpx;
+		height: 60rpx;
+	}
+
+	.diamond-text {
+		font-size: 48rpx;
+		font-weight: 800;
+		line-height: 56rpx;
+		position: relative;
+		top: -12%;
+		left: 5%;
+		color: #F2BC74;
 	}
 
 	.progress-container {
