@@ -187,4 +187,63 @@
 		z-index: 3;
 		/* 中间的白线 */
 	}
+	.right {
+		text-align: left;
+		display: block;
+		font-size: 34rpx;
+		.bottom {
+			
+		}
+	}
+
+	.blood-container {
+		height: 56rpx;
+		/* padding: 20rpx 0; */
+		display: flex;
+		gap: 44rpx;
+		/* flex-direction: column; */
+		align-items: center;
+	}
+	
+	.health-bar-container {
+		width: 436rpx;
+		height: 20rpx;
+		/* margin-bottom: 10rpx; */
+		position: relative;
+		overflow: visible;
+	}
+	
+	.health-bar-background {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.3);
+		border-radius: 5px;
+		position: relative;
+		overflow: visible;
+		z-index: 3;
+	}
+	
+	.health-bar-foreground {
+		margin-top: 2rpx;
+		height: 16rpx;
+		border-radius: 5px;
+		position: absolute;
+		top: 0;
+		left: 0;
+		/* 添加只在上方显示阴影的代码 */
+		overflow: visible;
+		box-shadow: 0 -6px 6px -3px rgba(255, 255, 255, 0.3);
+	}
+	
+	.health-bar-line {
+		position: absolute;
+		left: 50%;
+		width: 2rpx;
+		height: 10px;
+		background-color: #ffffff;
+		z-index: 3;
+		/* 中间的白线 */
+	}
 </style>
