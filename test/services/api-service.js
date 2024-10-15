@@ -172,7 +172,7 @@ export default {
       });
       
       if (response.statusCode === 200) {
-        return response;
+        return response.data;
       } else {
         throw new Error(`Failed to get current scenario: ${response.statusCode}`);
       }
