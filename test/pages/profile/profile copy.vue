@@ -159,8 +159,6 @@
 </template>
 
 <script>
-import apiService from '../../services/api-service';
-
 export default {
   data() {
     return {
@@ -348,22 +346,35 @@ export default {
         url: `/pages/dashboard/dashboard?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.jobId}` // 添加查询参数
       });
     },
-    async loadContactDetails() {
-      try {
-        if (!this.contactId) {
-          console.error('Contact ID is missing or invalid');
-          return;
-        }
-
-        const contactDetails = await apiService.getContactProfile(this.contactId);
-        this.contactDetails = contactDetails;
-        console.log('Contact details received:', this.contactDetails);
-        this.$nextTick(() => {
-          this.drawRadar();
-        });
-      } catch (error) {
-        console.error('Error fetching contact details:', error);
+    loadContactDetails() {
+      const that = this;
+      // 首先检查contactId是否有效
+      if (!this.contactId) {
+        console.error('Contact ID is missing or invalid');
+        return;
       }
+
+      const url = `https://eqmaster.azurewebsites.net/get_contact_profile/${this.contactId}`;
+      // console.log('Requesting URL:', url); // 添加日志
+
+      uni.request({
+        url: url,
+        method: 'GET',
+        success(response) {
+          if (response.statusCode === 200) {
+            that.contactDetails = response.data;
+            console.log('Homepage data received:', that.contactDetails);
+            that.$nextTick(() => {
+              that.drawRadar();
+            });
+          } else {
+            console.error('Failed to fetch data:', response.statusCode, response.data);
+          }
+        },
+        fail(error) {
+          console.error('Error fetching homepage data:', error);
+        }
+      });
     },
     expand() {
       this.isExpanded = true; // 只展开，不再收起
@@ -433,30 +444,35 @@ export default {
         }
       }
     },
-    async chooseImage() {
-      try {
-        const res = await uni.chooseImage({
-          count: 1,
-          sizeType: ['original', 'compressed'],
-          sourceType: ['album', 'camera']
-        });
-        const tempFilePaths = res.tempFilePaths;
-        console.log(tempFilePaths);
-        await this.uploadImage(tempFilePaths[0]);
-      } catch (error) {
-        console.error('Error choosing image:', error);
-      }
+    chooseImage() {
+      uni.chooseImage({
+        count: 1, // 默认9
+        sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+        sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+        success: (res) => {
+          // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+          const tempFilePaths = res.tempFilePaths;
+          console.log(tempFilePaths);
+          // 这里可以添加上传图片到服务器的逻辑
+          this.uploadImage(tempFilePaths[0]);
+        }
+      });
     },
     
-    async uploadImage(filePath) {
-      try {
-        const result = await apiService.uploadImage(filePath);
-        console.log('Upload result:', result);
-        // 处理上传成功后的逻辑
-      } catch (error) {
-        console.error('Upload failed:', error);
-        // 处理上传失败的情况
-      }
+    uploadImage(filePath) {
+      uni.uploadFile({
+        url: 'https://eqmaster.azurewebsites.net/upload_image', // 替换为你的上传接口
+        filePath: filePath,
+        name: 'file',
+        success: (uploadFileRes) => {
+          console.log(uploadFileRes.data);
+          // 处理上传成功后的逻辑
+        },
+        fail: (error) => {
+          console.error('Upload failed', error);
+          // 处理上传失败的情况
+        }
+      });
     }
   },
   mounted() {

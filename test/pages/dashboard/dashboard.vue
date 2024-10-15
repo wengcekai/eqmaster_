@@ -186,6 +186,10 @@
 
 <script>
 	import SProgressBar from '@/components/SProgressBar.vue'; // 根据实际路径调整
+<<<<<<< HEAD
+=======
+	import apiService from '../../services/api-service';
+>>>>>>> main
 	
 	export default {
 		
@@ -356,6 +360,7 @@
 					url: `/pages/dashboard/dashboard?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.jobId}` // 添加查询参数
 				});
 			},
+<<<<<<< HEAD
 			getHomepageData() {
 				const that = this;
 				this.isLoading = true;
@@ -384,6 +389,27 @@
 						that.isLoading = false;
 					}
 				});
+=======
+			async getHomepageData() {
+				try {
+					this.isLoading = true;
+					this.error = null;
+					console.log('Fetching homepage data with jobId:', this.jobId);
+					
+					const data = await apiService.getHomepageData(this.jobId);
+					this.homepageData = data;
+					console.log('Homepage data received:', this.homepageData);
+					
+					this.$nextTick(() => {
+						this.drawRadar();
+					});
+				} catch (error) {
+					this.error = 'Error fetching homepage data';
+					console.error(this.error, error);
+				} finally {
+					this.isLoading = false;
+				}
+>>>>>>> main
 			},
 			expand() {
 				this.isExpanded = true; // 只展开，不再收起

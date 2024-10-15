@@ -165,6 +165,7 @@
 </template>
 
 <script>
+	import apiService from '@/services/api-service';
 	import {
 		drawRadar
 	} from '../../scripts/draw_radar';
@@ -208,6 +209,7 @@
 				progress: 0,
 				imageWidth: 2000,
 				isExpanded: false, // 默认收起状态
+				jobId: '',
 			};
 		},
 		computed: {
@@ -248,19 +250,8 @@
 			// 接收上一个页面传递的数据
 			this.userId = option.userId || '';
 			this.username = decodeURIComponent(option.username || '');
-			try {
-				uni.getStorage({
-					key: 'response',
-					success: (res) => {
-						console.log('########successfully retrieved data', res);
-						this.homepageData = res.data;
-						console.log('begin to draw radar');
-						this.drawRadar();
-					}
-				});
-			} catch (e) {
-				console.log('something error happened', e)
-			}
+			this.jobId = option.jobId || '';
+			this.fetchResult();
 		},
 		onUnload() {
 			// 页面卸载时清除定时器
@@ -290,6 +281,17 @@
 			}
 		},
 		methods: {
+			async fetchResult() {
+				try {
+					const result = await apiService.getResult(this.jobId);
+					console.log('Result data received:', result);
+					this.homepageData = result;
+					this.drawRadar();
+				} catch (error) {
+					console.error('Failed to fetch result:', error);
+					// 处理错误，例如显示错误消息给用户
+				}
+			},
 			progressWidth(value) {
 				// 计算进度条宽度百分比
 				const percentage = (value / this.maxScore) * 100;
@@ -671,7 +673,7 @@
 
 	.card-title {
 		font-size: 28rpx;
-		background-color: #EDFB8B;
+		background-color: #9EE44D;
 		margin-bottom: 10rpx;
 		padding: 20rpx;
 		text-align: left;
