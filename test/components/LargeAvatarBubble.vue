@@ -44,11 +44,11 @@
 	}
 
 	.avatar {
-		width: 500rpx;
-		height: 500rpx;
-		position:  absolute;
-		top: -500rpx;
-		left: 100rpx;
+		width: 654rpx;
+		height: 628rpx;
+		position: absolute;
+		top: -630rpx;
+		left: 48rpx;
 	}
 
 	.bubble-container {
@@ -90,5 +90,6 @@
 		font-size: 16px;
 		text-align: left;
 		color: #FFFFFF;
+		z-index: 3;
 	}
 </style>

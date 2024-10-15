@@ -671,7 +671,7 @@
 
 	.card-title {
 		font-size: 28rpx;
-		background-color: #EDFB8B;
+		background-color: #9EE44D;
 		margin-bottom: 10rpx;
 		padding: 20rpx;
 		text-align: left;

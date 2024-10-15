@@ -179,19 +179,20 @@ export default {
         ctx.stroke();
 
         const lineLength = 100;
+		const lineLength1 = 32;
         ctx.beginPath();
         ctx.moveTo(endPoint.x, endPoint.y);
         if (i % 2 === 0) {
-          ctx.lineTo(endPoint.x - lineLength, endPoint.y);
+          ctx.lineTo(endPoint.x - lineLength1, endPoint.y);
         } else {
-          ctx.lineTo(endPoint.x + lineLength, endPoint.y);
+          ctx.lineTo(endPoint.x + lineLength1, endPoint.y);
         }
-        ctx.lineWidth = 2;
+        ctx.lineWidth1 = 2;
         
         if (i <= this.finishComponents) {
           ctx.strokeStyle = '#9EE44D';
         } else {
-          ctx.strokeStyle = '#ddd';
+          ctx.strokeStyle = 'rgba(221, 221, 221, 0.3)';
         }
         ctx.stroke();
 
@@ -201,7 +202,7 @@ export default {
         const imageY = endPoint.y - imageSize / 2;
         
         // You need to prepare different images for completed and uncompleted states
-        const imagePath = i <= this.finishComponents ? '/static/333.png' : '/static/31.png';
+        const imagePath = i <= this.finishComponents ? '/static/333.png' : '/static/444.png';
         
         ctx.drawImage(imagePath, imageX, imageY, imageSize, imageSize);
 

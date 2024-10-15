@@ -9,10 +9,11 @@
 				:style="{ left: splashImageLeft2 + 'rpx' }"></image>
 
 			<text class="splash-progress-text">{{ progress }}%</text>
+
 			<view class="splash-progress-bar">
 				<view class="splash-progress-fill" :style="{ width: progress + '%' }"></view>
 			</view>
-			<text class="status-text">你的动物人格报告合成中</text>
+			<text class="status-text">努力分析中...</text>
 		</view>
 	</view>
 </template>
@@ -150,7 +151,7 @@
 			getHomepageData() {
 				const that = this;
 				uni.request({
-					url: `https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/get_homepage/${this.jobId}`,
+					url: `https://eqmaster.azurewebsites.net/get_homepage/${this.jobId}`,
 					method: 'POST',
 					success(response) {
 						let result = {}
@@ -364,7 +365,7 @@
 	}
 
 	.splash-progress-bar {
-		width: 70%;
+		width: 20%;
 		position: absolute;
 		height: 20rpx;
 		top: 78vh;

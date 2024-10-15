@@ -22,16 +22,17 @@
 							1
 						</text>
 					</view>
-					<text class="task-word">一句话让同事们赞不绝口：用一句话让每位同事心情绪愉悦。</text>
+					<text class="task-word">一句话让每个人心情愉悦</text>
+					<!-- <text class="task-word">得到领导的夸赞× 2</text> -->
 				</view>
-				<!-- 				<view class="task-item">
+				<view class="task-item">
 					<view class="index-circle">
 						<text class="index-word">
 							2
 						</text>
 					</view>
-					<text class="task-word">情绪过山车：让同事B对你不满，随后安抚他</text>
-				</view> -->
+					<text class="task-word">让老板对你点得菜满意</text>
+				</view>
 			</view>
 		</view>
 		<view class="continue-button-container">
@@ -68,13 +69,17 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		align-items: center;
+		text-align: center;
 	}
 
 	.task-word {
 		color: #fff;
-		width: 100%;
+		font-size: 34rpx;
+		font-weight: 350;
+		line-height: 51rpx;
+		width: 80%;
 		text-align: start;
+		margin-left: 24rpx;
 	}
 
 	.task-header {
@@ -98,7 +103,7 @@
 
 	.task-list {
 		width: 100%;
-		margin-top: 100rpx;
+		margin-top: 64rpx;
 		display: flex;
 		min-height: 40rpx;
 		flex-direction: row;
@@ -115,7 +120,7 @@
 		margin-bottom: 20rpx;
 		width: 100%;
 		margin-top: 30rpx;
-		margin-left: 50rpx;
+		margin-left: 48rpx;
 	}
 
 	/* 确保内容区域占满屏幕高度 */
@@ -129,21 +134,18 @@
 	}
 
 	.index-circle {
-		width: 60rpx;
-		height: 60rpx;
-		border-radius: 30rpx;
-		background-color: rgba(255, 255, 255, 0.3);
+		width: 72rpx;
+		height: 72rpx;
+		border-radius: 50%;
+		background-color: #f2bc74;
 		color: #fff;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		border: solid;
-		border-color: #fff;
-		border-width: 1rpx;
 	}
 
 	.index-word {
-		color: #fff;
-		font-size: 25rpx;
+		color: #000;
+		font-size: 40rpx;
 	}
 </style>

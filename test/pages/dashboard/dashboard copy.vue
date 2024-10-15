@@ -3,159 +3,135 @@
 		<scroll-view scroll-y style="height: 100%;">
 			<view v-if="currentView === 'dashboard'" class="content">
 				
-				<!-- 保持原有的主内容 -->
-				<text class="score-title-head">早，{{homepageData.response.personal_info.name}}！</text>
-				<!-- 添加插图 -->
+				<!-- 添加错误处理和加载状态 -->
+				<view v-if="isLoading">加载中...</view>
+				<view v-else-if="error">{{ error }}</view>
+				<view v-else>
+					<!-- 使用可选链操作符和默认值 -->
+					<text class="score-title-head">早，{{homepageData?.response?.personal_info?.name || '用户'}}！</text>
+					<!-- 添加插图 -->
 
-				<view class="dashboard1-card-o">
-					<image class="illustration1" src="/static/dashboard/ciwei.png" mode="widthFix"></image>
-					<!-- 添加白色卡片 -->
-					<view class="card">
-						<image class="illustration3" src="/static/diamond.png" mode="widthFix"></image>
-						<text class="score-value-large">{{ Math.round(120) }}</text>
-						<!-- <text class="score-value-large">{{ Math.round(homepageData.response.eq_scores.score) }}</text> -->
+					<view class="dashboard1-card-o">
+						<image class="illustration1" src="/static/dashboard/ciwei.png" mode="widthFix"></image>
+						<!-- 添加白色卡片 -->
+						<view class="card">
+							<image class="illustration3" src="/static/diamond.png" mode="widthFix"></image>
+							<text class="score-value-large">{{ Math.round(homepageData?.response?.eq_scores?.score || 0) }}</text>
 
-						<view class="progress-bar">
-							<!-- <view class="progress" :style="{ width: progressWidth(42) }"></view> -->
-							<view class="progress" :style="{ width: progressWidth(homepageData.response.eq_scores.score) }">
-							</view>
-						</view>
-
-						<text class="card-description">{{ homepageData.response.eq_scores.overall_suggestion }}</text>
-						<image class="illustration31" src="/static/fullbutton.png" mode="widthFix"
-							@click="navigateToResult"></image>
-					</view>
-				</view>
-
-
-				<!-- <image class="illustration1" :src="userCard" mode="widthFix"></image> -->
-
-
-				<text class="card-title1">今日锦囊</text>
-				<image class="illustration32" :src="tipImageSrc" mode="widthFix" @click="toggleTipImage"></image>
-
-				<text class="card-title1">我的人脉网</text>
-				<text class="card-title15">AI 战略家通过分析多维关系，帮助您建立职场联系</text>
-				<!-- 添加白色卡片1 -->
-				<view class="card1">
-					<text class="card-title14">添加微信助手，获取深度职场分析！</text>
-					<image class="illustration33" src="/static/add.png" mode="widthFix" @click="openNewPopup"></image>
-					<image class="illustration34" src="/static/x.png" mode="widthFix"></image>
-				</view>
-
-
-				
-				<view class="dashboard1-card-o">
-					<image class="illustration35" src="/static/CTA1.png" mode="widthFix" @click="openPopup"></image>
-					
-					<view class="peoplecontain">
-						<view v-for="(contact, index) in homepageData.response.contacts" :key="index"
-							:class="['cardjuese', index % 2 === 1 ? 'lower-card' : '']"
-							>		
-							<view class="card-a" @click="toProfilePage1(contact)">
-								<view class="card1inner">
-									<image class="illustrationhead" src="/static/head.png" mode="widthFix"></image>
-									<view class="card2inner">
-										<!-- <text class="usercard-title1">{{ contact }}</text> -->
-										<text class="usercard-title1">{{ truncateName(contact.name) }}</text>
-										<text class="usercard-title2">{{ contact.contact_relationship }}</text>
-									</view>
+							<view class="progress-bar">
+								<view class="progress" :style="{ width: progressWidth(homepageData?.response?.eq_scores?.score || 0) }">
 								</view>
-								<view class="white-line"></view>
-								<!-- <text class="usercard-title3">同事对你印象如何？导入聊天记录截图一探究竟吧！</text> -->
-								<text class="usercard-title3">{{ contact.relationship_analysis }}</text>
-								
 							</view>
-							<!-- 如果卡片有更多内容，可以在这里添加 -->
+
+							<text class="card-description">{{ homepageData?.response?.eq_scores?.overall_suggestion || '暂无建议' }}</text>
+							<image class="illustration31" src="/static/fullbutton.png" mode="widthFix"
+								@click="navigateToResult"></image>
 						</view>
-						<!-- 添加一个空的占位卡片 -->
-						<view class="cardjuese1" style="visibility: hidden;"></view>
 					</view>
 
-				</view>
 
+					<text class="card-title1">今日锦囊</text>
+					<image class="illustration32" :src="tipImageSrc" mode="widthFix" @click="toggleTipImage"></image>
 
-
-
-
-
-				<view v-if="showPopup" class="popup-overlay">
-					<view class="popup-content" @click.stop>
-						<view class="popup-header">
-							<text class="popup-title">创建人脉档案</text>
-							<text class="popup-close" @click="closePopup">×</text>
-						</view>
-						<input class="popup-input" v-model="profileName" placeholder="请输入名字" />
-						<view class="popup-section">
-							<text class="popup-question">TA是你的？</text>
-						</view>
-						<view class="popup-options">
-							<text class="popup-option" :class="{ active: selectedOption === 'subordinate' }"
-								@click="selectOption('subordinate')">同事</text>
-							<text class="popup-option1" :class="{ active: selectedOption === 'supervisor' }"
-								@click="selectOption('supervisor')">老板</text>
-							<text class="popup-option2" :class="{ active: selectedOption === '下属' }"
-								@click="selectOption('下属')">下属</text>
-						</view>
-
-						<view class="popup-section">
-							<text class="popup-question">哪些标签可以用来形容TA？</text>
-							<!-- <text class="popup-tag custom-tag">自定义标签</text> -->
-						</view>
-						<view class="popup-tags">
-							<text v-for="tag in currentTags" :key="tag" class="popup-tag"
-								:class="{ active: selectedTags.includes(tag) }" @click="toggleTag(tag)">{{ tag }}</text>
-						</view>
-
-						<image v-if="!isExpanded" @click="expand" src="/static/expand.png" class="expand-image"></image>
-
-
-						<!-- <button class="popup-button" @click="createProfile">创建档案</button> -->
-						<!-- Updated button with simplified disabled style -->
-						<button class="popup-button" @click="toProfilePage"
-							:style="{ opacity: canNavigateToProfile ? 1 : 0.5 }">
-							创建档案
-						</button>
-						<!-- New button -->
-						<!-- <image class="illustration39" src="/static/createperson.png" mode="widthFix" @click="openPopup"></image> -->
+					<text class="card-title1">我的人脉网</text>
+					<text class="card-title15">AI 战略家通过分析多维关系，帮助您建立职场联系</text>
+					<!-- 添加白色卡片1 -->
+					<view class="card1">
+						<text class="card-title14">添加微信助手，获取深度职场分析！</text>
+						<image class="illustration33" src="/static/add.png" mode="widthFix" @click="openNewPopup"></image>
+						<image class="illustration34" src="/static/x.png" mode="widthFix"></image>
 					</view>
-				</view>
 
-				<!-- 添加白色卡片2 -->
 
-				<!-- 添加蓝色按钮 -->
-				<!-- <button class="guide-button" @click="navigateToGuide">开启高情商之旅</button> -->
-				<view class="card3">
-					<image class="illustration36" src="/static/Frame1.png" mode="widthFix"></image>
-					<image class="illustration37" src="/static/Frame2.png" mode="widthFix" @click="navigateToDashboard2"></image>
-					<image class="illustration38" src="/static/Frame3.png" mode="widthFix"></image>
-				</view>
+					
+					<view class="dashboard1-card-o">
+						<image class="illustration35" src="/static/CTA1.png" mode="widthFix" @click="openPopup"></image>
+						
+						<view class="peoplecontain">
+							<view v-for="(contact, index) in homepageData?.response?.contacts || []" :key="index"
+								:class="['cardjuese', index % 2 === 1 ? 'lower-card' : '']"
+								>		
+								<view class="card-a" @click="toProfilePage1(contact)">
+									<view class="card1inner">
+										<image class="illustrationhead" src="/static/head.png" mode="widthFix"></image>
+										<view class="card2inner">
+											<text class="usercard-title1">{{ truncateName(contact?.name || '') }}</text>
+											<text class="usercard-title2">{{ contact?.contact_relationship || '' }}</text>
+										</view>
+									</view>
+									<view class="white-line"></view>
+									<text class="usercard-title3">{{ contact?.relationship_analysis || '' }}</text>
+									
+								</view>
+								<!-- 如果卡片有更多内容，可以在这里添加 -->
+							</view>
+							<!-- 添加一个空的占位卡片 -->
+							<view class="cardjuese1" style="visibility: hidden;"></view>
+						</view>
 
-				<!-- New Popup -->
-				<view v-if="showNewPopup" class="popup-overlay">
-					<view class="popup-content" @click.stop>
-						<!-- <view class="popup-header"> -->
-							<!-- <text class="popup-title"> </text> -->
-							<!-- <text class="popup-close" @click="closeNewPopup">×</text> -->
-						<!-- </view> -->
-						<!-- Add your new popup content here -->
-						<!-- <text>这是新弹窗的内容</text> -->
-						<view class="popup-wordy">
-							<!-- <image class="illustration" src="/static/gou.png" mode="widthFix"></image> -->
-							<image class="popup-icon2" src="/static/addlater3.png" mode="widthFix"></image>
+					</view>
+
+
+					<view v-if="showPopup" class="popup-overlay">
+						<view class="popup-content" @click.stop>
+							<view class="popup-header">
+								<text class="popup-title">创建人脉档案</text>
+								<text class="popup-close" @click="closePopup">×</text>
+							</view>
+							<input class="popup-input" v-model="profileName" placeholder="请输入名字" />
+							<view class="popup-section">
+								<text class="popup-question">TA是你的？</text>
+							</view>
+							<view class="popup-options">
+								<text class="popup-option" :class="{ active: selectedOption === 'subordinate' }"
+									@click="selectOption('subordinate')">同事</text>
+								<text class="popup-option1" :class="{ active: selectedOption === 'supervisor' }"
+									@click="selectOption('supervisor')">老板</text>
+								<text class="popup-option2" :class="{ active: selectedOption === '下属' }"
+									@click="selectOption('下属')">下属</text>
+							</view>
+
+							<view class="popup-section">
+								<text class="popup-question">哪些标签可以用来形容TA？</text>
+							</view>
+							<view class="popup-tags">
+								<text v-for="tag in currentTags" :key="tag" class="popup-tag"
+									:class="{ active: selectedTags.includes(tag) }" @click="toggleTag(tag)">{{ tag }}</text>
+							</view>
+
+							<image v-if="!isExpanded" @click="expand" src="/static/expand.png" class="expand-image"></image>
+
+
+							<!-- Updated button with simplified disabled style -->
+							<button class="popup-button" @click="toProfilePage"
+								:style="{ opacity: canNavigateToProfile ? 1 : 0.5 }">
+								创建档案
+							</button>
+						</view>
+					</view>
+
+					<!-- 添加蓝色按钮 -->
+					<view class="card3">
+						<image class="illustration36" src="/static/Frame1.png" mode="widthFix"></image>
+						<image class="illustration37" src="/static/Frame2.png" mode="widthFix" @click="navigateToDashboard2"></image>
+						<image class="illustration38" src="/static/Frame3.png" mode="widthFix"></image>
+					</view>
+
+					<!-- New Popup -->
+					<view v-if="showNewPopup" class="popup-overlay">
+						<view class="popup-content" @click.stop>
+							<view class="popup-wordy">
+								<image class="popup-icon2" src="/static/addlater3.png" mode="widthFix"></image>
 												
-							<text class="popup-title"> 微信号复制成功</text>
-							<text class="popup-notitle"> 微信号:wxid 3cnxu4266mt012</text>
-							<text class="popup-notitle"> 是否立即跳转微信添加助手?</text>
-							<view class="popup-icon">
-								<image class="popup-icon1" src="/static/addlater.png" @click="closeNewPopup" mode="widthFix"></image>
-								<image class="popup-icon1" src="/static/addlater1.png" mode="widthFix" @click="openWeChat"></image>
-								<!-- <image class="popup-icon1" src="/static/openwechat.png" mode="widthFix"></image> -->
-							
+								<text class="popup-title"> 微信号复制成功</text>
+								<text class="popup-notitle"> 微信号:wxid 3cnxu4266mt012</text>
+								<text class="popup-notitle"> 是否立即跳转微信添加助手?</text>
+								<view class="popup-icon">
+									<image class="popup-icon1" src="/static/addlater.png" @click="closeNewPopup" mode="widthFix"></image>
+									<image class="popup-icon1" src="/static/addlater1.png" mode="widthFix" @click="openWeChat"></image>
+								</view>
 							</view>
 						</view>
-
-						<!-- Add more elements as needed -->
 					</view>
 				</view>
 			</view>
@@ -164,7 +140,7 @@
 				<view class="dashboard2-card-o">
 					<view class="dashboard2-card">
 						<image class="dashboard2-illustration3" src="/static/diamond.png" mode="widthFix"></image>
-						<text class="dashboard2-score-value-large-y">{{ Math.round(120) }}</text>
+						<text class="dashboard2-score-value-large-y">{{ Math.round(homepageData?.response?.eq_scores?.score || 0) }}</text>
 					</view>
 					<view class="dashboard2-card">
 						<image class="dashboard2-illustration3" src="/static/dashboard2/star.jpg" mode="widthFix"></image>
@@ -172,6 +148,7 @@
 					</view>
 				</view>
 				<image class="dashboard2-illustration31" src="/static/dashboard2/1.jpg" mode="widthFix"></image>
+				
 				<view class="dashboard2-card1-container">
 					<view class="dashboard2-card1">
 						<text class="dashboard2-score-value-large1">情绪刹车术{{ }}</text>
@@ -181,40 +158,22 @@
 						<view class="dashboard2-progress-container">
 							<text class="dashboard2-score-title2">情绪掌控力</text>
 							<view class="dashboard2-progress-bar1">
-								<view class="dashboard2-progress" :style="{ width: progressWidth(homepageData.response.eq_scores.dimension3_score) }"></view>
+								<view class="dashboard2-progress" :style="{ width: progressWidth(homepageData?.response?.eq_scores?.dimension3_score || 0) }"></view>
 							</view>
 						</view>
 					</view>
 				</view>
 				
-				<!-- <view class="dashboard2-card-o">
-					<view class="dashboard2-progress-bar1">
-						<view class="dashboard2-progress" :style="{ width: progressWidth(homepageData.response.eq_scores.dimension3_score) }"></view>
-					</view>
-				</view> -->
-
 				<view class="dashboard2-card-o">
-				  <svg class="dashboard2-progress-bar1" width="100%" height="50" viewBox="0 0 200 50">
-				    <!-- 静态测试 S 形曲线 -->
-				    <path 
-				      d="M 0 25 C 25 0, 75 0, 100 25 S 175 50, 200 25" 
-				      fill="none" 
-				      stroke="black" 
-				      stroke-width="2"
-				    />
-				    <!-- 动态生成 S 形路径 -->
-				    <path 
-				      :d="generateSPath(progressWidth(homepageData.response.eq_scores.dimension3_score))" 
-				      fill="none" 
-				      stroke="blue" 
-				      stroke-width="5"
-				    />
-				  </svg>
+				  <!-- 调用进度条组件 -->
+				  <SProgressBar :finishComponents="1" :totalComponents="5" />
+				  
+				  <!-- <image class="dashboard2-xiuluochang-image" src="/static/dashboard2/xiuluochang.jpg" mode="aspectFill" /> -->
 				</view>
 
 				
-				<image class="dashboard2-xiuluochang-image" src="/static/dashboard2/xiuluochang.jpg" mode="aspectFill" />
-				<image class="dashboard2-illustration35" src="/static/dashboard2/plgon9.jpg" mode="widthFix" @click="navigateToBattlefieldIntro"></image>
+				
+				<!-- <image class="dashboard2-illustration35" src="/static/dashboard2/plgon9.jpg" mode="widthFix" @click="navigateToBattlefieldIntro"></image> -->
 				<view class="dashboard2-card3">
 					<image class="dashboard2-illustration36" src="/static/dashboard2/icon2.jpg" mode="widthFix" @click="switchView('dashboard')"></image>
 					<image class="dashboard2-illustration37" src="/static/dashboard2/icon1.jpg" mode="widthFix"></image>
@@ -226,7 +185,10 @@
 </template>
 
 <script>
+	import SProgressBar from '@/components/SProgressBar.vue'; // 根据实际路径调整
+	
 	export default {
+		
 		data() {
 			return {
 				currentView: 'dashboard2',
@@ -239,34 +201,19 @@
 				selectedOptions: [],
 				jobId: null,
 				num: null,
+				finishComponents: 2,
+				totalComponents: 5,
+				isLoading: true,
+				error: null,
 				homepageData: {
 					response: {
-						personal_info: {
-							name: '',
-							tag: '',
-							tag_description: '',
-							job_id: ''
-						},
-						eq_scores: {
-							score: 0,
-							dimension1_score: 0,
-							dimension1_detail: '',
-							dimension2_score: 0,
-							dimension2_detail: '',
-							dimension3_score: 0,
-							dimension3_detail: '',
-							dimension4_score: 0,
-							dimension4_detail: '',
-							dimension5_score: 0,
-							dimension5_detail: '',
-							summary: '',
-							detail: '',
-							overall_suggestion: '',
-							detail_summary: ''
-						},
+						personal_info: { name: '' },
+						eq_scores: { score: 0, overall_suggestion: '' },
 						contacts: []
 					}
 				},
+
+				
 				intervalId: null,
 				showSplash: false, // 默认不显示闪屏
 				progress: 0,
@@ -320,29 +267,32 @@
 				return this.profileName.trim() !== '' && this.selectedTags.length > 0;
 			},
 			userCard() {
-				const scores = this.homepageData.response.eq_scores;
+				const scores = this.homepageData?.response?.eq_scores;
 				console.log('jobid:', this.jobId);
 				console.log('results for backgrounds:', scores);
-				const minScore = Math.min(scores.dimension1_score, scores.dimension2_score, scores.dimension3_score, scores.dimension4_score, scores.dimension5_score);
+				const minScore = Math.min(scores?.dimension1_score || 0, scores?.dimension2_score || 0, scores?.dimension3_score || 0, scores?.dimension4_score || 0, scores?.dimension5_score || 0);
 
 				// 根据最低分选择图片
-				if (minScore === scores.dimension1_score) {
+				if (minScore === scores?.dimension1_score) {
 					console.log("usercard src:", '水豚')
 					return '/static/dashboard/shuitu.png';
-				} else if (minScore === scores.dimension2_score) {
+				} else if (minScore === scores?.dimension2_score) {
 					console.log("usercard src:", '猴子')
 					return '/static/dashboard/houzi.png';
-				} else if (minScore === scores.dimension3_score) {
+				} else if (minScore === scores?.dimension3_score) {
 					console.log("usercard src:", '刺猬')
 					return '/static/dashboard/ciwei.png';
-				} else if (minScore === scores.dimension4_score) {
+				} else if (minScore === scores?.dimension4_score) {
 					console.log("usercard src:", '鸵鸟')
 					return '/static/dashboard/tuoniao.png';
-				} else if (minScore === scores.dimension5_score) {
+				} else if (minScore === scores?.dimension5_score) {
 					console.log("usercard src:", '狼')
 					return '/static/dashboard/lang.png';
 				}
 			}
+		},
+		components: {
+			SProgressBar
 		},
 		onLoad(option) {
 			console.log('Received options:', option);
@@ -408,6 +358,8 @@
 			},
 			getHomepageData() {
 				const that = this;
+				this.isLoading = true;
+				this.error = null;
 				console.log('Fetching homepage data with jobId:', this.jobId);
 				uni.request({
 					url: `https://eqmaster.azurewebsites.net/get_homepage/${this.jobId}`,
@@ -420,11 +372,16 @@
 								that.drawRadar();
 							});
 						} else {
-							console.error('Failed to fetch homepage data:', response.statusCode);
+							that.error = `Failed to fetch homepage data: ${response.statusCode}`;
+							console.error(that.error);
 						}
 					},
 					fail(error) {
-						console.error('Error fetching homepage data:', error);
+						that.error = 'Error fetching homepage data';
+						console.error(that.error, error);
+					},
+					complete() {
+						that.isLoading = false;
 					}
 				});
 			},
@@ -457,12 +414,18 @@
 				});
 				this.closePopup();
 			},
+			navigateToBattlefieldIntro() {
+			    uni.navigateTo({
+			     url: `/pages/battlefield/battlefield-intro?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.homepageData?.response?.personal_info?.job_id}`
+			
+			    });
+			},
 			toProfilePage() {
 				if (this.canNavigateToProfile) {
 					// 准备要发送的数据
 					this.getHomepageData();
 					const requestData = {
-						personal_name: this.homepageData.response.personal_info.name || '',
+						personal_name: this.homepageData?.response?.personal_info?.name || '',
 						name: this.profileName,
 						tag: this.selectedTags.join(','),
 						contact_relationship: this.selectedOption
@@ -504,15 +467,15 @@
 			toProfilePage1(contact) {
 				this.getHomepageData();
 				console.log('Navigating to profile page for contact:', contact);
-				console.log('Navigating to profile page for contact:', this.homepageData.response.personal_info.name);
+				console.log('Navigating to profile page for contact:', this.homepageData?.response?.personal_info?.name);
 				if (this.canNavigateToProfile) {
 					// 准备要发送的数据
 					this.getHomepageData();
 					const requestData = {
-						personal_name: this.homepageData.response.personal_info.name || '',
-						name: contact.name,
-						tag: contact.tag,
-						contact_relationship: contact.contact_relationship
+						personal_name: this.homepageData?.response?.personal_info?.name || '',
+						name: contact?.name || '',
+						tag: contact?.tag || '',
+						contact_relationship: contact?.contact_relationship || ''
 					};
 
 					// 在发送请求之前打印数据
@@ -528,7 +491,7 @@
 								console.log('Contact profile created successfully:', res.data);
 								// 创建成功后，导航到档案页面
 								uni.navigateTo({
-									url: `/pages/profile/profile?personal_name=${encodeURIComponent(this.username)}&name=${encodeURIComponent(contact.name)}&jobId=${this.jobId}&relation=${encodeURIComponent(contact.contact_relationship)}&tags=${encodeURIComponent(contact.tag)}&contactId=${res.data.contact_id}`								});
+									url: `/pages/profile/profile?personal_name=${encodeURIComponent(this.username)}&name=${encodeURIComponent(contact?.name || '')}&jobId=${this.jobId}&relation=${encodeURIComponent(contact?.contact_relationship || '')}&tags=${encodeURIComponent(contact?.tag || '')}&contactId=${res.data.contact_id}`								});
 							} else {
 								console.error('Failed to create contact profile:', res.statusCode, res.data);
 								uni.showToast({
@@ -593,44 +556,6 @@
 				// 根据进度生成动态路径，前半段和后半段形成S形曲线
 				return `M 0 25 C ${progress * 0.25} 0, ${progress * 0.75} 0, ${progress} 25 S ${progress * 1.75} 50, ${progress * 2} 25`;
 			},
-			// openWeChat() {
-			// 	// Use the WeChat URL scheme to open the app
-			// 	uni.navigateTo({
-			// 		url: 'weixin://'
-			// 	});
-    		// },
-			// openNewPopup() {
-			// 	this.showNewPopup = true;
-			// },
-			openNewPopup() {
-			this.showNewPopup = true;
-			// Copy the text to the clipboard
-			uni.setClipboardData({
-            data: 'wxid 3cnxu4266mt012',
-            success: () => {
-                uni.showToast({
-                    title: '微信号已复制',
-                    icon: 'success'
-                });
-            },
-            fail: (err) => {
-                console.error('Failed to copy text:', err);
-                uni.showToast({
-                    title: '复制失败',
-                    icon: 'none'
-                });
-            }
-        });
-    },
-
-			closeNewPopup() {
-				this.showNewPopup = false;
-			},
-			// navigateToDashboard2() {
-			// 	uni.navigateTo({
-			// 		url: '/pages/dashboard/dashboard2'
-			// 	});
-			// },
 			navigateToDashboard() {
 				this.switchView('dashboard');
 			},
@@ -1606,13 +1531,13 @@
 }
 
 .dashboard2-card-o {
-  width: 420px;
+  width: 100%;
   position: relative;
   text-align: left;
   display: flex;
   flex-direction: row;
   align-items: left;
-  margin-bottom: 20rpx;
+  margin-bottom: 10rpx;
 }
 
 .dashboard2-card {

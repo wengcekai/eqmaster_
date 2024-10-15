@@ -131,14 +131,14 @@
                 "navigationStyle" : "custom"
             }
         },
+        // {
+        //     "path" : "pages/login/login",
+        //     "style" : {
+        //         "navigationBarTitleText" : ""
+        //     }
+        // },
         {
-            "path" : "pages/login/login",
-            "style" : {
-                "navigationBarTitleText" : ""
-            }
-        },
-        {
-            "path" : "pages/experience/experience",
+            "path" : "pages/landing/experience",
             "style" : {
                 "navigationStyle" : "custom"
             }

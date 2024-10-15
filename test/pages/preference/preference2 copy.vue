@@ -4,11 +4,8 @@
 			<text class="question">🤔 你希望提升哪些方面的高情商应对能力呢？</text>
 			<!-- <text class="question1">个性化偏好</text> -->
 		</view>
-		
 
-		
-
-		<view class="options-container">
+<!-- 		<view class="options-container">
 			<view class="option-group">
 				<view class="group-icon">
 					<image class="icon" src="/static/jobicon.png" mode="scaleToFill" />
@@ -34,12 +31,13 @@
 					</button>
 				</view>
 			</view>
+		</view> -->
+		
+		<view class="button-container">
+			<image class="continue-button" src="/static/arrowright.png" mode="aspectFit" @click="goToNextPage()"></image>
 		</view>
 
-	</view>
-	
-	<view class="button-container">
-		<image class="continue-button" src="/static/arrowright.png" mode="aspectFit" @click="goToNextPage()"></image>
+		
 	</view>
 </template>
 
