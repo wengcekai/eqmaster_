@@ -1,7 +1,7 @@
 <template>
   <view class="container">
     <!-- 背景图 -->
-    <image class="background-image" src="/static/bg1.png" mode="aspectFill" />
+    <image class="background-image" :src="`/static/bg${scenarioId}.png`" mode="aspectFill" />
 
     <!-- 进度条 -->
     <view class="progress-container">
@@ -28,7 +28,7 @@
     <!-- Test1 page content -->
     <template v-else-if="currentPage === 'test1'">
       <onboarding-chat-bubble
-        :userName="npcName"
+        :userName="scenarioData.role"
         :avatar="npcAvatar"
         :dismiss="navigateToTest2"
         :description="description"
@@ -112,7 +112,7 @@
 <script>
 import { findLastName, getAvatar } from '../../scripts/locate_name';
 import OnboardingChatBubble from '/components/OnboardingChatBubble.vue';
-import apiService from '/services/api-service.js';
+import apiService from '@/services/api-service';
 
 export default {
   components: {
@@ -139,6 +139,8 @@ export default {
       progress: 0,
       currentScene: 1,
       totalScenes: 5,
+      isFirstScene: true, // Add this new property
+      scenarioId: 1, // Add this new property
     };
   },
   onLoad(option) {
@@ -199,18 +201,18 @@ export default {
         });
     },
     getScenarioData() {
-      const requestMethod =
-        this.currentPage === 'test1' && this.firstScene
-          ? apiService.startScenario(this.jobId)
-          : apiService.getCurrentScenario(this.jobId);
+      const requestMethod = this.isFirstScene
+        ? apiService.startScenario(this.jobId)
+        : apiService.getCurrentScenario(this.jobId);
 
       requestMethod
         .then((res) => {
-          console.log('Scenario data:', res);
-          this.scenarioData = res.scenes || res;
+          console.log('Scenario data:', res.scenario_id);
+          this.scenarioData = res.scene.scenes || res;
+          this.scenarioId = res.scenario_id || 1; // Update scenarioId here
           this.handleScenarioData();
-          // 更新进度
           this.updateProgress();
+          this.isFirstScene = false;
         })
         .catch((err) => {
           console.error('Error getting scenario data:', err);
@@ -393,10 +395,6 @@ export default {
   
   .text-box.selected {
 	  background-color: #F6ECC9;
-  }
-  
-  .text-box.selected .text-content {
-	  color: #373742 !important;
   }
   
 	  .text-box1 {

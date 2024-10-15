@@ -145,6 +145,7 @@ export default {
   },
 
   async startScenario(jobId) {
+    console.log('startScenario called with jobId:', jobId);
     try {
       const response = await uni.request({
         url: `${API_ENDPOINT}/start_scenario/${jobId}`,
@@ -153,7 +154,7 @@ export default {
       
       if (response.statusCode === 200) {
         console.error('response:', response);
-        return response;
+        return response.data;
       } else {
         throw new Error(`Failed to start scenario: ${response.statusCode}`);
       }
@@ -171,7 +172,7 @@ export default {
       });
       
       if (response.statusCode === 200) {
-        return response.data;
+        return response;
       } else {
         throw new Error(`Failed to get current scenario: ${response.statusCode}`);
       }
