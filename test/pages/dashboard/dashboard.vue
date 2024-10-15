@@ -2,7 +2,7 @@
 	<view class="container">
 		<scroll-view scroll-y style="height: 100%;">
 			<view v-if="currentView === 'dashboard'" class="content">
-				
+
 				<!-- 添加错误处理和加载状态 -->
 				<view v-if="isLoading">加载中...</view>
 				<view v-else-if="error">{{ error }}</view>
@@ -16,14 +16,17 @@
 						<!-- 添加白色卡片 -->
 						<view class="card">
 							<image class="illustration3" src="/static/diamond.png" mode="widthFix"></image>
-							<text class="score-value-large">{{ Math.round(homepageData?.response?.eq_scores?.score || 0) }}</text>
+							<text
+								class="score-value-large">{{ Math.round(homepageData?.response?.eq_scores?.score || 0) }}</text>
 
 							<view class="progress-bar">
-								<view class="progress" :style="{ width: progressWidth(homepageData?.response?.eq_scores?.score || 0) }">
+								<view class="progress"
+									:style="{ width: progressWidth(homepageData?.response?.eq_scores?.score || 0) }">
 								</view>
 							</view>
 
-							<text class="card-description">{{ homepageData?.response?.eq_scores?.overall_suggestion || '暂无建议' }}</text>
+							<text
+								class="card-description">{{ homepageData?.response?.eq_scores?.overall_suggestion || '暂无建议' }}</text>
 							<image class="illustration31" src="/static/fullbutton.png" mode="widthFix"
 								@click="navigateToResult"></image>
 						</view>
@@ -38,30 +41,31 @@
 					<!-- 添加白色卡片1 -->
 					<view class="card1">
 						<text class="card-title14">添加微信助手，获取深度职场分析！</text>
-						<image class="illustration33" src="/static/add.png" mode="widthFix" @click="openNewPopup"></image>
+						<image class="illustration33" src="/static/add.png" mode="widthFix" @click="openNewPopup">
+						</image>
 						<image class="illustration34" src="/static/x.png" mode="widthFix"></image>
 					</view>
 
 
-					
+
 					<view class="dashboard1-card-o">
 						<image class="illustration35" src="/static/CTA1.png" mode="widthFix" @click="openPopup"></image>
-						
+
 						<view class="peoplecontain">
 							<view v-for="(contact, index) in homepageData?.response?.contacts || []" :key="index"
-								:class="['cardjuese', index % 2 === 1 ? 'lower-card' : '']"
-								>		
+								:class="['cardjuese', index % 2 === 1 ? 'lower-card' : '']">
 								<view class="card-a" @click="toProfilePage1(contact)">
 									<view class="card1inner">
 										<image class="illustrationhead" src="/static/head.png" mode="widthFix"></image>
 										<view class="card2inner">
 											<text class="usercard-title1">{{ truncateName(contact?.name || '') }}</text>
-											<text class="usercard-title2">{{ contact?.contact_relationship || '' }}</text>
+											<text
+												class="usercard-title2">{{ contact?.contact_relationship || '' }}</text>
 										</view>
 									</view>
 									<view class="white-line"></view>
 									<text class="usercard-title3">{{ contact?.relationship_analysis || '' }}</text>
-									
+
 								</view>
 								<!-- 如果卡片有更多内容，可以在这里添加 -->
 							</view>
@@ -96,10 +100,12 @@
 							</view>
 							<view class="popup-tags">
 								<text v-for="tag in currentTags" :key="tag" class="popup-tag"
-									:class="{ active: selectedTags.includes(tag) }" @click="toggleTag(tag)">{{ tag }}</text>
+									:class="{ active: selectedTags.includes(tag) }"
+									@click="toggleTag(tag)">{{ tag }}</text>
 							</view>
 
-							<image v-if="!isExpanded" @click="expand" src="/static/expand.png" class="expand-image"></image>
+							<image v-if="!isExpanded" @click="expand" src="/static/expand.png" class="expand-image">
+							</image>
 
 
 							<!-- Updated button with simplified disabled style -->
@@ -113,7 +119,8 @@
 					<!-- 添加蓝色按钮 -->
 					<view class="card3">
 						<image class="illustration36" src="/static/Frame1.png" mode="widthFix"></image>
-						<image class="illustration37" src="/static/Frame2.png" mode="widthFix" @click="navigateToDashboard2"></image>
+						<image class="illustration37" src="/static/Frame2.png" mode="widthFix"
+							@click="navigateToDashboard2"></image>
 						<image class="illustration38" src="/static/Frame3.png" mode="widthFix"></image>
 					</view>
 
@@ -122,13 +129,15 @@
 						<view class="popup-content" @click.stop>
 							<view class="popup-wordy">
 								<image class="popup-icon2" src="/static/addlater3.png" mode="widthFix"></image>
-												
+
 								<text class="popup-title"> 微信号复制成功</text>
 								<text class="popup-notitle"> 微信号:wxid 3cnxu4266mt012</text>
 								<text class="popup-notitle"> 是否立即跳转微信添加助手?</text>
 								<view class="popup-icon">
-									<image class="popup-icon1" src="/static/addlater.png" @click="closeNewPopup" mode="widthFix"></image>
-									<image class="popup-icon1" src="/static/addlater1.png" mode="widthFix" @click="openWeChat"></image>
+									<image class="popup-icon1" src="/static/addlater.png" @click="closeNewPopup"
+										mode="widthFix"></image>
+									<image class="popup-icon1" src="/static/addlater1.png" mode="widthFix"
+										@click="openWeChat"></image>
 								</view>
 							</view>
 						</view>
@@ -140,15 +149,17 @@
 				<view class="dashboard2-card-o">
 					<view class="dashboard2-card">
 						<image class="dashboard2-illustration3" src="/static/diamond.png" mode="widthFix"></image>
-						<text class="dashboard2-score-value-large-y">{{ Math.round(homepageData?.response?.eq_scores?.score || 0) }}</text>
+						<text
+							class="dashboard2-score-value-large-y">{{ Math.round(homepageData?.response?.eq_scores?.score || 0) }}</text>
 					</view>
 					<view class="dashboard2-card">
-						<image class="dashboard2-illustration3" src="/static/dashboard2/star.jpg" mode="widthFix"></image>
+						<image class="dashboard2-illustration3" src="/static/dashboard2/star.jpg" mode="widthFix">
+						</image>
 						<text class="dashboard2-score-value-large-g">{{ Math.round(5) }}</text>
 					</view>
 				</view>
 				<image class="dashboard2-illustration31" src="/static/dashboard2/1.jpg" mode="widthFix"></image>
-				
+
 				<view class="dashboard2-card1-container">
 					<view class="dashboard2-card1">
 						<text class="dashboard2-score-value-large1">情绪刹车术{{ }}</text>
@@ -158,24 +169,27 @@
 						<view class="dashboard2-progress-container">
 							<text class="dashboard2-score-title2">情绪掌控力</text>
 							<view class="dashboard2-progress-bar1">
-								<view class="dashboard2-progress" :style="{ width: progressWidth(homepageData?.response?.eq_scores?.dimension3_score || 0) }"></view>
+								<view class="dashboard2-progress"
+									:style="{ width: progressWidth(homepageData?.response?.eq_scores?.dimension3_score || 0) }">
+								</view>
 							</view>
 						</view>
 					</view>
 				</view>
-				
+
 				<view class="dashboard2-card-o">
-				  <!-- 调用进度条组件 -->
-				  <SProgressBar :finishComponents="1" :totalComponents="5" />
-				  
-				  <!-- <image class="dashboard2-xiuluochang-image" src="/static/dashboard2/xiuluochang.jpg" mode="aspectFill" /> -->
+					<!-- 调用进度条组件 -->
+					<SProgressBar :finishComponents="1" :totalComponents="5" />
+
+					<!-- <image class="dashboard2-xiuluochang-image" src="/static/dashboard2/xiuluochang.jpg" mode="aspectFill" /> -->
 				</view>
 
-				
-				
+
+
 				<!-- <image class="dashboard2-illustration35" src="/static/dashboard2/plgon9.jpg" mode="widthFix" @click="navigateToBattlefieldIntro"></image> -->
 				<view class="dashboard2-card3">
-					<image class="dashboard2-illustration36" src="/static/dashboard2/icon2.jpg" mode="widthFix" @click="switchView('dashboard')"></image>
+					<image class="dashboard2-illustration36" src="/static/dashboard2/icon2.jpg" mode="widthFix"
+						@click="switchView('dashboard')"></image>
 					<image class="dashboard2-illustration37" src="/static/dashboard2/icon1.jpg" mode="widthFix"></image>
 					<image class="dashboard2-illustration38" src="/static/Frame3.png" mode="widthFix"></image>
 				</view>
@@ -186,13 +200,10 @@
 
 <script>
 	import SProgressBar from '@/components/SProgressBar.vue'; // 根据实际路径调整
-<<<<<<< HEAD
-=======
 	import apiService from '../../services/api-service';
->>>>>>> main
-	
+
 	export default {
-		
+
 		data() {
 			return {
 				currentView: 'dashboard2',
@@ -211,13 +222,18 @@
 				error: null,
 				homepageData: {
 					response: {
-						personal_info: { name: '' },
-						eq_scores: { score: 0, overall_suggestion: '' },
+						personal_info: {
+							name: ''
+						},
+						eq_scores: {
+							score: 0,
+							overall_suggestion: ''
+						},
 						contacts: []
 					}
 				},
 
-				
+
 				intervalId: null,
 				showSplash: false, // 默认不显示闪屏
 				progress: 0,
@@ -231,12 +247,21 @@
 				selectedTags: [],
 				isProfileComplete: false, // New data property to track profile completion
 				profileName: '', // New data property for profile name
-				roleCards: [
-					{ title: '角色卡1' },
-					{ title: '角色卡2' },
-					{ title: '角色卡3' },
-					{ title: '角色卡4' },
-					{ title: '角色卡5' },
+				roleCards: [{
+						title: '角色卡1'
+					},
+					{
+						title: '角色卡2'
+					},
+					{
+						title: '角色卡3'
+					},
+					{
+						title: '角色卡4'
+					},
+					{
+						title: '角色卡5'
+					},
 					// 可以根据需要添加更多卡片
 				],
 				showNewPopup: false,
@@ -252,7 +277,9 @@
 				return '未设置';
 			},
 			currentMonth() {
-				const options = { month: 'long' }; // 'long' for full month name
+				const options = {
+					month: 'long'
+				}; // 'long' for full month name
 				return new Intl.DateTimeFormat('zh-CN', options).format(new Date());
 			},
 			currentDate() {
@@ -274,7 +301,8 @@
 				const scores = this.homepageData?.response?.eq_scores;
 				console.log('jobid:', this.jobId);
 				console.log('results for backgrounds:', scores);
-				const minScore = Math.min(scores?.dimension1_score || 0, scores?.dimension2_score || 0, scores?.dimension3_score || 0, scores?.dimension4_score || 0, scores?.dimension5_score || 0);
+				const minScore = Math.min(scores?.dimension1_score || 0, scores?.dimension2_score || 0, scores
+					?.dimension3_score || 0, scores?.dimension4_score || 0, scores?.dimension5_score || 0);
 
 				// 根据最低分选择图片
 				if (minScore === scores?.dimension1_score) {
@@ -304,7 +332,7 @@
 			// 接收上一个页面传递的数据
 			this.userId = option.userId || '';
 			this.username = decodeURIComponent(option.username || 'Dgidegfiugrwi');
-			
+
 			this.jobId = option.jobId || '154ee592-287b-4675-b8bd-8f88de348476';
 
 			// 立即调用一次
@@ -360,46 +388,16 @@
 					url: `/pages/dashboard/dashboard?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.jobId}` // 添加查询参数
 				});
 			},
-<<<<<<< HEAD
-			getHomepageData() {
-				const that = this;
-				this.isLoading = true;
-				this.error = null;
-				console.log('Fetching homepage data with jobId:', this.jobId);
-				uni.request({
-					url: `https://eqmaster.azurewebsites.net/get_homepage/${this.jobId}`,
-					method: 'POST',
-					success(response) {
-						if (response.statusCode === 200) {
-							that.homepageData = response.data;
-							console.log('Homepage data received:', that.homepageData);
-							that.$nextTick(() => {
-								that.drawRadar();
-							});
-						} else {
-							that.error = `Failed to fetch homepage data: ${response.statusCode}`;
-							console.error(that.error);
-						}
-					},
-					fail(error) {
-						that.error = 'Error fetching homepage data';
-						console.error(that.error, error);
-					},
-					complete() {
-						that.isLoading = false;
-					}
-				});
-=======
 			async getHomepageData() {
 				try {
 					this.isLoading = true;
 					this.error = null;
 					console.log('Fetching homepage data with jobId:', this.jobId);
-					
+
 					const data = await apiService.getHomepageData(this.jobId);
 					this.homepageData = data;
 					console.log('Homepage data received:', this.homepageData);
-					
+
 					this.$nextTick(() => {
 						this.drawRadar();
 					});
@@ -409,7 +407,6 @@
 				} finally {
 					this.isLoading = false;
 				}
->>>>>>> main
 			},
 			expand() {
 				this.isExpanded = true; // 只展开，不再收起
@@ -441,10 +438,10 @@
 				this.closePopup();
 			},
 			navigateToBattlefieldIntro() {
-			    uni.navigateTo({
-			     url: `/pages/battlefield/battlefield-intro?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.homepageData?.response?.personal_info?.job_id}`
-			
-			    });
+				uni.navigateTo({
+					url: `/pages/battlefield/battlefield-intro?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.homepageData?.response?.personal_info?.job_id}`
+
+				});
 			},
 			toProfilePage() {
 				if (this.canNavigateToProfile) {
@@ -517,7 +514,8 @@
 								console.log('Contact profile created successfully:', res.data);
 								// 创建成功后，导航到档案页面
 								uni.navigateTo({
-									url: `/pages/profile/profile?personal_name=${encodeURIComponent(this.username)}&name=${encodeURIComponent(contact?.name || '')}&jobId=${this.jobId}&relation=${encodeURIComponent(contact?.contact_relationship || '')}&tags=${encodeURIComponent(contact?.tag || '')}&contactId=${res.data.contact_id}`								});
+									url: `/pages/profile/profile?personal_name=${encodeURIComponent(this.username)}&name=${encodeURIComponent(contact?.name || '')}&jobId=${this.jobId}&relation=${encodeURIComponent(contact?.contact_relationship || '')}&tags=${encodeURIComponent(contact?.tag || '')}&contactId=${res.data.contact_id}`
+								});
 							} else {
 								console.error('Failed to create contact profile:', res.statusCode, res.data);
 								uni.showToast({
@@ -545,31 +543,32 @@
 				try {
 					// Attempt to open WeChat using the URL scheme
 					uni.navigateTo({
-					url: 'weixin://',
-					success: () => {
-						console.log('WeChat opened successfully');
-					},
-					fail: () => {
-						// If opening WeChat fails, show a toast message
-						uni.showToast({
-						title: 'WeChat is not installed',
-						icon: 'none'
-						});
-					}
+						url: 'weixin://',
+						success: () => {
+							console.log('WeChat opened successfully');
+						},
+						fail: () => {
+							// If opening WeChat fails, show a toast message
+							uni.showToast({
+								title: 'WeChat is not installed',
+								icon: 'none'
+							});
+						}
 					});
 				} catch (error) {
 					// Handle any unexpected errors
 					console.error('Error opening WeChat:', error);
 					uni.showToast({
-					title: 'Unable to open WeChat',
-					icon: 'none'
+						title: 'Unable to open WeChat',
+						icon: 'none'
 					});
 				}
 			},
 			toggleTipImage() {
-				this.tipImageSrc = this.tipImageSrc === '/static/tip.png' 
-					? '/static/tipp.png' // Replace with the new image path
-					: '/static/tip.png';
+				this.tipImageSrc = this.tipImageSrc === '/static/tip.png' ?
+					'/static/tipp.png' // Replace with the new image path
+					:
+					'/static/tip.png';
 			},
 			truncateName(name) {
 				const maxLength = 6; // Set the maximum length for the name
@@ -1294,7 +1293,8 @@
 	}
 
 	.popup-content {
-		width: 580rpx; /* Set the width to 90% */
+		width: 580rpx;
+		/* Set the width to 90% */
 		background-color: #3C3C47;
 		border-radius: 50rpx;
 		padding: 50rpx;
@@ -1318,38 +1318,55 @@
 		flex-direction: column;
 		margin-bottom: 0rpx;
 	}
+
 	.popup-icon {
-    display: flex; /* Use flexbox for layout */
-    flex-direction: row; /* Arrange items in a row */
-    justify-content: space-between; /* Distribute space evenly between items */
-    align-items: center; /* Align items vertically centered */
-    width: 500rpx; /* Ensure the container takes full width */
-    padding: 2rpx; /* Optional: Add some padding */
-}
-.popup-icon1 {
-    width: 400rpx; /* Set the width of the image */
-    height: auto; /* Maintain aspect ratio */
+		display: flex;
+		/* Use flexbox for layout */
+		flex-direction: row;
+		/* Arrange items in a row */
+		justify-content: space-between;
+		/* Distribute space evenly between items */
+		align-items: center;
+		/* Align items vertically centered */
+		width: 500rpx;
+		/* Ensure the container takes full width */
+		padding: 2rpx;
+		/* Optional: Add some padding */
+	}
 
-}
-.popup-icon2 {
-    width: 100rpx; /* Set the width of the image */
-    height: auto; /* Maintain aspect ratio */
-    margin-bottom: 40rpx; /* Add horizontal margin for spacing */
-	margin-top: 40rpx;
+	.popup-icon1 {
+		width: 400rpx;
+		/* Set the width of the image */
+		height: auto;
+		/* Maintain aspect ratio */
 
-}
+	}
+
+	.popup-icon2 {
+		width: 100rpx;
+		/* Set the width of the image */
+		height: auto;
+		/* Maintain aspect ratio */
+		margin-bottom: 40rpx;
+		/* Add horizontal margin for spacing */
+		margin-top: 40rpx;
+
+	}
+
 	.popup-title {
 		color: #FFFFFF;
 		font-size: 40rpx;
 		font-weight: bold;
 		margin-bottom: 20px;
 	}
+
 	.popup-notitle {
 		color: #FFFFFF;
-		
+
 		font-size: 30rpx;
 		margin-bottom: 20px;
 	}
+
 	.popup-close {
 		color: #FFFFFF;
 		font-size: 40rpx;
@@ -1482,7 +1499,7 @@
 		flex-direction: row;
 		margin-left: 20rpx;
 		display: flex;
-  align-items: center;
+		align-items: center;
 	}
 
 	.card2inner {
@@ -1524,213 +1541,226 @@
 		/* margin-top: 20rpx; */
 		margin-bottom: 10rpx;
 	}
+
 	.dashboard1-card-o {
-  width: 680rpx;
-  position: relative;
-  text-align: left;
-  display: flex;
-  flex-direction: row;
-  align-items: left;
-  margin-bottom: 20rpx;
-  gap: 5rpx;
-}
+		width: 680rpx;
+		position: relative;
+		text-align: left;
+		display: flex;
+		flex-direction: row;
+		align-items: left;
+		margin-bottom: 20rpx;
+		gap: 5rpx;
+	}
 
 
 	/* Styles for the first view */
-.dashboard-content {
-  display: block;
-  flex-direction: column;
-  align-items: center;
-  padding: 10rpx;
-}
+	.dashboard-content {
+		display: block;
+		flex-direction: column;
+		align-items: center;
+		padding: 10rpx;
+	}
 
-.dashboard-card {
-  /* Add styles specific to the first view */
-}
+	.dashboard-card {
+		/* Add styles specific to the first view */
+	}
 
-/* Styles for the second view */
-.dashboard2-content {
-  display: block;
-  flex-direction: column;
-  align-items: center;
-  padding: 10rpx;
-}
+	/* Styles for the second view */
+	.dashboard2-content {
+		display: block;
+		flex-direction: column;
+		align-items: center;
+		padding: 10rpx;
+	}
 
-.dashboard2-card-o {
-  width: 100%;
-  position: relative;
-  text-align: left;
-  display: flex;
-  flex-direction: row;
-  align-items: left;
-  margin-bottom: 10rpx;
-}
+	.dashboard2-card-o {
+		width: 100%;
+		position: relative;
+		text-align: left;
+		display: flex;
+		flex-direction: row;
+		align-items: left;
+		margin-bottom: 10rpx;
+	}
 
-.dashboard2-card {
-  width: 150px;
-  position: relative;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  padding: 40rpx 20rpx 0rpx 20rpx;
-}
+	.dashboard2-card {
+		width: 150px;
+		position: relative;
+		text-align: left;
+		display: flex;
+		flex-direction: column;
+		align-items: left;
+		padding: 40rpx 20rpx 0rpx 20rpx;
+	}
 
-.dashboard2-card1-container {
-  padding: 20 20rpx; /* Add left and right padding */
-  width: 100%;
-  box-sizing: border-box;
-}
+	.dashboard2-card1-container {
+		padding: 20 20rpx;
+		/* Add left and right padding */
+		width: 100%;
+		box-sizing: border-box;
+	}
 
-.dashboard2-card1 {
-  width: calc(100% - 80rpx); /* Screen width minus 20rpx on each side */
-  left: 5px;
-  background-color: #373742;
-  border-radius: 50rpx;
-  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
-  position: relative;
-  z-index: 20;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  padding: 20rpx 30rpx 20rpx 30rpx;
-}
+	.dashboard2-card1 {
+		width: calc(100% - 80rpx);
+		/* Screen width minus 20rpx on each side */
+		left: 5px;
+		background-color: #373742;
+		border-radius: 50rpx;
+		box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+		position: relative;
+		z-index: 20;
+		text-align: left;
+		display: flex;
+		flex-direction: column;
+		align-items: left;
+		padding: 20rpx 30rpx 20rpx 30rpx;
+	}
 
-.dashboard2-progress-container {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 10px;
-}
+	.dashboard2-progress-container {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		margin-bottom: 10px;
+	}
 
-.dashboard2-card3 {
-  width: 100%;
-  height: 150rpx;
-  background-color: #252529;
-  color: #252529;
-  font-size: 36rpx;
-  text-align: center;
-  line-height: 100rpx;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  position: fixed;
-  bottom: 0px;
-  transform: translateX(-50%);
-  left: 50%;
-}
+	.dashboard2-card3 {
+		width: 100%;
+		height: 150rpx;
+		background-color: #252529;
+		color: #252529;
+		font-size: 36rpx;
+		text-align: center;
+		line-height: 100rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		z-index: 1000;
+		position: fixed;
+		bottom: 0px;
+		transform: translateX(-50%);
+		left: 50%;
+	}
 
-.dashboard2-score-title1 {
-  font-size: 28rpx;
-  color: #010101;
-}
+	.dashboard2-score-title1 {
+		font-size: 28rpx;
+		color: #010101;
+	}
 
-.dashboard2-score-title2 {
-  font-size: 30rpx;
-  color: #FFFFFF;
-  left: 300px;
-  top: -23px;
-  font-weight: bold;
-}
+	.dashboard2-score-title2 {
+		font-size: 30rpx;
+		color: #FFFFFF;
+		left: 300px;
+		top: -23px;
+		font-weight: bold;
+	}
 
-.dashboard2-score-value-large-y {
-  font-size: 50rpx;
-  font-weight: bold;
-  color: #fe9a52;
-  margin-left: 60rpx;
-  left: 30px;
-  top: 30px;
-  position: absolute;
-}
+	.dashboard2-score-value-large-y {
+		font-size: 50rpx;
+		font-weight: bold;
+		color: #fe9a52;
+		margin-left: 60rpx;
+		left: 30px;
+		top: 30px;
+		position: absolute;
+	}
 
-.dashboard2-score-value-large-g {
-  font-size: 50rpx;
-  font-weight: bold;
-  color: #aeed50;
-  margin-left: 60rpx;
-  left: 30px;
-  top: 30px;
-  position: absolute;
-}
+	.dashboard2-score-value-large-g {
+		font-size: 50rpx;
+		font-weight: bold;
+		color: #aeed50;
+		margin-left: 60rpx;
+		left: 30px;
+		top: 30px;
+		position: absolute;
+	}
 
-.dashboard2-score-value-large1 {
-  font-size: 50rpx;
-  font-weight: bold;
-  color: #FFFFFF;
-  margin: 10px;
-  position: relative;
-}
+	.dashboard2-score-value-large1 {
+		font-size: 50rpx;
+		font-weight: bold;
+		color: #FFFFFF;
+		margin: 10px;
+		position: relative;
+	}
 
-.dashboard2-progress-bar1 {
-  width: 70%;
-  height: 15rpx;
-  background-color: #000000;
-  border-radius: 15rpx;
-  overflow: hidden;
-  margin-top: 15rpx;
-  margin-bottom: 15rpx;
-  margin-left: 15rpx;
-}
+	.dashboard2-progress-bar1 {
+		width: 70%;
+		height: 15rpx;
+		background-color: #000000;
+		border-radius: 15rpx;
+		overflow: hidden;
+		margin-top: 15rpx;
+		margin-bottom: 15rpx;
+		margin-left: 15rpx;
+	}
 
-.dashboard2-progress {
-  height: 100%;
-  background-color: #ffdc6f;
-}
+	.dashboard2-progress {
+		height: 100%;
+		background-color: #ffdc6f;
+	}
 
-.dashboard2-level-badge {
-  position: absolute;
-  right: 40rpx;
-  top: 40rpx;
-  background-color: #ffdc6f;
-  border-radius: 20rpx;
-  padding: 5rpx 15rpx;
-}
+	.dashboard2-level-badge {
+		position: absolute;
+		right: 40rpx;
+		top: 40rpx;
+		background-color: #ffdc6f;
+		border-radius: 20rpx;
+		padding: 5rpx 15rpx;
+	}
 
-.dashboard2-xiuluochang-image {
-  width: 100%;
-  height: 1100rpx;
-  object-fit: cover;
-  margin: 20rpx 0;
-}
+	.dashboard2-xiuluochang-image {
+		width: 100%;
+		height: 1100rpx;
+		object-fit: cover;
+		margin: 20rpx 0;
+	}
 
-.dashboard2-illustration35 {
-  width: 300rpx;
-  height: auto;
-  position: absolute;
-  top: 470rpx;
-  left: 335rpx;
-  margin-bottom: 10px;
-  z-index: 40;
-}
+	.dashboard2-illustration35 {
+		width: 300rpx;
+		height: auto;
+		position: absolute;
+		top: 470rpx;
+		left: 335rpx;
+		margin-bottom: 10px;
+		z-index: 40;
+	}
 
-.dashboard2-illustration3 {
-  width: 100rpx;
-  height: auto;
-  position: relative;
-  top: 0rpx;
-  left: 0rpx;
-}
+	.dashboard2-illustration3 {
+		width: 100rpx;
+		height: auto;
+		position: relative;
+		top: 0rpx;
+		left: 0rpx;
+	}
 
-.dashboard2-illustration31 {
-  width: 150rpx;
-  height: auto;
-  position: absolute;
-  top: 40rpx;
-  right: 0rpx;
-}
+	.dashboard2-illustration31 {
+		width: 150rpx;
+		height: auto;
+		position: absolute;
+		top: 40rpx;
+		right: 0rpx;
+	}
 
-.dashboard2-illustration36, .dashboard2-illustration37, .dashboard2-illustration38 {
-  width: 60rpx;
-  height: auto;
-  position: absolute;
-  top: 30rpx;
-}
+	.dashboard2-illustration36,
+	.dashboard2-illustration37,
+	.dashboard2-illustration38 {
+		width: 60rpx;
+		height: auto;
+		position: absolute;
+		top: 30rpx;
+	}
 
-.dashboard2-illustration36 { left: 100rpx; }
-.dashboard2-illustration37 { left: 340rpx; }
-.dashboard2-illustration38 { left: 570rpx; }
+	.dashboard2-illustration36 {
+		left: 100rpx;
+	}
+
+	.dashboard2-illustration37 {
+		left: 340rpx;
+	}
+
+	.dashboard2-illustration38 {
+		left: 570rpx;
+	}
 </style>

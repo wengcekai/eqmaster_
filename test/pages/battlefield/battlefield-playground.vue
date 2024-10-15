@@ -448,6 +448,7 @@
 									.mood, 10) > 0 ? 4 : -2), 20);
 							}
 						});
+
 						// Calculate total health
 						const totalHealth = this.npcs.reduce((acc, npc) => acc + npc.health, 0);
 
@@ -461,7 +462,39 @@
 						} else {
 							this.gemCount = 0;
 						}
+
+						// 检查任何 NPC 的 health 是否 <= 0
+						const anyNpcHealthLow = this.npcs.some(npc => npc.health <= 0);
+
+						if (anyNpcHealthLow) {
+							uni.setStorage({
+								key: 'gemCount',
+								data: 0,
+								success: () => {
+									console.log('gemCount 设置成功:', this.gemCount);
+								},
+								fail: (err) => {
+									console.error('设置 gemCount 失败:', err);
+								}
+							})
+							// 如果有任何 NPC 的 health <= 0，跳转到另一个页面
+							setTimeout(() => {
+								uni.navigateTo({
+									url: '/pages/battlefield/battlefield-summary',
+								});
+							}, 500);
+						}
 						if (done) {
+							uni.setStorage({
+								key: 'gemCount',
+								data: this.gemCount,
+								success: () => {
+									console.log('gemCount 设置成功:', this.gemCount);
+								},
+								fail: (err) => {
+									console.error('设置 gemCount 失败:', err);
+								}
+							})
 							await this.Pass()
 						}
 					} catch (error) {
