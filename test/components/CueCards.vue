@@ -88,113 +88,112 @@
 	}
 	
 	.card-box {
-		.card-header {
-			display: block;
-			.title {
-				width: 100%;
-				position: relative;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				font-size: 48rpx;
-				font-weight: 700;
-				color: #8C5225;
-				.card-close-image {
-					position: absolute;
-					right: 0;
-					width: 48rpx;
-					height: 48rpx;
-				}
-			}
-			.jewelry {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				margin-top: 32rpx;
-				gap: 16rpx;
-				.jewelry-image {
-					width: 56rpx;
-					height: 56rpx;	
-				}
-				.jewelry-num {
-					color: #F2BC74;
-					font-size: 40rpx;
-					font-weight: 800;
-					text-align: left;
-	
-				}
-			}
-		}
-		.card-center {
-			margin-top: 24rpx;
-			display: flex;
-			gap: 24rpx;
-			.box {
-				display: block;
-				justify-content: center;
-				color: #252529;
-				width: 282rpx;
-				/* height: 354rpx; */
-				padding: 40rpx 24rpx;
-				gap: 40rpx;
-				border-radius: 32rpx;
-				background: #FFFFFF;
-				box-shadow: 0 0 24rpx 0 #FED397;
-				.top {
-					display: block;
-					height: 176rpx;
-					text-align: center;
-					text {
-						font-size: 34rpx;
-						font-weight: 500;
-						color: #252529;
-					}
-					.top-content {
-						font-size: 24rpx;
-						margin-top: 24rpx;
-						text-align: left;
-						line-height: 36rpx;
-						color: #67677A;
-					}
-				}
-				.jewelry {
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					margin-top: 40rpx;
-					gap: 16rpx;
-					.jewelry-image {
-						width: 56rpx;
-						height: 56rpx;	
-					}
-					.jewelry-num {
-						color: #8C5225;
-						font-size: 40rpx;
-						font-weight: 800;
-						text-align: left;
-					}
-				}
-			}
-			.card-selected {
-				border: 3px solid #F2BC74;
-			}
-		}
-		.card-button {
-			display: flex;
-			width: 100%;
-			margin-top: 64rpx;
-			button {
-				width: 100%;
-				height: 88rpx;
-				line-height: 88rpx;
-				background-color: #F2BC74;
-				border-radius: 400rpx;
-				font-size: 30rpx;
-			}
-			button[disabled] {
-				opacity: 50%;
-			}
-		}
+	}
+	.card-header {
+		display: block;
+	}
+	.title {
+		width: 100%;
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 48rpx;
+		font-weight: 700;
+		color: #8C5225;
+	}
+	.card-close-image {
+		position: absolute;
+		right: 0;
+		width: 48rpx;
+		height: 48rpx;
+	}
+	.jewelry {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-top: 32rpx;
+		gap: 16rpx;
+	}
+	.jewelry-image {
+		width: 56rpx;
+		height: 56rpx;	
+	}
+	.jewelry-num {
+		color: #F2BC74;
+		font-size: 40rpx;
+		font-weight: 800;
+		text-align: left;
+	}
+	.card-center {
+		margin-top: 24rpx;
+		display: flex;
+		gap: 24rpx;
+	}
+	.box {
+		display: block;
+		justify-content: center;
+		color: #252529;
+		width: 282rpx;
+		/* height: 354rpx; */
+		padding: 40rpx 24rpx;
+		gap: 40rpx;
+		border-radius: 32rpx;
+		background: #FFFFFF;
+		box-shadow: 0 0 24rpx 0 #FED397;
+	}
+	.top {
+		display: block;
+		height: 176rpx;
+		text-align: center;
+	}
+	text {
+		font-size: 34rpx;
+		font-weight: 500;
+		color: #252529;
+	}
+	.top-content {
+		font-size: 24rpx;
+		margin-top: 24rpx;
+		text-align: left;
+		line-height: 36rpx;
+		color: #67677A;
+	}
+	.jewelry {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-top: 40rpx;
+		gap: 16rpx;
+	}
+	.jewelry-image {
+		width: 56rpx;
+		height: 56rpx;	
+	}
+	.jewelry-num {
+		color: #8C5225;
+		font-size: 40rpx;
+		font-weight: 800;
+		text-align: left;
+	}
+	.card-selected {
+		border: 3px solid #F2BC74;
+	}
+	.card-button {
+		display: flex;
+		width: 100%;
+		margin-top: 64rpx;
+	}
+	button {
+		width: 100%;
+		height: 88rpx;
+		line-height: 88rpx;
+		background-color: #F2BC74;
+		border-radius: 400rpx;
+		font-size: 30rpx;
+	}
+	button[disabled] {
+		opacity: 50%;
 	}
 	
 </style>
