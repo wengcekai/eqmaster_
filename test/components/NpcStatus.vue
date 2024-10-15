@@ -47,8 +47,9 @@
 		},
 		computed: {
 			healthBarStyle() {
-				const color = this.health < 33 ? '#FF6262' : '#9EE44D'; // 健康值小于33时为红色，大于等于33为绿色
-				const width = `${this.health}%`; // 健康条宽度动态绑定
+				const color = this.health < 6.7 ? '#FF6262' : '#9EE44D'; // 健康值小于33时为红色，大于等于33为绿色
+				const width = `${this.health * 5}%`; // 健康条宽度动态绑定
+				console.log("health width: ", width);
 				return {
 					width,
 					backgroundColor: color,

@@ -5,7 +5,7 @@
 
 		<view class="navbar" :class="{ shadowed: shouldShadow }">
 			<image class="back-button" src="/static/battlefield/back-iconpng.png" @tap="goToDashboard"></image>
-			<reward-bar :gemCount="2"></reward-bar>
+			<reward-bar :gemCount="gemCount"></reward-bar>
 			<view class="setting-group">
 				<image class="setting-item" src="/static/battlefield/copy.png"></image>
 				<image class="setting-item" src="/static/battlefield/setting.png"></image>
@@ -140,20 +140,21 @@
 				focusInput: false,
 				npcs: [{
 						characterName: '领导',
-						health: 60,
+						health: 10,
 						avatar: '/static/battlefield/boss.png',
 					},
 					{
 						characterName: '同事A',
-						health: 60,
+						health: 10,
 						avatar: '/static/battlefield/xiaoA.png',
 					},
 					{
 						characterName: '同事B',
-						health: 60,
+						health: 10,
 						avatar: '/static/battlefield/xiaoB.png',
 					},
 				],
+				gemCount: 2,
 				tempFilePath: '', // 临时录音文件路径
 				isRecording: false, // Controls the display state of recording box
 				remainingTime: 30, // 录音剩余时间
@@ -171,7 +172,7 @@
 				// const allPositive = judgeResult.moods.some((item) => parseInt(item.mood, 10) > 0);
 				if (allPositive && !this.taskList.getTask(1).once) {
 					this.judgeTitle =
-						`${this.taskList.getTask(0).title} (${this.taskList.doneTaskLength + 1}/${this.taskList.taskLength})`;
+						`做得好！ ${this.taskList.getTask(0).title} (${this.taskList.doneTaskLength + 1}/${this.taskList.taskLength})`;
 					return true;
 				}
 				return false;
@@ -185,7 +186,7 @@
 				const bMood = parseInt(res ? res : 0, 10);
 				if (bMood < 0 && !this.taskList.getTask(1).once) {
 					this.judgeTitle =
-						`${this.taskList.getTask(1).title} (${this.taskList.doneTaskLength + 1}/${this.taskList.taskLength})`;
+						`做得好！ ${this.taskList.getTask(1).title} (${this.taskList.doneTaskLength + 1}/${this.taskList.taskLength})`;
 					return true;
 				}
 				return false;
@@ -436,45 +437,30 @@
 
 						// 遍历 judgeResult.moods 并根据角色调整 this.npcs 的 health 值
 						judgeResult.moods.forEach((item) => {
-							console.log("遍历moods");
-							let randomValue;
 							if (item.role === '领导') {
-								if (parseInt(item.mood, 10) > 0) {
-									// 正数，增加 20 到 30 的随机值
-									randomValue = Math.floor(Math.random() * 11) + 20;
-									this.npcs[0].health = Math.min(this.npcs[0].health + randomValue,
-										100); // 保证最大值为100
-								} else if (parseInt(item.mood, 10) < 0) {
-									// 负数，减少 30 到 40 的随机值
-									randomValue = Math.floor(Math.random() * 11) + 30;
-									this.npcs[0].health = Math.max(this.npcs[0].health - randomValue,
-										0); // 保证最小值为0
-								}
+								this.npcs[0].health = Math.min(this.npcs[0].health + (parseInt(item
+									.mood, 10) > 0 ? 4 : -2), 20);
 							} else if (item.role === '同事A') {
-								if (parseInt(item.mood, 10) > 0) {
-									randomValue = Math.floor(Math.random() * 11) + 20;
-									this.npcs[1].health = Math.min(this.npcs[1].health + randomValue,
-										100); // 保证最大值为100
-								} else if (parseInt(item.mood, 10) < 0) {
-									randomValue = Math.floor(Math.random() * 11) + 30;
-									this.npcs[1].health = Math.max(this.npcs[1].health - randomValue,
-										0); // 保证最小值为0
-								}
+								this.npcs[1].health = Math.min(this.npcs[1].health + (parseInt(item
+									.mood, 10) > 0 ? 4 : -2), 20);
 							} else if (item.role === '同事B') {
-								if (parseInt(item.mood, 10) > 0) {
-									randomValue = Math.floor(Math.random() * 11) + 20;
-									this.npcs[2].health = Math.min(this.npcs[2].health + randomValue,
-										100); // 保证最大值为100
-								} else if (parseInt(item.mood, 10) < 0) {
-									randomValue = Math.floor(Math.random() * 11) + 30;
-									this.npcs[2].health = Math.max(this.npcs[2].health - randomValue,
-										0); // 保证最小值为0
-								}
+								this.npcs[2].health = Math.min(this.npcs[2].health + (parseInt(item
+									.mood, 10) > 0 ? 4 : -2), 20);
 							}
 						});
-						// if (this.task1Finished && this.task2Finished) {
-						// 	await this.Pass();
-						// }
+						// Calculate total health
+						const totalHealth = this.npcs.reduce((acc, npc) => acc + npc.health, 0);
+
+						// Determine gemCount based on total health
+						if (totalHealth >= 0 && totalHealth <= 20) {
+							this.gemCount = 1;
+						} else if (totalHealth >= 21 && totalHealth <= 40) {
+							this.gemCount = 2;
+						} else if (totalHealth >= 41 && totalHealth <= 60) {
+							this.gemCount = 3;
+						} else {
+							this.gemCount = 0;
+						}
 						if (done) {
 							await this.Pass()
 						}

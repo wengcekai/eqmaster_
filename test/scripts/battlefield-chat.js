@@ -44,7 +44,7 @@ function sendRequest(person_id, course_id, chat_content, url = BASE_URL) {
 
 		const body = {
 			person_id: person_id || 1,
-			course_id: course_id || "course",
+			course_id: course_id || 1,
 			chat_content: JSON.stringify(formattedChatContent)
 		};
 

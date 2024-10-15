@@ -146,7 +146,7 @@ if (uni.restoreGlobal) {
       formatAppLog("log", "at scripts/battlefield-chat.js:43", formattedChatContent);
       const body = {
         person_id: person_id || 1,
-        course_id: course_id || "course",
+        course_id: course_id || 1,
         chat_content: JSON.stringify(formattedChatContent)
       };
       formatAppLog("log", "at scripts/battlefield-chat.js:51", "body:", body);
@@ -303,7 +303,8 @@ if (uni.restoreGlobal) {
           "好好哈哈哈你看看哈哈哈你看看哈哈哈你看看哈哈哈你看看好我看看",
           "嘿嘿哈哈哈你看看哈哈哈你看看哈哈哈你看看哈哈哈你看看哈哈哈你看看嘿"
         ],
-        suggestion: "注意倾听每个人的需求，及时回应对方的感受。"
+        suggestion: "注意倾听每个人的需求，及时回应对方的感受。",
+        diamondAdd: 3
       };
     },
     methods: {
@@ -312,7 +313,7 @@ if (uni.restoreGlobal) {
         return `${percentage}%`;
       },
       navigateToGuide() {
-        formatAppLog("log", "at pages/battlefield/battlefield-summary.vue:79", "Navigating to guide with data:", {
+        formatAppLog("log", "at pages/battlefield/battlefield-summary.vue:80", "Navigating to guide with data:", {
           userId: this.userId,
           username: this.username,
           jobId: this.homepageData.response.personal_info.job_id
@@ -332,10 +333,25 @@ if (uni.restoreGlobal) {
       uni.getStorage({
         key: "evalResult",
         success: (res) => {
-          formatAppLog("log", "at pages/battlefield/battlefield-summary.vue:101", "result:", res);
+          formatAppLog("log", "at pages/battlefield/battlefield-summary.vue:102", "result:", res);
           const list = res.data.eval.map((item) => item.analysis);
           this.comments = list;
           this.suggestion = res.data.eq_tips.join("\n");
+        }
+      });
+      uni.getStorage({
+        key: "gemCount",
+        success: (res) => {
+          const gemCount = res.data;
+          let diamondAdd = 3;
+          if (gemCount > 0) {
+            diamondAdd = 10;
+          }
+          this.diamondAdd = diamondAdd;
+          formatAppLog("log", "at pages/battlefield/battlefield-summary.vue:118", "获取到的 Gem Count:", gemCount, "Diamond Add 值为:", diamondAdd);
+        },
+        fail: (err) => {
+          formatAppLog("error", "at pages/battlefield/battlefield-summary.vue:122", "获取 Gem Count 失败:", err);
         }
       });
     }
@@ -1499,8 +1515,9 @@ if (uni.restoreGlobal) {
     },
     computed: {
       healthBarStyle() {
-        const color = this.health < 33 ? "#FF6262" : "#9EE44D";
-        const width = `${this.health}%`;
+        const color = this.health < 6.7 ? "#FF6262" : "#9EE44D";
+        const width = `${this.health * 5}%`;
+        formatAppLog("log", "at components/NpcStatus.vue:52", "health width: ", width);
         return {
           width,
           backgroundColor: color,
@@ -1542,7 +1559,7 @@ if (uni.restoreGlobal) {
           return;
         }
         this.showIndicator = true;
-        formatAppLog("log", "at components/NpcStatus.vue:86", "show the circle");
+        formatAppLog("log", "at components/NpcStatus.vue:87", "show the circle");
         if (this.indicatorTimeout) {
           clearTimeout(this.indicatorTimeout);
         }
@@ -1550,7 +1567,7 @@ if (uni.restoreGlobal) {
           this.showIndicator = false;
           this.indicatorTimeout = null;
         }, 2e3);
-        formatAppLog("log", "at components/NpcStatus.vue:98", "hide the circle");
+        formatAppLog("log", "at components/NpcStatus.vue:99", "hide the circle");
         this.prevHealth = newVal;
       }
     },
@@ -2119,20 +2136,21 @@ if (uni.restoreGlobal) {
         npcs: [
           {
             characterName: "领导",
-            health: 60,
+            health: 10,
             avatar: "/static/battlefield/boss.png"
           },
           {
             characterName: "同事A",
-            health: 60,
+            health: 10,
             avatar: "/static/battlefield/xiaoA.png"
           },
           {
             characterName: "同事B",
-            health: 60,
+            health: 10,
             avatar: "/static/battlefield/xiaoB.png"
           }
         ],
+        gemCount: 2,
         tempFilePath: "",
         // 临时录音文件路径
         isRecording: false,
@@ -2154,7 +2172,7 @@ if (uni.restoreGlobal) {
       this.taskList.addTask(new Task(1, "一句话让同事们赞不绝口", async (judgeResult) => {
         const allPositive = judgeResult.moods.every((item) => parseInt(item.mood, 10) > 0);
         if (allPositive && !this.taskList.getTask(1).once) {
-          this.judgeTitle = `${this.taskList.getTask(0).title} (${this.taskList.doneTaskLength + 1}/${this.taskList.taskLength})`;
+          this.judgeTitle = `做得好！ ${this.taskList.getTask(0).title} (${this.taskList.doneTaskLength + 1}/${this.taskList.taskLength})`;
           return true;
         }
         return false;
@@ -2167,7 +2185,7 @@ if (uni.restoreGlobal) {
         });
         const bMood = parseInt(res ? res : 0, 10);
         if (bMood < 0 && !this.taskList.getTask(1).once) {
-          this.judgeTitle = `${this.taskList.getTask(1).title} (${this.taskList.doneTaskLength + 1}/${this.taskList.taskLength})`;
+          this.judgeTitle = `做得好！ ${this.taskList.getTask(1).title} (${this.taskList.doneTaskLength + 1}/${this.taskList.taskLength})`;
           return true;
         }
         return false;
@@ -2188,17 +2206,17 @@ if (uni.restoreGlobal) {
         this.startCountdown();
       },
       handleTouchMove(e) {
-        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:210", "move start , isRecording: ", this.isRecording);
+        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:211", "move start , isRecording: ", this.isRecording);
         if (!this.isRecording)
           return;
         const currentY = e.touches[0].clientY;
         const distance = currentY - this.touchStartY;
         if (distance < this.touchThreshold) {
           this.isCanceling = true;
-          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:216", "canceled");
+          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:217", "canceled");
         } else {
           this.isCanceling = false;
-          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:219", "not canceled");
+          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:220", "not canceled");
         }
       },
       handleRecordingDone() {
@@ -2235,15 +2253,15 @@ if (uni.restoreGlobal) {
           return;
         }
         const nextRound = await continueChat(this.chattingHistory);
-        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:262", "next round data", nextRound);
+        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:263", "next round data", nextRound);
         this.chattingHistory = this.chattingHistory.concat(nextRound.dialog);
-        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:265", "after concat, chatting history:", this.chattingHistory);
+        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:266", "after concat, chatting history:", this.chattingHistory);
         let someoneTalked = false;
         for (; this.displayedNpcChatIndex < this.chattingHistory.length; ++this.displayedNpcChatIndex) {
           let npcIndex = getNpcIndex(this.chattingHistory[this.displayedNpcChatIndex]);
           if (npcIndex >= 0) {
             this.talkingNpc = npcIndex;
-            formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:274", "someone talk:", this.talkingNpc);
+            formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:275", "someone talk:", this.talkingNpc);
             someoneTalked = true;
             break;
           }
@@ -2270,23 +2288,23 @@ if (uni.restoreGlobal) {
           // 设置录音格式为 wav
         };
         recorderManager.start(options);
-        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:299", "开始录音");
+        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:300", "开始录音");
       },
       getNextState() {
         if (this.state === "NpcTalk" && this.chattingHistory.length === 0) {
-          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:303", "Dismiss npc");
+          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:304", "Dismiss npc");
           this.state = "userTalk";
         }
       },
       handleTippingQuit() {
-        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:310", "Clicked quit tipping");
+        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:311", "Clicked quit tipping");
         this.state = "userTalk";
       },
       help() {
-        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:314", "Choose help card");
+        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:315", "Choose help card");
       },
       hint() {
-        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:317", "Choose hint card");
+        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:318", "Choose hint card");
       },
       clickHintButton() {
         this.state = "hint";
@@ -2305,12 +2323,12 @@ if (uni.restoreGlobal) {
               // 确保使用 multipart/form-data 进行文件上传
             }
           });
-          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:334", "文件上传成功:", response);
+          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:335", "文件上传成功:", response);
           const resData = JSON.parse(response.data);
           const transcript = resData.transcript;
           return transcript;
         } catch (error) {
-          formatAppLog("error", "at pages/battlefield/battlefield-playground.vue:339", "文件上传失败:", error);
+          formatAppLog("error", "at pages/battlefield/battlefield-playground.vue:340", "文件上传失败:", error);
           throw error;
         }
       },
@@ -2327,7 +2345,7 @@ if (uni.restoreGlobal) {
           }
         }
         if (!foundNpcMessage) {
-          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:359", "no more npc, now user turn.");
+          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:360", "no more npc, now user turn.");
           this.state = "userTalk";
         }
       },
@@ -2337,7 +2355,7 @@ if (uni.restoreGlobal) {
       },
       async Pass() {
         const evaluationResult = await evalBattlefield(this.chattingHistory);
-        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:370", "evaluation result:", evaluationResult);
+        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:371", "evaluation result:", evaluationResult);
         uni.setStorage({
           key: "evalResult",
           data: evaluationResult
@@ -2355,12 +2373,12 @@ if (uni.restoreGlobal) {
       },
       initRecorderManager() {
         recorderManager.onStart(() => {
-          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:391", "Recorder start");
+          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:392", "Recorder start");
         });
         recorderManager.onStop(async (res) => {
-          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:394", "Recorder stop", res);
+          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:395", "Recorder stop", res);
           if (this.isCanceling) {
-            formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:398", "Recording was canceled, no further action taken.");
+            formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:399", "Recording was canceled, no further action taken.");
             this.resetRecording();
             return;
           }
@@ -2369,7 +2387,7 @@ if (uni.restoreGlobal) {
             const transcript = await this.uploadAndRecognizeSpeech(path);
             if (transcript.length === 0) {
               this.isCanceling = true;
-              formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:408", "record is none, canceling...");
+              formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:409", "record is none, canceling...");
               this.resetRecording();
               uni.showToast({
                 title: "好像没有听清哦～",
@@ -2383,79 +2401,51 @@ if (uni.restoreGlobal) {
             });
             const validChats = filterChatHistory(this.chattingHistory);
             const judgeResult = await reply(validChats);
-            formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:423", "get judge result: ", judgeResult);
+            formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:424", "get judge result: ", judgeResult);
             const totalScore = judgeResult.moods.reduce((acc, mood) => {
               return acc + parseInt(mood.mood, 10);
             }, 0);
             this.isGoodReply = totalScore > 0;
             this.judgeTitle = this.isGoodReply ? "做的好" : "继续努力";
             const done = await this.taskList.execute(judgeResult);
-            formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:432", "Done :", done);
+            formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:433", "Done :", done);
             this.judgeContent = judgeResult.comments;
             this.state = "judge";
-            formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:435", "state has been changed");
+            formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:436", "state has been changed");
             judgeResult.moods.forEach((item) => {
-              formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:439", "遍历moods");
-              let randomValue;
               if (item.role === "领导") {
-                if (parseInt(item.mood, 10) > 0) {
-                  randomValue = Math.floor(Math.random() * 11) + 20;
-                  this.npcs[0].health = Math.min(
-                    this.npcs[0].health + randomValue,
-                    100
-                  );
-                } else if (parseInt(item.mood, 10) < 0) {
-                  randomValue = Math.floor(Math.random() * 11) + 30;
-                  this.npcs[0].health = Math.max(
-                    this.npcs[0].health - randomValue,
-                    0
-                  );
-                }
+                this.npcs[0].health = Math.min(this.npcs[0].health + (parseInt(item.mood, 10) > 0 ? 4 : -2), 20);
               } else if (item.role === "同事A") {
-                if (parseInt(item.mood, 10) > 0) {
-                  randomValue = Math.floor(Math.random() * 11) + 20;
-                  this.npcs[1].health = Math.min(
-                    this.npcs[1].health + randomValue,
-                    100
-                  );
-                } else if (parseInt(item.mood, 10) < 0) {
-                  randomValue = Math.floor(Math.random() * 11) + 30;
-                  this.npcs[1].health = Math.max(
-                    this.npcs[1].health - randomValue,
-                    0
-                  );
-                }
+                this.npcs[1].health = Math.min(this.npcs[1].health + (parseInt(item.mood, 10) > 0 ? 4 : -2), 20);
               } else if (item.role === "同事B") {
-                if (parseInt(item.mood, 10) > 0) {
-                  randomValue = Math.floor(Math.random() * 11) + 20;
-                  this.npcs[2].health = Math.min(
-                    this.npcs[2].health + randomValue,
-                    100
-                  );
-                } else if (parseInt(item.mood, 10) < 0) {
-                  randomValue = Math.floor(Math.random() * 11) + 30;
-                  this.npcs[2].health = Math.max(
-                    this.npcs[2].health - randomValue,
-                    0
-                  );
-                }
+                this.npcs[2].health = Math.min(this.npcs[2].health + (parseInt(item.mood, 10) > 0 ? 4 : -2), 20);
               }
             });
+            const totalHealth = this.npcs.reduce((acc, npc) => acc + npc.health, 0);
+            if (totalHealth >= 0 && totalHealth <= 20) {
+              this.gemCount = 1;
+            } else if (totalHealth >= 21 && totalHealth <= 40) {
+              this.gemCount = 2;
+            } else if (totalHealth >= 41 && totalHealth <= 60) {
+              this.gemCount = 3;
+            } else {
+              this.gemCount = 0;
+            }
             if (done) {
               await this.Pass();
             }
           } catch (error) {
-            formatAppLog("error", "at pages/battlefield/battlefield-playground.vue:482", "在用户说话反馈过程中有错发生哦：", error);
+            formatAppLog("error", "at pages/battlefield/battlefield-playground.vue:468", "在用户说话反馈过程中有错发生哦：", error);
           }
         });
       }
     },
     onLoad(option) {
-      formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:488", "loaded");
+      formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:474", "loaded");
       uni.getStorage({
         key: "chats",
         success: (res) => {
-          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:492", "chatting histories,", res.data);
+          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:478", "chatting histories,", res.data);
           this.chattingHistory = res.data;
         }
       });
@@ -2463,9 +2453,9 @@ if (uni.restoreGlobal) {
     },
     watch: {
       isCanceling(newValue) {
-        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:501", "isCanceling : ", newValue);
+        formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:487", "isCanceling : ", newValue);
         if (newValue) {
-          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:503", "Doing canceling ");
+          formatAppLog("log", "at pages/battlefield/battlefield-playground.vue:489", "Doing canceling ");
           this.handleRecordingDone();
         }
       }
@@ -2520,7 +2510,7 @@ if (uni.restoreGlobal) {
             src: _imports_0$c,
             onClick: _cache[0] || (_cache[0] = (...args) => $options.goToDashboard && $options.goToDashboard(...args))
           }),
-          vue.createVNode(_component_reward_bar, { gemCount: 2 }),
+          vue.createVNode(_component_reward_bar, { gemCount: $data.gemCount }, null, 8, ["gemCount"]),
           vue.createElementVNode("view", { class: "setting-group" }, [
             vue.createElementVNode("image", {
               class: "setting-item",

@@ -2,8 +2,8 @@
 	<view class="container">
 		<scroll-view scroll-y style="height: 100%;">
 			<!-- <view class="debug-info"> -->
-			  <!-- 如需调试信息，可取消注释以下行 -->
-			  <!-- <text>homepageData: {{ JSON.stringify(homepageData) }}</text> -->
+			<!-- 如需调试信息，可取消注释以下行 -->
+			<!-- <text>homepageData: {{ JSON.stringify(homepageData) }}</text> -->
 			<!-- </view> -->
 			<view class="card first-card">
 				<image class="head-image" src="/static/summary-bg.png" mode="aspectFill"></image>
@@ -48,8 +48,8 @@
 				</view>
 			</view>
 			<button class="guide-button" @click="navigateToGuide">开启高情商之旅</button>
-						
-			
+
+
 		</scroll-view>
 	</view>
 </template>
@@ -65,7 +65,8 @@
 				comments: ["哈哈哈你看看哈哈哈你看看哈哈哈你看看哈哈哈你看看哈哈哈你看看", "好好哈哈哈你看看哈哈哈你看看哈哈哈你看看哈哈哈你看看好我看看",
 					"嘿嘿哈哈哈你看看哈哈哈你看看哈哈哈你看看哈哈哈你看看哈哈哈你看看嘿"
 				],
-				suggestion: "注意倾听每个人的需求，及时回应对方的感受。"
+				suggestion: "注意倾听每个人的需求，及时回应对方的感受。",
+				diamondAdd: 3
 			}
 		},
 		methods: {
@@ -92,7 +93,7 @@
 				});
 			}
 		},
-		
+
 		onLoad() {
 			const evalResult = uni.getStorage({
 				key: 'evalResult',
@@ -105,8 +106,23 @@
 					this.suggestion = res.data.eq_tips.join('\n');
 				}
 			});
-		
-		
+			const gemCount = uni.getStorage({
+				key: 'gemCount',
+				success: (res) => {
+					const gemCount = res.data;
+					let diamondAdd = 3; // 默认值为 3
+					if (gemCount > 0) {
+						diamondAdd = 10; // 如果 gemCount > 0, 设置 diamondAdd 为 10
+					}
+					this.diamondAdd = diamondAdd;
+					console.log('获取到的 Gem Count:', gemCount, 'Diamond Add 值为:', diamondAdd);
+
+				},
+				fail: (err) => {
+					console.error('获取 Gem Count 失败:', err);
+				}
+			});
+
 
 		}
 	}
@@ -249,7 +265,7 @@
 		height: auto;
 		margin-bottom: 3vh;
 	}
-	
+
 	.guide-button {
 		width: 80%;
 		height: 100rpx;
