@@ -49,7 +49,7 @@
 	.avatar-container {
 		width: 60rpx;
 		height: 60rpx;
-		border-radius: 30rpx;
+		border-radius: 50%;
 		border: solid 1px #F2Bc74;
 		flex-shrink: 0;
 	}
