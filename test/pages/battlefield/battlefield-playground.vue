@@ -653,10 +653,10 @@
 		/* 增加一些内边距 */
 		background-color: #FDEDC8;
 		/* 可选的背景色，用于强调输入框 */
-		textarea {
-			padding: 0 20rpx;
-			color: #252529;
-		}
+	}
+	textarea {
+		padding: 0 20rpx;
+		color: #252529;
 	}
 
 	.keyboard-container {
