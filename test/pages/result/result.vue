@@ -8,7 +8,7 @@
 				<!-- </view> -->
 				<view class="header">
 					<image class="header-icon" src="/static/back.png"></image>
-					<text class="score-title-head">{{homepageData.response.personal_info.name}}我的检测结果</text>
+					<text class="score-title-head">我的检测结果</text>
 					<image class="header-icon" src="/static/battlefield/share.png"></image>
 				</view>
 				<view class="background-curve"></view>
@@ -463,7 +463,7 @@
 		flex-direction: column;
 		align-items: center;
 		/* width: 100%; */
-		margin-left: 20px;
+		/* margin-left: 20px; */
 	}
 
 	.background-curve {
@@ -644,6 +644,7 @@
 		flex-direction: column;
 		align-items: flex-start;
 		margin-bottom: 30px;
+		z-index: 10;
 	}
 
 	.icon-text-box {
