@@ -3,8 +3,8 @@
 		<scroll-view scroll-y style="height: 100%;">
 			<view class="content">
 				<!-- <view class="debug-info"> -->
-				  <!-- 如需调试信息，可取消注释以下行 -->
-				  <!-- <text>homepageData: {{ JSON.stringify(homepageData) }}</text> -->
+				<!-- 如需调试信息，可取消注释以下行 -->
+				<!-- <text>homepageData: {{ JSON.stringify(homepageData) }}</text> -->
 				<!-- </view> -->
 				<view class="header">
 					<image class="header-icon" src="/static/back.png"></image>
@@ -158,7 +158,7 @@
 					</template>
 				</view>
 				<button class="guide-button" @click="navigateToGuide">开启高情商之旅</button>
-			
+
 			</view>
 		</scroll-view>
 	</view>
@@ -255,7 +255,6 @@
 						console.log('########successfully retrieved data', res);
 						this.homepageData = res.data;
 						console.log('begin to draw radar');
-						this.drawRadar();
 					}
 				});
 			} catch (e) {
@@ -263,16 +262,6 @@
 			}
 		},
 		onUnload() {
-			// 页面卸载时清除定时器
-			if (this.intervalId) {
-				clearInterval(this.intervalId);
-			}
-			if (this.progressInterval) {
-				clearInterval(this.progressInterval);
-			}
-			if (this.interval) {
-				clearInterval(this.interval);
-			}
 		},
 		onReady() {
 			// 确保数据已经准备好
@@ -288,6 +277,7 @@
 					}
 				});
 			}
+			this.drawRadar();
 		},
 		methods: {
 			progressWidth(value) {
@@ -462,8 +452,8 @@
 		/* 避免 flex 布局干扰 */
 		flex-direction: column;
 		align-items: center;
-		/* width: 100%; */
-		/* margin-left: 20px; */
+		margin-left: 20px;
+		margin-right: 20px;
 	}
 
 	.background-curve {
@@ -644,7 +634,6 @@
 		flex-direction: column;
 		align-items: flex-start;
 		margin-bottom: 30px;
-		z-index: 10;
 	}
 
 	.icon-text-box {
