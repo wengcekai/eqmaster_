@@ -3,7 +3,6 @@
     <!-- 背景图 -->
     <image class="background-image" :src="`/static/bg${scenarioId}.png`" mode="aspectFill" />
 
-    <!-- 进度条 -->
     <view class="progress-container">
       <view class="progress-bar">
         <view class="progress" :style="{ width: `${progress}%` }"></view>
@@ -205,17 +204,18 @@ export default {
         ? apiService.startScenario(this.jobId)
         : apiService.getCurrentScenario(this.jobId);
 
-      requestMethod
+      return requestMethod
         .then((res) => {
           console.log('Scenario data:', res.scenario_id);
           this.scenarioData = res.scene.scenes || res;
-          this.scenarioId = res.scenario_id || 1; // Update scenarioId here
+          this.scenarioId = res.scenario_id || 1;
           this.handleScenarioData();
           this.updateProgress();
           this.isFirstScene = false;
         })
         .catch((err) => {
           console.error('Error getting scenario data:', err);
+          throw err; // Re-throw the error to be caught in navigateToTest3
         });
     },
     handleScenarioData() {
@@ -253,8 +253,25 @@ export default {
       this.getScenarioData();
     },
     navigateToTest3() {
-      this.currentPage = 'test3';
-      this.getScenarioData();
+      // Show loading indicator
+      uni.showLoading({
+        title: '加载中...'
+      });
+
+      // Get new scenario data first
+      this.getScenarioData().then(() => {
+        // Update the page only after new data is loaded
+        this.currentPage = 'test3';
+        // Hide loading indicator
+        uni.hideLoading();
+      }).catch(error => {
+        console.error('Error loading scenario data:', error);
+        uni.hideLoading();
+        uni.showToast({
+          title: '加载失败，请重试',
+          icon: 'none'
+        });
+      });
     },
     navigateToTest4() {
       this.currentPage = 'test4';
