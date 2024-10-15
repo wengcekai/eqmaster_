@@ -1,0 +1,149 @@
+.expand-icon {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+}
+
+.icon-image {
+	width: 20px;
+	height: 20px;
+}
+
+.logo {
+	width: 300rpx;
+	height: 300rpx;
+	position: absolute;
+	top: 11%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	/* 同时水平和垂直居中 */
+}
+	
+.background-image {
+	position: absolute;
+	top: 5rpx;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	background-color: #1c1c1e;
+	padding: 40px 20px;
+	height: 100vh;
+	overflow: hidden;
+	touch-action: none;
+	align-items: center;
+}
+
+.continue-button {
+		width: 40rpx;
+		height: 40rpx;
+		background-color: #F2BC74;
+		border-radius: 50rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 30rpx;
+	}
+	
+	.button-container {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		bottom: 100rpx;
+	}
+	
+/* .button-container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	bottom: 100rpx;
+} */
+
+/* 继续按钮设置 */
+/* .continue-button {
+	width: 50px;
+	height: 50px;
+	background-color: #8BC34A;
+	border-radius: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
+} */
+
+.arrow {
+	color: #242424;
+	font-size: 20px;
+}
+
+.logo {
+	width: 100%;
+	height: 90%;
+	position: absolute;
+	top: 2.5vh;
+	left: 50%;
+	opacity: 70%;
+	transform: translate(-50%, -50%);
+}
+
+.banner-container {
+	overflow: visible;
+	width: 100%;
+	height: 100rpx;
+	position: relative;
+	top: 100rpx;
+	left: 50%;
+	transform: translate(-50%, 0);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.room-text {
+	text-align: center;
+	color: #ffffff;
+	font-size: 25rpx;
+	z-index: 3;
+}
+
+/* Add any additional styles you need */
+
+.progress-container {
+	position: absolute;
+	top: 120rpx;
+	left: 40rpx;
+	right: 40rpx;
+	display: flex;
+	align-items: center;
+}
+
+.progress-bar {
+	flex-grow: 1;
+	height: 5rpx;
+	background-color: #101010;
+	border-radius: 5rpx;
+	overflow: hidden;
+	width: 90%;
+	margin-right: 20rpx;
+}
+
+.progress {
+	height: 100%;
+	background-color: #FFFFFF;
+	transition: width 0.3s ease;
+}
+
+.progress-text {
+	color: #FFFFFF;
+	font-size: 24rpx;
+	min-width: 60rpx;
+	text-align: right;
+}
