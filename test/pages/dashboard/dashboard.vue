@@ -201,13 +201,9 @@
 <script>
 	import SProgressBar from '@/components/SProgressBar.vue'; // 根据实际路径调整
 	import apiService from '../../services/api-service';
-	import NpcComment from '/components/NpcComment.vue'; // 引入组件
 
 	export default {
-		components: {
-			SProgressBar,
-			NpcComment, // 注册组件
-		},
+
 		data() {
 			return {
 				currentView: 'dashboard2',
@@ -236,6 +232,8 @@
 						contacts: []
 					}
 				},
+
+
 				intervalId: null,
 				showSplash: false, // 默认不显示闪屏
 				progress: 0,
@@ -268,7 +266,6 @@
 				],
 				showNewPopup: false,
 				tipImageSrc: '/static/tip.png', // Initial image source
-				diamondAdd: 3 // 初始化 diamondAdd
 			};
 		},
 		computed: {
@@ -304,53 +301,91 @@
 				const scores = this.homepageData?.response?.eq_scores;
 				console.log('jobid:', this.jobId);
 				console.log('results for backgrounds:', scores);
-				const minScore = Math.min(
-					scores?.dimension1_score || 0,
-					scores?.dimension2_score || 0,
-					scores?.dimension3_score || 0,
-					scores?.dimension4_score || 0,
-					scores?.dimension5_score || 0
-				);
+				const minScore = Math.min(scores?.dimension1_score || 0, scores?.dimension2_score || 0, scores
+					?.dimension3_score || 0, scores?.dimension4_score || 0, scores?.dimension5_score || 0);
 
 				// 根据最低分选择图片
 				if (minScore === scores?.dimension1_score) {
-					console.log("usercard src:", '水豚');
+					console.log("usercard src:", '水豚')
 					return '/static/dashboard/shuitu.png';
 				} else if (minScore === scores?.dimension2_score) {
-					console.log("usercard src:", '猴子');
+					console.log("usercard src:", '猴子')
 					return '/static/dashboard/houzi.png';
 				} else if (minScore === scores?.dimension3_score) {
-					console.log("usercard src:", '刺猬');
+					console.log("usercard src:", '刺猬')
 					return '/static/dashboard/ciwei.png';
 				} else if (minScore === scores?.dimension4_score) {
-					console.log("usercard src:", '鸵鸟');
+					console.log("usercard src:", '鸵鸟')
 					return '/static/dashboard/tuoniao.png';
 				} else if (minScore === scores?.dimension5_score) {
-					console.log("usercard src:", '狼');
+					console.log("usercard src:", '狼')
 					return '/static/dashboard/lang.png';
 				}
 			}
 		},
+		components: {
+			SProgressBar
+		},
+		onLoad(option) {
+			console.log('Received options:', option);
+
+			// 接收上一个页面传递的数据
+			this.userId = option.userId || '';
+			this.username = decodeURIComponent(option.username || 'Dgidegfiugrwi');
+
+			this.jobId = option.jobId || '154ee592-287b-4675-b8bd-8f88de348476';
+
+			// 立即调用一次
+			this.getHomepageData();
+			// this.username = this.homepageData.response.personal_info.name || '';
+
+			console.log('Parsed data:', {
+				userId: this.userId,
+				username: this.username,
+				jobId: this.jobId
+			});
+
+			console.log('Received options:', option);
+
+			// 接收 currentView 参数并更新
+			if (option.currentView) {
+				this.currentView = option.currentView;
+			}
+
+			console.log('Current View:', this.currentView);
+
+
+			// 设置定时调用
+			this.intervalId = setInterval(() => {
+				this.getHomepageData();
+			}, 50000); // 每50秒调用一次
+		},
+		onUnload() {
+			// 页面卸载时清除定时器
+			if (this.intervalId) {
+				clearInterval(this.intervalId);
+			}
+			if (this.progressInterval) {
+				clearInterval(this.progressInterval);
+			}
+		},
 		methods: {
 			progressWidth(value) {
-				// 优化后直接返回 `${value}%`
-				return `${value}%`;
+				// 算进度条宽度百分比
+				const percentage = (value / this.maxScore) * 100;
+				// console.log('${percentage}%：', `${percentage}%`)
+				return `${percentage}%`;
 			},
 			circleLeftPosition(value) {
 				// 获取进度条实际宽度
 				const percentage1 = (value / this.maxScore) * 100;
-				const progressBarWidth = uni.getSystemInfoSync().windowWidth * 0.8; // 80%的屏幕宽度作为进度条的实际宽度
-				console.log(percentage1);
+				const progressBarWidth = uni.getSystemInfoSync().windowWidth * 0.8; // 80%的屏幕宽度作为进度条的际宽度
+				console.log(percentage1)
 				return (percentage1 / 100) * progressBarWidth;
 			},
 			navigateToGuide() {
 				uni.navigateTo({
 					url: `/pages/dashboard/dashboard?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.jobId}` // 添加查询参数
-				});
-			},
-			navigateToNextPage() {
-				uni.navigateTo({
-					url: '/pages/battlefield/battlefield-task' // 替换为实际路径
 				});
 			},
 			async getHomepageData() {
@@ -396,7 +431,6 @@
 			},
 			createProfile() {
 				console.log('创建档案', {
-
 					name: this.profileName,
 					option: this.selectedOption,
 					tags: this.selectedTags
@@ -406,11 +440,60 @@
 			navigateToBattlefieldIntro() {
 				uni.navigateTo({
 					url: `/pages/battlefield/battlefield-intro?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.homepageData?.response?.personal_info?.job_id}`
+
 				});
 			},
-			toProfilePage(contact) {
+			toProfilePage() {
 				if (this.canNavigateToProfile) {
 					// 准备要发送的数据
+					this.getHomepageData();
+					const requestData = {
+						personal_name: this.homepageData?.response?.personal_info?.name || '',
+						name: this.profileName,
+						tag: this.selectedTags.join(','),
+						contact_relationship: this.selectedOption
+					};
+
+					// 在发送请求之前打印数据
+					console.log('Sending data to create contact profile:', requestData);
+
+					// 发送请求创建联系人档案
+					uni.request({
+						url: 'https://eqmaster.azurewebsites.net/create_contact_profile',
+						method: 'POST',
+						data: requestData,
+						success: (res) => {
+							if (res.statusCode === 200) {
+								console.log('Contact profile created successfully:', res.data);
+								// 创建成功后，导航到档案页面
+								uni.navigateTo({
+									url: `/pages/profile/profile?personal_name=${encodeURIComponent(this.username)}&name=${encodeURIComponent(this.profileName)}&jobId=${this.jobId}&relation=${encodeURIComponent(this.selectedOption)}&tags=${encodeURIComponent(JSON.stringify(this.selectedTags))}&contactId=${res.data.contact_id}`
+								});
+							} else {
+								console.error('Failed to create contact profile:', res.statusCode, res.data);
+								uni.showToast({
+									title: `创建档案失败: ${res.statusCode}`,
+									icon: 'none'
+								});
+							}
+						},
+						fail: (err) => {
+							console.error('Error creating contact profile:', err);
+							uni.showToast({
+								title: '网络错误，请稍后重试',
+								icon: 'none'
+							});
+						}
+					});
+				}
+			},
+			toProfilePage1(contact) {
+				this.getHomepageData();
+				console.log('Navigating to profile page for contact:', contact);
+				console.log('Navigating to profile page for contact:', this.homepageData?.response?.personal_info?.name);
+				if (this.canNavigateToProfile) {
+					// 准备要发送的数据
+					this.getHomepageData();
 					const requestData = {
 						personal_name: this.homepageData?.response?.personal_info?.name || '',
 						name: contact?.name || '',
@@ -508,80 +591,6 @@
 				this.currentView = view;
 			},
 		},
-		onLoad(option) {
-			console.log('Received options:', option);
-
-			// 接收上一个页面传递的数据
-			this.userId = option.userId || '';
-			this.username = decodeURIComponent(option.username || 'Dgidegfiugrwi');
-			this.jobId = option.jobId || '154ee592-287b-4675-b8bd-8f88de348476';
-
-			// 立即调用一次
-			this.getHomepageData();
-
-			console.log('Parsed data:', {
-				userId: this.userId,
-				username: this.username,
-				jobId: this.jobId
-			});
-
-			console.log('Received options:', option);
-
-			// 接收 currentView 参数并更新
-			if (option.currentView) {
-				this.currentView = option.currentView;
-			}
-
-			console.log('Current View:', this.currentView);
-
-			// 设置定时调用
-			this.intervalId = setInterval(() => {
-				this.getHomepageData();
-			}, 50000); // 每50秒调用一次
-
-			// 获取 evalResult 并更新页面内容
-			uni.getStorage({
-				key: 'evalResult',
-				success: (res) => {
-					console.log('result:', res);
-					const list = res.data.eval.map(item => item.analysis);
-					this.comments = list;
-
-					this.suggestion = res.data.eq_tips.join('\n');
-				},
-				fail: (err) => {
-					console.error('获取 evalResult 失败:', err);
-				}
-			});
-
-			// 获取 gemCount 并设置 diamondAdd
-			uni.getStorage({
-				key: 'gemCount',
-				success: (res) => {
-					const gemCount = res.data;
-					let diamondAdd = 3; // 默认值为 3
-					if (gemCount > 0) {
-						diamondAdd = 10; // 如果 gemCount > 0, 设置 diamondAdd 为 10
-					}
-					this.diamondAdd = diamondAdd;
-					console.log('获取到的 Gem Count:', gemCount, 'Diamond Add 值为:', diamondAdd);
-				},
-				fail: (err) => {
-					console.error('获取 Gem Count 失败:', err);
-					// 设置默认值或提示用户
-					this.diamondAdd = 3; // 设置为默认值
-				}
-			});
-		},
-		onUnload() {
-			// 页面卸载时清除定时器
-			if (this.intervalId) {
-				clearInterval(this.intervalId);
-			}
-			if (this.progressInterval) {
-				clearInterval(this.progressInterval);
-			}
-		}
 	};
 </script>
 
