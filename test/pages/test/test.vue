@@ -17,8 +17,8 @@
         <text class="room-text">{{ scenarioData.location }}</text>
       </view>
       <view class="text-box">
-        <text class="text-content">{{ background }}</text>
-        <view class="expand-icon" @tap="navigateToTest1">
+        <view class="text-content" @tap="navigateToTest1">{{ background }}</view>
+        <view class="expand-icon" >
           <image class="icon-image" src="/static/icon3.png" mode="aspectFit" />
         </view>
       </view>
@@ -65,8 +65,8 @@
         <text class="room-text">{{ scenarioData.location }}</text>
       </view>
       <view class="text-box">
-        <text class="text-content">{{ background }}</text>
-        <view class="expand-icon" @tap="navigateToTest4">
+        <view class="text-content" @tap="navigateToTest4">{{ background }}</view>
+        <view class="expand-icon" >
           <image class="icon-image" src="/static/icon3.png" mode="aspectFit" />
         </view>
       </view>
@@ -193,9 +193,6 @@ export default {
         .then((res) => {
           console.log('Backend response:', res);
           this.jobId = res.job_id;
-		  const indexes = this.username.split("##");
-		  this.scenarioId = indexes[1] !== undefined && !isNaN(parseInt(indexes[1], 10)) 
-		  ? parseInt(indexes[1], 10) : undefined;
           this.getScenarioData();
         })
         .catch((err) => {
@@ -203,8 +200,8 @@ export default {
         });
     },
     getScenarioData() {
-      const requestMethod = this.isFirstScene ? (this.scenarioId && this.scenarioId >= 0 && this.scenarioId <= 9) ? apiService.startScenarioWithId(this.jobId, this.scenarioId)
-        : apiService.startScenario(this.jobId)
+      const requestMethod = this.isFirstScene
+        ? apiService.startScenario(this.jobId)
         : apiService.getCurrentScenario(this.jobId);
 
       return requestMethod
@@ -411,6 +408,7 @@ export default {
 	  flex-direction: column;
 	  align-items: center;
 	  gap: 20rpx;
+	  padding-bottom: 120rpx;
   }
   
   .text-box.selected {
