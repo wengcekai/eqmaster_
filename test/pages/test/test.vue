@@ -193,6 +193,9 @@ export default {
         .then((res) => {
           console.log('Backend response:', res);
           this.jobId = res.job_id;
+		  const indexes = this.username.split("##");
+		  this.scenarioId = indexes[1] !== undefined && !isNaN(parseInt(indexes[1], 10)) 
+		  ? parseInt(indexes[1], 10) : undefined;
           this.getScenarioData();
         })
         .catch((err) => {
@@ -200,8 +203,8 @@ export default {
         });
     },
     getScenarioData() {
-      const requestMethod = this.isFirstScene
-        ? apiService.startScenario(this.jobId)
+      const requestMethod = this.isFirstScene ? (this.scenarioId && this.scenarioId >= 0 && this.scenarioId <= 9) ? apiService.startScenarioWithId(this.jobId, this.scenarioId)
+        : apiService.startScenario(this.jobId)
         : apiService.getCurrentScenario(this.jobId);
 
       return requestMethod

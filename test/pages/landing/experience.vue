@@ -35,7 +35,7 @@
 			};
 		},
 		mounted() {
-			const randomNum = Math.floor(Math.random() * 10) + 1; // 生成1到10之间的随机数字
+			const randomNum = Math.floor(Math.random() * 10); // 生成1到10之间的随机数字
 			this.username = "tester-" + uuidv4().slice(0, 6) + `##${randomNum}`;
 		},
 		methods: {

@@ -163,6 +163,25 @@ export default {
       throw error;
     }
   },
+  
+  async startScenarioWithId(jobId, scenarioId) {
+    try {
+      const response = await uni.request({
+        url: `${API_ENDPOINT}/start_scenario_by_scenario_id/${jobId}/${scenarioId}`,
+        method: 'POST'
+      });
+      
+      if (response.statusCode === 200) {
+        console.error('response:', response);
+        return response.data;
+      } else {
+        throw new Error(`Failed to start scenario: ${response.statusCode}`);
+      }
+    } catch (error) {
+      console.error('Error starting scenario:', error);
+      throw error;
+    }
+  },
 
   async getCurrentScenario(jobId) {
     try {
