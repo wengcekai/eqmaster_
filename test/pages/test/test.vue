@@ -16,9 +16,9 @@
 				<image class="logo" src="/static/signa.png" mode="aspectFit" />
 				<text class="room-text">{{ scenarioData.location }}</text>
 			</view>
-			<view class="text-box" @tap="navigateToTest1">
-				<text class="text-content">{{ background }}</text>
-				<view class="expand-icon">
+			<view class="text-box" @tap="navigateToTest1" :class="{ 'disabled': isLoading }">
+				<text class="text-content" >{{ background }}</text>
+				<view class="expand-icon" >
 					<image class="icon-image" src="/static/icon3.png" mode="aspectFit" />
 				</view>
 			</view>
@@ -27,7 +27,7 @@
 		<!-- Test1 page content -->
 		<template v-else-if="currentPage === 'test1'">
 			<onboarding-chat-bubble :userName="scenarioData.role" :avatar="npcAvatar" @tap="navigateToTest2"
-				:description="description"></onboarding-chat-bubble>
+				:description="description" :class="{ 'disabled': isLoading }"></onboarding-chat-bubble>
 		</template>
 
 		<!-- Test2 page content -->
@@ -42,7 +42,7 @@
 					</text>
 				</view>
 				<view class="next-button-container">
-					<image class="continue-button" src="/static/arrowright.png" mode="aspectFit" @click="nextPage">
+					<image class="continue-button" src="/static/arrowright.png" mode="aspectFit" @click="nextPage" :class="{ 'disabled': isLoading }">
 					</image>
 				</view>
 			</view>
@@ -54,9 +54,9 @@
 				<image class="logo" src="/static/signa.png" mode="aspectFit" />
 				<text class="room-text">{{ scenarioData.location }}</text>
 			</view>
-			<view class="text-box" @tap="navigateToTest4">
+			<view class="text-box" @tap="navigateToTest4" :class="{ 'disabled': isLoading }">
 				<text class="text-content">{{ background }}</text>
-				<view class="expand-icon">
+				<view class="expand-icon" >
 					<image class="icon-image" src="/static/icon3.png" mode="aspectFit" />
 				</view>
 			</view>
@@ -65,7 +65,7 @@
 		<!-- Test4 page content -->
 		<template v-else-if="currentPage === 'test4'">
 			<onboarding-chat-bubble :userName="scenarioData.role" :avatar="'/static/npc1.png'"
-				:dismiss="navigateToTest5" :description="description"></onboarding-chat-bubble>
+				:dismiss="navigateToTest5" :description="description" :class="{ 'disabled': isLoading }"></onboarding-chat-bubble>
 		</template>
 
 		<!-- Test5 page content -->
@@ -80,7 +80,7 @@
 					</text>
 				</view>
 				<view class="next-button-container">
-					<image class="continue-button" src="/static/arrowright.png" mode="aspectFit" @click="nextPage">
+					<image class="continue-button" src="/static/arrowright.png" mode="aspectFit" @click="nextPage" :class="{ 'disabled': isLoading }">
 					</image>
 				</view>
 			</view>
@@ -123,6 +123,7 @@
 				totalScenes: 5,
 				isFirstScene: true, // Add this new property
 				scenarioId: 1, // Add this new property
+				isLoading: false,
 			};
 		},
 		onLoad(option) {
@@ -246,13 +247,45 @@
 				}
 			},
 			navigateToTest1() {
-				this.currentPage = "test1";
+				if (this.isLoading) return;
+				this.isLoading = true;
+				uni.showLoading({ title: '加载中...' });
+				
 				this.analyzeBackground();
-				this.getScenarioData();
+				this.getScenarioData()
+					.then(() => {
+						this.currentPage = "test1";
+					})
+					.catch((error) => {
+						console.error("Error loading scenario data:", error);
+						uni.showToast({
+							title: "加载失败，请重试",
+							icon: "none",
+						});
+					})
+					.finally(() => {
+						this.isLoading = false;
+						uni.hideLoading();
+					});
 			},
 			navigateToTest2() {
+				if (this.isLoading) return;
+				this.isLoading = true;
+				uni.showLoading({ title: '加载中...' });
+
 				this.currentPage = "test2";
-				this.getScenarioData();
+				this.getScenarioData()
+					.catch((error) => {
+						console.error("Error loading scenario data:", error);
+						uni.showToast({
+							title: "加载失败，请重试",
+							icon: "none",
+						});
+					})
+					.finally(() => {
+						this.isLoading = false;
+						uni.hideLoading();
+					});
 			},
 			navigateToTest3() {
 				// Show loading indicator
@@ -278,12 +311,42 @@
 					});
 			},
 			navigateToTest4() {
+				if (this.isLoading) return;
+				this.isLoading = true;
+				uni.showLoading({ title: '加载中...' });
+
 				this.currentPage = "test4";
-				this.getScenarioData();
+				this.getScenarioData()
+					.catch((error) => {
+						console.error("Error loading scenario data:", error);
+						uni.showToast({
+							title: "加载失败，请重试",
+							icon: "none",
+						});
+					})
+					.finally(() => {
+						this.isLoading = false;
+						uni.hideLoading();
+					});
 			},
 			navigateToTest5() {
+				if (this.isLoading) return;
+				this.isLoading = true;
+				uni.showLoading({ title: '加载中...' });
+
 				this.currentPage = "test5";
-				this.getScenarioData();
+				this.getScenarioData()
+					.catch((error) => {
+						console.error("Error loading scenario data:", error);
+						uni.showToast({
+							title: "加载失败，请重试",
+							icon: "none",
+						});
+					})
+					.finally(() => {
+						this.isLoading = false;
+						uni.hideLoading();
+					});
 			},
 			analyzeBackground() {
 				if (this.background) {
@@ -458,6 +521,11 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+	}
+
+	.disabled {
+		opacity: 0.5;
+		pointer-events: none;
 	}
 
 	/* ... 其他样式保持不变 ... */
