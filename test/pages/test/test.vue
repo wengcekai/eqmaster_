@@ -17,8 +17,8 @@
         <text class="room-text">{{ scenarioData.location }}</text>
       </view>
       <view class="text-box">
-        <view class="text-content" @tap="navigateToTest1">{{ background }}</view>
-        <view class="expand-icon" >
+        <view class="text-content" @tap="navigateToTest1" :class="{ 'disabled': isLoading }">{{ background }}</view>
+        <view class="expand-icon" @tap="navigateToTest1" :class="{ 'disabled': isLoading }">
           <image class="icon-image" src="/static/icon3.png" mode="aspectFit" />
         </view>
       </view>
@@ -31,30 +31,34 @@
         :avatar="npcAvatar"
         :dismiss="navigateToTest2"
         :description="description"
+        :class="{ 'disabled': isLoading }"
       ></onboarding-chat-bubble>
     </template>
 
     <!-- Test2 page content -->
     <template v-else-if="currentPage === 'test2'">
-      <view class="options-container">
-        <view
-          v-for="(option, index) in scenarioData && scenarioData.options ? scenarioData.options : []"
-          :key="index"
-          :class="['text-box1', { selected: selectedOptionIndex === index }]"
-          @click="selectOption(index)"
-        >
-          <text class="text-content1" :style="{ color: option.textColor || 'white' }">
-            {{ option.text }}
-          </text>
+      <view class="content-wrapper">
+        <view class="options-container">
+          <view
+            v-for="(option, index) in scenarioData && scenarioData.options ? scenarioData.options : []"
+            :key="index"
+            :class="['text-box1', { selected: selectedOptionIndex === index }]"
+            @click="selectOption(index)"
+          >
+            <text class="text-content1" :style="{ color: option.textColor || 'white' }">
+              {{ option.text }}
+            </text>
+          </view>
         </view>
-      </view>
-      <view class="button-container">
-        <image
-          class="continue-button"
-          src="/static/arrowright.png"
-          mode="aspectFit"
-          @click="nextPage"
-        ></image>
+        <view class="button-container">
+          <image
+            class="continue-button"
+            src="/static/arrowright.png"
+            mode="aspectFit"
+            @click="nextPage"
+            :class="{ 'disabled': isLoading }"
+          ></image>
+        </view>
       </view>
     </template>
 
@@ -65,8 +69,8 @@
         <text class="room-text">{{ scenarioData.location }}</text>
       </view>
       <view class="text-box">
-        <view class="text-content" @tap="navigateToTest4">{{ background }}</view>
-        <view class="expand-icon" >
+        <view class="text-content" @tap="navigateToTest4" :class="{ 'disabled': isLoading }">{{ background }}</view>
+        <view class="expand-icon" @tap="navigateToTest4" :class="{ 'disabled': isLoading }">
           <image class="icon-image" src="/static/icon3.png" mode="aspectFit" />
         </view>
       </view>
@@ -79,30 +83,34 @@
         :avatar="'/static/npc1.png'"
         :dismiss="navigateToTest5"
         :description="description"
+        :class="{ 'disabled': isLoading }"
       ></onboarding-chat-bubble>
     </template>
 
     <!-- Test5 page content -->
     <template v-else-if="currentPage === 'test5'">
-      <view class="options-container">
-        <view
-          v-for="(option, index) in scenarioData && scenarioData.options ? scenarioData.options : []"
-          :key="index"
-          :class="['text-box1', { selected: selectedOptionIndex === index }]"
-          @click="selectOption(index)"
-        >
-          <text class="text-content1" :style="{ color: option.textColor || 'white' }">
-            {{ option.text }}
-          </text>
+      <view class="content-wrapper">
+        <view class="options-container">
+          <view
+            v-for="(option, index) in scenarioData && scenarioData.options ? scenarioData.options : []"
+            :key="index"
+            :class="['text-box1', { selected: selectedOptionIndex === index }]"
+            @click="selectOption(index)"
+          >
+            <text class="text-content1" :style="{ color: option.textColor || 'white' }">
+              {{ option.text }}
+            </text>
+          </view>
         </view>
-      </view>
-      <view class="button-container">
-        <image
-          class="continue-button"
-          src="/static/arrowright.png"
-          mode="aspectFit"
-          @click="nextPage"
-        ></image>
+        <view class="button-container">
+          <image
+            class="continue-button"
+            src="/static/arrowright.png"
+            mode="aspectFit"
+            @click="nextPage"
+            :class="{ 'disabled': isLoading }"
+          ></image>
+        </view>
       </view>
     </template>
   </view>
@@ -140,6 +148,7 @@ export default {
       totalScenes: 5,
       isFirstScene: true, // Add this new property
       scenarioId: 1, // Add this new property
+      isLoading: false, // Add this new property
     };
   },
   onLoad(option) {
@@ -193,6 +202,7 @@ export default {
         .then((res) => {
           console.log('Backend response:', res);
           this.jobId = res.job_id;
+		  this.userId = res.user_id;
           this.getScenarioData();
         })
         .catch((err) => {
@@ -238,7 +248,7 @@ export default {
         this.num = null;
       } else {
         console.warn('Background information not found in scenario data');
-        this.description = '无法获取背景信息';
+        this.description = '法获取背景信息';
         this.background = '请点击下方箭头继续';
         this.scenarioData = { options: [] };
       }
@@ -253,17 +263,15 @@ export default {
       this.getScenarioData();
     },
     navigateToTest3() {
-      // Show loading indicator
+      this.isLoading = true; // Set loading state to true
       uni.showLoading({
         title: '加载中...'
       });
 
-      // Get new scenario data first
       this.getScenarioData().then(() => {
-        // Update the page only after new data is loaded
         this.currentPage = 'test3';
-        // Hide loading indicator
         uni.hideLoading();
+        this.isLoading = false; // Reset loading state
       }).catch(error => {
         console.error('Error loading scenario data:', error);
         uni.hideLoading();
@@ -271,6 +279,7 @@ export default {
           title: '加载失败，请重试',
           icon: 'none'
         });
+        this.isLoading = false; // Reset loading state
       });
     },
     navigateToTest4() {
@@ -297,6 +306,8 @@ export default {
       });
     },
     nextPage() {
+      if (this.isLoading) return; // Prevent action if loading
+
       if (this.num === null) {
         uni.showToast({
           title: '请选择一个选项',
@@ -304,6 +315,8 @@ export default {
         });
         return;
       }
+
+      this.isLoading = true; // Set loading state to true
 
       console.log('Sending data to backend:', {
         choice: this.num,
@@ -336,6 +349,9 @@ export default {
             title: `发生错误：${error.message}`,
             icon: 'none',
           });
+        })
+        .finally(() => {
+          this.isLoading = false; // Reset loading state
         });
     },
     navigateToNextPage() {
@@ -393,6 +409,16 @@ export default {
 	  border: 6rpx solid #F2BC74;
   }
   
+  .content-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding-bottom: 40rpx; /* Adjust as needed */
+  padding: 60rpx;
+}
+
   .text-content {
 	  color: white;
 	  font-size: 28rpx;
@@ -445,3 +471,5 @@ export default {
   /* ... 其他样式保持不变 ... */
   </style>
   
+
+

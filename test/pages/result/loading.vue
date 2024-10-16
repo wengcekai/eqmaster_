@@ -8,11 +8,15 @@
 			<image class="splash-image" src="/static/cta-new.png" mode="widthFix"
 				:style="{ left: splashImageLeft2 + 'rpx' }"></image>
 
-			<text class="splash-progress-text">{{ progress }}%</text>
-			<view class="splash-progress-bar">
-				<view class="splash-progress-fill" :style="{ width: progress + '%' }"></view>
+			<view class="progress-container">
+				<text class="splash-progress-text">{{ progress }}%</text>
+				<view class="splash-progress-bar">
+					<view class="splash-progress-fill" :style="{ width: progress + '%' }"></view>
+				</view>
+				<text class="status-text">你的动物人格报告合成中</text>
 			</view>
-			<text class="status-text">你的动物人格报告合成中</text>
+
+			
 		</view>
 	</view>
 </template>
@@ -63,7 +67,7 @@
 				progressInterval: null,
 				// 新增的闪屏相关数据
 				splashImageLeft1: 0,
-				splashImageLeft2: 2000,
+				splashImageLeft2: 2050,
 				imageWidth: 2000,
 				interval: null,
 				isExpanded: false, // 默认收起状态
@@ -203,8 +207,7 @@
 							that.timeoutInterval = null;
 						}
 
-						const nextPageUrl =
-							`/pages/result/result?jobId=${this.jobId}&userId=${this.userId}&username=${encodeURIComponent(this.username)}&gender=${this.gender}&birthday=${encodeURIComponent(JSON.stringify(this.birthday))}&options=${encodeURIComponent(JSON.stringify(this.selectedOptions))}&num=${this.num}`;
+						const nextPageUrl = `/pages/result/result?jobId=${this.jobId}&userId=${this.userId}&username=${encodeURIComponent(this.username)}&gender=${this.gender}&birthday=${encodeURIComponent(JSON.stringify(this.birthday))}&options=${encodeURIComponent(JSON.stringify(this.selectedOptions))}&num=${this.num}`;
 
 						uni.setStorage({
 							key: 'response',
@@ -300,7 +303,7 @@
 		align-items: center;
 		padding-top: 100rpx;
 		width: 100%;
-		height: 100vh;
+		height: 100%;
 		overflow-y: auto;
 		-webkit-overflow-scrolling: touch;
 	}
@@ -348,38 +351,40 @@
 		position: absolute;
 		margin-bottom: 20rpx;
 		/* 添加文本和图像之间的空间 */
-		line-height: 40rpx;
+		line-height: 60rpx;
 		/* 调整高以提高可读性 */
 		white-space: pre-wrap;
 		/* 确保文本正确换行 */
 		font-weight: bold;
 	}
 
-	.splash-progress-text {
+	.progress-container {
 		position: absolute;
 		top: 70vh;
+		width: 70%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.splash-progress-text {
 		font-size: 40rpx;
 		color: #9EE44D;
 		font-weight: bold;
-		margin-top: 100rpx;
+		margin-bottom: 20rpx;
 	}
 
 	.splash-progress-bar {
-		width: 70%;
-		position: absolute;
+		width: 100%;
 		height: 20rpx;
-		top: 78vh;
 		background-color: #3d3d3d;
-		/* 背景颜色 */
 		border-radius: 15rpx;
-		margin: 20rpx 0;
 		overflow: hidden;
 	}
 
 	.splash-progress-fill {
 		height: 100%;
 		background-color: #9EE44D;
-		/* 进度条颜色 */
 		border-radius: 15rpx;
 	}
 
@@ -395,10 +400,9 @@
 	}
 
 	.status-text {
-		position: absolute;
-		top: 71vh;
+		position: relative;
+		/* top: 82vh; */
 		font-size: 40rpx;
 		color: #9EE44D;
-		margin-top: 20rpx;
 	}
 </style>
