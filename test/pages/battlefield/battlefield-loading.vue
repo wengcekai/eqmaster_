@@ -14,7 +14,7 @@
 	} from '../../scripts/battlefield-chat'
 	export default {
 		async mounted() {
-			const result = await startField(1, "string");
+			const result = await startField(1, 1);
 			console.log("result from start field:", result);
 			uni.setStorage({
 				key: 'chats',

@@ -96,7 +96,7 @@ export async function helpReply(chatHistory) {
 		}]
 	});
 	const result = await sendRequest(chatHistory.person_id, chatHistory.course_id, chatHistory);
-	result.pop();
+	chatHistory.pop();
 	return result;
 }
 

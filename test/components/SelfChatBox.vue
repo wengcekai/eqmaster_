@@ -20,8 +20,8 @@
 		background-color: #F7E4BF;
 		border-radius: 10px;
 		padding: 12px;
-		margin-top: 100rpx;
-		width: 80%;
+		margin-top: 48rpx;
+		/* width: 100%; */
 		box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 		line-height: 1.5;
 	}
