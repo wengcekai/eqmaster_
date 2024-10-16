@@ -9,11 +9,11 @@
 				<view class="jewelry">
 					<image class="jewelry-image" src="/static/battlefield/jewelry.png" mode=""></image>
 					<view class="jewelry-num">
-						120
+						{{ Math.round(homepageData?.response?.eq_scores?.score || 0) }}
 					</view>
 				</view>
 			</view>
-			<view class="card-center">
+			<view class="card-center" @click.stop>
 				<view class="box" :class="{ 'card-selected': selectedCard === 1 }" @click="selectedCard = 1">
 					<view class="top">
 						<text>帮回卡</text>
@@ -24,7 +24,7 @@
 					<view class="jewelry">
 						<image class="jewelry-image" src="/static/battlefield/jewelry.png" mode="widthFix"></image>
 						<view class="jewelry-num">
-							120
+							1
 						</view>
 					</view>
 				</view>
@@ -38,13 +38,13 @@
 					<view class="jewelry">
 						<image class="jewelry-image" src="/static/battlefield/jewelry.png" mode="widthFix"></image>
 						<view class="jewelry-num">
-							120
+							1
 						</view>
 					</view>
 				</view>
 			</view>
 			<view class="card-button">
-				<button :disabled="!selectedCard" @click="exchangeClick">确认兑换</button>
+				<button :disabled="!selectedCard || cardButtonLoading || eqScoresNum" @click="exchangeClick">确认兑换</button>
 			</view>
 		</view>
 	</view>
@@ -56,12 +56,39 @@
 			showCardPopup: {
 				type: Boolean,
 				default: false 
+			},
+			cardButtonLoading: {
+				type: Boolean,
+				default: false
 			}
 		},
 		data() {
 			return {
 				selectedCard: 0,
+				loading: false,
+				isLoading: true,
+				error: null,
+				homepageData: {
+					response: {
+						personal_info: {
+							name: ''
+						},
+						eq_scores: {
+							score: 0,
+							overall_suggestion: ''
+						},
+						contacts: []
+					}
+				},
 			};
+		},
+		computed: {
+			eqScoresNum() {
+				if(Math.round(this.homepageData?.response?.eq_scores?.score || 0) <= 0) {
+					return false;
+				}
+				return true;
+			}
 		},
 		methods: {
 			setShowCardPopup() {
@@ -69,8 +96,31 @@
 			},
 			exchangeClick() {
 				this.$emit('exchangeClick', this.selectedCard);
-			}
-		}
+			},
+			async getHomepageData() {
+				try {
+					this.isLoading = true;
+					this.error = null;
+					console.log('Fetching homepage data with jobId:', this.jobId);
+			
+					const data = await apiService.getHomepageData(this.jobId);
+					this.homepageData = data;
+					console.log('Homepage data received:', this.homepageData);
+			
+					this.$nextTick(() => {
+						this.drawRadar();
+					});
+				} catch (error) {
+					this.error = 'Error fetching homepage data';
+					console.error(this.error, error);
+				} finally {
+					this.isLoading = false;
+				}
+			},
+		},
+		created() {
+			this.getHomepageData();
+		},
 	}
 </script>
 

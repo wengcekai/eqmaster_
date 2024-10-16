@@ -16,15 +16,17 @@
 			<npc-status v-for="npc in npcs" :key="npc.characterName" :health="npc.health" :avatar="npc.avatar"
 				:characterName="npc.characterName"></npc-status>
 		</view>
-
-		<view class="chat-history-container" :class="{ shadowed: shouldShadow }" v-if="state !== 'NpcTalk'">
-			<template v-for="(chat, index) in displayedMessages">
-				<self-chat-box v-if="chat.role === 'user'" :key="index" :wording="chat.content"></self-chat-box>
-				<npc-chat-box v-else-if="['领导', '同事A', '同事B'].includes(chat.role)" :key="'npc-' + index"
-					:avatar="getBattlefieldAvatar(chat.role)" :name="chat.role" :dialog="chat.content"></npc-chat-box>
-				<tipping-chat-box v-else-if="chat.role === 'tipping'" :key="'tipping' + index"
-					:tip="chat.content"></tipping-chat-box>
-			</template>
+			
+		<view class="chat-container" :class="{ shadowed: shouldShadow }" v-if="state !== 'NpcTalk'">
+			<scroll-view class="chat-history-container" scroll-y :scroll-top="scrollTop">
+				<view v-for="(chat, index) in displayedMessages">
+					<self-chat-box v-if="chat.role === 'user'" :key="index" :wording="chat.content"></self-chat-box>
+					<npc-chat-box v-else-if="['领导', '同事A', '同事B'].includes(chat.role)" :key="'npc-' + index"
+						:avatar="getBattlefieldAvatar(chat.role)" :name="chat.role" :dialog="chat.content"></npc-chat-box>
+					<tipping-chat-box v-else-if="chat.role === 'tipping'" :key="'tipping' + index"
+						:tip="chat.content"></tipping-chat-box>
+				</view>
+			</scroll-view>
 		</view>
 
 		<view v-if="state === 'NpcTalk'" class="npc-talk-container">
@@ -80,8 +82,9 @@
 			<judge :title="judgeTitle" :wording="judgeContent" @judge="gotoNextRound" :good-judge="isGoodReply"></judge>
 		</view>
 		
-		<view v-if="showCardPopup" class="popup-overlay">
-			<CueCardsVue @closeCueCard="closeCueCard" @exchangeClick="exchangeClick" />
+		<!-- 精囊卡片 -->
+		<view v-if="showCardPopup" class="popup-overlay" @click="showCardPopup = false">
+			<CueCardsVue @closeCueCard="closeCueCard" @exchangeClick="exchangeClick" :cardButtonLoading="cardButtonLoading" />
 		</view>
 		
 		<view v-if="missionShow" class="judge-mission-container">
@@ -172,6 +175,7 @@
 				isRecording: false, // Controls the display state of left and right icons
 				getBattlefieldAvatar,
 				showCardPopup: false,
+				cardButtonLoading: false,
 				selectedCard: 0,
 				missionShow: false,
 				inputContent: '',
@@ -293,7 +297,8 @@
 				const nextRound = await continueChat(this.chattingHistory);
 				console.log('next round data', nextRound);
 
-				this.chattingHistory = this.chattingHistory.concat(nextRound.dialog);
+				// this.chattingHistory = this.chattingHistory.concat(nextRound.dialog);
+				this.chattingHistory = nextRound.dialog; // 清空并赋值
 				console.log('after concat, chatting history:', this.chattingHistory);
 
 				let someoneTalked = false;
@@ -317,15 +322,35 @@
 			},
 			async exchangeClick(selectedCard) {
 				// console.log(selectedCard);
+				this.cardButtonLoading = true;
 				const validChats = filterChatHistory(this.chattingHistory);
 				let judgeResult = null;
 				if(selectedCard == 1) {
 					judgeResult = await helpReply(validChats);
+					console.log(judgeResult.responsive);
+					if(judgeResult.responsive) {
+						this.showCardPopup = false
+						this.chattingHistory.push({
+							role: 'user',
+							content: judgeResult.responsive,
+						});
+						const validChatsRepy = filterChatHistory(this.chattingHistory);
+						const judgeResultRepy = await reply(validChatsRepy);
+						await this.handleRecorderReply(judgeResultRepy);
+					}
 				} 
 				if(selectedCard == 2) {
 					judgeResult = await hint(validChats);
+					// console.log(judgeResult.tips);
+					if(judgeResult.tips) {
+						this.showCardPopup = false
+						this.chattingHistory.push({
+							role: 'tipping',
+							content: judgeResult.tips,
+						});
+					}
 				}
-				await this.handleRecorderReply(judgeResult);
+				this.cardButtonLoading = false;
 			},
 			retry() {
 				this.state = 'userTalk';
@@ -342,7 +367,7 @@
 				console.log('开始录音');
 			},
 			handleRecordingDone() {
-				console.log('Released');
+				// console.log('Released');
 				if (this.isRecording) {
 					recorderManager.stop();
 					this.isRecording = false;
@@ -351,14 +376,16 @@
 			async inputRecordingBlur() {
 				this.showInput = false;
 				console.log('输入结果:', this.inputContent);
-				this.chattingHistory.push({
-					role: 'user',
-					content: this.inputContent,
-				});
-				const validChats = filterChatHistory(this.chattingHistory);
-				const judgeResult = await reply(validChats);
-				await this.handleRecorderReply(judgeResult);
-				this.inputContent = '';
+				if(this.inputContent !== "") {
+					this.chattingHistory.push({
+						role: 'user',
+						content: this.inputContent,
+					});
+					const validChats = filterChatHistory(this.chattingHistory);
+					const judgeResult = await reply(validChats);
+					await this.handleRecorderReply(judgeResult);
+					this.inputContent = '';
+				}
 			},
 			getNextState() {
 				if (this.state === 'NpcTalk' && this.chattingHistory.length === 0) {
@@ -488,12 +515,9 @@
 						});
 						const validChats = filterChatHistory(this.chattingHistory);
 						const judgeResult = await reply(validChats);
-
+							  
 						await this.handleRecorderReply(judgeResult);
-						
-						if (this.task1Finished) {
-							await this.Pass();
-						}
+					
 					} catch (error) {
 						console.error('在用户说话反馈过程中有错发生哦：', error);
 					}
@@ -512,7 +536,7 @@
 						if (allPositive) {
 							this.task1Finished = true;
 							this.judgeTitle =
-								`${this.task1Title} (1/1)`;
+								`${this.judgeTitle} (1/1)`;
 						}
 					}
 	
@@ -556,6 +580,9 @@
 							}
 						}
 					});
+					if (this.task1Finished) {
+						await this.Pass();
+					}
 				}
 			},
 			closeCueCard() {
@@ -563,7 +590,7 @@
 			},
 			closeMissionCard() {
 				this.missionShow = false;
-			}
+			},
 		},
 		onLoad(option) {
 			console.log("loaded")
@@ -574,7 +601,6 @@
 					this.chattingHistory = res.data;
 				},
 			});
-
 			this.initRecorderManager();
 		},
 		watch: {
@@ -584,7 +610,16 @@
 					console.log("Doing canceling ")
 					this.handleRecordingDone();
 				}
-			}
+			},
+			chattingHistory: {
+			  handler(newValue, oldValue) {
+				this.$nextTick(() => {
+					const totalHeight = this.displayedMessages.length * 50;
+					this.scrollTop = totalHeight;
+				});
+			  },
+			  deep: true
+			},
 		},
 		computed: {
 			shouldShadow() {
@@ -592,19 +627,30 @@
 			},
 
 			displayedMessages() {
-				const userChats = this.chattingHistory.filter((chat) => chat.role === 'user');
-				const npcChats = this.chattingHistory.filter((chat) => ['领导', '同事A', '同事B'].includes(chat.role));
+				const validChats = filterChatHistory(this.chattingHistory);
+				const userAndNpcChats = validChats.filter(chat =>
+					chat.role === 'user' || chat.role === '领导' || chat.role === '同事A' || chat.role === '同事B' || chat.role === 'tipping'
+				);
+				this.$nextTick(() => {
+					const totalHeight = userAndNpcChats.length * 50;
+					this.scrollTop = totalHeight;
+				});
+				// 按顺序展示user和npc的记录
+				return userAndNpcChats;
+				// const userChats = this.chattingHistory.filter((chat) => chat.role === 'user');
+				// const npcChats = this.chattingHistory.filter((chat) => ['领导', '同事A', '同事B'].includes(chat.role));
 
-				// 只保留来自 'user' 的最新一条
-				const latestUserChat = userChats.slice(-1); // 取最后一条
+				// // 只保留来自 'user' 的最新一条
+				// const latestUserChat = userChats.slice(-1); // 取最后一条
 
-				// 保留来自 '领导'、'同事A' 和 '同事B' 的最新三条消息
-				const latestNpcChats = npcChats.slice(-3); // 取最后三条
+				// // 保留来自 '领导'、'同事A' 和 '同事B' 的最新三条消息
+				// const latestNpcChats = npcChats.slice(-3); // 取最后三条
 
 				// 合并 'user' 的消息和 'npc' 的消息
-				return [...latestNpcChats, ...latestUserChat];
+				// return [...latestNpcChats, ...latestUserChat];
+				// return [...npcChats, ...userChats];
 			},
-
+			
 			displayedHistory() {
 				const userChats = this.chattingHistory.filter((chat) => chat.role === 'user');
 				const npcChats = this.chattingHistory.filter((chat) => ['领导', '同事A', '同事B'].includes(chat.role));
@@ -621,7 +667,15 @@
 		},
 	};
 </script>
-
+<style>
+/* 	.uni-scroll-view {
+		width: auto;
+		display: flex;
+		justify-content: center;
+		    overflow-y: auto;
+		    height: 300px;
+	} */
+</style>
 <style scoped>
 	@import "./common.css";
 
@@ -906,15 +960,22 @@
 	.tipping-card {
 		z-index: 3;
 	}
-
+	.chat-container {
+	  z-index: 3;
+	  width: 100%;
+	  display: flex;
+	  justify-content: center; /* 水平居中 */
+	  align-items: center; /* 垂直居中 */
+	  height: 100vh; /* 使父容器高度占满整个视口高度 */
+	}
 	.chat-history-container {
 		z-index: 3;
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		/* Ensure messages stack vertically */
-		align-items: center;
-		/* Align messages to the start */
+		width: 654rpx;
+		height: 754rpx;
+		margin: auto;
+		overflow-y: auto;
+		overflow-x: hidden;
+		margin-top: 20rpx;
 	}
 
 	.input-field {
