@@ -11,7 +11,7 @@
 			</view>
 			<text class="question">很开心见到你！你叫什么名字？</text>
 			<text class="question1">完善个人信息</text>
-			
+
 			<!-- 输入框 -->
 			<input class="name-input" placeholder="请输入" v-model="username" />
 
@@ -92,7 +92,7 @@
 	}
 
 	.text-content {
-		
+
 		/* 增加底部间距 */
 		margin-top: 145rpx;
 		/* 增加底部间距 */
@@ -115,13 +115,14 @@
 		font-weight: bold;
 		font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
 	}
+
 	.question1 {
 		font-size: 28rpx;
 		color: #bcbcbc;
 		margin-bottom: 190rpx;
 		font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
 	}
-	
+
 	.subtitle {
 		font-size: 28rpx;
 		color: #8e8e93;

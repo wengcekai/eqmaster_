@@ -5,14 +5,14 @@
 		</view>
 
 		<!-- 添加背景图片 -->
-		<image class="background-image" src="/static/landingB.png" mode="widthFix"></image>
+		<image class="background-image" src="/static/landingB1.png" mode="widthFix"></image>
 
 		<!-- 开始体验按钮 -->
 		<view class="button button1" @click="startQuiz">
 			<text class="button-text">开始体验</text>
 		</view>
 
-		<text class="login-text">登录已有账号</text>
+		<!-- <text class="login-text">登录已有账号</text> -->
 	</view>
 </template>
 
@@ -101,6 +101,7 @@
 		transition: transform 0.2s;
 		border-color: #ffffff;
 		background-color: #ffffff;
+		z-index: 6;
 	}
 
 	.button1 {
