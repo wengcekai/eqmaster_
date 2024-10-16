@@ -11,9 +11,9 @@
 			</view>
 			<text class="question">很开心见到你！你叫什么名字？</text>
 			<text class="question1">完善个人信息</text>
-			
+
 			<!-- 输入框 -->
-			<input class="name-input" placeholder="请输入" v-model="username" />
+			<input class="name-input" placeholder="请输入" :value="username" v-model="username" />
 
 			<!-- 继续按钮 -->
 			<view class="button-container">
@@ -24,6 +24,9 @@
 </template>
 
 <script>
+	import {
+		v4 as uuidv4
+	} from 'uuid';
 	export default {
 		data() {
 			return {
@@ -31,12 +34,16 @@
 				backgroundImage: '/static/picture1.png', // 确保背景图片路径正确
 			};
 		},
+		mounted() {
+			const randomNum = Math.floor(Math.random() * 10); // 生成1到10之间的随机数字
+			this.username = "tester-" + uuidv4().slice(0, 6) + `##${randomNum}`;
+		},
 		methods: {
 			nextStep() {
 				if (this.username.trim()) {
 					const userId = 'fixedUserId12345'; // 使用固定的用户ID
 					// 保存用户名和ID
-					uni.setStorageSync('username', this.username);
+					uni.setStorageSync('usern ame', this.username);
 					uni.setStorageSync('userId', userId);
 					// 导航到下一页，并传递参数
 					uni.navigateTo({
@@ -92,7 +99,7 @@
 	}
 
 	.text-content {
-		
+
 		/* 增加底部间距 */
 		margin-top: 145rpx;
 		/* 增加底部间距 */
@@ -115,13 +122,14 @@
 		font-weight: bold;
 		font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
 	}
+
 	.question1 {
 		font-size: 28rpx;
 		color: #bcbcbc;
 		margin-bottom: 190rpx;
 		font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
 	}
-	
+
 	.subtitle {
 		font-size: 28rpx;
 		color: #8e8e93;
