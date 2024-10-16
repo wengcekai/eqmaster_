@@ -10,14 +10,14 @@
 				mode="aspectFit"></image>
 			<view class="card first-card">
 				<view class="status-text">
-					{{ isPass ? '你真棒！' : '很遗憾...' }}
+					{{ this.isPass ? '你真棒！' : '很遗憾...' }}
 				</view>
-				<reward-bar :style="{ backgroundColor: 'transparent', width: '300rpx' }" :gemCount="gemCount"
+				<reward-bar :style="{ backgroundColor: 'transparent', width: '300rpx' }" :gemCount="this.gemCount"
 					gem-icon-width="40px" gem-icon-height="40px"></reward-bar>
 				<view class="diamond-wrapper">
 					<image class="diamond-image" src="/static/battlefield/diamond.png" mode="aspectFill"></image>
 					<text class="diamond-text">
-						{{ isPass ? '+10！' : '+3' }}
+						{{ this.isPass ? '+10！' : '+3' }}
 					</text>
 				</view>
 			</view>
@@ -27,7 +27,7 @@
 					<text class="summary-dimension">情绪平衡力</text>
 					<text class="course-score">+15</text>
 				</view>
-				<view class="progress-container">
+				<view class="progress-container	">
 					<view class="progress-bar1">
 						<view class="progress" :style="{ width: progressWidth(45) }">
 						</view>
@@ -81,7 +81,8 @@
 					"嘿嘿哈哈哈你看看哈哈哈你看看哈哈哈你看看哈哈哈你看看哈哈哈你看看嘿"
 				],
 				suggestion: "注意倾听每个人的需求，及时回应对方的感受。",
-				diamondAdd: 3
+				diamondAdd: 3,
+				gemCount: 0,
 			}
 		},
 		methods: {
@@ -134,22 +135,23 @@
 					this.suggestion = res.data.eq_tips.join('\n');
 				}
 			});
-			const gemCount = uni.getStorage({
+			uni.getStorage({
 				key: 'gemCount',
 				success: (res) => {
-					const gemCount = res.data;
-					let diamondAdd = 3; // 默认值为 3
-					if (gemCount > 0) {
-						diamondAdd = 10; // 如果 gemCount > 0, 设置 diamondAdd 为 10
-					}
-					this.diamondAdd = diamondAdd;
-					console.log('获取到的 Gem Count:', gemCount, 'Diamond Add 值为:', diamondAdd);
+					console.log("res.data: ", res.data);
+					this.gemCount = parseInt(res.data);
+					// let diamondAdd = 3; // 默认值为 3
+					// if (gemCount > 0) {
+					// 	diamondAdd = 10; // 如果 gemCount > 0, 设置 diamondAdd 为 10
+					// }
+					// this.diamondAdd = diamondAdd;
+					// console.log('获取到的 Gem Count:', gemCount, 'Diamond Add 值为:', diamondAdd);
 
 				},
 				fail: (err) => {
 					console.error('获取 Gem Count 失败:', err);
-					const gemCount = 0;
-					this.diamondAdd = 3;
+					this.gemCount = 0;
+					// this.diamondAdd = 3;
 				}
 			});
 
