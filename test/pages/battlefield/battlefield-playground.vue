@@ -177,14 +177,15 @@
 				}
 				return false;
 			}));
-			this.taskList.addTask(new Task(2, '让小B不高兴', async (judgeResult) => {
+			this.taskList.addTask(new Task(2, '让老板对你点得菜满意', async (judgeResult) => {
 				let res = "";
+
 				judgeResult.moods.filter((mood) => {
-					if (mood.role === "同事B")
+					if (mood.role === "领导")
 						res = mood.mood;
 				})
 				const bMood = parseInt(res ? res : 0, 10);
-				if (bMood < 0 && !this.taskList.getTask(1).once) {
+				if (bMood > 0 && !this.taskList.getTask(1).once) {
 					this.judgeTitle =
 						`做得好！ ${this.taskList.getTask(1).title} (${this.taskList.doneTaskLength + 1}/${this.taskList.taskLength})`;
 					return true;
