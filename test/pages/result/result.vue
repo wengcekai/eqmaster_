@@ -704,6 +704,7 @@
 		line-height: 1.5;
 		margin-top: 10rpx;
 		text-align: left;
+		z-index: 10;
 	}
 
 	.guide-button {
