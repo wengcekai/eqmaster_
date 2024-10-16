@@ -5,7 +5,7 @@
 			<!-- 根据 gemCount 的值，亮起相应数量的绿色星星 -->
 			<image class="gem-icon"
 				:src="n <= gemCount ? '/static/battlefield/mingcute_star-fill.svg' : '/static/battlefield/mingcute_star-grey.svg'"
-				mode="aspectFit">
+				:style="{ width: gemIconWidth, height: gemIconHeight }" mode="aspectFit">
 			</image>
 		</view>
 	</view>
@@ -17,6 +17,14 @@
 			gemCount: {
 				type: Number,
 				default: 0
+			},
+			gemIconWidth: {
+				type: String,
+				default: '28px' // 默认宽度
+			},
+			gemIconHeight: {
+				type: String,
+				default: '28px' // 默认高度
 			}
 		}
 	}
@@ -44,8 +52,8 @@
 	}
 
 	.gem-icon {
-		width: 28px;
-		height: 28px;
+		/* 	width: 28px;
+		height: 28px; */
 	}
 
 	.gem-count {

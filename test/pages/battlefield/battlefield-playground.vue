@@ -422,13 +422,14 @@
 						const validChats = filterChatHistory(this.chattingHistory);
 						const judgeResult = await reply(validChats);
 						console.log("get judge result: ", judgeResult)
-						const totalScore = judgeResult.moods.reduce((acc, mood) => {
+						const totalScore = judgeResult.moods ? judgeResult.moods.reduce((acc, mood) => {
 							return acc + parseInt(mood.mood, 10);
-						}, 0);
+						}, 0) : 0;
 
 						this.isGoodReply = totalScore > 0;
 						this.judgeTitle = this.isGoodReply ? '做的好' : '继续努力';
 
+						//For test
 						const done = await this.taskList.execute(judgeResult);
 						console.log("Done :", done)
 						this.judgeContent = judgeResult.comments;
@@ -477,6 +478,16 @@
 									console.error('设置 gemCount 失败:', err);
 								}
 							})
+							uni.setStorage({
+								key: 'isPass',
+								data: false,
+								success: () => {
+									console.log('isPass 设置成功:', true);
+								},
+								fail: (err) => {
+									console.error('设置 isPass 失败:', err);
+								}
+							});
 							// 如果有任何 NPC 的 health <= 0，跳转到另一个页面
 							setTimeout(() => {
 								uni.navigateTo({
@@ -486,15 +497,27 @@
 						}
 						if (done) {
 							uni.setStorage({
+								key: 'isPass',
+								data: true,
+								success: () => {
+									console.log('isPass 设置成功:', true);
+								},
+								fail: (err) => {
+									console.error('设置 isPass 失败:', err);
+								}
+							});
+							uni.setStorage({
 								key: 'gemCount',
 								data: this.gemCount,
 								success: () => {
 									console.log('gemCount 设置成功:', this.gemCount);
+
 								},
 								fail: (err) => {
 									console.error('设置 gemCount 失败:', err);
 								}
 							})
+
 							await this.Pass()
 						}
 					} catch (error) {
