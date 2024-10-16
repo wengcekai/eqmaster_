@@ -179,6 +179,7 @@
 			}));
 			this.taskList.addTask(new Task(2, '让老板对你点得菜满意', async (judgeResult) => {
 				let res = "";
+
 				judgeResult.moods.filter((mood) => {
 					if (mood.role === "领导")
 						res = mood.mood;
