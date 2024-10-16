@@ -14,7 +14,16 @@
 </template>
 
 <script lang="ts">
-	import { defineComponent } from 'vue';
+	import {
+		defineComponent
+	} from 'vue';
+	import apiService from '../../services/api-service.js';
+
+	type BirthdayType = {
+		month : string;
+		day : number;
+		year : number;
+	};
 
 	export default defineComponent({
 		data() {
@@ -24,9 +33,10 @@
 				username: '',
 				gender: '',
 				// 显式指定 `birthday` 的类型
-				birthday: null as { month : string; day : number; year : number } | null,
+				birthday: null as BirthdayType | null,
 				// 显式指定 `selectedOptions` 为字符串数组
-				selectedOptions: [] as string[]
+				selectedOptions: [] as string[],
+
 			};
 		},
 		onLoad(options : any) {
@@ -78,7 +88,8 @@
 			//   selectedOptions: this.selectedOptions
 			// });
 
-			if (!this.userId || !this.username || !this.gender || !this.birthday || this.selectedOptions.length === 0) {
+			if (!this.userId || !this.username || !this.gender || !this.birthday || this.selectedOptions.length ===
+				0) {
 				console.error('Some required data is missing or invalid in preference3');
 			}
 		},
@@ -88,23 +99,65 @@
 				this.navigateToNextPage();
 			},
 			navigateToNextPage() {
-				const testPageUrl = `/pages/test/test?userId=${this.userId}&username=${encodeURIComponent(this.username)}&gender=${this.gender}&birthday=${encodeURIComponent(JSON.stringify(this.birthday))}&options=${encodeURIComponent(JSON.stringify(this.selectedOptions))}`;
 
-				console.log('Navigating to:', testPageUrl);
+				apiService
+					.createProfile({
+						name: this.username,
+						job_level: this.jobLevel || '',
+						gender: this.gender,
+						concerns: this.selectedOptions,
+					})
+					.then((response) => {
+						console.log('Backend response:', response);
 
-				uni.navigateTo({
-					url: testPageUrl,
-					success: () => {
-						console.log('Navigation to test page successful');
-					},
-					fail: (err) => {
-						console.error('Navigation to test page failed:', err);
-						uni.showToast({
-							title: '页面跳转失败',
-							icon: 'none'
+						// 保存 jobId
+						this.jobId = response.job_id;
+
+						// 接着调用 apiService.startScenario 并获取 scenarioId
+						return apiService.startScenario(this.jobId);
+					})
+					.then((scenarioResponse) => {
+						// 获取 scenarioId
+						const scenarioId = scenarioResponse.scenario_id || 1;
+						console.log('Fetched scenarioId:', scenarioId);
+
+						// 存储 scenarioId 到本地存储
+						uni.setStorage({
+							key: 'scenarioId',
+							data: scenarioId,
 						});
-					}
-				});
+						const testPageUrl =
+							`/pages/test/test?userId=${this.userId}&username=${encodeURIComponent(this.username)}&gender=${this.gender}&birthday=${encodeURIComponent(JSON.stringify(this.birthday))}&options=${encodeURIComponent(JSON.stringify(this.selectedOptions))}&jobId=${this.jobId}`;
+
+						console.log('Navigating to:', testPageUrl);
+						uni.navigateTo({
+							url: testPageUrl,
+							success: () => {
+								console.log('Navigation to test page successful');
+							},
+							fail: (err) => {
+								console.error('Navigation to test page failed:', err);
+								uni.showToast({
+									title: '页面跳转失败',
+									icon: 'none'
+								});
+							}
+						});
+					})
+					.catch((err) => {
+						// 捕捉所有异步操作中的错误
+						console.error('An error occurred:', err);
+
+						// 提示用户操作失败
+						uni.showToast({
+							title: '操作失败',
+							icon: 'none',
+						});
+					});
+
+
+
+
 			}
 		}
 	});
@@ -122,11 +175,11 @@
 
 	/* 文本内容设置 */
 	.text-content {
-	  display: flex;
-	  flex-direction: column;
-	  align-items: flex-start;
-	  margin-top: 0px;
-	  margin-bottom: 0px;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		margin-top: 0px;
+		margin-bottom: 0px;
 	}
 
 	.question {
@@ -165,7 +218,7 @@
 		height: 4vh;
 		color: #ffffff;
 		font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
-		
+
 	}
 
 	.arrow {
