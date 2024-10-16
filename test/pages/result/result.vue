@@ -230,10 +230,10 @@
 					return '/static/aniimals/kapibala.png';
 				} else if (minScore === scores.dimension2_score) {
 					console.log("illustration src:", '2')
-					return '/static/aniimals/houzi.png';
+					return '/static/aniimals/ciwei.png';
 				} else if (minScore === scores.dimension3_score) {
 					console.log("illustration src:", '3')
-					return '/static/aniimals/ciwei.png';
+					return '/static/aniimals/houzi.png';
 				} else if (minScore === scores.dimension4_score) {
 					console.log("illustration src:", '4')
 					return '/static/aniimals/tuoniao.png';
