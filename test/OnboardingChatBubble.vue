@@ -6,8 +6,8 @@
 				<text class="user-name">{{userName}}</text>
 				<image class="name-background" src="/static/rec-right.png" mode="aspectFill" />
 			</view>
-			<view class="text-content" @tap="dismiss" >{{ description }}</view>
-			<view class="expand-icon" >
+			<view class="text-content">{{ description }}</view>
+			<view class="expand-icon">
 				<image class="icon-image" src="/static/icon3.png" mode="aspectFit" />
 			</view>
 		</view>
@@ -23,10 +23,6 @@
 			},
 			avatar: {
 				type: String,
-				required: true
-			},
-			dismiss: {
-				type: Function,
 				required: true
 			},
 			description: {
