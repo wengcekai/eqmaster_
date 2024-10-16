@@ -36,6 +36,7 @@ export default {
       canvasHeight: 0,
       levelNames: ['新手村', '初级训练', '中级挑战', '高级试炼', '精英赛场'],
       starRatings: [3, 2, 1, 0, 0], // 示例评分，您可以根据实际情况修改
+      isDrawn: false, // Add this new property
     };
   },
   mounted() {
@@ -123,11 +124,10 @@ export default {
     },
     drawSProgress() {
       const ctx = uni.createCanvasContext('sProgress', this);
-      const width = this.canvasWidth;
-      const height = this.canvasHeight;
-    
-      ctx.clearRect(0, 0, width, height);
-    
+      
+      // Clear the canvas before redrawing
+      ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+      
       for (let i = 0; i < this.bezierPoints.length; i++) {
         const points = this.bezierPoints[i];
         ctx.beginPath();
@@ -272,6 +272,17 @@ export default {
     
       ctx.draw();
     }
+  },
+
+  watch: {
+    // Add watchers for props that should trigger a redraw
+    finishComponents() {
+      this.$nextTick(() => this.drawSProgress());
+    },
+    totalComponents() {
+      this.$nextTick(() => this.drawSProgress());
+    },
+    // Add more watchers for other props if needed
   }
 };
 </script>
