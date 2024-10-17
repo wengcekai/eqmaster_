@@ -29,7 +29,8 @@
 
 		<view v-if="state === 'NpcTalk'" class="npc-talk-container">
 			<large-avatar-bubble :avatar="npcs[talkingNpc].avatar" :character="npcs[talkingNpc].characterName"
-				:wording="chattingHistory[displayedNpcChatIndex].content"></large-avatar-bubble>
+				:wording="chattingHistory[displayedNpcChatIndex].content">
+			</large-avatar-bubble>
 		</view>
 
 

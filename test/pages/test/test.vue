@@ -17,8 +17,8 @@
 				<text class="room-text">{{ scenarioData.location }}</text>
 			</view>
 			<view class="text-box" @tap="navigateToTest1" :class="{ 'disabled': isLoading }">
-				<text class="text-content" >{{ background }}</text>
-				<view class="expand-icon" >
+				<text class="text-content">{{ background }}</text>
+				<view class="expand-icon">
 					<image class="icon-image" src="/static/icon3.png" mode="aspectFit" />
 				</view>
 			</view>
@@ -42,7 +42,8 @@
 					</text>
 				</view>
 				<view class="next-button-container">
-					<image class="continue-button" src="/static/arrowright.png" mode="aspectFit" @click="nextPage" :class="{ 'disabled': isLoading }">
+					<image class="continue-button" src="/static/arrowright.png" mode="aspectFit" @click="nextPage"
+						:class="{ 'disabled': isLoading }">
 					</image>
 				</view>
 			</view>
@@ -56,7 +57,7 @@
 			</view>
 			<view class="text-box" @tap="navigateToTest4" :class="{ 'disabled': isLoading }">
 				<text class="text-content">{{ background }}</text>
-				<view class="expand-icon" >
+				<view class="expand-icon">
 					<image class="icon-image" src="/static/icon3.png" mode="aspectFit" />
 				</view>
 			</view>
@@ -65,7 +66,8 @@
 		<!-- Test4 page content -->
 		<template v-else-if="currentPage === 'test4'">
 			<onboarding-chat-bubble :userName="scenarioData.role" :avatar="'/static/npc1.png'"
-				:dismiss="navigateToTest5" :description="description" :class="{ 'disabled': isLoading }"></onboarding-chat-bubble>
+				:dismiss="navigateToTest5" :description="description"
+				:class="{ 'disabled': isLoading }"></onboarding-chat-bubble>
 		</template>
 
 		<!-- Test5 page content -->
@@ -80,7 +82,8 @@
 					</text>
 				</view>
 				<view class="next-button-container">
-					<image class="continue-button" src="/static/arrowright.png" mode="aspectFit" @click="nextPage" :class="{ 'disabled': isLoading }">
+					<image class="continue-button" src="/static/arrowright.png" mode="aspectFit" @click="nextPage"
+						:class="{ 'disabled': isLoading }">
 					</image>
 				</view>
 			</view>
@@ -249,8 +252,10 @@
 			navigateToTest1() {
 				if (this.isLoading) return;
 				this.isLoading = true;
-				uni.showLoading({ title: '加载中...' });
-				
+				uni.showLoading({
+					title: '加载中...'
+				});
+
 				this.analyzeBackground();
 				this.getScenarioData()
 					.then(() => {
@@ -271,7 +276,9 @@
 			navigateToTest2() {
 				if (this.isLoading) return;
 				this.isLoading = true;
-				uni.showLoading({ title: '加载中...' });
+				uni.showLoading({
+					title: '加载中...'
+				});
 
 				this.currentPage = "test2";
 				this.getScenarioData()
@@ -313,7 +320,9 @@
 			navigateToTest4() {
 				if (this.isLoading) return;
 				this.isLoading = true;
-				uni.showLoading({ title: '加载中...' });
+				uni.showLoading({
+					title: '加载中...'
+				});
 
 				this.currentPage = "test4";
 				this.getScenarioData()
@@ -332,7 +341,9 @@
 			navigateToTest5() {
 				if (this.isLoading) return;
 				this.isLoading = true;
-				uni.showLoading({ title: '加载中...' });
+				uni.showLoading({
+					title: '加载中...'
+				});
 
 				this.currentPage = "test5";
 				this.getScenarioData()
