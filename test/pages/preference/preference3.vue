@@ -98,66 +98,53 @@
 				console.log('Start test button clicked');
 				this.navigateToNextPage();
 			},
-			navigateToNextPage() {
-
-				apiService
-					.createProfile({
+			async navigateToNextPage() {
+				try {
+					const response = await apiService.createProfile({
 						name: this.username,
 						job_level: this.jobLevel || '',
 						gender: this.gender,
 						concerns: this.selectedOptions,
-					})
-					.then((response) => {
-						console.log('Backend response:', response);
-
-						// 保存 jobId
-						this.jobId = response.job_id;
-
-						// 接着调用 apiService.startScenario 并获取 scenarioId
-						return apiService.startScenario(this.jobId);
-					})
-					.then((scenarioResponse) => {
-						// 获取 scenarioId
-						const scenarioId = scenarioResponse.scenario_id || 1;
-						console.log('Fetched scenarioId:', scenarioId);
-
-						// 存储 scenarioId 到本地存储
-						uni.setStorage({
-							key: 'scenarioId',
-							data: scenarioId,
-						});
-						const testPageUrl =
-							`/pages/test/test?userId=${this.userId}&username=${encodeURIComponent(this.username)}&gender=${this.gender}&birthday=${encodeURIComponent(JSON.stringify(this.birthday))}&options=${encodeURIComponent(JSON.stringify(this.selectedOptions))}&jobId=${this.jobId}`;
-
-						console.log('Navigating to:', testPageUrl);
-						uni.navigateTo({
-							url: testPageUrl,
-							success: () => {
-								console.log('Navigation to test page successful');
-							},
-							fail: (err) => {
-								console.error('Navigation to test page failed:', err);
-								uni.showToast({
-									title: '页面跳转失败',
-									icon: 'none'
-								});
-							}
-						});
-					})
-					.catch((err) => {
-						// 捕捉所有异步操作中的错误
-						console.error('An error occurred:', err);
-
-						// 提示用户操作失败
-						uni.showToast({
-							title: '操作失败',
-							icon: 'none',
-						});
 					});
 
+					console.log('Backend response:', response);
 
+					// Save jobId
+					this.jobId = response.job_id;
 
+					const indexes = this.username.split("##");
+					const scenarioId = indexes[1] !== undefined && !isNaN(parseInt(indexes[1], 10))
+						? parseInt(indexes[1], 10)
+						: undefined;
 
+					console.log("####scenario id:############", scenarioId);
+					const scenarioResponse = (scenarioId != undefined
+						? await apiService.startScenarioWithId(this.jobId, scenarioId)
+						: await apiService.startScenario(this.jobId));
+
+					console.log("#####################fetched scenario: ", scenarioResponse);
+
+					// Get scenarioId
+					const fetchedScenarioId = scenarioResponse.scenario_id || 1;
+					console.log('Fetched scenarioId:', fetchedScenarioId);
+
+					const testPageUrl = `/pages/test/test?userId=${this.userId}&username=${encodeURIComponent(this.username)}&gender=${this.gender}&birthday=${encodeURIComponent(JSON.stringify(this.birthday))}&options=${encodeURIComponent(JSON.stringify(this.selectedOptions))}&jobId=${this.jobId}&scenarioId=${fetchedScenarioId}`;
+
+					console.log('Navigating to:', testPageUrl);
+
+					uni.navigateTo({
+						url: testPageUrl
+					});
+				} catch (err) {
+					// Capture errors from all asynchronous operations
+					console.error('An error occurred:', err);
+
+					// Notify the user of the failure
+					uni.showToast({
+						title: '操作失败',
+						icon: 'none',
+					});
+				}
 			}
 		}
 	});

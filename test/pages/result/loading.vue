@@ -15,8 +15,6 @@
 				</view>
 				<text class="status-text">你的动物人格报告合成中</text>
 			</view>
-
-			
 		</view>
 	</view>
 </template>
@@ -207,7 +205,8 @@
 							that.timeoutInterval = null;
 						}
 
-						const nextPageUrl = `/pages/result/result?jobId=${this.jobId}&userId=${this.userId}&username=${encodeURIComponent(this.username)}&gender=${this.gender}&birthday=${encodeURIComponent(JSON.stringify(this.birthday))}&options=${encodeURIComponent(JSON.stringify(this.selectedOptions))}&num=${this.num}`;
+						const nextPageUrl =
+							`/pages/result/result?jobId=${this.jobId}&userId=${this.userId}&username=${encodeURIComponent(this.username)}&gender=${this.gender}&birthday=${encodeURIComponent(JSON.stringify(this.birthday))}&options=${encodeURIComponent(JSON.stringify(this.selectedOptions))}&num=${this.num}`;
 
 						uni.setStorage({
 							key: 'response',
@@ -303,7 +302,7 @@
 		align-items: center;
 		padding-top: 100rpx;
 		width: 100%;
-		height: 100%;
+		height: 100vh;
 		overflow-y: auto;
 		-webkit-overflow-scrolling: touch;
 	}

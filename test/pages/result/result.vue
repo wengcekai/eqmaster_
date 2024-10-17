@@ -25,13 +25,13 @@
 						<text class="emotion-detection-title">情绪侦查力</text>
 					</view>
 					<view class="emotion-detection-box2">
-						<text class="emotion-detection-title">社交得体度</text>
+						<text class="emotion-detection-title">情绪掌控力</text>
 					</view>
 					<view class="emotion-detection-box3">
 						<text class="emotion-detection-title">沟通表达力</text>
 					</view>
 					<view class="emotion-detection-box4">
-						<text class="emotion-detection-title">情绪掌控力</text>
+						<text class="emotion-detection-title">社交得体度</text>
 					</view>
 					<view class="emotion-detection-box5">
 						<text class="emotion-detection-title">人际平衡力</text>
@@ -87,7 +87,7 @@
 
 					<!-- 维度二 -->
 					<view class="score-container1">
-						<text class="score-title1">社交得体度</text>
+						<text class="score-title1">情绪掌控力</text>
 						<!-- 进度条 -->
 						<view class="progress-container">
 							<view class="progress-bar1">
@@ -108,7 +108,7 @@
 
 					<template v-if="isExpanded">
 						<view class="score-container1">
-							<text class="score-title1">情绪掌控力</text>
+							<text class="score-title1">社交得体度</text>
 							<!-- 进度条 -->
 							<view class="progress-container">
 								<view class="progress-bar1">
@@ -230,10 +230,10 @@
 					return '/static/aniimals/kapibala.png';
 				} else if (minScore === scores.dimension2_score) {
 					console.log("illustration src:", '2')
-					return '/static/aniimals/houzi.png';
+					return '/static/aniimals/ciwei.png';
 				} else if (minScore === scores.dimension3_score) {
 					console.log("illustration src:", '3')
-					return '/static/aniimals/ciwei.png';
+					return '/static/aniimals/houzi.png';
 				} else if (minScore === scores.dimension4_score) {
 					console.log("illustration src:", '4')
 					return '/static/aniimals/tuoniao.png';

@@ -1,6 +1,6 @@
 <template>
   <view class="container">
-    <canvas canvas-id="sProgress" class="progress-canvas"></canvas>
+    <canvas canvas-id="sProgress" class="progress-canvas" @tap="handleCanvasTap"></canvas>
   </view>
 </template>
 
@@ -36,6 +36,8 @@ export default {
       canvasHeight: 0,
       levelNames: ['新手村', '初级训练', '中级挑战', '高级试炼', '精英赛场'],
       starRatings: [3, 2, 1, 0, 0], // 示例评分，您可以根据实际情况修改
+      isDrawn: false, // Add this new property
+      imagePositions: [], // Add this new property
     };
   },
   mounted() {
@@ -121,13 +123,20 @@ export default {
         return chineseNumbers[Math.floor(num / 10) - 1] + '十' + (num % 10 === 0 ? '' : chineseNumbers[num % 10 - 1]);
       }
     },
+    drawHexagon(ctx, x, y, size) {
+      const angle = Math.PI / 3;
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        ctx.lineTo(x + size * Math.cos(angle * i - Math.PI / 6), y + size * Math.sin(angle * i - Math.PI / 6));
+      }
+      ctx.closePath();
+    },
     drawSProgress() {
       const ctx = uni.createCanvasContext('sProgress', this);
-      const width = this.canvasWidth;
-      const height = this.canvasHeight;
-    
-      ctx.clearRect(0, 0, width, height);
-    
+      
+      // Clear the canvas before redrawing
+      ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+      
       for (let i = 0; i < this.bezierPoints.length; i++) {
         const points = this.bezierPoints[i];
         ctx.beginPath();
@@ -160,6 +169,8 @@ export default {
         ctx.strokeStyle = '#EDFB8B';
         ctx.stroke();
       }
+
+      this.imagePositions = []; // Reset image positions
 
       for (let i = 0; i < this.endPoints.length; i++) {
         const endPoint = this.endPoints[i];
@@ -197,14 +208,41 @@ export default {
         ctx.stroke();
 
         // Add image at the end of each line
-        const imageSize = 160; // Adjust this value as needed
+        const imageSize = 160;
+        const hexSize = imageSize *0.8 / Math.sqrt(3); // Size of the hexagon
         const imageX = i % 2 === 0 ? endPoint.x - lineLength - imageSize/2 : endPoint.x + lineLength - imageSize/2;
         const imageY = endPoint.y - imageSize / 2;
         
-        // You need to prepare different images for completed and uncompleted states
         const imagePath = i <= this.finishComponents ? '/static/333.png' : '/static/444.png';
         
+        // Draw hexagonal clip path
+        ctx.save();
+        this.drawHexagon(ctx, imageX + imageSize/2, imageY + imageSize/2, hexSize);
+        ctx.clip();
+        
+        // Draw the image
         ctx.drawImage(imagePath, imageX, imageY, imageSize, imageSize);
+        
+        ctx.restore();
+
+        // Draw transparent border around the hexagon for all levels
+        ctx.save();
+        ctx.translate(imageX + imageSize/2, imageY + imageSize/2);
+        ctx.rotate(Math.PI / 3); // Rotate by 60 degrees (π/3 radians)
+        ctx.strokeStyle = 'rgba(255, 0, 0, 0)'; // Transparent red
+        ctx.lineWidth = 2;
+        this.drawHexagon(ctx, 0, 0, hexSize);
+        ctx.stroke();
+        ctx.restore();
+
+        // Store hexagon position and size
+        this.imagePositions.push({
+          x: imageX + imageSize/2,
+          y: imageY + imageSize/2,
+          size: hexSize,
+          level: i + 1,
+          isActivated: i <= this.finishComponents
+        });
 
         // Adjust container position to be closer to the image
         const containerWidth = 300; // Adjust as needed
@@ -224,7 +262,7 @@ export default {
         const textX = containerX + containerWidth / 2;
         const textY = containerY + 20; // 调整文本Y坐标，使其在更小的pill中居中
 
-        const levelText = `关卡${this.numberToChineseCharacter(i + 1)}`;
+        const levelText = `关${this.numberToChineseCharacter(i + 1)}`;
 
         // 调整pill尺寸
         const textMetrics = ctx.measureText(levelText);
@@ -271,7 +309,47 @@ export default {
       }
     
       ctx.draw();
+    },
+
+    handleCanvasTap(e) {
+      const { x, y } = e.detail;
+      for (let hexagon of this.imagePositions) {
+        if (this.isPointInRotatedHexagon(x, y, hexagon.x, hexagon.y, hexagon.size)) {
+          uni.navigateTo({
+            url: `/pages/battlefield/battlefield-intro?level=${hexagon.level}`
+          });
+          break;
+        }
+      }
+    },
+
+    isPointInRotatedHexagon(px, py, cx, cy, size) {
+      // Translate point to origin
+      const tx = px - cx;
+      const ty = py - cy;
+      
+      // Rotate point by -60 degrees (opposite of hexagon rotation)
+      const angle = -Math.PI / 3;
+      const rx = tx * Math.cos(angle) - ty * Math.sin(angle);
+      const ry = tx * Math.sin(angle) + ty * Math.cos(angle);
+      
+      // Check if point is in hexagon
+      const a = size / 2;
+      const b = size * Math.sin(Math.PI / 3);
+
+      return Math.abs(rx) <= a && Math.abs(ry) <= b && Math.abs(rx) * (b/a) + Math.abs(ry) <= b;
     }
+  },
+
+  watch: {
+    // Add watchers for props that should trigger a redraw
+    finishComponents() {
+      this.$nextTick(() => this.drawSProgress());
+    },
+    totalComponents() {
+      this.$nextTick(() => this.drawSProgress());
+    },
+    // Add more watchers for other props if needed
   }
 };
 </script>
