@@ -233,13 +233,13 @@
 					return '/static/aniimals/ciwei.png';
 				} else if (minScore === scores.dimension3_score) {
 					console.log("illustration src:", '3')
-					return '/static/aniimals/houzi.png';
+					return '/static/aniimals/lang.png';
 				} else if (minScore === scores.dimension4_score) {
 					console.log("illustration src:", '4')
 					return '/static/aniimals/tuoniao.png';
 				} else if (minScore === scores.dimension5_score) {
 					console.log("illustration src:", '5')
-					return '/static/aniimals/lang.png';
+					return '/static/aniimals/houzi.png';
 				}
 			}
 		},
