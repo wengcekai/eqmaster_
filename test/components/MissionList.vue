@@ -14,7 +14,7 @@
 					</view>
 					<view class="right">
 						<view class="top">
-							得到领导的夸赞
+							{{ item._title }}
 						</view>
 						<view class="bottom">
 							<view class="blood-container">

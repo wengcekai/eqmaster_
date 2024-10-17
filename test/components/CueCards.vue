@@ -51,6 +51,7 @@
 </template>
 
 <script>
+	import apiService from '../services/api-service';
 	export default {
 		props: {
 			showCardPopup: {
@@ -60,6 +61,10 @@
 			cardButtonLoading: {
 				type: Boolean,
 				default: false
+			},
+			jobId: {
+				type: String,
+				default: '',
 			}
 		},
 		data() {
@@ -81,6 +86,9 @@
 					}
 				},
 			};
+		},
+		onLoad(option) {
+			console.log(option);
 		},
 		computed: {
 			eqScoresNum() {
@@ -107,9 +115,6 @@
 					this.homepageData = data;
 					console.log('Homepage data received:', this.homepageData);
 			
-					this.$nextTick(() => {
-						this.drawRadar();
-					});
 				} catch (error) {
 					this.error = 'Error fetching homepage data';
 					console.error(this.error, error);

@@ -83,6 +83,7 @@
 				suggestion: "注意倾听每个人的需求，及时回应对方的感受。",
 				diamondAdd: 3,
 				gemCount: 0,
+				isPass: false,
 			}
 		},
 		methods: {

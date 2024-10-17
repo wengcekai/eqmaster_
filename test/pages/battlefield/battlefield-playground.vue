@@ -19,12 +19,19 @@
 			
 		<view class="chat-container" :class="{ shadowed: shouldShadow }" v-if="state !== 'NpcTalk'">
 			<scroll-view class="chat-history-container" scroll-y :scroll-top="scrollTop">
-				<view v-for="(chat, index) in displayedMessages">
-					<self-chat-box v-if="chat.role === 'user'" :key="index" :wording="chat.content"></self-chat-box>
-					<npc-chat-box v-else-if="['领导', '同事A', '同事B'].includes(chat.role)" :key="'npc-' + index"
+				<view v-for="(chat, index) in displayedMessages" :key="index">
+					<npc-chat-box v-if="['领导', '同事A', '同事B'].includes(chat.role)" :key="'npc-' + index"
 						:avatar="getBattlefieldAvatar(chat.role)" :name="chat.role" :dialog="chat.content"></npc-chat-box>
-					<tipping-chat-box v-else-if="chat.role === 'tipping'" :key="'tipping' + index"
-						:tip="chat.content"></tipping-chat-box>
+					<view v-else-if="chat.role === 'user'" :class="['message-wrapper', { 'animate': chat.shouldAnimate }]">
+						<self-chat-box :key="'user' + index" :wording="chat.content" :commit="userJudgeContent" :isLastElement="index === displayedMessages.length - 1"></self-chat-box>
+					</view>
+					<view v-else-if="chat.role === 'tipping'" :class="['message-wrapper', { 'animate': chat.shouldAnimate }]">
+						<tipping-chat-box :key="'tipping' + index" :tip="chat.content"></tipping-chat-box>
+					</view>
+				</view>
+				<view class="loading-container" v-if="anasLoadingObj.loading">
+					<image class="loading-icon" src="/static/battlefield/loading.png"></image>
+					<span v-if="anasLoadingObj.text !== ''">{{ anasLoadingObj.text }}</span>
 				</view>
 			</scroll-view>
 		</view>
@@ -78,17 +85,17 @@
 			</view>
 		</view>
 
-		<view class="judge-container" v-if="state === 'judge'">
+		<view class="judge-container" v-if="state === 'judge' || state === 'judgeTry'">
 			<judge :title="judgeTitle" :wording="judgeContent" @judge="gotoNextRound" :good-judge="isGoodReply"></judge>
 		</view>
 		
 		<!-- 精囊卡片 -->
 		<view v-if="showCardPopup" class="popup-overlay" @click="showCardPopup = false">
-			<CueCardsVue @closeCueCard="closeCueCard" @exchangeClick="exchangeClick" :cardButtonLoading="cardButtonLoading" />
+			<CueCardsVue @closeCueCard="closeCueCard" @exchangeClick="exchangeClick" :cardButtonLoading="cardButtonLoading" :jobId="jobId" />
 		</view>
 		
 		<view v-if="missionShow" class="judge-mission-container">
-			<MissionList :listData="missionResultList" @closeMissionCard="closeMissionCard" />
+			<MissionList :listData="taskList.taskList" @closeMissionCard="closeMissionCard" />
 		</view>
 	</view>
 </template>
@@ -139,6 +146,7 @@
 			return {
 				judgeTitle: '',
 				judgeContent: '',
+				userJudgeContent: '',
 				taskList: new TaskList([]),
 				isGoodReply: true,
 				state: 'NpcTalk', // Current state
@@ -196,6 +204,14 @@
 				touchThreshold: -100, // 上滑取消的阈值（负值表示向上滑动）
 				countdownInterval: null, // 倒计时的定时器
 				getBattlefieldAvatar,
+				anasLoadingObj: {
+					loading: false,
+					text: '',
+				},
+				jobId: '',
+				answerNotGoodNum: 0,
+				totalTaskNum: 1,
+				completedTaskNum: 1,
 			};
 		},
 		created() {
@@ -293,6 +309,7 @@
 			async gotoNextRound() {
 				if (!this.isGoodReply) {
 					this.retry();
+					this.answerNotGoodNum = 0;
 					return;
 				}
 				const nextRound = await continueChat(this.chattingHistory);
@@ -300,8 +317,8 @@
 
 				// this.chattingHistory = this.chattingHistory.concat(nextRound.dialog);
 				this.chattingHistory = nextRound.dialog; // 清空并赋值
-				console.log('after concat, chatting history:', this.chattingHistory);
-
+				// console.log('after concat, chatting history:', this.chattingHistory);
+				this.scrollTop = 0;
 				let someoneTalked = false;
 				for (; this.displayedNpcChatIndex < this.chattingHistory.length;
 					++this.displayedNpcChatIndex
@@ -321,38 +338,6 @@
 
 				this.state = 'NpcTalk';
 			},
-			async exchangeClick(selectedCard) {
-				// console.log(selectedCard);
-				this.cardButtonLoading = true;
-				const validChats = filterChatHistory(this.chattingHistory);
-				let judgeResult = null;
-				if(selectedCard == 1) {
-					judgeResult = await helpReply(validChats);
-					console.log(judgeResult.responsive);
-					if(judgeResult.responsive) {
-						this.showCardPopup = false
-						this.chattingHistory.push({
-							role: 'user',
-							content: judgeResult.responsive,
-						});
-						const validChatsRepy = filterChatHistory(this.chattingHistory);
-						const judgeResultRepy = await reply(validChatsRepy);
-						await this.handleRecorderReply(judgeResultRepy);
-					}
-				} 
-				if(selectedCard == 2) {
-					judgeResult = await hint(validChats);
-					// console.log(judgeResult.tips);
-					if(judgeResult.tips) {
-						this.showCardPopup = false
-						this.chattingHistory.push({
-							role: 'tipping',
-							content: judgeResult.tips,
-						});
-					}
-				}
-				this.cardButtonLoading = false;
-			},
 			retry() {
 				this.state = 'userTalk';
 			},
@@ -365,6 +350,7 @@
 					format: 'wav', // 设置录音格式为 wav
 				};
 				recorderManager.start(options);
+				this.userJudgeContent = '';
 				console.log('开始录音');
 			},
 			handleRecordingDone() {
@@ -372,20 +358,6 @@
 				if (this.isRecording) {
 					recorderManager.stop();
 					this.isRecording = false;
-				}
-			},
-			async inputRecordingBlur() {
-				this.showInput = false;
-				console.log('输入结果:', this.inputContent);
-				if(this.inputContent !== "") {
-					this.chattingHistory.push({
-						role: 'user',
-						content: this.inputContent,
-					});
-					const validChats = filterChatHistory(this.chattingHistory);
-					const judgeResult = await reply(validChats);
-					await this.handleRecorderReply(judgeResult);
-					this.inputContent = '';
 				}
 			},
 			getNextState() {
@@ -469,12 +441,36 @@
 					key: 'evalResult',
 					data: evaluationResult,
 				});
-
+				if(this.task1Finished) {
+					uni.setStorage({
+						key: 'isPass',
+						data: true,
+					});
+					const gemCount = this.calculateStars();
+					uni.setStorage({
+						key: 'gemCount',
+						data: gemCount,
+					});
+				}
 				setTimeout(() => {
 					uni.navigateTo({
 						url: '/pages/battlefield/battlefield-summary',
 					});
-				}, 500);
+				}, 1000);
+			},
+			calculateStars() {
+				const totalMood = this.npcs.reduce((sum, npc) => sum + npc.health, 0);
+				const adjustedMood = totalMood; // 调整情绪值，确保为正数
+				console.log(adjustedMood);
+				if (adjustedMood >= 41 && adjustedMood <= 60) {
+					return 3; // 三颗星
+				} else if (adjustedMood >= 21 && adjustedMood <= 40) {
+					return 2; // 两颗星
+				} else if (adjustedMood >= 0 && adjustedMood <= 20) {
+					return 1; // 一颗星
+				} else {
+					return 0; // 如果调整后的情绪值小于0，返回0颗星
+				}
 			},
 			handleContainerClick() {
 				if (this.state === 'NpcTalk') {
@@ -489,15 +485,20 @@
 				});
 				recorderManager.onStop(async (res) => {
 					console.log('Recorder stop', res);
-
+					
+					this.anasLoadingObj = {
+						loading: true,
+						text: '',
+					};
 					// 如果录音被取消，则不进行上传或其他处理
 					if (this.isCanceling) {
 						console.log("Recording was canceled, no further action taken.");
 						this.resetRecording(); // 重置录音状态
+						this.anasLoadingObj.loading = false;
 						return; // 直接返回，避免后续逻辑执行
 					}
 					const path = res.tempFilePath;
-
+					
 					try {
 						const transcript = await this.uploadAndRecognizeSpeech(path);
 						if (transcript.length === 0) {
@@ -508,82 +509,234 @@
 								title: '好像没有听清哦～',
 								icon: 'none',
 							});
+							this.anasLoadingObj.loading = false;
 							return; // 直接返回，避免后续逻辑执行
 						}
-						this.chattingHistory.push({
+						const newMessage = {
 							role: 'user',
 							content: transcript,
+							shouldAnimate: false
+						};
+						this.chattingHistory.push(newMessage);
+						this.$nextTick(() => {
+							setTimeout(() => {
+								newMessage.shouldAnimate = true;
+								this.anasLoadingObj.text = '分析中';
+							}, 50);
 						});
+						// this.updateScrollPosition();
 						const validChats = filterChatHistory(this.chattingHistory);
 						const judgeResult = await reply(validChats);
 							  
 						await this.handleRecorderReply(judgeResult);
-					
+						this.anasLoadingObj.loading = false;
+
 					} catch (error) {
 						console.error('在用户说话反馈过程中有错发生哦：', error);
+						this.anasLoadingObj.loading = false;
+						if (this.chattingHistory.length > 0) {
+							this.chattingHistory.pop();
+						}
 					}
 				});
 			},
-			async handleRecorderReply(judgeResult) {
-				if(judgeResult) {
-					const totalScore = judgeResult.moods.reduce((acc, mood) => {
-						return acc + parseInt(mood.mood, 10);
-					}, 0);
-	
-					this.isGoodReply = totalScore > 0 ? true : false;
-					this.judgeTitle = this.isGoodReply ? "做的好" : "继续努力";
-					if (!this.task1Finished) {
-						const allPositive = judgeResult.moods.every(item => parseInt(item.mood, 10) > 0);
-						if (allPositive) {
-							this.task1Finished = true;
-							this.judgeTitle =
-								`${this.judgeTitle} (1/1)`;
-						}
-					}
-	
-					this.judgeContent = judgeResult.comments;
-					this.state = 'judge';
-	
-					// 遍历 judgeResult.moods 并根据角色调整 this.mood 的值
-					judgeResult.moods.forEach(item => {
-						let randomValue;
-						if (item.role === '领导') {
-							if (parseInt(item.mood, 10) > 0) {
-								// 正数，增加 20 到 30 的随机值
-								randomValue = Math.floor(Math.random() * 11) + 20;
-								this.npcs[0].health = Math.min(this.npcs[0].health + randomValue,
-									100); // 保证最大值为100
-							} else if (parseInt(item.mood, 10) < 0) {
-								// 负数，减少 30 到 40 的随机值
-								randomValue = Math.floor(Math.random() * 11) + 30;
-								this.npcs[0].health = Math.max(this.npcs[0].health - randomValue,
-									0); // 保证最小值为0
-							}
-						} else if (item.role === '同事A') {
-							if (parseInt(item.mood, 10) > 0) {
-								randomValue = Math.floor(Math.random() * 11) + 20;
-								this.npcs[1].health = Math.min(this.npcs[1].health + randomValue,
-									100); // 保证最大值为100
-							} else if (parseInt(item.mood, 10) < 0) {
-								randomValue = Math.floor(Math.random() * 11) + 30;
-								this.npcs[1].health = Math.max(this.npcs[1].health - randomValue,
-									0); // 保证最小值为0
-							}
-						} else if (item.role === '同事B') {
-							if (parseInt(item.mood, 10) > 0) {
-								randomValue = Math.floor(Math.random() * 11) + 20;
-								this.npcs[2].health = Math.min(this.npcs[2].health + randomValue,
-									100); // 保证最大值为100
-							} else if (parseInt(item.mood, 10) < 0) {
-								randomValue = Math.floor(Math.random() * 11) + 30;
-								this.npcs[2].health = Math.max(this.npcs[2].health - randomValue,
-									0); // 保证最小值为0
-							}
-						}
+			async inputRecordingBlur() {
+				this.showInput = false;
+				console.log('输入结果:', this.inputContent);
+				console.log(this.taskList);
+				if(this.inputContent !== "") {
+					// this.updateScrollPosition();
+					this.anasLoadingObj = {
+						loading: true,
+						text: '',
+					};
+					this.userJudgeContent = '';
+					const newMessage = {
+						role: 'user',
+						content: this.inputContent,
+						shouldAnimate: false
+					};
+					this.chattingHistory.push(newMessage);
+					this.$nextTick(() => {
+						setTimeout(() => {
+							newMessage.shouldAnimate = true;
+							this.anasLoadingObj.text = '分析中';
+						}, 100);
 					});
-					if (this.task1Finished) {
-						await this.Pass();
+					try {
+						const validChats = filterChatHistory(this.chattingHistory);
+						const judgeResult = await reply(validChats);
+						await this.handleRecorderReply(judgeResult);
+						this.inputContent = '';
+						this.anasLoadingObj.loading = false;
+					} catch (error) {
+							console.error('在用户说话反馈过程中有错发生哦：', error);
+							this.anasLoadingObj.loading = false;
+							if (this.chattingHistory.length > 0) {
+								this.chattingHistory.pop();
+							}
+							this.anasLoadingObj.loading = false;
+						}
 					}
+			},
+			async exchangeClick(selectedCard) {
+				// console.log(selectedCard);
+				this.cardButtonLoading = true;
+				const validChats = filterChatHistory(this.chattingHistory);
+				let judgeResult = null;
+				// this.updateScrollPosition();
+				this.userJudgeContent = '';
+				try {
+					if(selectedCard == 1) {
+						this.anasLoadingObj = {
+							loading: true,
+							text: '生成中',
+						};
+						judgeResult = await helpReply(validChats);
+						// console.log(judgeResult.responsive);
+						if(judgeResult.responsive) {
+							this.showCardPopup = false
+							const newMessage = {
+								role: 'user',
+								content: judgeResult.responsive,
+								shouldAnimate: false
+							};
+							this.chattingHistory.push(newMessage);
+							// this.updateScrollPosition();
+							this.$nextTick(() => {
+								setTimeout(() => {
+									newMessage.shouldAnimate = true;
+									this.anasLoadingObj.text = '分析中';
+								}, 100);
+							});
+
+							const validChatsRepy = filterChatHistory(this.chattingHistory);
+							const judgeResultRepy = await reply(validChatsRepy);
+							await this.handleRecorderReply(judgeResultRepy);
+						}
+					} 
+					if(selectedCard == 2) {
+						this.anasLoadingObj = {
+							loading: true,
+							text: '生成中',
+						};
+						judgeResult = await hint(validChats);
+						// console.log(judgeResult.tips);
+						if(judgeResult.tips) {
+							this.showCardPopup = false
+							const newMessage2 = {
+								role: 'tipping',
+								content: judgeResult.tips,
+								shouldAnimate: false
+							};
+							this.chattingHistory.push(newMessage2);
+							// this.updateScrollPosition();
+							this.$nextTick(() => {
+								setTimeout(() => {
+									this.$set(newMessage2, 'shouldAnimate', true);
+									this.$set(this.anasLoadingObj, 'text', '分析中');
+									this.$forceUpdate();
+								}, 50);
+							});
+						}
+					}
+					this.cardButtonLoading = false;
+					this.anasLoadingObj.loading = false;
+				} catch (error) {
+					console.error('在用户说话反馈过程中有错发生哦：', error);
+					this.anasLoadingObj.loading = false;
+				}
+			},
+			async handleRecorderReply(judgeResult) {
+				try {
+					if(judgeResult) {
+						const totalScore = judgeResult.moods.reduce((acc, mood) => {
+							return acc + parseInt(mood.mood, 10);
+						}, 0);
+		
+						// this.isGoodReply = totalScore > 0 ? true : false;
+						// this.judgeTitle = this.isGoodReply ? "做的好" : "继续努力";
+						console.log("totalScore:", totalScore);
+						if(totalScore > 0) {
+							this.isGoodReply = true;
+							this.state = 'judge';
+							this.judgeTitle = "做的好";
+							this.judgeContent = judgeResult.comments;
+							
+						} else {
+							this.isGoodReply = false;
+							if(this.answerNotGoodNum < 1) {
+								this.answerNotGoodNum ++;
+								this.state = 'userTalk';
+								this.userJudgeContent = judgeResult.comments;
+							} else {
+								this.judgeTitle = "还有提升空间";
+								this.judgeContent = judgeResult.comments;
+								this.state = 'judgeTry';
+							}
+						}
+						this.updateScrollPosition();
+						if (!this.task1Finished) {
+							const allPositive = judgeResult.moods.every(item => parseInt(item.mood, 10) > 0); //是否都为正数
+							console.log("allPositive:", allPositive);
+							if (allPositive) {
+								this.task1Finished = true;
+								this.judgeTitle =
+									`${this.judgeTitle} (${this.totalTaskNum}/${this.completedTaskNum})`;
+							} else {
+								this.totalTaskNum ++;
+								this.completedTaskNum ++;
+							}
+						}
+		
+		
+						// 遍历 judgeResult.moods 并根据角色调整 this.mood 的值
+						judgeResult.moods.forEach(item => {
+							let randomValue;
+							if (item.role === '领导') {
+								if (parseInt(item.mood, 10) > 0) {
+									randomValue = Math.floor(Math.random() * 11) + 20;
+									this.npcs[0].health = Math.min(this.npcs[0].health + randomValue, 100);
+								} else if (parseInt(item.mood, 10) < 0) {
+									randomValue = Math.floor(Math.random() * 11) + 30;
+									this.npcs[0].health = Math.max(this.npcs[0].health - randomValue, 0);
+								}
+							} else if (item.role === '同事A') {
+								if (parseInt(item.mood, 10) > 0) {
+									randomValue = Math.floor(Math.random() * 11) + 20;
+									this.npcs[1].health = Math.min(this.npcs[1].health + randomValue, 100);
+								} else if (parseInt(item.mood, 10) < 0) {
+									randomValue = Math.floor(Math.random() * 11) + 30;
+									this.npcs[1].health = Math.max(this.npcs[1].health - randomValue, 0);
+								}
+							} else if (item.role === '同事B') {
+								if (parseInt(item.mood, 10) > 0) {
+									randomValue = Math.floor(Math.random() * 11) + 20;
+									this.npcs[2].health = Math.min(this.npcs[2].health + randomValue, 100);
+								} else if (parseInt(item.mood, 10) < 0) {
+									randomValue = Math.floor(Math.random() * 11) + 30;
+									this.npcs[2].health = Math.max(this.npcs[2].health - randomValue, 0);
+								}
+							}
+						});
+						if (this.task1Finished) {
+							await this.Pass();
+						}
+						return true; // 添加返回值，表示处理成功
+					} else {
+						throw new Error('judgeResult is undefined or null');
+					}
+				} catch (error) {
+					console.error('处理录音回复时发生错误:', error);
+					uni.showToast({
+						title: '处理回复时出错，请重试',
+						icon: 'none',
+						duration: 2000
+					});
+					if (this.chattingHistory.length > 0) {
+						this.chattingHistory.pop();
+					}
+					return false; // 添加返回值，表示处理失败
 				}
 			},
 			closeCueCard() {
@@ -592,9 +745,22 @@
 			closeMissionCard() {
 				this.missionShow = false;
 			},
+			updateScrollPosition() {
+				// 使用 nextTick 确保 DOM 更新后再滚动
+				this.$nextTick(() => {
+					const query = uni.createSelectorQuery().in(this);
+					query.select('.chat-history-container').scrollOffset().exec(([res]) => {
+						if(res && res.scrollHeight) {
+							this.scrollTop = res.scrollHeight;
+						}
+					});
+				});
+				// this.$nextTick(() => {
+				// });
+			}
 		},
 		onLoad(option) {
-			console.log("loaded")
+			console.log("loaded", option)
 			uni.getStorage({
 				key: 'chats',
 				success: (res) => {
@@ -602,6 +768,7 @@
 					this.chattingHistory = res.data;
 				},
 			});
+			this.jobId = option.jobId || '154ee592-287b-4675-b8bd-8f88de348476';
 			this.initRecorderManager();
 		},
 		watch: {
@@ -614,10 +781,8 @@
 			},
 			chattingHistory: {
 			  handler(newValue, oldValue) {
-				this.$nextTick(() => {
-					const totalHeight = this.displayedMessages.length * 50;
-					this.scrollTop = totalHeight;
-				});
+				// console.log(newValue, oldValue)
+				this.updateScrollPosition();
 			  },
 			  deep: true
 			},
@@ -632,10 +797,7 @@
 				const userAndNpcChats = validChats.filter(chat =>
 					chat.role === 'user' || chat.role === '领导' || chat.role === '同事A' || chat.role === '同事B' || chat.role === 'tipping'
 				);
-				this.$nextTick(() => {
-					const totalHeight = userAndNpcChats.length * 50;
-					this.scrollTop = totalHeight;
-				});
+				console.log("displayedMessages")
 				// 按顺序展示user和npc的记录
 				return userAndNpcChats;
 				// const userChats = this.chattingHistory.filter((chat) => chat.role === 'user');
@@ -977,6 +1139,52 @@
 		overflow-y: auto;
 		overflow-x: hidden;
 		margin-top: 20rpx;
+	}
+
+	/* 消息动效 */
+	.message-wrapper {
+		opacity: 0;
+		transform: translateX(-100%);
+		transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+	}
+	.message-wrapper.animate {
+		opacity: 1;
+		transform: translateX(0);
+	}
+	.message-wrapper2 {
+		opacity: 0;
+		transform: translateX(-100%);
+		transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+	}
+	.message-wrapper2.animate2 {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+	/* loading */
+	.loading-container {
+		display: flex;
+		align-items: center;
+		justify-content: right;
+		margin-top: 10px;
+		margin-right: 10px;
+	}
+
+	.loading-icon {
+		width: 40rpx;
+		height: 40rpx;
+		animation: spin 1s linear infinite;
+	}
+
+	@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
+	}
+
+	.loading-container span {
+		margin-left: 8px;
+		font-size: 13px;
+		color: #D7D8E0;
 	}
 
 	.input-field {
