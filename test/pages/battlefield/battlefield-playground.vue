@@ -313,12 +313,13 @@
 					this.answerNotGoodNum = 0;
 					return;
 				}
+				this.state = 'NpcTalk';
 				const nextRound = await continueChat(this.chattingHistory);
 				console.log('next round data', nextRound);
-
+				
 				// this.chattingHistory = this.chattingHistory.concat(nextRound.dialog);
 				this.chattingHistory = nextRound.dialog; // 清空并赋值
-				// console.log('after concat, chatting history:', this.chattingHistory);
+				console.log('after concat, chatting history:', this.chattingHistory);
 				this.scrollTop = 0;
 				let someoneTalked = false;
 				for (; this.displayedNpcChatIndex < this.chattingHistory.length;
@@ -337,7 +338,6 @@
 					this.displayedNpcChatIndex--;
 				}
 
-				this.state = 'NpcTalk';
 			},
 			retry() {
 				this.state = 'userTalk';
