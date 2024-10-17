@@ -1,5 +1,5 @@
 // 定义常量URL
-const BASE_URL = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/chat/batttlefield';
+const BASE_URL = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/chat/batttlefield/v2';
 const EVAL_URL = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/eval/battlefield';
 
 function sendRequest(person_id, course_id, chat_content, url = BASE_URL) {
@@ -44,7 +44,7 @@ function sendRequest(person_id, course_id, chat_content, url = BASE_URL) {
 
 		const body = {
 			person_id: person_id || 1,
-			course_id: course_id || 1,
+			course_id: parseInt(course_id) || 1,
 			chat_content: JSON.stringify(formattedChatContent)
 		};
 
