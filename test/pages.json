@@ -66,23 +66,11 @@
             }
         },
         {
-            "path" : "pages/test/test5",
+            "path" : "pages/test/test",
             "style" : {
                 "navigationStyle" : "custom"
             }
         },
-        {
-            "path" : "pages/test/test1",
-            "style" : {
-                "navigationStyle" : "custom"
-            }
-        },
-        // {
-        //     "path" : "pages/test/test",
-        //     "style" : {
-        //         "navigationStyle" : "custom"
-        //     }
-        // },
         {
             "path" : "pages/preference/preference2",
             "style" : {
@@ -102,25 +90,7 @@
             }
         },
         {
-            "path" : "pages/test/test2",
-            "style" : {
-                "navigationStyle" : "custom"
-            }
-        },
-        // {
-        // 	"path": "pages/dashboard/dashboard",
-        // 	"style": {
-        // 		"navigationStyle": "custom"
-        // 	}
-        // },
-        {
             "path" : "pages/preference/preference3",
-            "style" : {
-                "navigationStyle" : "custom"
-            }
-        },
-        {
-            "path" : "pages/test/test3",
             "style" : {
                 "navigationStyle" : "custom"
             }

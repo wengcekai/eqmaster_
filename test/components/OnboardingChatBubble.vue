@@ -7,7 +7,7 @@
 				<image class="name-background" src="/static/rec-right.png" mode="aspectFill" />
 			</view>
 			<view class="text-content" @tap="dismiss" >{{ description }}</view>
-			<view class="expand-icon" >
+			<view class="expand-icon">
 				<image class="icon-image" src="/static/icon3.png" mode="aspectFit" />
 			</view>
 		</view>
@@ -66,7 +66,6 @@
 		z-index: 1;
 		overflow: visible;
 		border: 6rpx solid #F2BC74;
-		background-color: #000;
 	}
 
 	.text-content {
