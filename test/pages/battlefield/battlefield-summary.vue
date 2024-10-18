@@ -1,10 +1,10 @@
 <template>
 	<view class="container">
 		<scroll-view scroll-y style="height: 100%;">
-			<!-- <view class="debug-info"> -->
-			<!-- 如需调试信息，可取消注释以下行 -->
-			<!-- <text>homepageData: {{ JSON.stringify(homepageData) }}</text> -->
-			<!-- </view> -->
+			<!-- <view class="debug-info">
+				如需调试信息，可取消注释以下行
+				<text>homepageData: {{ JSON.stringify(homepageData) }}</text>
+			</view> -->
 			<image class="head-image"
 				:src="this.isPass ? '/static/battlefield/IP_Green.svg' : '/static/battlefield/IP_Grey.svg'"
 				mode="aspectFit"></image>
@@ -136,6 +136,14 @@
 					this.comments = list;
 
 					this.suggestion = res.data.eq_tips.join('\n');
+				}
+			});
+			// 读取 NPC health data
+			uni.getStorage({
+				key: 'npcHealthData',
+				success: (res) => {
+					const npcHealthData = res.data;
+					this.npcHealthValues = npcHealthData; // 假设你在data中定义了npcHealthValues
 				}
 			});
 			uni.getStorage({
@@ -332,7 +340,7 @@
 
 	.third-card {
 		height: auto;
-		margin-bottom: 3vh;
+		margin-bottom: 13vh;
 	}
 
 	.guide-button {

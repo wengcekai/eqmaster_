@@ -44,7 +44,7 @@ function sendRequest(person_id, course_id, chat_content, outerBody, url = BASE_U
 
 		const body = outerBody || {
 			person_id: person_id || Math.floor(Math.random() * 500),
-			course_id: parseInt(course_id) || 3,
+			course_id: parseInt(course_id) || 1,
 			chat_content: JSON.stringify(formattedChatContent)
 		};
 
@@ -138,7 +138,7 @@ export async function evalBattlefield(chatHistory, isPass, gemCount, diamonds) {
 	// 在 body 中添加 isPass, gemCount, diamonds
 	const body = {
 		person_id: chatHistory.person_id || Math.floor(Math.random() * 500),
-		course_id: chatHistory.course_id || 3,
+		course_id: chatHistory.course_id || 1,
 		chat_content: JSON.stringify(chatHistory),
 		status: isPass ? "completed" : "incompleted", // 添加 isPass
 		result: gemCount, // 添加 gemCount

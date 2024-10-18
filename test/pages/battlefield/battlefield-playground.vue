@@ -431,6 +431,7 @@
 								type: 'text',
 								text: transcript
 							}]
+							// words: transcript
 						});
 
 						const validChats = filterChatHistory(this.chattingHistory);
@@ -486,7 +487,7 @@
 							this.diamonds = 3;
 							uni.setStorage({
 								key: 'gemCount',
-								data: 0,
+								data: this.gemCount,
 								success: () => {
 									console.log('gemCount 设置成功:', this.gemCount);
 								},
@@ -537,6 +538,17 @@
 							})
 						}
 						if (done || anyNpcHealthLow) {
+							const npcHealthData = this.npcs.map(npc => npc.health);
+							uni.setStorage({
+								key: 'npcHealthData',
+								data: npcHealthData,
+								success: () => {
+									console.log('NPC health data 保存成功:', npcHealthData);
+								},
+								fail: (err) => {
+									console.error('保存 NPC health data 失败:', err);
+								}
+							});
 							console.log("done: ", done, "anyNpcHealthLow:", anyNpcHealthLow);
 							await this.Pass();
 						}
@@ -552,7 +564,11 @@
 				key: 'chats',
 				success: (res) => {
 					console.log('chatting histories,', res.data);
-					this.chattingHistory = res.data;
+					this.chattingHistory = res.data.map(item => ({
+						...item,
+						content: item.words
+					}));
+					// this.chattingHistory = res.data;
 				},
 			});
 

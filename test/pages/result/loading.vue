@@ -65,7 +65,7 @@
 				progressInterval: null,
 				// 新增的闪屏相关数据
 				splashImageLeft1: 0,
-				splashImageLeft2: 2050,
+				splashImageLeft2: 2030,
 				imageWidth: 2000,
 				interval: null,
 				isExpanded: false, // 默认收起状态
@@ -118,7 +118,7 @@
 					num: this.num,
 				});
 			} catch (e) {
-				console.log("something error happend", e);
+				console.log("something error happened", e);
 			}
 
 			this.getHomepageData();
@@ -139,7 +139,6 @@
 			progressWidth(value) {
 				// 计算进度条宽度百分比
 				const percentage = (value / this.maxScore) * 100;
-				// console.log('${percentage}%：', `${percentage}%`)
 				return `${percentage}%`;
 			},
 			circleLeftPosition(value) {
@@ -150,11 +149,11 @@
 				return (percentage1 / 100) * progressBarWidth;
 			},
 			getHomepageData() {
-				const that = this;
+				// 不再需要 const that = this;
 				uni.request({
-					url: `https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/get_homepage/${this.jobId}`,
+					url: `https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/get_homepage/${this.userId}`,
 					method: 'POST',
-					success(response) {
+					success: (response) => {
 						let result = {}
 						if (response.statusCode === 200) {
 							result = response.data;
@@ -187,26 +186,40 @@
 									},
 								}
 							};
-							result = mock;
+							result = response.data;
 
 							console.error('Failed to fetch homepage data:', response.statusCode);
 						}
 
-						if (that.interval) {
-							clearInterval(that.interval);
-							that.interval = null;
+						if (this.interval) {
+							clearInterval(this.interval);
+							this.interval = null;
 						}
-						if (that.progressInterval) {
-							clearInterval(that.progressInterval);
-							that.interval = null;
+						if (this.progressInterval) {
+							clearInterval(this.progressInterval);
+							this.progressInterval = null; // 修正了这里的错误
 						}
-						if (that.timeoutInterval) {
-							clearInterval((that.timeoutInterval));
-							that.timeoutInterval = null;
+						if (this.timeoutInterval) {
+							clearInterval(this.timeoutInterval);
+							this.timeoutInterval = null;
 						}
+
+						// 在构建 nextPageUrl 之前添加日志
+						console.log('Preparing to navigate with data:', {
+							jobId: this.jobId,
+							userId: this.userId,
+							username: this.username,
+							gender: this.gender,
+							birthday: this.birthday,
+							selectedOptions: this.selectedOptions,
+							num: this.num
+						});
 
 						const nextPageUrl =
 							`/pages/result/result?jobId=${this.jobId}&userId=${this.userId}&username=${encodeURIComponent(this.username)}&gender=${this.gender}&birthday=${encodeURIComponent(JSON.stringify(this.birthday))}&options=${encodeURIComponent(JSON.stringify(this.selectedOptions))}&num=${this.num}`;
+
+						// 在构建 URL 后再添加一个日志
+						console.log('Navigating to URL:', nextPageUrl);
 
 						uni.setStorage({
 							key: 'response',
@@ -216,6 +229,9 @@
 						console.log("begin to navigate");
 						uni.navigateTo({
 							url: nextPageUrl,
+							success: () => {
+								console.log('Navigation initiated successfully');
+							},
 							fail: (err) => {
 								console.error('Navigation failed:', err);
 								uni.showToast({
@@ -225,13 +241,13 @@
 							}
 						});
 					},
-					fail(error) {
+					fail: (error) => {
 						console.error('Error fetching homepage data:', error);
 					}
 				});
 			},
 			startProgress() {
-				const totalDuration = 30000; // 10秒
+				const totalDuration = 30000; // 30秒
 				const intervalDuration = totalDuration / 100; // 每次更新的间隔时间
 
 				this.progressInterval = setInterval(() => {
@@ -267,7 +283,7 @@
 			this.startProgress(); // 开始进度条
 			this.animateImage(); // 开始图片动画
 
-			// 在设定的持续时间后隐藏闪屏（例如，10秒）
+			// 在设定的持续时间后隐藏闪屏（例如，30秒）
 			this.timeoutInterval = setTimeout(() => {
 				if (this.interval) {
 					console.log("cancel splash by timeout.")
@@ -297,7 +313,6 @@
 	.container {
 		position: relative;
 		background-color: #2F2F38;
-		/* display: flex; */
 		flex-direction: column;
 		align-items: center;
 		padding-top: 100rpx;
@@ -400,7 +415,6 @@
 
 	.status-text {
 		position: relative;
-		/* top: 82vh; */
 		font-size: 40rpx;
 		color: #9EE44D;
 	}
