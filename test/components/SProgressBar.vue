@@ -39,6 +39,14 @@ export default {
     homepageData: {
       type: Object,
       default: () => ({})
+    },
+    starRatings: {
+      type: Array,
+      default: () => [2, 2, 1, 0, 0]
+    },
+    levelNames: {
+      type: Array,
+      default: () => ['老板肚子里的蛔虫', '被老板刁难', '遇到无礼同事', '高级试炼场', '精英赛场']
     }
   },
   data() {
@@ -46,11 +54,9 @@ export default {
       canvasId: 'sProgress' + Math.random().toString(36).substr(2, 9),
       bezierPoints: [],
       endPoints: [],
+      hexagons: [],
       canvasWidth: 0,
       canvasHeight: 0,
-      levelNames: ['新手村', '初级训练', '中级挑战', '高级试炼', '精英赛场'],
-      starRatings: [3, 2, 1, 0, 0], // 示例评分，可以根据实际情况修改
-      hexagons: [],
       yOffset: 10, // 新增：Y轴偏移量
     };
   },
@@ -208,16 +214,22 @@ export default {
         // 绘制端点圆圈
         ctx.beginPath();
         ctx.arc(endPoint.x, endPoint.y + yOffset, 12, 0, 2 * Math.PI);
-        ctx.fillStyle = isCompleted ? '#9EE44D' : '#ddd';
+        ctx.fillStyle = isCompleted ? 'rgba(158, 228, 77, 1)' : 'rgba(158, 228, 77, 0.2)';
         ctx.fill();
         ctx.lineWidth = 4;
-        ctx.strokeStyle = 'white';
+        ctx.strokeStyle = isCompleted ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0.2)';
         ctx.stroke();
 
         // 绘制短线段
         const lineLength1 = 32;
         ctx.beginPath();
         ctx.moveTo(endPoint.x, endPoint.y + yOffset);
+        if (i % 2 === 0) {
+          ctx.moveTo(endPoint.x - 0.3*lineLength1, endPoint.y + yOffset);
+        } else {
+          ctx.moveTo(endPoint.x + 0.3*lineLength1, endPoint.y + yOffset);
+        }
+
         if (i % 2 === 0) {
           ctx.lineTo(endPoint.x - lineLength1, endPoint.y + yOffset);
         } else {
@@ -263,7 +275,7 @@ export default {
         const textContainerX = i % 2 === 0 
           ? imageX + imageSize / 2 - textContainerWidth - 80 
           : imageX + imageSize / 2 + 80;
-        const textContainerY = imageY + imageSize / 2;
+        const textContainerY = imageY + imageSize / 2.5;
 
         // 添加关卡文本背景
         ctx.save(); // 保存当前的绘图状态
@@ -307,25 +319,27 @@ export default {
         ctx.restore(); // 恢复之前保存的绘图状态
 
         // 添加关卡名称
-        ctx.font = 'bold 20px Arial';
+        ctx.font = 'bold 14px Arial';
         ctx.fillStyle = 'white'; // 或者您想要的其他颜色
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         const levelName = this.levelNames[i] || `Level ${i + 1}`;
         ctx.fillText(levelName, textContainerX + textContainerWidth / 2, textContainerY + 15);
 
-        // 添加星级评分
-        const starSize = 20;
-        const starSpacing = 5;
-        const starContainerWidth = (starSize * 3) + (starSpacing * 2);
-        const starContainerX = textContainerX + (textContainerWidth - starContainerWidth) / 2;
-        const starContainerY = textContainerY + 35; // 调整这个值来控制星星与关卡名称的距离
+        // 添加星级评分（只为已完成的关卡显示）
+        if (isCompleted) {
+          const starSize = 30;
+          const starSpacing = 5;
+          const starContainerWidth = (starSize * 3) + (starSpacing * 2);
+          const starContainerX = textContainerX + (textContainerWidth - starContainerWidth) / 2;
+          const starContainerY = textContainerY + 35; // 调整这个值来控制星星与关卡名称的距离
 
-        for (let j = 0; j < 3; j++) {
-          const starX = starContainerX + (j * (starSize + starSpacing));
-          const starY = starContainerY;
-          const starPath = j < this.starRatings[i] ? '/static/dashboard2/star.jpg' : '/static/dashboard2/star.jpg';
-          ctx.drawImage(starPath, starX, starY, starSize, starSize);
+          for (let j = 0; j < 3; j++) {
+            const starX = starContainerX + (j * (starSize + starSpacing));
+            const starY = starContainerY;
+            const starPath = j < this.starRatings[i] ? '/static/dashboard2/star.png' : '/static/dashboard2/star-end.png';
+            ctx.drawImage(starPath, starX, starY, starSize, starSize);
+          }
         }
       }
 
@@ -368,7 +382,7 @@ export default {
           const canvasX = x - rect.left;
           const canvasY = y - rect.top;
 
-          // 考虑绘制时的平移（这里没有平移）
+          // 考虑绘制时的平移（这里没有移）
           const adjustedX = canvasX; // 如果有ctx.translate，需要减去对应的值
           const adjustedY = canvasY; // 如果有ctx.translate，需要减去对应的值
 
@@ -423,4 +437,7 @@ export default {
   /* 移除transform属性 */
 }
 </style>
+
+
+
 
