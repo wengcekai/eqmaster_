@@ -4,7 +4,11 @@
 			<image class="avatar" :src="avatar" mode="aspectFill"></image>
 		</view>
 		<view class="description">
-			<view class="name">{{ name }}</view>
+			<view class="name-icon-container" style="display: flex; flex-direction: row; align-items: center;">
+				<view class="name">{{ name }}</view>
+				<!-- 根据 npcHealth 显示不同的 SVG 图标 -->
+				<image v-if="npcHealth !== 10" :src="npcHealth > 10 ? greenIcon : redIcon" class="health-icon"></image>
+			</view>
 			<view class="comment">{{ comment }}</view>
 		</view>
 	</view>
@@ -24,6 +28,13 @@
 			comment: {
 				type: String,
 				required: true
+			},
+			npcHealth: Number
+		},
+		data() {
+			return {
+				greenIcon: '/static/battlefield/prime_sort-up-fill.svg', // 假设绿色的SVG图标路径
+				redIcon: '/static/battlefield/prime_sort-down-fill.svg' // 假设红色的SVG图标路径
 			}
 		}
 	}
@@ -64,6 +75,12 @@
 	.name {
 		font-weight: bold;
 		font-size: 16px;
+	}
+
+	.health-icon {
+		width: 16px;
+		height: 16px;
+		margin-left: 5px;
 	}
 
 	.comment {

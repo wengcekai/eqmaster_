@@ -46,7 +46,7 @@ function sendRequest(person_id, course_id, chat_content, outerBody, url = BASE_U
 
 		const body = outerBody || {
 			person_id: person_id || Math.floor(Math.random() * 500),
-			course_id: parseInt(course_id) || 3,
+			course_id: parseInt(course_id) || 1,
 			chat_content: JSON.stringify(formattedChatContent)
 		};
 
