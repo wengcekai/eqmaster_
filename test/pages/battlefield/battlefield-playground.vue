@@ -18,8 +18,8 @@
 		</view>
 			
 		<view class="chat-container" :class="{ shadowed: shouldShadow }" v-if="state !== 'NpcTalk'">
-			<scroll-view class="chat-history-container" scroll-y :scroll-top="scrollTop" ref="chatHistoryContainer">
-				<view v-for="(chat, index) in displayedMessages" :key="index">
+			<scroll-view class="chat-history-container" scroll-y :scroll-top="scrollTop" ref="chatHistoryContainer" :scroll-into-view="scrollIntoViewId">
+				<view v-for="(chat, index) in displayedMessages" :key="index" :id="'chat-item-' + index">
 					<npc-chat-box v-if="['领导', '同事A', '同事B'].includes(chat.role)" :key="'npc-' + index"
 						:avatar="getBattlefieldAvatar(chat.role)" :name="chat.role" :dialog="chat.content"></npc-chat-box>
 					<view v-else-if="chat.role === 'user'" :class="['message-wrapper', { 'animate': chat.shouldAnimate }]">
@@ -215,6 +215,7 @@
 				answerNotGoodNum: 0,
 				totalTaskNum: 1,
 				completedTaskNum: 1,
+				scrollIntoViewId: '',
 			};
 		},
 		created() {
@@ -535,7 +536,6 @@
 								this.anasLoadingObj.text = '分析中';
 							}, 50);
 						});
-						// this.updateScrollPosition();
 						const validChats = filterChatHistory(this.chattingHistory);
 						const judgeResult = await reply(validChats);
 							  
@@ -556,7 +556,6 @@
 				console.log('输入结果:', this.inputContent);
 				console.log(this.taskList);
 				if(this.inputContent !== "") {
-					// this.updateScrollPosition();
 					this.anasLoadingObj = {
 						loading: true,
 						text: '',
@@ -569,10 +568,18 @@
 					};
 					this.chattingHistory.push(newMessage);
 					this.$nextTick(() => {
-						setTimeout(() => {
-							newMessage.shouldAnimate = true;
-							this.anasLoadingObj.text = '分析中';
-						}, 100);
+						// Force a repaint to trigger the animation
+						void this.$el.offsetWidth;
+						
+						newMessage.shouldAnimate = true;
+						this.anasLoadingObj.text = '分析中';
+						
+						// 使用 requestAnimationFrame 确保动画在下一帧开始
+						requestAnimationFrame(() => {
+							setTimeout(() => {
+								// 这个空函数强制浏览器应用更改
+							}, 0);
+						});
 					});
 					try {
 						const validChats = filterChatHistory(this.chattingHistory);
@@ -595,7 +602,6 @@
 				this.cardButtonLoading = true;
 				const validChats = filterChatHistory(this.chattingHistory);
 				let judgeResult = null;
-				// this.updateScrollPosition();
 				this.userJudgeContent = '';
 				try {
 					if(selectedCard == 1) {
@@ -613,12 +619,19 @@
 								shouldAnimate: false
 							};
 							this.chattingHistory.push(newMessage);
-							// this.updateScrollPosition();
 							this.$nextTick(() => {
-								setTimeout(() => {
-									newMessage.shouldAnimate = true;
-									this.anasLoadingObj.text = '分析中';
-								}, 100);
+								// Force a repaint to trigger the animation
+								void this.$el.offsetWidth;
+								
+								newMessage.shouldAnimate = true;
+								this.anasLoadingObj.text = '分析中';
+								
+								// 使用 requestAnimationFrame 确保动画在下一帧开始
+								requestAnimationFrame(() => {
+									setTimeout(() => {
+										// 这个空函数强制浏览器应用更改
+									}, 0);
+								});
 							});
 
 							const validChatsRepy = filterChatHistory(this.chattingHistory);
@@ -641,18 +654,19 @@
 								shouldAnimate: false
 							};
 							this.chattingHistory.push(newMessage2);
-							// this.updateScrollPosition();
 							this.$nextTick(() => {
-								setTimeout(() => {
-									this.$set(newMessage2, 'shouldAnimate', true);
-									this.$set(this.anasLoadingObj, 'text', '分析中');
-									this.$forceUpdate();
-									// 触发一个微小的布局变化来强制浏览器重新计算样式
-									this.$el.style.minHeight = (this.$el.offsetHeight + 1) + 'px';
-									this.$nextTick(() => {
-										this.$el.style.minHeight = '';
-									});
-								}, 50);
+								// Force a repaint to trigger the animation
+								void this.$el.offsetWidth;
+								
+								newMessage2.shouldAnimate = true;
+								this.anasLoadingObj.text = '分析中';
+								
+								// 使用 requestAnimationFrame 确保动画在下一帧开始
+								requestAnimationFrame(() => {
+									setTimeout(() => {
+										// 这个空函数强制浏览器应用更改
+									}, 0);
+								});
 							});
 						}
 					}
@@ -691,7 +705,7 @@
 								this.state = 'judgeTry';
 							}
 						}
-						this.updateScrollPosition();
+						this.updateScrollIntoView();
 						if (!this.task1Finished) {
 							const allPositive = judgeResult.moods.every(item => parseInt(item.mood, 10) > 0); //是否都为正数
 							console.log("allPositive:", allPositive);
@@ -761,16 +775,10 @@
 			closeMissionCard() {
 				this.missionShow = false;
 			},
-			updateScrollPosition() {
-				// 使用 nextTick 确保 DOM 更新后再滚动
-				// ios
+			updateScrollIntoView() {
 				this.$nextTick(() => {
-					const query = uni.createSelectorQuery().in(this);
-					query.select('.chat-history-container').scrollOffset().exec(([res]) => {
-						if(res && res.scrollHeight) {
-							this.scrollTop = res.scrollHeight;
-						}
-					});
+					const lastMessageId = 'chat-item-' + (this.displayedMessages.length - 1);
+					this.scrollIntoViewId = lastMessageId;
 				});
 			}
 		},
@@ -800,7 +808,7 @@
 			chattingHistory: {
 			  handler(newValue, oldValue) {
 				// console.log(newValue, oldValue)
-				this.updateScrollPosition();
+				this.updateScrollIntoView();
 			  },
 			  deep: true
 			},
