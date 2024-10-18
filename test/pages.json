@@ -116,6 +116,10 @@
         {
             "path" : "components/SProgressBar",
             "style" : {}
+        },
+        {
+            "path" : "components/Tear",
+            "style" : {}
         }
     ],
     "globalStyle" : {

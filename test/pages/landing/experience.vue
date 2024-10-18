@@ -13,7 +13,7 @@
 			<text class="question1">完善个人信息</text>
 
 			<!-- 输入框 -->
-			<input class="name-input" placeholder="请输入" :value="username" v-model="username" />
+			<input class="name-input" placeholder="请输入" :value="username" />
 
 			<!-- 继续按钮 -->
 			<view class="button-container">
@@ -47,7 +47,7 @@
 					uni.setStorageSync('userId', userId);
 					// 导航到下一页，并传递参数
 					uni.navigateTo({
-						url: `/pages/preference/preference?userId=${userId}&username=${encodeURIComponent(this.username)}`
+						url: `/pages/preference/preference2?userId=${userId}&username=${encodeURIComponent(this.username)}`
 					});
 				} else {
 					// 提示用户输入名字

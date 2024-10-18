@@ -1,9 +1,9 @@
 {
     "name" : "test",
-    "appid" : "__UNI__0D3082A",
+    "appid" : "__UNI__5A14CAD",
     "description" : "",
-    "versionName" : "1.1.4",
-    "versionCode" : 114,
+    "versionName" : "1.2.0",
+    "versionCode" : 120,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {

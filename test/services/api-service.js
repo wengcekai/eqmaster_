@@ -4,10 +4,10 @@ const API_ENDPOINT = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.
 export default {
   baseURL: API_ENDPOINT, // 将 baseURL 添加到导出的对象中
 
-  async getHomepageData(jobId) {
+  async getHomepageData(userId) {
     try {
       const response = await uni.request({
-        url: `${API_ENDPOINT}/get_homepage/${jobId}`,
+        url: `${API_ENDPOINT}/get_homepage/${userId}`,
         method: 'POST'
       });
       
@@ -76,6 +76,24 @@ export default {
         method: 'GET'
       });
 
+      if (response.statusCode === 200) {
+        return response.data;
+      } else {
+        throw new Error(`Failed to get result: ${response.statusCode}`);
+      }
+    } catch (error) {
+      console.error('Error getting result:', error);
+      throw error;
+    }
+  },
+  
+  async getBattlefield(userId) {
+    try {
+      const response = await uni.request({
+        url: `${API_ENDPOINT}/get_battlefield/${userId}`,
+        method: 'GET'
+      });
+  
       if (response.statusCode === 200) {
         return response.data;
       } else {

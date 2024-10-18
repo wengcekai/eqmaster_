@@ -26,7 +26,7 @@
 							</view>
 
 							<text
-								class="card-description">{{ homepageData?.response?.eq_scores?.overall_suggestion || '暂无建议' }}</text>
+								class="card-description">{{ truncatedSuggestion }}</text>
 							<image class="illustration31" src="/static/fullbutton.png" mode="widthFix"
 								@click="navigateToResult"></image>
 						</view>
@@ -34,10 +34,23 @@
 
 
 					<text class="card-title1">今日锦囊</text>
-					<image class="illustration32" :src="tipImageSrc" mode="widthFix" @click="toggleTipImage"></image>
+					<template>
+					  <Tear
+					    leftImageSrc="/static/aboveleft.png"
+					    rightBackImageSrc="/static/aboveright2.png"
+					    rightFrontImageSrc="/static/aboveright1.png"
+					    leftText="自定义左侧文字"
+					    rightText="自定义右侧文字"
+					    pageText="自定义撕页文字"
+					  />
+					</template>
+					
+					<!-- <image class="illustration32" :src="tipImageSrc" mode="widthFix" @click="toggleTipImage"></image> -->
 
-					<text class="card-title1">我的人脉网</text>
-					<text class="card-title15">AI 战略家通过分析多维关系，帮助您建立职场联系</text>
+					<view class="network-title-container">
+						<text class="card-title1">我的人脉网</text>
+						<text class="card-title15">AI 战略家通过分析多维关系，帮助您建立职场联系</text>
+					</view>
 					<!-- 添加白色卡片1 -->
 					<view class="card1">
 						<text class="card-title14">添加微信助手，获取深度职场分析！</text>
@@ -160,28 +173,30 @@
 				</view>
 				<image class="dashboard2-illustration31" src="/static/dashboard2/1.jpg" mode="widthFix"></image>
 
-				<view class="dashboard2-card1-container">
-					<view class="dashboard2-card1">
-						<text class="dashboard2-score-value-large1">情绪刹车术{{ }}</text>
-						<view class="dashboard2-level-badge">
-							<text class="dashboard2-score-title1">Lv1小试牛刀</text>
-						</view>
-						<view class="dashboard2-progress-container">
-							<text class="dashboard2-score-title2">情绪掌控力</text>
-							<view class="dashboard2-progress-bar1">
-								<view class="dashboard2-progress"
-									:style="{ width: progressWidth(homepageData?.response?.eq_scores?.dimension3_score || 0) }">
-								</view>
+				<view class="dashboard2-card1">
+					<text class="dashboard2-score-value-large1">情绪刹车术</text>
+					<!-- <text class="dashboard2-score-value-large1">{{homepageData }}</text> -->
+					<view class="dashboard2-level-badge">
+						<text class="dashboard2-score-title1">Lv1小试牛刀</text>
+						<text class="dashboard2-score-title1">{{courseData }}</text>
+					</view>
+					<view class="dashboard2-progress-container">
+						<text class="dashboard2-score-title2">情绪掌控力</text>
+						<view class="dashboard2-progress-bar1">
+							<view class="dashboard2-progress"
+								:style="{ width: progressWidth(homepageData?.response?.eq_scores?.dimension3_score || 0) }">
 							</view>
 						</view>
 					</view>
 				</view>
+				
+				<!-- <view class="dashboard2-card1-container">
+					
+				</view> -->
 
 				<view class="dashboard2-card-o">
 					<!-- 调用进度条组件 -->
-					<SProgressBar :finishComponents="1" :totalComponents="5" />
-
-					<!-- <image class="dashboard2-xiuluochang-image" src="/static/dashboard2/xiuluochang.jpg" mode="aspectFill" /> -->
+					<SProgressBar :finishComponents="1" :totalComponents="5" :userId="userId" :username="username" :homepageData="homepageData" />
 				</view>
 
 
@@ -201,6 +216,8 @@
 <script>
 	import SProgressBar from '@/components/SProgressBar.vue'; // 根据实际路径调整
 	import apiService from '../../services/api-service';
+	import Tear from '@/components/Tear.vue';
+
 
 	export default {
 
@@ -232,6 +249,7 @@
 						contacts: []
 					}
 				},
+				courseData:null,
 
 
 				intervalId: null,
@@ -262,7 +280,7 @@
 					{
 						title: '角色卡5'
 					},
-					// 可以根据需要添加更多卡片
+					// 可以根���需要添加更多卡片
 				],
 				showNewPopup: false,
 				tipImageSrc: '/static/tip.png', // Initial image source
@@ -321,6 +339,10 @@
 					console.log("usercard src:", '狼')
 					return '/static/dashboard/lang.png';
 				}
+			},
+			truncatedSuggestion() {
+				const suggestion = this.homepageData?.response?.eq_scores?.overall_suggestion || '暂无建议';
+				return suggestion.length > 95 ? suggestion.slice(0, 95) + '...' : suggestion;
 			}
 		},
 		components: {
@@ -330,13 +352,14 @@
 			console.log('Received options:', option);
 
 			// 接收上一个页面传递的数据
-			this.userId = option.userId || '';
+			this.userId = option.userId || '547';
 			this.username = decodeURIComponent(option.username || 'Dgidegfiugrwi');
 
 			this.jobId = option.jobId || '154ee592-287b-4675-b8bd-8f88de348476';
 
 			// 立即调用一次
-			this.getHomepageData();
+			this.getHomepageData(this.userId);
+			this.getBattlefield(this.userId);
 			// this.username = this.homepageData.response.personal_info.name || '';
 
 			console.log('Parsed data:', {
@@ -357,7 +380,8 @@
 
 			// 设置定时调用
 			this.intervalId = setInterval(() => {
-				this.getHomepageData();
+				console.log('this.userId:', this.userId);
+				this.getHomepageData(this.userId);
 			}, 50000); // 每50秒调用一次
 		},
 		onUnload() {
@@ -392,9 +416,10 @@
 				try {
 					this.isLoading = true;
 					this.error = null;
-					console.log('Fetching homepage data with jobId:', this.jobId);
+					this.userId
+					console.log('Fetching homepage data with jobId:', this.userId);
 
-					const data = await apiService.getHomepageData(this.jobId);
+					const data = await apiService.getHomepageData(this.userId);
 					this.homepageData = data;
 					console.log('Homepage data received:', this.homepageData);
 
@@ -408,6 +433,28 @@
 					this.isLoading = false;
 				}
 			},
+			
+			async getBattlefield() {
+				try {
+
+					this.userId
+					console.log('Fetching homepage data with jobId:', this.userId);
+			
+					const data = await apiService.getBattlefield(this.userId);
+					this.courseData = data;
+					console.log('Homepage data received:', this.courseData);
+			
+					this.$nextTick(() => {
+						this.drawRadar();
+					});
+				} catch (error) {
+					this.error = 'Error fetching homepage data';
+					console.error(this.error, error);
+				} finally {
+					// this.isLoading = false;
+				}
+			},
+			
 			expand() {
 				this.isExpanded = true; // 只展开，不再收起
 			},
@@ -593,6 +640,8 @@
 		},
 	};
 </script>
+
+
 
 <style scoped>
 	.container {
@@ -876,7 +925,7 @@
 
 	.lower-card {
 		top: 140rpx;
-		/* 偶数卡片下移 30px */
+		/* 偶数片下移 30px */
 		margin-left: 10rpx;
 		margin-right: 10rpx;
 		/* margin-top: 5rpx; */
@@ -1096,7 +1145,6 @@
 		font-size: 25rpx;
 		color: #bbbbbb;
 		margin-bottom: 10rpx;
-		margin-top: 10rpx;
 	}
 
 	.logo {
@@ -1114,7 +1162,8 @@
 		color: #FFFFFF;
 		line-height: 1.5;
 		margin-top: 0rpx;
-
+		/* word-break: break-all;  // 确保长单词也能换行
+		white-space: normal;    // 允许文本换行 */
 	}
 
 	.card-description1 {
@@ -1575,13 +1624,14 @@
 	}
 
 	.dashboard2-card-o {
-		width: 100%;
+		width: 105%;
 		position: relative;
 		text-align: left;
 		display: flex;
 		flex-direction: row;
 		align-items: left;
 		margin-bottom: 10rpx;
+		/* top: -50rpx; */
 	}
 
 	.dashboard2-card {
@@ -1599,6 +1649,7 @@
 		/* Add left and right padding */
 		width: 100%;
 		box-sizing: border-box;
+		/* margin-top: 50rpx; */
 	}
 
 	.dashboard2-card1 {
@@ -1763,4 +1814,39 @@
 	.dashboard2-illustration38 {
 		left: 570rpx;
 	}
+
+	.network-title-container {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		margin-bottom: 20rpx;
+	}
+
+	.floating-image {
+		position: absolute;
+		width: 320rpx; /* 调整图片大小 */
+		height: auto;
+		top: 110rpx; /* 调整垂直位置，使图片漂浮在进度条上方 */
+		right: 105rpx; /* 调整水平位置 */
+		z-index: 10; /* 确保图片在进度条上方 */
+	}
+	
+	.container-sprogress {
+	  width: 100%;
+	  overflow-x: hidden; /* Hide horizontal overflow */
+	  display: flex;
+	  justify-content: flex-start;
+	  align-items: center;
+	  flex-direction: column;
+	  background-color: #2F2F38;
+	  margin-right: 3rpx;
+	}
+	
+	.progress-canvas {
+	  width: 150%; /* Increase canvas width */
+	  height: 2000rpx;
+	  margin: 45rpx;
+	  transform: translateX(-20%); /* Move canvas to the left */
+	}
+	
 </style>

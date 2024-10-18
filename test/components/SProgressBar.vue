@@ -1,19 +1,20 @@
 <template>
-  <view class="container">
-    <canvas canvas-id="sProgress" class="progress-canvas" @tap="handleCanvasTap"></canvas>
+  <view class="container-sprogress">
+    <canvas :id="canvasId" :canvas-id="canvasId" class="progress-canvas" @tap="handleCanvasTap"></canvas>
   </view>
 </template>
+
 
 <script>
 export default {
   props: {
     finishComponents: {
       type: Number,
-      default: 1
+      default: 2
     },
     totalComponents: {
       type: Number,
-      default: 3
+      default: 6
     },
     circleRadius: {
       type: Number,
@@ -21,34 +22,50 @@ export default {
     },
     circleDistance: {
       type: Number,
-      default: 120
+      default: 130
     },
     verticalOffset: {
       type: Number,
       default: 5
+    },
+    userId: {
+      type: [String, Number],
+      required: true
+    },
+    username: {
+      type: String,
+      required: true
+    },
+    homepageData: {
+      type: Object,
+      default: () => ({})
     }
   },
   data() {
     return {
+      canvasId: 'sProgress' + Math.random().toString(36).substr(2, 9),
       bezierPoints: [],
       endPoints: [],
       canvasWidth: 0,
       canvasHeight: 0,
       levelNames: ['新手村', '初级训练', '中级挑战', '高级试炼', '精英赛场'],
-      starRatings: [3, 2, 1, 0, 0], // 示例评分，您可以根据实际情况修改
-      isDrawn: false, // Add this new property
-      imagePositions: [], // Add this new property
+      starRatings: [3, 2, 1, 0, 0], // 示例评分，可以根据实际情况修改
+      hexagons: [],
+      yOffset: 10, // 新增：Y轴偏移量
     };
   },
   mounted() {
     uni.getSystemInfo({
       success: (res) => {
-        this.canvasWidth = res.windowWidth * 0.9;
-        this.canvasHeight = this.canvasWidth * 2;
+        this.canvasWidth = res.windowWidth; // 将Canvas宽度设置为窗口宽度
+        this.canvasHeight = (this.circleRadius * 4 * (this.totalComponents + 1)) + this.verticalOffset * 2;
         this.calculateBezierPoints();
         this.drawSProgress();
       },
     });
+  },
+  updated() {
+    this.drawSProgress();
   },
   methods: {
     calculateBezierPoints() {
@@ -60,7 +77,7 @@ export default {
       this.bezierPoints = [];
       this.endPoints = [];
 
-      // 初始化计算逻辑（与原代码相同）
+      // 初始化计算逻辑
       const initialPoints = [];
       const initX = width / 2;
       const initY = offset;
@@ -123,183 +140,187 @@ export default {
         return chineseNumbers[Math.floor(num / 10) - 1] + '十' + (num % 10 === 0 ? '' : chineseNumbers[num % 10 - 1]);
       }
     },
-    drawHexagon(ctx, x, y, size) {
-      const angle = Math.PI / 3;
-      ctx.beginPath();
-      for (let i = 0; i < 6; i++) {
-        ctx.lineTo(x + size * Math.cos(angle * i - Math.PI / 6), y + size * Math.sin(angle * i - Math.PI / 6));
-      }
-      ctx.closePath();
-    },
     drawSProgress() {
-      const ctx = uni.createCanvasContext('sProgress', this);
-      
-      // Clear the canvas before redrawing
-      ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-      
-      for (let i = 0; i < this.bezierPoints.length; i++) {
+      const ctx = uni.createCanvasContext(this.canvasId, this);
+      const width = this.canvasWidth;
+      const height = this.canvasHeight;
+      const yOffset = this.yOffset;
+
+      ctx.clearRect(0, 0, width, height);
+      ctx.save(); // Save the current state
+      // 调整绘制偏移，使图形居中
+      ctx.translate(0, 0);
+
+      // 绘制所有路径
+      for (let i = 0; i < this.totalComponents; i++) {
         const points = this.bezierPoints[i];
         ctx.beginPath();
-        
-        // Add rounded corners to the starting point
-        ctx.lineCap = 'round';
-        
-        ctx.moveTo(points[0].x, points[0].y);
-        for (let j = 1; j < points.length; j++) {
-          ctx.lineTo(points[j].x, points[j].y);
+        ctx.lineCap = 'round'; // 设置线条端点为圆形
+
+        // 调整起始点和结束点，使其略微缩短，以显示圆角效果
+        const startPoint = points[0];
+        const endPoint = points[points.length - 1];
+
+        ctx.moveTo(startPoint.x, startPoint.y + yOffset);
+
+        // 使用二次贝塞尔曲线来平滑连接点
+        for (let j = 1; j < points.length - 1; j++) {
+          const currentPoint = points[j];
+          const nextPoint = points[j + 1];
+          const midX = (currentPoint.x + nextPoint.x) / 2;
+          const midY = (currentPoint.y + nextPoint.y) / 2;
+          ctx.quadraticCurveTo(currentPoint.x, currentPoint.y + yOffset, midX, midY + yOffset);
         }
+
+        ctx.lineTo(endPoint.x, endPoint.y + yOffset);
+
         ctx.lineWidth = 12;
-        ctx.strokeStyle = '#3B413B';
+        ctx.strokeStyle = i < this.finishComponents ? '#EDFB8B' : '#3B413B';
         ctx.stroke();
-      }
-    
-      const completedComponents = Math.min(this.finishComponents + 1, this.bezierPoints.length);
-      for (let i = 0; i < completedComponents; i++) {
-        const points = this.bezierPoints[i];
-        ctx.beginPath();
-        
-        // Add rounded corners to the starting point
-        ctx.lineCap = 'round';
-        
-        ctx.moveTo(points[0].x, points[0].y);
-        for (let j = 1; j < points.length; j++) {
-          ctx.lineTo(points[j].x, points[j].y);
+
+        // 在初始线的右边添加绿色线段
+        if (i === 0) {
+          const lineStartX = points[0].x - 20; // 文字右侧起始点
+          const lineY = points[0].y + yOffset;
+
+          // 绘制 "LEVEL 1" 文字
+          ctx.font = 'bold 20px Arial';
+          ctx.fillStyle = 'white';
+          ctx.textAlign = 'right';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('LEVEL 1', lineStartX - 10, lineY);
+
+          // 绘制绿色线段
+          ctx.beginPath();
+          ctx.moveTo(lineStartX - 120, lineY);
+          ctx.lineTo(lineStartX - 2600, lineY);
+          ctx.lineWidth = 12;
+          ctx.strokeStyle = '#EDFB8B'; // 绿色
+          ctx.stroke();
         }
-        ctx.lineWidth = 12;
-        ctx.strokeStyle = '#EDFB8B';
-        ctx.stroke();
       }
 
-      this.imagePositions = []; // Reset image positions
-
-      for (let i = 0; i < this.endPoints.length; i++) {
+      // 绘制所有端点、线段和图片
+      for (let i = 0; i < this.totalComponents; i++) {
         const endPoint = this.endPoints[i];
-        
-        ctx.beginPath();
-        ctx.arc(endPoint.x, endPoint.y, 12, 0, 2 * Math.PI);
-        
-        if (i < completedComponents) {
-          ctx.fillStyle = '#9EE44D';
-        } else {
-          ctx.fillStyle = '#ddd';
-        }
-        ctx.fill();
+        const isCompleted = i < this.finishComponents;
 
+        // 绘制端点圆圈
+        ctx.beginPath();
+        ctx.arc(endPoint.x, endPoint.y + yOffset, 12, 0, 2 * Math.PI);
+        ctx.fillStyle = isCompleted ? '#9EE44D' : '#ddd';
+        ctx.fill();
         ctx.lineWidth = 4;
         ctx.strokeStyle = 'white';
         ctx.stroke();
 
-        const lineLength = 100;
-		const lineLength1 = 32;
+        // 绘制短线段
+        const lineLength1 = 32;
         ctx.beginPath();
-        ctx.moveTo(endPoint.x, endPoint.y);
+        ctx.moveTo(endPoint.x, endPoint.y + yOffset);
         if (i % 2 === 0) {
-          ctx.lineTo(endPoint.x - lineLength1, endPoint.y);
+          ctx.lineTo(endPoint.x - lineLength1, endPoint.y + yOffset);
         } else {
-          ctx.lineTo(endPoint.x + lineLength1, endPoint.y);
+          ctx.lineTo(endPoint.x + lineLength1, endPoint.y + yOffset);
         }
-        ctx.lineWidth1 = 2;
-        
-        if (i <= this.finishComponents) {
-          ctx.strokeStyle = '#9EE44D';
-        } else {
-          ctx.strokeStyle = 'rgba(221, 221, 221, 0.3)';
-        }
-        ctx.stroke();
-
-        // Add image at the end of each line
-        const imageSize = 160;
-        const hexSize = imageSize *0.8 / Math.sqrt(3); // Size of the hexagon
-        const imageX = i % 2 === 0 ? endPoint.x - lineLength - imageSize/2 : endPoint.x + lineLength - imageSize/2;
-        const imageY = endPoint.y - imageSize / 2;
-        
-        const imagePath = i <= this.finishComponents ? '/static/333.png' : '/static/444.png';
-        
-        // Draw hexagonal clip path
-        ctx.save();
-        this.drawHexagon(ctx, imageX + imageSize/2, imageY + imageSize/2, hexSize);
-        ctx.clip();
-        
-        // Draw the image
-        ctx.drawImage(imagePath, imageX, imageY, imageSize, imageSize);
-        
-        ctx.restore();
-
-        // Draw transparent border around the hexagon for all levels
-        ctx.save();
-        ctx.translate(imageX + imageSize/2, imageY + imageSize/2);
-        ctx.rotate(Math.PI / 3); // Rotate by 60 degrees (π/3 radians)
-        ctx.strokeStyle = 'rgba(255, 0, 0, 0)'; // Transparent red
         ctx.lineWidth = 2;
-        this.drawHexagon(ctx, 0, 0, hexSize);
+        ctx.strokeStyle = isCompleted ? '#9EE44D' : 'rgba(221, 221, 221, 0.3)';
         ctx.stroke();
-        ctx.restore();
 
-        // Store hexagon position and size
-        this.imagePositions.push({
-          x: imageX + imageSize/2,
-          y: imageY + imageSize/2,
-          size: hexSize,
-          level: i + 1,
-          isActivated: i <= this.finishComponents
-        });
+        // 绘制图片
+        const imageSize = 160;
+        const lineLength = 100;
+        const imageX = i % 2 === 0 ? endPoint.x - lineLength - imageSize/2 : endPoint.x + lineLength - imageSize/2;
+        const imageY = endPoint.y - imageSize / 2 + yOffset;
+        const imagePath = isCompleted ? '/static/333.png' : '/static/444.png';
 
-        // Adjust container position to be closer to the image
-        const containerWidth = 300; // Adjust as needed
-        const containerHeight = 150; // Adjust as needed
-        const containerX = i % 2 === 0 ? imageX - containerWidth + 80 : imageX + imageSize - 80;
-        const containerY = endPoint.y - containerHeight / 2;
+        try {
+          ctx.drawImage(imagePath, imageX, imageY, imageSize, imageSize);
 
-        // Draw container (optional, for debugging)
-        // ctx.strokeStyle = '#000';
-        // ctx.strokeRect(containerX, containerY, containerWidth, containerHeight);
+          // 只在激活（已完成）的关卡上添加红色实体六边形
+          if (isCompleted) {
+            // 存储六边形的中心点和大小，用于后续的点击检测
+            this.hexagons[i] = {
+              centerX: imageX + imageSize / 2,
+              centerY: imageY + imageSize / 2,
+              size: imageSize / 2
+            };
 
-        // Add level text with Chinese characters and pill-shaped background
-        // 修改字体大小和相关参数
-        ctx.font = '12px Arial'; // 将字体大小改为12px
-        ctx.fillStyle = i <= this.finishComponents ? '#9EE44D' : '#ddd';
-        ctx.textAlign = 'center';
-        const textX = containerX + containerWidth / 2;
-        const textY = containerY + 20; // 调整文本Y坐标，使其在更小的pill中居中
+            // 绘制红色实体六边形
+            // ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'; // 半透明红色
+            // ctx.strokeStyle = 'rgba(255, 0, 0, 1)'; // 实线红色边框
+            // ctx.lineWidth = 2;
+            // this.drawHexagon(ctx, imageX + imageSize / 2, imageY + imageSize / 2, imageSize / 2, Math.PI / 6);
+            // ctx.fill(); // 填充六边形
+            // ctx.stroke(); // 绘制边框
+          }
+        } catch (error) {
+          console.error(`Error drawing image for level ${i + 1}:`, error);
+        }
 
-        const levelText = `关${this.numberToChineseCharacter(i + 1)}`;
+        // 计算文本容器的宽度和位置
+        const textContainerWidth = 120; // 调整此值以适应您的需求
+        const textContainerX = i % 2 === 0 
+          ? imageX + imageSize / 2 - textContainerWidth - 80 
+          : imageX + imageSize / 2 + 80;
+        const textContainerY = imageY + imageSize / 2;
 
-        // 调整pill尺寸
-        const textMetrics = ctx.measureText(levelText);
-        const textWidth = textMetrics.width;
-        const pillWidth = textWidth + 16; // 减小padding
-        const pillHeight = 20; // 减小pill高度
-        const pillX = textX - pillWidth / 2;
-        const pillY = textY - 14; // 调整pill的Y坐标
+        // 添加关卡文本背景
+        ctx.save(); // 保存当前的绘图状态
 
-        // 绘制更小的pill形状
-        ctx.fillStyle = 'black';
+        const padding = 10; // 文本周围的内边距
+        const cornerRadius = 10; // 圆角半径
+
+        // 计算背景的尺寸
+        const textMetrics = ctx.measureText(`关卡${this.numberToChineseCharacter(i + 1)}`);
+        const bgWidth = textMetrics.width + padding * 2;
+        const bgHeight = 24; // 根据需要调整高度
+
+        // 计算背景的位置
+        const bgX = textContainerX + textContainerWidth / 2 - bgWidth / 2;
+        const bgY = textContainerY - 15 - bgHeight / 2;
+
+        // 绘制圆角矩形背景
         ctx.beginPath();
-        ctx.moveTo(pillX + pillHeight / 2, pillY);
-        ctx.lineTo(pillX + pillWidth - pillHeight / 2, pillY);
-        ctx.arc(pillX + pillWidth - pillHeight / 2, pillY + pillHeight / 2, pillHeight / 2, -Math.PI / 2, Math.PI / 2);
-        ctx.lineTo(pillX + pillHeight / 2, pillY + pillHeight);
-        ctx.arc(pillX + pillHeight / 2, pillY + pillHeight / 2, pillHeight / 2, Math.PI / 2, -Math.PI / 2);
+        ctx.moveTo(bgX + cornerRadius, bgY);
+        ctx.lineTo(bgX + bgWidth - cornerRadius, bgY);
+        ctx.quadraticCurveTo(bgX + bgWidth, bgY, bgX + bgWidth, bgY + cornerRadius);
+        ctx.lineTo(bgX + bgWidth, bgY + bgHeight - cornerRadius);
+        ctx.quadraticCurveTo(bgX + bgWidth, bgY + bgHeight, bgX + bgWidth - cornerRadius, bgY + bgHeight);
+        ctx.lineTo(bgX + cornerRadius, bgY + bgHeight);
+        ctx.quadraticCurveTo(bgX, bgY + bgHeight, bgX, bgY + bgHeight - cornerRadius);
+        ctx.lineTo(bgX, bgY + cornerRadius);
+        ctx.quadraticCurveTo(bgX, bgY, bgX + cornerRadius, bgY);
         ctx.closePath();
+
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)'; // 半透明黑色
         ctx.fill();
 
-        // Add level text
-        ctx.fillStyle = i <= this.finishComponents ? 'white' : '#ddd';
-        ctx.fillText(levelText, textX, textY);
+        // 添加关卡文本
+        ctx.font = '12px Arial';
+        ctx.fillStyle = 'white';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle'; // 确保文本垂直居中
+        const levelText = `关卡${this.numberToChineseCharacter(i + 1)}`;
+        ctx.fillText(levelText, textContainerX + textContainerWidth / 2, textContainerY - 15);
 
-        // Add level name
-        ctx.font = 'bolder 15px Arial';
+        ctx.restore(); // 恢复之前保存的绘图状态
+
+        // 添加关卡名称
+        ctx.font = 'bold 20px Arial';
+        ctx.fillStyle = 'white'; // 或者您想要的其他颜色
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
         const levelName = this.levelNames[i] || `Level ${i + 1}`;
-        ctx.fillText(levelName, textX, textY + 40);
+        ctx.fillText(levelName, textContainerX + textContainerWidth / 2, textContainerY + 15);
 
-        // Add star ratings
-        const starSize = 50;
-        const starSpacing = -20;
+        // 添加星级评分
+        const starSize = 20;
+        const starSpacing = 5;
         const starContainerWidth = (starSize * 3) + (starSpacing * 2);
-        const starContainerX = containerX + (containerWidth - starContainerWidth) / 2;
-        const starContainerY = textY + 50;
+        const starContainerX = textContainerX + (textContainerWidth - starContainerWidth) / 2;
+        const starContainerY = textContainerY + 35; // 调整这个值来控制星星与关卡名称的距离
 
-        // Draw stars
         for (let j = 0; j < 3; j++) {
           const starX = starContainerX + (j * (starSize + starSpacing));
           const starY = starContainerY;
@@ -307,68 +328,99 @@ export default {
           ctx.drawImage(starPath, starX, starY, starSize, starSize);
         }
       }
-    
-      ctx.draw();
-    },
 
-    handleCanvasTap(e) {
-      const { x, y } = e.detail;
-      for (let hexagon of this.imagePositions) {
-        if (this.isPointInRotatedHexagon(x, y, hexagon.x, hexagon.y, hexagon.size)) {
-          uni.navigateTo({
-            url: `/pages/battlefield/battlefield-intro?level=${hexagon.level}`
-          });
-          break;
+      ctx.restore(); // Restore the original state
+      ctx.draw(false, () => {
+        console.log('Canvas drawing completed');
+      });
+    },
+    navigateToBattlefieldIntro() {
+      const jobId = this.homepageData?.response?.personal_info?.job_id;
+      console.log('okok');
+      uni.navigateTo({
+        url: `/pages/battlefield/battlefield-intro`
+      });
+    },
+    // 新增方法：绘制六边形
+    drawHexagon(ctx, centerX, centerY, size, rotationAngle = 0) {
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const angle = rotationAngle + (i * Math.PI) / 3;
+        const x = centerX + size * Math.cos(angle);
+        const y = centerY + size * Math.sin(angle);
+        if (i === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
         }
       }
+      ctx.closePath();
+      ctx.stroke();
     },
+    handleCanvasTap(event) {
+      const { x, y } = event.detail;
 
-    isPointInRotatedHexagon(px, py, cx, cy, size) {
-      // Translate point to origin
-      const tx = px - cx;
-      const ty = py - cy;
-      
-      // Rotate point by -60 degrees (opposite of hexagon rotation)
-      const angle = -Math.PI / 3;
-      const rx = tx * Math.cos(angle) - ty * Math.sin(angle);
-      const ry = tx * Math.sin(angle) + ty * Math.cos(angle);
-      
-      // Check if point is in hexagon
-      const a = size / 2;
-      const b = size * Math.sin(Math.PI / 3);
+      uni.createSelectorQuery()
+        .in(this)
+        .select('#' + this.canvasId)
+        .boundingClientRect((rect) => {
+          // 调整点击坐标，考虑Canvas的位置和缩放
+          const canvasX = x - rect.left;
+          const canvasY = y - rect.top;
 
-      return Math.abs(rx) <= a && Math.abs(ry) <= b && Math.abs(rx) * (b/a) + Math.abs(ry) <= b;
-    }
-  },
+          // 考虑绘制时的平移（这里没有平移）
+          const adjustedX = canvasX; // 如果有ctx.translate，需要减去对应的值
+          const adjustedY = canvasY; // 如果有ctx.translate，需要减去对应的值
 
-  watch: {
-    // Add watchers for props that should trigger a redraw
-    finishComponents() {
-      this.$nextTick(() => this.drawSProgress());
+          for (let i = 0; i < this.hexagons.length; i++) {
+            const hexagon = this.hexagons[i];
+            if (this.isPointInHexagon(adjustedX, adjustedY, hexagon.centerX, hexagon.centerY, hexagon.size)) {
+              this.navigateToBattlefieldIntro();
+              break;
+            }
+          }
+        })
+        .exec();
     },
-    totalComponents() {
-      this.$nextTick(() => this.drawSProgress());
+    isPointInHexagon(x, y, centerX, centerY, size) {
+      // 将坐标转换为相对于六边形中心的坐标
+      const dx = x - centerX;
+      const dy = y - centerY;
+      // 计算六边形的外接圆半径
+      const radius = size;
+      // 判断点是否在六边形的外接圆内
+      if (Math.sqrt(dx * dx + dy * dy) > radius) {
+        return false;
+      }
+      // 进一步判断点是否在六边形内
+      const angle = Math.atan2(dy, dx);
+      const sector = Math.floor((angle + Math.PI) / (Math.PI / 3));
+      const distance = Math.abs(dx * Math.sin(sector * Math.PI / 3) - dy * Math.cos(sector * Math.PI / 3));
+      return distance < radius * Math.sqrt(3) / 2;
     },
-    // Add more watchers for other props if needed
   }
 };
 </script>
 
+
+
 <style scoped>
-.container {
+.container-sprogress {
   width: 100%;
-  /* height: 100vh; */
+  overflow-x: hidden;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
   background-color: #f5f5f5;
+  margin-right: 3rpx;
 }
 
 .progress-canvas {
-  width: 90%;
-  height: 1200rpx;
-  margin: 5rpx;
-  
+  width: 100%; /* 将宽度设置为100% */
+  height: 2000rpx;
+  margin: 45rpx;
+  /* 移除transform属性 */
 }
 </style>
+

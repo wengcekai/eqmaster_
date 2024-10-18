@@ -255,15 +255,12 @@
 						console.log('########successfully retrieved data', res);
 						this.homepageData = res.data;
 						console.log('begin to draw radar');
+						this.drawRadar();
 					}
 				});
 			} catch (e) {
 				console.log('something error happened', e)
 			}
-		},
-		onUnload() {
-		},
-		onReady() {
 			// 确保数据已经准备好
 			if (!this.username) {
 				uni.getStorage({
@@ -277,7 +274,40 @@
 					}
 				});
 			}
-			this.drawRadar();
+		},
+		onUnload() {
+		},
+		onReady() {
+			console.log('option', option);
+			// 接收上一个页面传递的数据
+			this.userId = option.userId || '';
+			this.username = decodeURIComponent(option.username || '');
+			try {
+				uni.getStorage({
+					key: 'response',
+					success: (res) => {
+						console.log('########successfully retrieved data', res);
+						this.homepageData = res.data;
+						console.log('begin to draw radar');
+						this.drawRadar();
+					}
+				});
+			} catch (e) {
+				console.log('something error happened', e)
+			}
+			// 确保数据已经准备好
+			if (!this.username) {
+				uni.getStorage({
+					key: 'username',
+					success: (res) => {
+						this.username = res.data;
+						console.log('Username from storage:', this.username);
+					},
+					fail: () => {
+						console.error('Failed to get username from storage');
+					}
+				});
+			}
 		},
 		methods: {
 			progressWidth(value) {

@@ -1,0 +1,1207 @@
+<style scoped>
+	.container {
+		position: relative;
+		background-color: #2F2F38;
+		/* display: flex; */
+		flex-direction: column;
+		align-items: left;
+		padding-top: 100rpx;
+		width: 100%;
+		height: 100%;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.content {
+		display: flex;
+		/* 避免 flex 布局干扰 */
+		flex-direction: column;
+		align-items: left;
+		/* width: 100%; */
+		margin-left: 20px;
+	}
+
+
+	.illustration1 {
+		width: 300rpx;
+		height: auto;
+		position: relative;
+		z-index: 10;
+		/* top: -5px; */
+		left: 0px;
+		margin-top: 30rpx;
+		margin-bottom: 50rpx;
+		margin-right: 20rpx;
+	}
+
+	.illustration-qr {
+		width: 170rpx;
+		height: auto;
+		position: relative;
+		z-index: 10;
+		top: 0px;
+		left: 0px;
+		/* margin-top: 30rpx; */
+		/* margin-bottom: 50rpx; */
+	}
+
+	.illustration2 {
+		width: 130rpx;
+		height: auto;
+		position: absolute;
+		top: 1030rpx;
+		left: 290rpx;
+	}
+
+	.illustration3 {
+		width: 100rpx;
+		height: auto;
+		position: relative;
+		top: 0rpx;
+		left: 0rpx;
+	}
+
+	.illustration31 {
+		width: 250rpx;
+		height: auto;
+		position: absolute;
+		top: 340rpx;
+		left: 60rpx;
+		margin-top: 3px;
+	}
+
+	.illustration32 {
+		width: 690rpx;
+		height: auto;
+		position: relative;
+		top: 0rpx;
+		left: 0rpx;
+		margin-bottom: 10px;
+	}
+
+	.illustration33 {
+		width: 130rpx;
+		height: auto;
+		position: absolute;
+		top: 0rpx;
+		left: 500rpx;
+		margin-bottom: 10px;
+	}
+
+	.illustration34 {
+		width: 60rpx;
+		height: auto;
+		position: absolute;
+		top: 15rpx;
+		left: 620rpx;
+		margin-bottom: 10px;
+	}
+
+	.illustration35 {
+		width: 320rpx;
+		height: auto;
+		position: absolute;
+		/* top: 1240rpx; */
+		right: 0rpx;
+		margin-bottom: 10rpx;
+		z-index: 40;
+	}
+
+	.illustration36 {
+		width: 60rpx;
+		height: auto;
+		position: absolute;
+		top: 30rpx;
+		left: 100rpx;
+	}
+
+	.illustration37 {
+		width: 60rpx;
+		height: auto;
+		position: absolute;
+		top: 30rpx;
+		left: 340rpx;
+	}
+
+	.illustration38 {
+		width: 60rpx;
+		height: auto;
+		position: absolute;
+		top: 30rpx;
+		left: 570rpx;
+	}
+
+	.illustration39 {
+		width: 300px;
+		height: auto;
+		position: absolute;
+		top: 30rpx;
+		left: 10 px;
+	}
+
+	.illustration4 {
+		width: 70rpx;
+		height: auto;
+		position: absolute;
+		margin-top: -20rpx;
+		left: 390rpx;
+	}
+
+	.illustration5 {
+		width: 150rpx;
+		height: auto;
+		position: absolute;
+		margin-top: -20rpx;
+		left: 520rpx;
+	}
+
+	.illustration6 {
+		width: 400rpx;
+		height: auto;
+		position: absolute;
+		bottom: -20rpx;
+		left: 250rpx;
+	}
+
+	.illustrationhead {
+		width: 100rpx;
+		height: auto;
+		position: relative;
+		z-index: 10;
+		left: 0px;
+		margin-top: 30rpx;
+		margin-bottom: 0rpx;
+	}
+
+	.card {
+		width: 300rpx;
+		height: 420rpx;
+		background-color: #373742;
+		border-radius: 20rpx;
+		box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+		position: relative;
+		/* top: 65px; */
+		/* left: 190px; */
+		text-align: left;
+		display: flex;
+		flex-direction: column;
+		align-items: left;
+		padding: 30rpx 30rpx 0rpx 30rpx;
+		/* margin-bottom: 10rpx; */
+		margin-top: 30rpx;
+	}
+
+	.card1 {
+		width: 88%;
+		background-color: #373742;
+		border-radius: 50rpx;
+		box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+		position: relative;
+		z-index: 20;
+		text-align: left;
+		display: flex;
+		flex-direction: column;
+		align-items: left;
+		padding: 20rpx 30rpx 20rpx 30rpx;
+		margin-bottom: 30rpx;
+	}
+
+	.cardjuese {
+		width: 265rpx;
+		height: 300rpx;
+		background-color: #373742;
+		border-radius: 50rpx;
+		box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+		position: relative;
+		z-index: 20;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: left;
+		padding: 20rpx 30rpx 20rpx 30rpx;
+		margin-bottom: 10rpx;
+	}
+
+	.cardjuese1 {
+		width: 180rpx;
+		height: 60rpx;
+		background-color: #373742;
+		border-radius: 50rpx;
+		box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+		position: relative;
+		z-index: 20;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: left;
+		padding: 20rpx 30rpx 20rpx 30rpx;
+	}
+
+	.card3 {
+		width: 100%;
+		height: 150rpx;
+		background-color: #252529;
+		color: #252529;
+		font-size: 36rpx;
+		text-align: center;
+		line-height: 100rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		/* margin-bottom: 30rpx; */
+		z-index: 1000;
+		/* 确保按钮悬浮其他内容之上 */
+		position: fixed;
+		/* 固定定位 */
+		bottom: 0px;
+		transform: translateX(-50%);
+		/* 调整水平位置以居中 */
+		left: 50%;
+		/* 水平居中 */
+	}
+
+	.peoplecontain {
+		width: 680rpx;
+		background-color: #2F2F38;
+		position: relative;
+		z-index: 20;
+		text-align: center;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		/* 添加这行 */
+		align-items: flex-start;
+		padding: 0rpx 0rpx 0rpx 0rpx;
+
+		gap: 10rpx;
+		margin-bottom: 200rpx;
+	}
+
+	.lower-card {
+		top: 140rpx;
+		/* 偶数片下移 30px */
+		margin-left: 10rpx;
+		margin-right: 10rpx;
+		/* margin-top: 5rpx; */
+		margin-bottom: 10rpx;
+	}
+
+	.score-title-head {
+		font-size: 50rpx;
+		font-weight: bold;
+		color: #FFFFFF;
+		margin-top: 30rpx;
+		position: relative;
+		z-index: 30;
+	}
+
+	.score-title {
+		font-size: 40rpx;
+		font-weight: bold;
+		color: #9EE44D;
+		margin-bottom: 5rpx;
+	}
+
+	.score-title1 {
+		font-size: 36rpx;
+		color: #FFFFFF;
+		margin-bottom: 5rpx;
+	}
+
+	.score-title2 {
+		font-size: 30rpx;
+		color: #FFFFFF;
+		/* margin-bottom: 5rpx; */
+		left: 300px;
+		top: -23px;
+		font-weight: bold;
+	}
+
+	.score-container,
+	.score-container1 {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		margin-bottom: 80rpx;
+	}
+
+	.score-details {
+		display: flex;
+		align-items: baseline;
+		margin-bottom: 20rpx;
+		margin-top: 20rpx;
+		width: 100%;
+	}
+
+	.score-value-large {
+		font-size: 50rpx;
+		font-weight: bold;
+		color: #FFFFFF;
+		margin-left: 60rpx;
+		left: 30px;
+		top: 26px;
+		position: absolute;
+
+	}
+
+	.score-value-small {
+		font-size: 40rpx;
+		font-weight: normal;
+		color: #9EE44D;
+		position: absolute;
+		top: 40rpx;
+		left: 120rpx;
+	}
+
+	.progress-bar {
+		width: 95%;
+		height: 10rpx;
+		background-color: rgba(125, 123, 126, 0.5);
+		/* 设置透明度为50% */
+		border-radius: 25rpx;
+		overflow: hidden;
+		margin-top: 5rpx;
+		margin-bottom: 15rpx;
+	}
+
+	.status-text {
+		top: 190px;
+		font-size: 40rpx;
+		color: #9EE44D;
+		margin-top: 20rpx;
+	}
+
+	.progress-bar1 {
+		width: 85%;
+		height: 15rpx;
+		background-color: #7d7b7e;
+		border-radius: 15rpx;
+		overflow: hidden;
+		margin-top: 15rpx;
+		margin-bottom: 15rpx;
+	}
+
+	.progress {
+		height: 100%;
+		background-color: #9EE44D;
+	}
+
+	.radar-canvas {
+		width: 700rpx;
+		height: 500rpx;
+		margin-top: 50px;
+		top: -50px;
+		background-color: transparent;
+	}
+
+	.card-content {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		margin-bottom: 40rpx;
+	}
+
+	.emoji {
+		width: 60rpx;
+		height: auto;
+		margin-right: 10rpx;
+	}
+
+	.card-text-container {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		margin-bottom: 30px;
+	}
+
+	.icon-text-box {
+		display: flex;
+		align-items: center;
+	}
+
+	.text-box,
+	.text-box1 {
+		display: inline-flex;
+		align-items: center;
+		border: 1rpx solid #373742;
+		padding: 5rpx 10rpx;
+		border-radius: 10rpx;
+		background-color: #373742;
+		box-shadow: 0 0 12rpx 0rpx rgba(0, 0, 0, 0.3);
+		/* margin: 10rpx; */
+	}
+
+	.text-box1 {
+		padding: 10rpx;
+		box-shadow: none;
+		margin: 0rpx 10rpx 10rpx 10rpx;
+	}
+
+	.card-title {
+		font-size: 28rpx;
+		/* color: #252529; */
+		background-color: #EDFB8B;
+		margin-bottom: 10rpx;
+		padding: 10px;
+		border-radius: 20rpx 20rpx 20rpx 0rpx;
+		/* 左上角方角，其他三个角为圆角 */
+	}
+
+
+	.card-title2 {
+		font-size: 28rpx;
+		/* color: #252529; */
+		background-color: #9EE44D;
+		margin-bottom: 10rpx;
+		margin-top: 20rpx;
+		padding: 10px;
+		border-radius: 20rpx 20rpx 20rpx 0rpx;
+		/* 左上角方角，其他三个角为圆角 */
+	}
+
+	.card-title1 {
+		font-size: 45rpx;
+		color: #FFFFFF;
+		font-weight: bold;
+		margin-bottom: 10rpx;
+	}
+
+	.card-title12 {
+		position: absolute;
+		top: 400px;
+		left: 32px;
+		font-size: 26rpx;
+		color: #FFFFFF;
+		font-weight: bold;
+		margin-bottom: 10rpx;
+	}
+
+	.card-title13 {
+		position: absolute;
+		top: 415px;
+		left: 30px;
+		font-size: 50rpx;
+		color: #FFFFFF;
+		font-weight: bold;
+		margin-bottom: 10rpx;
+	}
+
+	.card-title14 {
+		font-size: 25rpx;
+		color: #FFFFFF;
+		margin-bottom: 10rpx;
+		margin-top: 10rpx;
+		margin-left: 20rpx;
+	}
+
+	.card-title15 {
+		font-size: 25rpx;
+		color: #bbbbbb;
+		margin-bottom: 10rpx;
+	}
+
+	.logo {
+		width: 300rpx;
+		height: 300rpx;
+		position: absolute;
+		top: 11%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		/* 同时水平和垂直居中 */
+	}
+
+	.card-description {
+		font-size: 20rpx;
+		color: #FFFFFF;
+		line-height: 1.5;
+		margin-top: 0rpx;
+		/* word-break: break-all;  // 确保长单词也能换行
+		white-space: normal;    // 允许文本换行 */
+	}
+
+	.card-description1 {
+		font-size: 24rpx;
+		color: #FFFFFF;
+		line-height: 1.5;
+		margin-top: 10rpx;
+	}
+
+	.guide-button {
+		width: 100%;
+		height: 150rpx;
+		background-color: #252529;
+		color: #252529;
+		font-size: 36rpx;
+		text-align: center;
+		line-height: 100rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		/* margin-bottom: 30rpx; */
+		z-index: 1000;
+		/* 确保按钮悬浮在其他容之上 */
+		position: fixed;
+		/* 固定定位 */
+		bottom: 0px;
+		transform: translateX(-50%);
+		/* 调整水平位置以居中 */
+		left: 50%;
+		/* 水平居中 */
+	}
+
+
+
+	.debug-info {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		background-color: rgba(0, 0, 0, 1);
+		color: white;
+		padding: 5px;
+		font-size: 10px;
+		z-index: 100;
+		max-height: 50vh;
+		overflow-y: auto;
+	}
+
+	.debug-info text {
+		display: block;
+		margin-bottom: 2px;
+	}
+
+	.emotion-detection-box1,
+	.emotion-detection-box2,
+	.emotion-detection-box3,
+	.emotion-detection-box4,
+	.emotion-detection-box5 {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+	}
+
+	.emotion-detection-box1 {
+		top: 350rpx;
+	}
+
+	.emotion-detection-box2 {
+		top: 450rpx;
+		left: 35%;
+	}
+
+	.emotion-detection-box3 {
+		top: 450rpx;
+		right: 35%;
+	}
+
+	.emotion-detection-box4 {
+		top: 800rpx;
+		right: 35%;
+	}
+
+	.emotion-detection-box5 {
+		top: 800rpx;
+		left: 35%;
+	}
+
+	.emotion-detection-title {
+		font-size: 22rpx;
+		color: #FFFFFF;
+		font-weight: bold;
+		background-color: #4A4A57;
+		padding: 10rpx 20rpx;
+		border-radius: 10rpx;
+	}
+
+	.green-circle {
+		position: absolute;
+		width: 45rpx;
+		height: 45rpx;
+		background-color: #9EE44D;
+		border-radius: 50px;
+		top: 95px;
+		z-index: 30;
+		border: 3rpx solid #FFFFFF;
+		/* 添加白色边框 */
+
+	}
+
+	.green-circle1 {
+		position: absolute;
+		width: 22rpx;
+		height: 22rpx;
+		background-color: #b3bec1;
+		border-radius: 50px;
+		top: 102px;
+		/* z-index: 3; */
+	}
+
+	.expand-button {
+		color: #9EE44D;
+		/* 按钮文字颜色 */
+		border: none;
+		/* 去掉边框 */
+		padding: 10rpx;
+		/* 去掉内边距 */
+		text-align: center;
+		/* 文字居中 */
+		text-decoration: underline;
+		/* 添加下划线以突出显示 */
+		display: inline;
+		/* 使按钮为行内元素 */
+		font-size: 16px;
+		/* 字体大小 */
+		margin: 0;
+		/* 掉外边距 */
+		cursor: pointer;
+		/* 鼠标悬停时显示手型 */
+		background-color: #373742;
+	}
+
+	.expand-button:hover {
+		color: #9EE44D;
+		/* 悬停时的文字颜色 */
+		text-decoration: underline;
+		/* 悬停时保持下划线 */
+	}
+
+	.expand-image {
+		width: 150rpx;
+		/* Adjust the width to your desired size */
+		height: 55rpx;
+		/* Adjust the height to your desired size */
+		cursor: pointer;
+		/* Make it clickable */
+		margin: 0 auto;
+		/* Center it */
+		/* bottom:30px; */
+	}
+
+	.popup-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		z-index: 1000;
+		padding: 10rpx;
+	}
+
+	.popup-content {
+		width: 580rpx;
+		/* Set the width to 90% */
+		background-color: #3C3C47;
+		border-radius: 50rpx;
+		padding: 50rpx;
+		display: flex;
+		justify-content: center;
+		align-items: left;
+		flex-direction: column;
+	}
+
+	.popup-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: left;
+		margin-bottom: 20rpx;
+	}
+
+	.popup-wordy {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-direction: column;
+		margin-bottom: 0rpx;
+	}
+
+	.popup-icon {
+		display: flex;
+		/* Use flexbox for layout */
+		flex-direction: row;
+		/* Arrange items in a row */
+		justify-content: space-between;
+		/* Distribute space evenly between items */
+		align-items: center;
+		/* Align items vertically centered */
+		width: 500rpx;
+		/* Ensure the container takes full width */
+		padding: 2rpx;
+		/* Optional: Add some padding */
+	}
+
+	.popup-icon1 {
+		width: 400rpx;
+		/* Set the width of the image */
+		height: auto;
+		/* Maintain aspect ratio */
+
+	}
+
+	.popup-icon2 {
+		width: 100rpx;
+		/* Set the width of the image */
+		height: auto;
+		/* Maintain aspect ratio */
+		margin-bottom: 40rpx;
+		/* Add horizontal margin for spacing */
+		margin-top: 40rpx;
+
+	}
+
+	.popup-title {
+		color: #FFFFFF;
+		font-size: 40rpx;
+		font-weight: bold;
+		margin-bottom: 20px;
+	}
+
+	.popup-notitle {
+		color: #FFFFFF;
+
+		font-size: 30rpx;
+		margin-bottom: 20px;
+	}
+
+	.popup-close {
+		color: #FFFFFF;
+		font-size: 40rpx;
+		position: absolute;
+		right: 50px;
+	}
+
+	.popup-input {
+		background-color: #2F2F38;
+		color: #FFFFFF;
+		padding: 20rpx;
+		border-radius: 30rpx;
+		margin-bottom: 20rpx;
+		width: 80%;
+	}
+
+	.popup-section {
+		margin-bottom: 20rpx;
+	}
+
+	.popup-question {
+		color: #FFFFFF;
+		font-size: 30rpx;
+		font-weight: bold;
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+
+	.popup-options {
+		display: flex;
+		flex-direction: row;
+		/* 改为横向排列 */
+		flex-wrap: wrap;
+		/* 允许换行 */
+		align-items: flex-start;
+	}
+
+	.popup-option {
+		background-color: #2F2F38;
+		color: #FFFFFF;
+		border-radius: 50rpx 0rpx 0rpx 50rpx;
+		padding: 20rpx 60rpx;
+		margin-right: 10rpx;
+		margin-bottom: 10rpx;
+		width: auto;
+		font-size: 14px;
+	}
+
+	.popup-option1 {
+		background-color: #2F2F38;
+		color: #FFFFFF;
+		border-radius: 0rpx;
+		padding: 20rpx 60rpx;
+		margin-right: 10rpx;
+		margin-bottom: 10rpx;
+		width: auto;
+		font-size: 14px;
+	}
+
+	.popup-option2 {
+		background-color: #2F2F38;
+		color: #FFFFFF;
+		border-radius: 0rpx 30rpx 30rpx 0rpx;
+		padding: 20rpx 60rpx;
+		margin-right: 10rpx;
+		margin-bottom: 10rpx;
+		width: auto;
+		font-size: 14px;
+	}
+
+	.popup-option.active,
+	.popup-option1.active,
+	.popup-option2.active {
+		background-color: #9EE44D;
+		color: #2F2F38;
+	}
+
+	.popup-tags {
+		display: flex;
+		flex-direction: row;
+		/* 改为横向排列 */
+		flex-wrap: wrap;
+		/* 允许换行 */
+		align-items: flex-start;
+		width: 100%;
+		/* 按钮组占满整个宽度 */
+		margin-bottom: 10px;
+		/* 调整间距 */
+	}
+
+	.popup-tag {
+		display: inline-block;
+		background-color: #2F2F38;
+		color: #FFFFFF;
+		padding: 20rpx 40rpx;
+		border-radius: 30rpx;
+		margin: 5px;
+		/* 调整间距 */
+		white-space: nowrap;
+		cursor: pointer;
+		/* 增加点击效果 */
+		font-size: 14px;
+	}
+
+	.popup-tag.active {
+		background-color: #9EE44D;
+		color: #2F2F38;
+	}
+
+	.custom-tag {
+		border: 1rpx dashed #FFFFFF;
+	}
+
+	.popup-button {
+		background: linear-gradient(-30deg, #EDFB8B -20%, #9EE44D 120%);
+		color: #2F2F38;
+		width: 100%;
+		padding: 5rpx;
+		border-radius: 50rpx;
+		text-align: center;
+		margin-top: 10px;
+	}
+
+	.new-profile-button {
+		background: linear-gradient(-30deg, #8BE1FB -20%, #4D9EE4 120%);
+		margin-top: 20px;
+	}
+
+	.card1inner {
+		flex-direction: row;
+		margin-left: 20rpx;
+		display: flex;
+		align-items: center;
+	}
+
+	.card2inner {
+		flex-direction: column;
+		display: flex;
+		align-items: left;
+		text-align: left;
+		margin-left: 20rpx;
+		top: 20px;
+	}
+
+	.white-line {
+		width: 100%;
+		height: 1rpx;
+		background-color: #acacac;
+		margin: 30rpx 0;
+	}
+
+	.usercard-title1 {
+		font-size: 26rpx;
+		color: #FFFFFF;
+		/* font-weight: bold; */
+		/* margin-top: 20rpx; */
+		/* margin-bottom: 20rpx; */
+	}
+
+	.usercard-title2 {
+		font-size: 32rpx;
+		color: #FFFFFF;
+		font-weight: bold;
+		/* margin-top: 20rpx; */
+		/* margin-bottom: 20rpx; */
+	}
+
+	.usercard-title3 {
+		font-size: 20rpx;
+		color: #FFFFFF;
+		/* font-weight: bold; */
+		/* margin-top: 20rpx; */
+		margin-bottom: 10rpx;
+	}
+
+	.dashboard1-card-o {
+		width: 680rpx;
+		position: relative;
+		text-align: left;
+		display: flex;
+		flex-direction: row;
+		align-items: left;
+		margin-bottom: 20rpx;
+		gap: 5rpx;
+	}
+
+
+	/* Styles for the first view */
+	.dashboard-content {
+		display: block;
+		flex-direction: column;
+		align-items: center;
+		padding: 10rpx;
+	}
+
+	.dashboard-card {
+		/* Add styles specific to the first view */
+	}
+
+	/* Styles for the second view */
+	.dashboard2-content {
+		display: block;
+		flex-direction: column;
+		align-items: center;
+		padding: 10rpx;
+	}
+
+	.dashboard2-card-o {
+		width: 105%;
+		position: relative;
+		text-align: left;
+		display: flex;
+		flex-direction: row;
+		align-items: left;
+		margin-bottom: 10rpx;
+		/* top: -50rpx; */
+	}
+
+	.dashboard2-card {
+		width: 150px;
+		position: relative;
+		text-align: left;
+		display: flex;
+		flex-direction: column;
+		align-items: left;
+		padding: 40rpx 20rpx 0rpx 20rpx;
+	}
+
+	.dashboard2-card1-container {
+		padding: 20 20rpx;
+		/* Add left and right padding */
+		width: 100%;
+		box-sizing: border-box;
+		/* margin-top: 50rpx; */
+	}
+
+	.dashboard2-card1 {
+		width: calc(100% - 80rpx);
+		/* Screen width minus 20rpx on each side */
+		left: 5px;
+		background-color: #373742;
+		border-radius: 50rpx;
+		box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+		position: relative;
+		z-index: 20;
+		text-align: left;
+		display: flex;
+		flex-direction: column;
+		align-items: left;
+		padding: 20rpx 30rpx 20rpx 30rpx;
+	}
+
+	.dashboard2-progress-container {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		margin-bottom: 10px;
+	}
+
+	.dashboard2-card3 {
+		width: 100%;
+		height: 150rpx;
+		background-color: #252529;
+		color: #252529;
+		font-size: 36rpx;
+		text-align: center;
+		line-height: 100rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		z-index: 1000;
+		position: fixed;
+		bottom: 0px;
+		transform: translateX(-50%);
+		left: 50%;
+	}
+
+	.dashboard2-score-title1 {
+		font-size: 28rpx;
+		color: #010101;
+	}
+
+	.dashboard2-score-title2 {
+		font-size: 30rpx;
+		color: #FFFFFF;
+		left: 300px;
+		top: -23px;
+		font-weight: bold;
+	}
+
+	.dashboard2-score-value-large-y {
+		font-size: 50rpx;
+		font-weight: bold;
+		color: #fe9a52;
+		margin-left: 60rpx;
+		left: 30px;
+		top: 30px;
+		position: absolute;
+	}
+
+	.dashboard2-score-value-large-g {
+		font-size: 50rpx;
+		font-weight: bold;
+		color: #aeed50;
+		margin-left: 60rpx;
+		left: 30px;
+		top: 30px;
+		position: absolute;
+	}
+
+	.dashboard2-score-value-large1 {
+		font-size: 50rpx;
+		font-weight: bold;
+		color: #FFFFFF;
+		margin: 10px;
+		position: relative;
+	}
+
+	.dashboard2-progress-bar1 {
+		width: 70%;
+		height: 15rpx;
+		background-color: #000000;
+		border-radius: 15rpx;
+		overflow: hidden;
+		margin-top: 15rpx;
+		margin-bottom: 15rpx;
+		margin-left: 15rpx;
+	}
+
+	.dashboard2-progress {
+		height: 100%;
+		background-color: #ffdc6f;
+	}
+
+	.dashboard2-level-badge {
+		position: absolute;
+		right: 40rpx;
+		top: 40rpx;
+		background-color: #ffdc6f;
+		border-radius: 20rpx;
+		padding: 5rpx 15rpx;
+	}
+
+	.dashboard2-xiuluochang-image {
+		width: 100%;
+		height: 1100rpx;
+		object-fit: cover;
+		margin: 20rpx 0;
+	}
+
+	.dashboard2-illustration35 {
+		width: 300rpx;
+		height: auto;
+		position: absolute;
+		top: 470rpx;
+		left: 335rpx;
+		margin-bottom: 10px;
+		z-index: 40;
+	}
+
+	.dashboard2-illustration3 {
+		width: 100rpx;
+		height: auto;
+		position: relative;
+		top: 0rpx;
+		left: 0rpx;
+	}
+
+	.dashboard2-illustration31 {
+		width: 150rpx;
+		height: auto;
+		position: absolute;
+		top: 40rpx;
+		right: 0rpx;
+	}
+
+	.dashboard2-illustration36,
+	.dashboard2-illustration37,
+	.dashboard2-illustration38 {
+		width: 60rpx;
+		height: auto;
+		position: absolute;
+		top: 30rpx;
+	}
+
+	.dashboard2-illustration36 {
+		left: 100rpx;
+	}
+
+	.dashboard2-illustration37 {
+		left: 340rpx;
+	}
+
+	.dashboard2-illustration38 {
+		left: 570rpx;
+	}
+
+	.network-title-container {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		margin-bottom: 20rpx;
+	}
+
+	.floating-image {
+		position: absolute;
+		width: 320rpx; /* 调整图片大小 */
+		height: auto;
+		top: 110rpx; /* 调整垂直位置，使图片漂浮在进度条上方 */
+		right: 105rpx; /* 调整水平位置 */
+		z-index: 10; /* 确保图片在进度条上方 */
+	}
+	
+	.container-sprogress {
+	  width: 100%;
+	  overflow-x: hidden; /* Hide horizontal overflow */
+	  display: flex;
+	  justify-content: flex-start;
+	  align-items: center;
+	  flex-direction: column;
+	  background-color: #2F2F38;
+	  margin-right: 3rpx;
+	}
+	
+	.progress-canvas {
+	  width: 150%; /* Increase canvas width */
+	  height: 2000rpx;
+	  margin: 45rpx;
+	  transform: translateX(-20%); /* Move canvas to the left */
+	}
+	
+</style>
