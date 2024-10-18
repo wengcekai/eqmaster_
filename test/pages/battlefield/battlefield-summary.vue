@@ -126,10 +126,13 @@
 			});
 			const evalResult = uni.getStorage({
 				key: 'evalResult',
-
 				success: (res) => {
 					console.log('result:', res);
-					const list = res.data.eval.map(item => item.analysis);
+					const dbCourse = res.data.db_course;
+					const list = Object.keys(dbCourse)
+						.filter(key => key.startsWith('comment')) // 筛选以 'comment' 开头的键
+						.sort() // 如果你想按照 comment1, comment2 的顺序排列
+						.map(key => dbCourse[key]); // 提取这些键的值						;
 					this.comments = list;
 
 					this.suggestion = res.data.eq_tips.join('\n');
