@@ -10,7 +10,7 @@
 			<view class="list">
 				<view class="item" v-for="(item,index) in listData">
 					<view class="left">
-						<image class="radiocheck-image" src="/static/battlefield/radiocheck-disabled.png" mode="" v-if="item._status"></image>
+						<image class="radiocheck-image" src="/static/battlefield/radiocheck.png" mode="" v-if="item._status"></image>
 						<image class="radiocheck-image" src="/static/battlefield/radiocheck-disabled.png" mode="" v-else></image>
 					</view>
 					<view class="right">

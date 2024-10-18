@@ -695,7 +695,7 @@
 							
 						} else {
 							this.isGoodReply = false;
-							if(this.answerNotGoodNum < 1) {
+							if(this.answerNotGoodNum < 2) {
 								this.answerNotGoodNum ++;
 								this.state = 'userTalk';
 								this.userJudgeContent = judgeResult.comments;
@@ -711,8 +711,10 @@
 							console.log("allPositive:", allPositive);
 							if (allPositive) {
 								this.task1Finished = true;
+								this.taskList.getTask(0)._status = true;
+								this.taskList.getTask(0)._completedRoundNum ++;
 								this.judgeTitle =
-									`${this.judgeTitle} (${this.totalTaskNum}/${this.completedTaskNum})`;
+									`${this.judgeTitle} (${this.taskList.getTask(0)._completedRoundNum}/${this.taskList.getTask(0).totalRoundNum})`;
 							} else {
 								this.totalTaskNum ++;
 								this.completedTaskNum ++;
