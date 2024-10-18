@@ -44,7 +44,7 @@
 		padding: 12px;
 		margin-top: 100rpx;
 
-		width: 80%;
+		/* width: 100%; */
 		box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 		line-height: 1.5;
 		position: relative;

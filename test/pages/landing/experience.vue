@@ -13,7 +13,8 @@
 			<text class="question1">完善个人信息</text>
 
 			<!-- 输入框 -->
-			<input class="name-input" placeholder="请输入" :value="username" />
+			<input class="name-input" placeholder="请输入" v-model="username" />
+
 
 			<!-- 继续按钮 -->
 			<view class="button-container">

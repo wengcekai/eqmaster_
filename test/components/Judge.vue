@@ -2,11 +2,14 @@
 	<view class="judge-container" :style="{ backgroundColor: bgColor }">
 		<text class="title" :style="{color: fontColor}">{{ title }}
 		</text>
-		<text class="wording" :style="{color: fontColor}">{{ wording }}</text>
+		<text class="wording" :style="{color: fontColor}">
+			<image class="wording-icon" src="/static/battlefield/commit_warning-fill.png" v-if="!goodJudge"></image>
+			{{ wording }}
+		</text>
 		<view class="judge-button-container">
 			<button class="judge-action-button" :style="{
 				backgroundColor: buttonBgColor
-			}" @tap="onContinue">继续</button>
+			}" @tap="onContinue">{{ buttonText }}</button>
 		</view>
 	</view>
 </template>
@@ -44,6 +47,9 @@
 			},
 			buttonBgColor() {
 				return this.goodJudge ? '#A9E55B' : '#FFD044';
+			},
+			buttonText() {
+				return this.goodJudge ? '继续' : '再试试';
 			}
 		}
 	}
@@ -53,7 +59,7 @@
 	.judge-container {
 		border-radius: 12px;
 		width: 100%;
-		height: 20px;
+		/* height: 20px; */
 		position: absolute;
 		display: flex;
 		flex-direction: column;
@@ -72,6 +78,11 @@
 		color: #3E3E3E;
 		margin-left: 10px;
 		margin-top: 10px;
+	}
+	.wording-icon {
+		width: 48rpx;
+		height: 48rpx;
+		margin-bottom: -10rpx;
 	}
 
 	.judge-button-container {
