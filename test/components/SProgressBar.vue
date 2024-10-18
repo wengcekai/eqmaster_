@@ -206,6 +206,22 @@ export default {
         }
       }
 
+      // 定义完成和未完成的图片路径数组
+      const completedImages = [
+        '/static/level1completed.png',
+        '/static/level2completed.png',
+        '/static/level3completed.png',
+        '/static/level4completed.png',
+        '/static/level5completed.png'
+      ];
+      const incompleteImages = [
+        '/static/level1incomplete.png',
+        '/static/level2incomplete.png',
+        '/static/level3incomplete.png',
+        '/static/level4incomplete.png',
+        '/static/level5incomplete.png'
+      ];
+
       // 绘制所有端点、线段和图片
       for (let i = 0; i < this.totalComponents; i++) {
         const endPoint = this.endPoints[i];
@@ -239,12 +255,15 @@ export default {
         ctx.strokeStyle = isCompleted ? '#9EE44D' : 'rgba(221, 221, 221, 0.3)';
         ctx.stroke();
 
-        // 绘制图片
+        // 选择适当的图片路径
+        const imagePath = isCompleted 
+          ? (completedImages[i] || '/static/default_completed.png')
+          : (incompleteImages[i] || '/static/default_incomplete.png');
+
         const imageSize = 160;
         const lineLength = 100;
         const imageX = i % 2 === 0 ? endPoint.x - lineLength - imageSize/2 : endPoint.x + lineLength - imageSize/2;
         const imageY = endPoint.y - imageSize / 2 + yOffset;
-        const imagePath = isCompleted ? '/static/333.png' : '/static/444.png';
 
         try {
           ctx.drawImage(imagePath, imageX, imageY, imageSize, imageSize);
@@ -437,6 +456,7 @@ export default {
   /* 移除transform属性 */
 }
 </style>
+
 
 
 

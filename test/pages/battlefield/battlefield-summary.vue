@@ -41,12 +41,9 @@
 					</view>
 
 					<view class="sub-card">
-						<npc-comment :name="'领导'" :avatar="'/static/battlefield/boss.png'" :comment="comments[0]"
-							:npcHealth="npcHealthValues[0]"></npc-comment>
-						<npc-comment :name="'同事A'" :avatar="'/static/battlefield/xiaoA.png'" :comment="comments[1]"
-							:npcHealth="npcHealthValues[1]"></npc-comment>
-						<npc-comment :name="'同事B'" :avatar="'/static/battlefield/xiaoB.png'" :comment="comments[2]"
-							:npcHealth="npcHealthValues[2]"></npc-comment>
+						<npc-comment :name="'领导'" :avatar="'/static/battlefield/boss.png'" :comment="comments[0]"></npc-comment>
+						<npc-comment :name="'同事A'" :avatar="'/static/battlefield/xiaoA.png'" :comment="comments[1]"></npc-comment>
+						<npc-comment :name="'同事B'" :avatar="'/static/battlefield/xiaoB.png'" :comment="comments[2]"></npc-comment>
 					</view>
 
 				</view>
@@ -97,7 +94,7 @@
 				console.log('Navigating to guide with data:', {
 					userId: this.userId,
 					username: this.username,
-					jobId: this.homepageData.response.personal_info.job_id
+					// jobId: this.homepageData.response.personal_info.job_id
 				});
 				uni.navigateTo({
 					url: `/pages/dashboard/dashboard?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.homepageData.response.personal_info.job_id}`
@@ -140,13 +137,13 @@
 				}
 			});
 			// 读取 NPC health data
-			uni.getStorage({
-				key: 'npcHealthData',
-				success: (res) => {
-					const npcHealthData = res.data;
-					this.npcHealthValues = npcHealthData; // 假设你在data中定义了npcHealthValues
-				}
-			});
+			// uni.getStorage({
+			// 	key: 'npcHealthData',
+			// 	success: (res) => {
+			// 		const npcHealthData = res.data;
+			// 		this.npcHealthValues = npcHealthData; // 假设你在data中定义了npcHealthValues
+			// 	}
+			// });
 			uni.getStorage({
 				key: 'gemCount',
 				success: (res) => {
