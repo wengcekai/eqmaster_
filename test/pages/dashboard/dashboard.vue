@@ -12,7 +12,8 @@
 					<!-- 添加插图 -->
 
 					<view class="dashboard1-card-o">
-						<image class="illustration1" src="/static/dashboard/ciwei.png" mode="widthFix"></image>
+						<!-- <image class="illustration1" src="/static/dashboard/ciwei.png" mode="widthFix"></image> -->
+						<image class="illustration1" :src="userCard" mode="widthFix"></image>
 						<!-- 添加白色卡片 -->
 						<view class="card">
 							<image class="illustration3" src="/static/diamond.png" mode="widthFix"></image>
@@ -178,13 +179,14 @@
 				<image class="dashboard2-illustration31" src="/static/dashboard2/1.jpg" mode="widthFix"></image>
 
 				<view class="dashboard2-card1">
-					<text class="dashboard2-score-value-large1">情绪刹车术</text>
+					<text class="dashboard2-score-value-large1">{{ homepageData.response.personal_info.tag }}</text>
 					<!-- <text class="dashboard2-score-value-large1">{{homepageData }}</text> -->
 					<view class="dashboard2-level-badge">
 						<text class="dashboard2-score-title1">Lv1小试牛刀</text>
 						<!-- <text class="dashboard2-score-title1">{{courseData }}</text> -->
 					</view>
 					<view class="dashboard2-progress-container">
+						<!-- <text class="dashboard2-score-title2">情绪掌控力</text> -->
 						<text class="dashboard2-score-title2">情绪掌控力</text>
 						<view class="dashboard2-progress-bar1">
 							<view class="dashboard2-progress"
@@ -336,24 +338,24 @@
 				// 根据最低分选择图片
 				if (minScore === scores?.dimension1_score) {
 					console.log("usercard src:", '水豚')
-					return '/static/dashboard/shuitu.png';
+					return '/static/dashboard/shuitun.png';
 				} else if (minScore === scores?.dimension2_score) {
-					console.log("usercard src:", '猴子')
-					return '/static/dashboard/houzi.png';
-				} else if (minScore === scores?.dimension3_score) {
 					console.log("usercard src:", '刺猬')
 					return '/static/dashboard/ciwei.png';
+				} else if (minScore === scores?.dimension3_score) {
+					console.log("usercard src:", '狼')
+					return '/static/dashboard/lang.png';
 				} else if (minScore === scores?.dimension4_score) {
 					console.log("usercard src:", '鸵鸟')
 					return '/static/dashboard/tuoniao.png';
 				} else if (minScore === scores?.dimension5_score) {
-					console.log("usercard src:", '狼')
-					return '/static/dashboard/lang.png';
+					console.log("usercard src:", '猴子')
+					return '/static/dashboard/houzi.png';
 				}
 			},
 			truncatedSuggestion() {
 				const suggestion = this.homepageData?.response?.eq_scores?.overall_suggestion || '暂无建议';
-				return suggestion.length > 95 ? suggestion.slice(0, 95) + '...' : suggestion;
+				return suggestion.length > 75 ? suggestion.slice(0, 75) + '...' : suggestion;
 			},
 			safeStarRatings() {
 				return this.courseData && this.courseData.courses
@@ -434,7 +436,7 @@
 					this.isLoading = true;
 					this.error = null;
 					this.userId
-					console.log('Fetching homepage data with jobId:', this.userId);
+					console.log('Fetching homepage data with userId:', this.userId);
 
 					const data = await apiService.getHomepageData(this.userId);
 					this.homepageData = data;
@@ -523,7 +525,7 @@
 
 					// 发送请求创建联系人档案
 					uni.request({
-						url: 'https://eqmaster.azurewebsites.net/create_contact_profile',
+						url: 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/create_contact_profile',
 						method: 'POST',
 						data: requestData,
 						success: (res) => {
@@ -570,7 +572,7 @@
 
 					// 发送请求创建联系人档案
 					uni.request({
-						url: 'https://eqmaster.azurewebsites.net/create_contact_profile',
+						url: 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/create_contact_profile',
 						method: 'POST',
 						data: requestData,
 						success: (res) => {
@@ -600,7 +602,7 @@
 			},
 			navigateToResult() {
 				uni.navigateTo({
-					url: `/pages/result/loading?jobId=${this.jobId}`
+					url: `/pages/result/result?userId=${this.userId}`
 				});
 			},
 			openWeChat() {
