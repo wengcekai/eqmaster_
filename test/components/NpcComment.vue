@@ -7,7 +7,7 @@
 			<view class="name-icon-container" style="display: flex; flex-direction: row; align-items: center;">
 				<view class="name">{{ name }}</view>
 				<!-- 根据 npcHealth 显示不同的 SVG 图标 -->
-				<image v-if="npcHealth !== 10" :src="npcHealth > 10 ? greenIcon : redIcon" class="health-icon"></image>
+				<!-- <image v-if="npcHealth !== 10" :src="npcHealth > 10 ? greenIcon : redIcon" class="health-icon"></image> -->
 			</view>
 			<view class="comment">{{ comment }}</view>
 		</view>

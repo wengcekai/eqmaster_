@@ -1,6 +1,7 @@
 // 定义常量URL
 const BASE_URL = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/chat/batttlefield';
 const EVAL_URL = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/eval/battlefield';
+const TOOLTIP_URL = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/showToolTips';
 //return await sendRequest(chatHistory.person_id, chatHistory.course_id, body, EVAL_URL);
 function sendRequest(person_id, course_id, chat_content, outerBody, url = BASE_URL) {
 	return new Promise((resolve, reject) => {
@@ -133,6 +134,26 @@ export async function continueChat(chatHistory) {
 	return result;
 }
 
+// 请求后端是否显示工具提示
+// export function checkShowToolTips() {
+// 	return new Promise((resolve, reject) => {
+// 		uni.request({
+// 			url: 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/showToolTips', // 后端 URL
+// 			method: 'GET', // 使用 GET 请求
+// 			success: (res) => {
+// 				if (res.data && typeof res.data.showToolTips === 'boolean') {
+// 					resolve(res.data.showToolTips); // 返回后端的 true/false
+// 				} else {
+// 					reject('Invalid response format');
+// 				}
+// 			},
+// 			fail: (err) => {
+// 				console.error('请求失败:', err);
+// 				reject(err);
+// 			}
+// 		});
+// 	});
+// }
 // 导出evalBattlefield函数，发送到 /eval/battlefield
 // export async function evalBattlefield(chatHistory) {
 // 	return await sendRequest(chatHistory.person_id, chatHistory.course_id, chatHistory, EVAL_URL);
