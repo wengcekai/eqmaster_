@@ -21,7 +21,7 @@
 			<scroll-view class="chat-history-container" scroll-y :scroll-top="scrollTop" ref="chatHistoryContainer">
 				<view v-for="(chat, index) in displayedMessages" :key="index">
 					<npc-chat-box v-if="['领导', '同事A', '同事B'].includes(chat.role)" :key="'npc-' + index"
-						:avatar="getBattlefieldAvatar(chat.role)" :name="chat.role" :dialog="chat.words"></npc-chat-box>
+						:avatar="getBattlefieldAvatar(chat.role)" :name="chat.role" :dialog="chat.content"></npc-chat-box>
 					<view v-else-if="chat.role === 'user'" :class="['message-wrapper', { 'animate': chat.shouldAnimate }]">
 						<self-chat-box :key="'user' + index" :wording="chat.content" :commit="userJudgeContent" :isLastElement="index === displayedMessages.length - 1"></self-chat-box>
 					</view>
@@ -322,10 +322,7 @@
 				console.log('next round data', nextRound);
 				
 				// this.chattingHistory = this.chattingHistory.concat(nextRound.dialog);
-				this.chattingHistory = nextRound.dialog.map(item => ({
-					...item,
-					content: item.words
-				})); // 清空并赋值，同时考虑words字段
+				this.chattingHistory = nextRound.dialog;
 				console.log('after concat, chatting history:', this.chattingHistory);
 				this.scrollTop = 0;
 				let someoneTalked = false;
