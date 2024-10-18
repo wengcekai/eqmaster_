@@ -10,7 +10,8 @@
 			<view class="list">
 				<view class="item" v-for="(item,index) in listData">
 					<view class="left">
-						<image class="radiocheck-image" src="/static/battlefield/radiocheck-disabled.png" mode=""></image>
+						<image class="radiocheck-image" src="/static/battlefield/radiocheck-disabled.png" mode="" v-if="item._status"></image>
+						<image class="radiocheck-image" src="/static/battlefield/radiocheck-disabled.png" mode="" v-else></image>
 					</view>
 					<view class="right">
 						<view class="top">
@@ -26,7 +27,7 @@
 									</view>
 								</view>
 								<view class="">
-									1/2
+									{{ item._completedRoundNum }}/{{ item.totalRoundNum }}
 								</view>
 							</view>
 						</view>
@@ -38,17 +39,22 @@
 </template>
 
 <script>
+	import TaskList from '../models/TaskList';
 	export default {
 		props: {
 			listData: {
 				type: Array,
-				default: []
+      			default: () => []
 			}
 		},
 		data() {
 			return {
-				
+				taskList: null,
 			};
+		},
+		created() {
+			console.log(this.listData);
+			this.taskList = new TaskList(this.listData);
 		},
 		methods: {
 			closeCardBox() {
@@ -65,8 +71,20 @@
 					backgroundColor: color,
 					transition: 'width 0.5s ease, background-color 0.5s ease' // 动态变化的平滑效果
 				};
+			},
+			totalTasks() {
+				return this.taskList ? this.taskList.getTotalTaskLength() : 0;
+			},
+			completedTasks() {
+				return this.taskList ? this.taskList.getDoneTaskLength() : 0;
 			}
-		}
+		},
+		listData: {
+			handler(newListData) {
+				this.taskList = new TaskList(newListData);
+			},
+			deep: true
+    	}
 	}
 </script>
 

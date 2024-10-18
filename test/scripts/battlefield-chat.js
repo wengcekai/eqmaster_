@@ -23,14 +23,16 @@ function sendRequest(person_id, course_id, chat_content, url = BASE_URL) {
 					content: chat.content
 				});
 			} else {
-				// 非 assistant 的对话直接加入 formattedChatContent
-				formattedChatContent.push({
-					...chat,
-					content: Array.isArray(chat.content) ? chat.content.map(c => ({
-						type: c.type || 'text',
-						text: c.text || c
-					})) : chat.content
-				});
+				// 非 assistant 且非 tipping 的对话直接加入 formattedChatContent
+				if (chat.role !== 'tipping') {
+					formattedChatContent.push({
+						...chat,
+						content: Array.isArray(chat.content) ? chat.content.map(c => ({
+							type: c.type || 'text',
+							text: c.text || c
+						})) : chat.content
+					});
+				}
 			}
 		});
 
@@ -82,6 +84,7 @@ export async function startField(person_id, course_id) {
 
 // 导出reply函数
 export async function reply(chatHistory) {
+	// console.log(chatHistory);
 	return await sendRequest(chatHistory.person_id, chatHistory.course_id, chatHistory);
 }
 
@@ -146,7 +149,7 @@ export function filterChatHistory(chatHistory) {
 			}
 		}
 
-		// 如果 role 符合且不包含关键字，则保留该条目
+		// 如果 role 不是 tipping 且不包含关键字，则保留该条目
 		return true;
 	});
 }

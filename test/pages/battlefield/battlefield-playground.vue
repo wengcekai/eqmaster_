@@ -18,10 +18,10 @@
 		</view>
 			
 		<view class="chat-container" :class="{ shadowed: shouldShadow }" v-if="state !== 'NpcTalk'">
-			<scroll-view class="chat-history-container" scroll-y :scroll-top="scrollTop">
+			<scroll-view class="chat-history-container" scroll-y :scroll-top="scrollTop" ref="chatHistoryContainer">
 				<view v-for="(chat, index) in displayedMessages" :key="index">
 					<npc-chat-box v-if="['领导', '同事A', '同事B'].includes(chat.role)" :key="'npc-' + index"
-						:avatar="getBattlefieldAvatar(chat.role)" :name="chat.role" :dialog="chat.content"></npc-chat-box>
+						:avatar="getBattlefieldAvatar(chat.role)" :name="chat.role" :dialog="chat.words"></npc-chat-box>
 					<view v-else-if="chat.role === 'user'" :class="['message-wrapper', { 'animate': chat.shouldAnimate }]">
 						<self-chat-box :key="'user' + index" :wording="chat.content" :commit="userJudgeContent" :isLastElement="index === displayedMessages.length - 1"></self-chat-box>
 					</view>
@@ -216,6 +216,7 @@
 			};
 		},
 		created() {
+			console.log("created")
 			// 动态添加任务到 taskList
 			this.taskList.addTask(new Task(1, '一句话让同事们赞不绝口', async (judgeResult) => {
 				const allPositive = judgeResult.moods.every((item) => parseInt(item.mood, 10) > 0);
@@ -318,7 +319,10 @@
 				console.log('next round data', nextRound);
 				
 				// this.chattingHistory = this.chattingHistory.concat(nextRound.dialog);
-				this.chattingHistory = nextRound.dialog; // 清空并赋值
+				this.chattingHistory = nextRound.dialog.map(item => ({
+					...item,
+					content: item.words
+				})); // 清空并赋值，同时考虑words字段
 				console.log('after concat, chatting history:', this.chattingHistory);
 				this.scrollTop = 0;
 				let someoneTalked = false;
@@ -637,6 +641,11 @@
 									this.$set(newMessage2, 'shouldAnimate', true);
 									this.$set(this.anasLoadingObj, 'text', '分析中');
 									this.$forceUpdate();
+									// 触发一个微小的布局变化来强制浏览器重新计算样式
+									this.$el.style.minHeight = (this.$el.offsetHeight + 1) + 'px';
+									this.$nextTick(() => {
+										this.$el.style.minHeight = '';
+									});
 								}, 50);
 							});
 						}
@@ -748,6 +757,7 @@
 			},
 			updateScrollPosition() {
 				// 使用 nextTick 确保 DOM 更新后再滚动
+				// ios
 				this.$nextTick(() => {
 					const query = uni.createSelectorQuery().in(this);
 					query.select('.chat-history-container').scrollOffset().exec(([res]) => {
@@ -756,8 +766,6 @@
 						}
 					});
 				});
-				// this.$nextTick(() => {
-				// });
 			}
 		},
 		onLoad(option) {
@@ -766,7 +774,10 @@
 				key: 'chats',
 				success: (res) => {
 					console.log('chatting histories,', res.data);
-					this.chattingHistory = res.data;
+					this.chattingHistory = res.data.map(item => ({
+						...item,
+						content: item.words
+					}));
 				},
 			});
 			this.jobId = option.jobId || '154ee592-287b-4675-b8bd-8f88de348476';
@@ -832,13 +843,13 @@
 	};
 </script>
 <style>
-/* 	.uni-scroll-view {
-		width: auto;
-		display: flex;
-		justify-content: center;
-		    overflow-y: auto;
-		    height: 300px;
-	} */
+	.uni-scroll-view {
+		position: relative;
+	}
+	.uni-scroll-view-content {
+		height: auto;
+		padding-bottom: 60rpx;
+	}
 </style>
 <style scoped>
 	@import "./common.css";
@@ -848,6 +859,7 @@
 		width: 100%;
 		height: 100%;
 		color: #fff;
+		height: 100vh;
 	}
 
 	.navbar {
@@ -1135,7 +1147,7 @@
 	.chat-history-container {
 		z-index: 3;
 		width: 654rpx;
-		height: 754rpx;
+		height: 70%;
 		margin: auto;
 		overflow-y: auto;
 		overflow-x: hidden;

@@ -44,7 +44,7 @@
 				</view>
 			</view>
 			<view class="card-button">
-				<button :disabled="!selectedCard || cardButtonLoading || eqScoresNum" @click="exchangeClick">确认兑换</button>
+				<button :disabled="!selectedCard || cardButtonLoading || !eqScoresNum" @click="exchangeClick">确认兑换</button>
 			</view>
 		</view>
 	</view>
