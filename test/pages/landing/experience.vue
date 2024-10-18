@@ -48,7 +48,7 @@
 					uni.setStorageSync('userId', userId);
 					// 导航到下一页，并传递参数
 					uni.navigateTo({
-						url: `/pages/preference/preference?userId=${userId}&username=${encodeURIComponent(this.username)}`
+						url: `/pages/preference/preference2?userId=${userId}&username=${encodeURIComponent(this.username)}`
 					});
 				} else {
 					// 提示用户输入名字

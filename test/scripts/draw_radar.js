@@ -19,26 +19,26 @@ export function drawDemo(canvasId) {
 }
 
 export function drawRadar(canvasId, data) {
-	console.log("started to draw radar chart");
-	console.log('data', data);
+	console.log("Started to draw radar chart");
+	console.log('Data:', data);
+	
 	try {
-		var ctx = uni.createCanvasContext(canvasId);
-		ctx.width = 300
-		ctx.height = 300
+		const ctx = uni.createCanvasContext(canvasId);
+		const width = 300;
+		const height = 300;
 		const center = {
-			x: ctx.width / 2,
-			y: ctx.height / 2 + 40
-		}; // 中心点
-		const radius = Math.min(ctx.width, ctx.height) / 2 - 35; // 半径
+			x: width / 2,
+			y: height / 2
+		};
+		const radius = Math.min(width, height) / 2 - 35;
 
-		ctx.clearRect(0, 0, ctx.width, ctx.height);
-		console.log('width:height', ctx.width, ctx.height);
+		ctx.clearRect(0, 0, width, height);
 		
 		const numSides = data.length;
 		const angleSlice = (Math.PI * 2) / numSides;
-		const startAngle = -Math.PI / 2; // 确保第一个点从顶部开始
+		const startAngle = -Math.PI / 2;
 
-		// 绘制网格
+		// Draw grid
 		ctx.setStrokeStyle('#aaa8ac');
 		ctx.setLineWidth(1);
 		for (let i = 1; i <= 2; i++) {
@@ -57,7 +57,7 @@ export function drawRadar(canvasId, data) {
 			ctx.stroke();
 		}
 
-		// 绘制轴线
+		// Draw axes
 		for (let i = 0; i < numSides; i++) {
 			const angle = startAngle + i * angleSlice;
 			const x = center.x + radius * Math.cos(angle);
@@ -69,11 +69,11 @@ export function drawRadar(canvasId, data) {
 			ctx.stroke();
 		}
 
-		// 绘制数据区域
+		// Draw data area
 		ctx.beginPath();
 		ctx.setFillStyle('rgba(164, 163, 171, 0.3)');
 		ctx.setStrokeStyle('rgba(158, 228, 77, 0.8)');
-		ctx.setLineWidth(4); // 设置绿线（数据区域）的粗细
+		ctx.setLineWidth(2);
 
 		for (let i = 0; i <= numSides; i++) {
 			const angle = startAngle + i * angleSlice;
@@ -90,7 +90,7 @@ export function drawRadar(canvasId, data) {
 		ctx.fill();
 		ctx.stroke();
 
-		// 绘制数据点
+		// Draw data points
 		ctx.setFillStyle('rgba(158, 228, 77, 0.8)');
 		for (let i = 0; i < numSides; i++) {
 			const angle = startAngle + i * angleSlice;
@@ -102,9 +102,22 @@ export function drawRadar(canvasId, data) {
 			ctx.fill();
 		}
 
-		// 绘制完成后调用 draw
+		// Draw labels
+		ctx.setFillStyle('#333');
+		ctx.setFontSize(12);
+		ctx.setTextAlign('center');
+		ctx.setTextBaseline('middle');
+		for (let i = 0; i < numSides; i++) {
+			const angle = startAngle + i * angleSlice;
+			const x = center.x + (radius + 20) * Math.cos(angle);
+			const y = center.y + (radius + 20) * Math.sin(angle);
+			ctx.fillText(data[i].subject, x, y);
+		}
+
+		// Call draw to render the chart
 		ctx.draw();
+		console.log("Radar chart drawing completed");
 	} catch (e) {
-		console.log(e)
+		console.error("Error drawing radar chart:", e);
 	}
 }

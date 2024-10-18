@@ -1,10 +1,10 @@
 <template>
 	<view class="container">
 		<scroll-view scroll-y style="height: 100%;">
-			<!-- <view class="debug-info"> -->
-			<!-- 如需调试信息，可取消注释以下行 -->
-			<!-- <text>homepageData: {{ JSON.stringify(homepageData) }}</text> -->
-			<!-- </view> -->
+			<!-- <view class="debug-info">
+				如需调试信息，可取消注释以下行
+				<text>homepageData: {{ JSON.stringify(homepageData) }}</text>
+			</view> -->
 			<image class="head-image"
 				:src="this.isPass ? '/static/battlefield/IP_Green.svg' : '/static/battlefield/IP_Grey.svg'"
 				mode="aspectFit"></image>
@@ -41,13 +41,14 @@
 					</view>
 
 					<view class="sub-card">
-						<npc-comment :name="'领导'" :avatar="'/static/battlefield/boss.png'" :comment="comments[0]">
-						</npc-comment>
-						<npc-comment :name="'同事A'" :avatar="'/static/battlefield/xiaoA.png'" :comment="comments[1]">
-						</npc-comment>
-						<npc-comment :name="'同事B'" :avatar="'/static/battlefield/xiaoB.png'" :comment="comments[2]">
-						</npc-comment>
+						<npc-comment :name="'领导'" :avatar="'/static/battlefield/boss.png'" :comment="comments[0]"
+							:npcHealth="npcHealthValues[0]"></npc-comment>
+						<npc-comment :name="'同事A'" :avatar="'/static/battlefield/xiaoA.png'" :comment="comments[1]"
+							:npcHealth="npcHealthValues[1]"></npc-comment>
+						<npc-comment :name="'同事B'" :avatar="'/static/battlefield/xiaoB.png'" :comment="comments[2]"
+							:npcHealth="npcHealthValues[2]"></npc-comment>
 					</view>
+
 				</view>
 			</view>
 
@@ -83,7 +84,6 @@
 				suggestion: "注意倾听每个人的需求，及时回应对方的感受。",
 				diamondAdd: 3,
 				gemCount: 0,
-				isPass: false,
 			}
 		},
 		methods: {
@@ -137,6 +137,14 @@
 					this.comments = list;
 
 					this.suggestion = res.data.eq_tips.join('\n');
+				}
+			});
+			// 读取 NPC health data
+			uni.getStorage({
+				key: 'npcHealthData',
+				success: (res) => {
+					const npcHealthData = res.data;
+					this.npcHealthValues = npcHealthData; // 假设你在data中定义了npcHealthValues
 				}
 			});
 			uni.getStorage({
@@ -333,7 +341,7 @@
 
 	.third-card {
 		height: auto;
-		margin-bottom: 3vh;
+		margin-bottom: 13vh;
 	}
 
 	.guide-button {

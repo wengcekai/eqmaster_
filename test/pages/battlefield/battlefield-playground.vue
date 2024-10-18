@@ -16,16 +16,21 @@
 			<npc-status v-for="npc in npcs" :key="npc.characterName" :health="npc.health" :avatar="npc.avatar"
 				:characterName="npc.characterName"></npc-status>
 		</view>
-			
+
 		<view class="chat-container" :class="{ shadowed: shouldShadow }" v-if="state !== 'NpcTalk'">
-			<scroll-view class="chat-history-container" scroll-y :scroll-top="scrollTop" ref="chatHistoryContainer" :scroll-into-view="scrollIntoViewId">
+			<scroll-view class="chat-history-container" scroll-y :scroll-top="scrollTop" ref="chatHistoryContainer"
+				:scroll-into-view="scrollIntoViewId">
 				<view v-for="(chat, index) in displayedMessages" :key="index" :id="'chat-item-' + index">
 					<npc-chat-box v-if="['领导', '同事A', '同事B'].includes(chat.role)" :key="'npc-' + index"
-						:avatar="getBattlefieldAvatar(chat.role)" :name="chat.role" :dialog="chat.content"></npc-chat-box>
-					<view v-else-if="chat.role === 'user'" :class="['message-wrapper', { 'animate': chat.shouldAnimate }]">
-						<self-chat-box :key="'user' + index" :wording="chat.content" :commit="userJudgeContent" :isLastElement="index === displayedMessages.length - 1"></self-chat-box>
+						:avatar="getBattlefieldAvatar(chat.role)" :name="chat.role"
+						:dialog="chat.content"></npc-chat-box>
+					<view v-else-if="chat.role === 'user'"
+						:class="['message-wrapper', { 'animate': chat.shouldAnimate }]">
+						<self-chat-box :key="'user' + index" :wording="chat.content" :commit="userJudgeContent"
+							:isLastElement="index === displayedMessages.length - 1"></self-chat-box>
 					</view>
-					<view v-else-if="chat.role === 'tipping'" :class="['message-wrapper', { 'animate': chat.shouldAnimate }]">
+					<view v-else-if="chat.role === 'tipping'"
+						:class="['message-wrapper', { 'animate': chat.shouldAnimate }]">
 						<tipping-chat-box :key="'tipping' + index" :tip="chat.content"></tipping-chat-box>
 					</view>
 				</view>
@@ -80,7 +85,7 @@
 		</view>
 
 		<view class="popup-overlay" v-if="showInput" @click="showInput = false;">
-			<view  class="input-container" @click.stop>
+			<view class="input-container" @click.stop>
 				<!-- <input type="text" :focus="focusInput" placeholder="请输入..." /> -->
 				<textarea placeholder="请输入文字" v-model="inputContent" auto-height @blur="inputRecordingBlur" />
 			</view>
@@ -89,12 +94,13 @@
 		<view class="judge-container" v-if="state === 'judge' || state === 'judgeTry'">
 			<judge :title="judgeTitle" :wording="judgeContent" @judge="gotoNextRound" :good-judge="isGoodReply" :isCompleteTask="isCompleteTask" :currentTask="currentTask"></judge>
 		</view>
-		
+
 		<!-- 精囊卡片 -->
 		<view v-if="showCardPopup" class="popup-overlay" @click="showCardPopup = false">
-			<CueCardsVue @closeCueCard="closeCueCard" @exchangeClick="exchangeClick" :cardButtonLoading="cardButtonLoading" :jobId="jobId" />
+			<CueCardsVue @closeCueCard="closeCueCard" @exchangeClick="exchangeClick"
+				:cardButtonLoading="cardButtonLoading" :jobId="jobId" />
 		</view>
-		
+
 		<view v-if="missionShow" class="judge-mission-container">
 			<MissionList :listData="taskList.taskList" @closeMissionCard="closeMissionCard" />
 		</view>
@@ -190,8 +196,7 @@
 				selectedCard: 0,
 				missionShow: false,
 				inputContent: '',
-				missionResultList: [
-					{
+				missionResultList: [{
 						num: 10,
 						content: '',
 					},
@@ -258,7 +263,7 @@
 			handleClickRecording(e) {
 				// console.log("click start , isRecording: ", this.isRecording)
 				this.isRecording = true;
-				this.showInput = false;	
+				this.showInput = false;
 				this.inputContent = '';
 				this.isCanceling = false;
 				this.remainingTime = 30;
@@ -390,7 +395,7 @@
 			},
 			// showInput = true; focusInput = true;
 			handleClickInput() {
-				this.showInput = true; 
+				this.showInput = true;
 				this.focusInput = true;
 				this.inputContent = '';
 			},
@@ -463,7 +468,7 @@
 					key: 'evalResult',
 					data: evaluationResult,
 				});
-				if(this.task1Finished) {
+				if (this.task1Finished) {
 					uni.setStorage({
 						key: 'isPass',
 						data: true,
@@ -508,7 +513,7 @@
 				});
 				recorderManager.onStop(async (res) => {
 					console.log('Recorder stop', res);
-					
+
 					this.anasLoadingObj = {
 						loading: true,
 						text: '',
@@ -521,7 +526,7 @@
 						return; // 直接返回，避免后续逻辑执行
 					}
 					const path = res.tempFilePath;
-					
+
 					try {
 						const transcript = await this.uploadAndRecognizeSpeech(path);
 						if (transcript.length === 0) {
@@ -549,7 +554,7 @@
 						});
 						const validChats = filterChatHistory(this.chattingHistory);
 						const judgeResult = await reply(validChats);
-							  
+
 						await this.handleRecorderReply(judgeResult);
 						this.anasLoadingObj.loading = false;
 
@@ -566,7 +571,7 @@
 				this.showInput = false;
 				console.log('输入结果:', this.inputContent);
 				console.log(this.taskList);
-				if(this.inputContent !== "") {
+				if (this.inputContent !== "") {
 					this.anasLoadingObj = {
 						loading: true,
 						text: '',
@@ -581,10 +586,10 @@
 					this.$nextTick(() => {
 						// Force a repaint to trigger the animation
 						void this.$el.offsetWidth;
-						
+
 						newMessage.shouldAnimate = true;
 						this.anasLoadingObj.text = '分析中';
-						
+
 						// 使用 requestAnimationFrame 确保动画在下一帧开始
 						requestAnimationFrame(() => {
 							setTimeout(() => {
@@ -599,14 +604,14 @@
 						this.inputContent = '';
 						this.anasLoadingObj.loading = false;
 					} catch (error) {
-							console.error('在用户说话反馈过程中有错发生哦：', error);
-							this.anasLoadingObj.loading = false;
-							if (this.chattingHistory.length > 0) {
-								this.chattingHistory.pop();
-							}
-							this.anasLoadingObj.loading = false;
+						console.error('在用户说话反馈过程中有错发生哦：', error);
+						this.anasLoadingObj.loading = false;
+						if (this.chattingHistory.length > 0) {
+							this.chattingHistory.pop();
 						}
+						this.anasLoadingObj.loading = false;
 					}
+				}
 			},
 			async exchangeClick(selectedCard) {
 				// console.log(selectedCard);
@@ -615,14 +620,14 @@
 				let judgeResult = null;
 				this.userJudgeContent = '';
 				try {
-					if(selectedCard == 1) {
+					if (selectedCard == 1) {
 						this.anasLoadingObj = {
 							loading: true,
 							text: '生成中',
 						};
 						judgeResult = await helpReply(validChats);
 						// console.log(judgeResult.responsive);
-						if(judgeResult.responsive) {
+						if (judgeResult.responsive) {
 							this.showCardPopup = false
 							const newMessage = {
 								role: 'user',
@@ -633,10 +638,10 @@
 							this.$nextTick(() => {
 								// Force a repaint to trigger the animation
 								void this.$el.offsetWidth;
-								
+
 								newMessage.shouldAnimate = true;
 								this.anasLoadingObj.text = '分析中';
-								
+
 								// 使用 requestAnimationFrame 确保动画在下一帧开始
 								requestAnimationFrame(() => {
 									setTimeout(() => {
@@ -649,15 +654,15 @@
 							const judgeResultRepy = await reply(validChatsRepy);
 							await this.handleRecorderReply(judgeResultRepy);
 						}
-					} 
-					if(selectedCard == 2) {
+					}
+					if (selectedCard == 2) {
 						this.anasLoadingObj = {
 							loading: true,
 							text: '生成中',
 						};
 						judgeResult = await hint(validChats);
 						// console.log(judgeResult.tips);
-						if(judgeResult.tips) {
+						if (judgeResult.tips) {
 							this.showCardPopup = false
 							const newMessage2 = {
 								role: 'tipping',
@@ -668,10 +673,10 @@
 							this.$nextTick(() => {
 								// Force a repaint to trigger the animation
 								void this.$el.offsetWidth;
-								
+
 								newMessage2.shouldAnimate = true;
 								this.anasLoadingObj.text = '分析中';
-								
+
 								// 使用 requestAnimationFrame 确保动画在下一帧开始
 								requestAnimationFrame(() => {
 									setTimeout(() => {
@@ -701,29 +706,14 @@
 						judgeResult.moods.forEach(item => {
 							let randomValue;
 							if (item.role === '领导') {
-								if (parseInt(item.mood, 10) > 0) {
-									randomValue = Math.floor(Math.random() * 11) + 20;
-									this.npcs[0].health = Math.min(this.npcs[0].health + randomValue, 100);
-								} else if (parseInt(item.mood, 10) < 0) {
-									randomValue = Math.floor(Math.random() * 11) + 30;
-									this.npcs[0].health = Math.max(this.npcs[0].health - randomValue, 0);
-								}
+								this.npcs[0].health = Math.min(this.npcs[0].health + (parseInt(item
+									.mood, 10) > 0 ? 4 : -2), 20);
 							} else if (item.role === '同事A') {
-								if (parseInt(item.mood, 10) > 0) {
-									randomValue = Math.floor(Math.random() * 11) + 20;
-									this.npcs[1].health = Math.min(this.npcs[1].health + randomValue, 100);
-								} else if (parseInt(item.mood, 10) < 0) {
-									randomValue = Math.floor(Math.random() * 11) + 30;
-									this.npcs[1].health = Math.max(this.npcs[1].health - randomValue, 0);
-								}
+								this.npcs[1].health = Math.min(this.npcs[1].health + (parseInt(item
+									.mood, 10) > 0 ? 4 : -2), 20);
 							} else if (item.role === '同事B') {
-								if (parseInt(item.mood, 10) > 0) {
-									randomValue = Math.floor(Math.random() * 11) + 20;
-									this.npcs[2].health = Math.min(this.npcs[2].health + randomValue, 100);
-								} else if (parseInt(item.mood, 10) < 0) {
-									randomValue = Math.floor(Math.random() * 11) + 30;
-									this.npcs[2].health = Math.max(this.npcs[2].health - randomValue, 0);
-								}
+								this.npcs[2].health = Math.min(this.npcs[2].health + (parseInt(item
+									.mood, 10) > 0 ? 4 : -2), 20);
 							}
 						});
 						if (this.task1Finished) {
@@ -883,11 +873,11 @@
 				}
 			},
 			chattingHistory: {
-			  handler(newValue, oldValue) {
-				// console.log(newValue, oldValue)
-				this.updateScrollIntoView();
-			  },
-			  deep: true
+				handler(newValue, oldValue) {
+					// console.log(newValue, oldValue)
+					this.updateScrollIntoView();
+				},
+				deep: true
 			},
 		},
 		computed: {
@@ -898,7 +888,8 @@
 			displayedMessages() {
 				const validChats = filterChatHistory(this.chattingHistory);
 				const userAndNpcChats = validChats.filter(chat =>
-					chat.role === 'user' || chat.role === '领导' || chat.role === '同事A' || chat.role === '同事B' || chat.role === 'tipping'
+					chat.role === 'user' || chat.role === '领导' || chat.role === '同事A' || chat.role === '同事B' || chat
+					.role === 'tipping'
 				);
 				console.log("displayedMessages")
 				// 按顺序展示user和npc的记录
@@ -916,7 +907,7 @@
 				// return [...latestNpcChats, ...latestUserChat];
 				// return [...npcChats, ...userChats];
 			},
-			
+
 			displayedHistory() {
 				const userChats = this.chattingHistory.filter((chat) => chat.role === 'user');
 				const npcChats = this.chattingHistory.filter((chat) => ['领导', '同事A', '同事B'].includes(chat.role));
@@ -937,6 +928,7 @@
 	.uni-scroll-view {
 		position: relative;
 	}
+
 	.uni-scroll-view-content {
 		height: auto;
 		padding-bottom: 60rpx;
@@ -1203,6 +1195,7 @@
 		background-color: #FDEDC8;
 		/* 可选的背景色，用于强调输入框 */
 	}
+
 	textarea {
 		padding: 0 20rpx;
 		color: #252529;
@@ -1227,14 +1220,19 @@
 	.tipping-card {
 		z-index: 3;
 	}
+
 	.chat-container {
-	  z-index: 3;
-	  width: 100%;
-	  display: flex;
-	  justify-content: center; /* 水平居中 */
-	  align-items: center; /* 垂直居中 */
-	  height: 100vh; /* 使父容器高度占满整个视口高度 */
+		z-index: 3;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		/* 水平居中 */
+		align-items: center;
+		/* 垂直居中 */
+		height: 100vh;
+		/* 使父容器高度占满整个视口高度 */
 	}
+
 	.chat-history-container {
 		z-index: 3;
 		width: 654rpx;
@@ -1251,15 +1249,18 @@
 		transform: translateX(-100%);
 		transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
 	}
+
 	.message-wrapper.animate {
 		opacity: 1;
 		transform: translateX(0);
 	}
+
 	.message-wrapper2 {
 		opacity: 0;
 		transform: translateX(-100%);
 		transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
 	}
+
 	.message-wrapper2.animate2 {
 		opacity: 1;
 		transform: translateX(0);
@@ -1281,8 +1282,13 @@
 	}
 
 	@keyframes spin {
-		0% { transform: rotate(0deg); }
-		100% { transform: rotate(360deg); }
+		0% {
+			transform: rotate(0deg);
+		}
+
+		100% {
+			transform: rotate(360deg);
+		}
 	}
 
 	.loading-container span {
@@ -1308,7 +1314,7 @@
 	.player-action-container.shadowed {
 		opacity: 0.5;
 	}
-	
+
 	.popup-overlay {
 		position: fixed;
 		top: 0;

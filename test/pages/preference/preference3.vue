@@ -111,6 +111,7 @@
 
 					// Save jobId
 					this.jobId = response.job_id;
+					this.userId = response.user_id;
 
 					const indexes = this.username.split("##");
 					const scenarioId = indexes[1] !== undefined && !isNaN(parseInt(indexes[1], 10))
