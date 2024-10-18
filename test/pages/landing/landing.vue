@@ -12,6 +12,10 @@
 			<text class="button-text">开始体验</text>
 		</view>
 
+		<view class="button button2" @click="startDialogue">
+			<text class="button-text">开始对话</text>
+		</view>
+
 		<!-- <text class="login-text">登录已有账号</text> -->
 	</view>
 </template>
@@ -39,7 +43,12 @@
 				uni.navigateTo({
 					url: '/pages/login/login'
 				});
-			}
+			},
+			startDialogue() {
+				uni.navigateTo({
+					url: '/pages/battlefield/battlefield-loading'
+				});
+			},
 		},
 		onLoad(options) {
 			// 获取URL传递的参数
@@ -111,6 +120,16 @@
 		align-items: center;
 		justify-content: center;
 		bottom: 265rpx;
+		transform: translateX(-50%);
+	}
+
+	.button2 {
+		background-color: #9EE44D;
+		border-radius: 45rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		bottom: 150rpx;
 		transform: translateX(-50%);
 	}
 
