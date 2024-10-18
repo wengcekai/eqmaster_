@@ -22,7 +22,7 @@
 								<view class="health-bar-container">
 									<view class="health-bar-line"></view>
 									<view class="health-bar-background">
-										<view class="health-bar-foreground" :style="healthBarStyle">
+										<view class="health-bar-foreground" :style="healthBarStyle(item)">
 										</view>
 									</view>
 								</view>
@@ -60,18 +60,19 @@
 			closeCardBox() {
 				// 按钮点击事件
 				this.$emit('closeMissionCard');
-			}
-		},
-		computed: {
-			healthBarStyle() {
-				const color = this.health < 50 ? '#F2BC74' : '#F2BC74'; // 健康值小于50时为红色，大于50为绿色
-				const width = `${this.health}%`; // 健康条宽度动态绑定
+			},
+			healthBarStyle(val) {
+				const percentage = val ? (val._completedRoundNum / val.totalRoundNum) * 100 : 0;
+				const color = percentage < 50 ? '#E8FFC4' : '#9EE44D';
+				const width = `${percentage}%`;
 				return {
 					width,
 					backgroundColor: color,
-					transition: 'width 0.5s ease, background-color 0.5s ease' // 动态变化的平滑效果
+					transition: 'width 0.5s ease, background-color 0.5s ease'
 				};
 			},
+		},
+		computed: {
 			totalTasks() {
 				return this.taskList ? this.taskList.getTotalTaskLength() : 0;
 			},
@@ -209,9 +210,7 @@
 		text-align: left;
 		display: block;
 		font-size: 34rpx;
-		.bottom {
-			
-		}
+
 	}
 
 	.blood-container {
