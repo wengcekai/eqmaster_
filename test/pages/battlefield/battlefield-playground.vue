@@ -92,7 +92,7 @@
 		</view>
 
 		<view class="judge-container" v-if="state === 'judge' || state === 'judgeTry'">
-			<judge :title="judgeTitle" :wording="judgeContent" @judge="gotoNextRound" :good-judge="isGoodReply"></judge>
+			<judge :title="judgeTitle" :wording="judgeContent" @judge="gotoNextRound" :good-judge="isGoodReply" :isCompleteTask="isCompleteTask" :currentTask="currentTask"></judge>
 		</view>
 
 		<!-- 精囊卡片 -->
@@ -221,6 +221,8 @@
 				totalTaskNum: 1,
 				completedTaskNum: 1,
 				scrollIntoViewId: '',
+				isCompleteTask: false,
+				currentTask: null,
 			};
 		},
 		created() {
@@ -236,21 +238,21 @@
 				}
 				return false;
 			}));
-			// this.taskList.addTask(new Task(1, '让小b不开心', async (judgeResult) => {
-			// 	let res = "";
+			this.taskList.addTask(new Task(1, '让老板对你点的菜很满意', async (judgeResult) => {
+				let res = "";
 
-			// 	judgeResult.moods.filter((mood) => {
-			// 		if (mood.role === "同事B")
-			// 			res = mood.mood;
-			// 	})
-			// 	const bMood = parseInt(res ? res : 0, 10);
-			// 	if (bMood < 0 && !this.taskList.getTask(1).once) {
-			// 		this.judgeTitle =
-			// 			`做得好！ ${this.taskList.getTask(1).title} (${this.taskList.doneTaskLength + 1}/${this.taskList.taskLength})`;
-			// 		return true;
-			// 	}
-			// 	return false;
-			// }));
+				judgeResult.moods.filter((mood) => {
+					if (mood.role === "同事B")
+						res = mood.mood;
+				})
+				const bMood = parseInt(res ? res : 0, 10);
+				if (bMood < 0 && !this.taskList.getTask(1).once) {
+					this.judgeTitle =
+						`做得好！ ${this.taskList.getTask(1).title} (${this.taskList.doneTaskLength + 1}/${this.taskList.taskLength})`;
+					return true;
+				}
+				return false;
+			}));
 		},
 		methods: {
 			goToDashboard() {
@@ -323,31 +325,39 @@
 					this.answerNotGoodNum = 0;
 					return;
 				}
-				this.state = 'NpcTalk';
+				if (this.task1Finished) {
+					await this.Pass();
+				}
 				const nextRound = await continueChat(this.chattingHistory);
 				console.log('next round data', nextRound);
-
-				// this.chattingHistory = this.chattingHistory.concat(nextRound.dialog);
 				this.chattingHistory = nextRound.dialog;
 				console.log('after concat, chatting history:', this.chattingHistory);
-				this.scrollTop = 0;
-				let someoneTalked = false;
-				for (; this.displayedNpcChatIndex < this.chattingHistory.length;
-					++this.displayedNpcChatIndex
-				) {
-					let npcIndex = getNpcIndex(this.chattingHistory[this.displayedNpcChatIndex]);
-					if (npcIndex >= 0) {
-						this.talkingNpc = npcIndex;
-						console.log('someone talk:', this.talkingNpc);
-						someoneTalked = true;
-						break;
-					}
-				}
-
-				if (!someoneTalked) {
-					this.displayedNpcChatIndex--;
-				}
-
+				// let someoneTalked = false;
+				this.displayedNpcChatIndex = 0;
+				this.talkingNpc = this.getNpcIndexByName(this.chattingHistory[0].role);
+				
+				this.state = 'NpcTalk';
+				const isTask2 = await this.checkBossComplimentTask2(nextRound.dialog);
+				// console.log(isTask2);
+				// if(isTask2) {
+				// }
+				// this.chattingHistory = this.chattingHistory.concat(nextRound.dialog);
+				// for (; this.displayedNpcChatIndex < this.chattingHistory.length;
+				// 	++this.displayedNpcChatIndex
+				// ) {
+				// 	let npcIndex = getNpcIndex(this.chattingHistory[this.displayedNpcChatIndex]);
+				// 	if (npcIndex >= 0) {
+				// 		this.talkingNpc = npcIndex;
+				// 		console.log('someone talk:', this.talkingNpc);
+				// 		someoneTalked = true;
+				// 		break;
+				// 	}
+				// }
+				// console.log(this.displayedNpcChatIndex);
+				// if (!someoneTalked) {
+				// 	console.log(this.displayedNpcChatIndex);
+				// 	this.displayedNpcChatIndex--;
+				// }
 			},
 			retry() {
 				this.state = 'userTalk';
@@ -491,6 +501,7 @@
 			},
 			handleContainerClick() {
 				if (this.state === 'NpcTalk') {
+					console.log('handleContainerClick');
 					this.dismissNpcTalk();
 				}
 				// If needed, handle clicks in other states
@@ -684,51 +695,16 @@
 			},
 			async handleRecorderReply(judgeResult) {
 				try {
-					if (judgeResult) {
-						const totalScore = judgeResult.moods.reduce((acc, mood) => {
-							return acc + parseInt(mood.mood, 10);
-						}, 0);
+					if(judgeResult) {
 
-						// this.isGoodReply = totalScore > 0 ? true : false;
-						// this.judgeTitle = this.isGoodReply ? "做的好" : "继续努力";
-						console.log("totalScore:", totalScore);
-						if (totalScore > 0) {
-							this.isGoodReply = true;
-							this.state = 'judge';
-							this.judgeTitle = "做的好";
-							this.judgeContent = judgeResult.comments;
+						await this.checkBossComplimentTask1(judgeResult);
 
-						} else {
-							this.isGoodReply = false;
-							if (this.answerNotGoodNum < 2) {
-								this.answerNotGoodNum++;
-								this.state = 'userTalk';
-								this.userJudgeContent = judgeResult.comments;
-							} else {
-								this.judgeTitle = "还有提升空间";
-								this.judgeContent = judgeResult.comments;
-								this.state = 'judgeTry';
-							}
-						}
 						this.updateScrollIntoView();
-						if (!this.task1Finished) {
-							const allPositive = judgeResult.moods.every(item => parseInt(item.mood, 10) > 0); //是否都为正数
-							console.log("allPositive:", allPositive);
-							if (allPositive) {
-								this.task1Finished = true;
-								this.taskList.getTask(0)._status = true;
-								this.taskList.getTask(0)._completedRoundNum++;
-								this.judgeTitle =
-									`${this.judgeTitle} (${this.taskList.getTask(0)._completedRoundNum}/${this.taskList.getTask(0).totalRoundNum})`;
-							} else {
-								this.totalTaskNum++;
-								this.completedTaskNum++;
-							}
-						}
-
-
-						// 遍历 judgeResult.moods 并根据角色调整 this.npcs 的 health 值
-						judgeResult.moods.forEach((item) => {
+						
+		
+						// 遍历 judgeResult.moods 并根据角色调整 this.mood 的值
+						judgeResult.moods.forEach(item => {
+							let randomValue;
 							if (item.role === '领导') {
 								this.npcs[0].health = Math.min(this.npcs[0].health + (parseInt(item
 									.mood, 10) > 0 ? 4 : -2), 20);
@@ -748,7 +724,7 @@
 						throw new Error('judgeResult is undefined or null');
 					}
 				} catch (error) {
-					console.error('处理录音回复时发生错误:', error);
+					console.error('处理回复时出错:', error);
 					uni.showToast({
 						title: '处理回复时出错，请重试',
 						icon: 'none',
@@ -759,6 +735,106 @@
 					}
 					return false; // 添加返回值，表示处理失败
 				}
+			},
+			async checkBossComplimentTask1(judgeResult) {
+				if(judgeResult) {
+					const totalScore = judgeResult.moods.reduce((sum, item) => sum + parseInt(item.mood, 10), 0);
+					
+					if(totalScore > 0) {
+						this.isGoodReply = true;
+						this.judgeContent = judgeResult.comments;
+						const allPositive = judgeResult.moods.every(item => parseInt(item.mood, 10) > 0);
+						if (allPositive) {
+							if (!this.task1Finished && !this.taskList.getTask(0).one) {
+								this.state = 'judge';
+								console.log("allPositive:", allPositive);
+								this.currentTask = this.taskList.getTask(0);
+								const totalTaskLength = this.taskList.getTotalTaskLength();
+								console.log("Total task length:", totalTaskLength);
+								this.taskList.getTask(0)._status = true;
+								this.taskList.getTask(0)._completedRoundNum++;
+								if(this.taskList.getTask(0).totalRoundNum == this.taskList.getTask(0)._completedRoundNum) {
+									this.isCompleteTask = true;
+									this.taskList.getTask(0).one = true;
+									this.taskList.doneTaskLength++;
+									this.judgeTitle = `(${this.taskList.doneTaskLength}/${totalTaskLength})` + ' 任务达成';
+									if(this.taskList.doneTaskLength >= totalTaskLength) {
+										this.task1Finished = true;
+									}
+								} else {
+									this.judgeTitle = '任务达成';
+									this.isCompleteTask = true;
+								}
+							} else {
+								await this.gotoNextRound();
+							}
+						} else {
+							this.state = 'judge';
+							this.judgeTitle = "做的好";
+							this.isCompleteTask = false;
+						}
+						
+					} else {
+						if(this.answerNotGoodNum < 2) {
+							this.answerNotGoodNum++;
+							this.isGoodReply = true;
+							// this.state = 'userTalk';
+							// this.userJudgeContent = judgeResult.comments;
+							await this.gotoNextRound();
+						} else {
+							this.isGoodReply = false;
+							this.judgeTitle = "还有提升空间";
+							this.isCompleteTask = false;
+							this.judgeContent = judgeResult.comments;
+							this.state = 'judgeTry';
+						}
+					}
+				}
+			},
+			async checkBossComplimentTask2(dialog) {
+				let taskCompleted = false;
+				if (!this.task1Finished && !this.taskList.getTask(1).one) {
+					const bossCompliment = "你点的菜真不错";
+					for (let chat of dialog) {
+						if (chat.role === '领导' && chat.content.includes(bossCompliment)) {
+							if (this.taskList && this.taskList.getTask(1)) {
+								console.log("task2 is true");
+								this.isGoodReply = true;
+								this.state = 'judge';
+								const task2 = this.taskList.getTask(1);
+								this.currentTask = task2;
+								task2._status = true;
+								task2._completedRoundNum++;
+								if (task2.totalRoundNum === task2._completedRoundNum) {
+									this.isCompleteTask = true;
+									task2.one = true;
+									this.taskList.doneTaskLength++;
+									const totalTaskLength = await this.taskList.getTotalTaskLength();
+									this.judgeTitle = `(${this.taskList.doneTaskLength}/${totalTaskLength})` + ' 任务达成';
+									console.log("Task 2 completed");
+									taskCompleted = false;
+								} else {
+									this.judgeTitle = '任务达成';
+									this.isCompleteTask = true;
+									taskCompleted = true;
+								}
+							}
+							break;
+						} else {
+							taskCompleted = true;
+						}
+					}
+					const totalTaskLength = await this.taskList.getTotalTaskLength();
+					if(this.taskList.doneTaskLength >= totalTaskLength) {
+						console.log("Task 222 completed");
+						this.task1Finished = true;
+						await this.Pass();
+						taskCompleted = false;
+					}
+				} else {
+					taskCompleted = true;
+				}
+				return taskCompleted;
 			},
 			closeCueCard() {
 				this.showCardPopup = false
