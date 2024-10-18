@@ -180,6 +180,8 @@
 					},
 				],
 				gemCount: 2,
+				isPass: false, // 初始化 isPass 值，可以是 true 或 false
+				diamonds: 0,
 				tempFilePath: '', // 临时录音文件路径
 				isRecording: false, // Controls the display state of left and right icons
 				getBattlefieldAvatar,
@@ -218,31 +220,31 @@
 		created() {
 			console.log("created")
 			// 动态添加任务到 taskList
-			this.taskList.addTask(new Task(1, '一句话让同事们赞不绝口', async (judgeResult) => {
+			this.taskList.addTask(new Task(0, '一句话让同事们赞不绝口', async (judgeResult) => {
 				const allPositive = judgeResult.moods.every((item) => parseInt(item.mood, 10) > 0);
 				// const allPositive = judgeResult.moods.some((item) => parseInt(item.mood, 10) > 0);
-				if (allPositive && !this.taskList.getTask(1).once) {
+				if (allPositive && !this.taskList.getTask(0).once) {
 					this.judgeTitle =
 						`做得好！ ${this.taskList.getTask(0).title} (${this.taskList.doneTaskLength + 1}/${this.taskList.taskLength})`;
 					return true;
 				}
 				return false;
 			}));
-			this.taskList.addTask(new Task(2, '让老板对你点得菜满意', async (judgeResult) => {
-				let res = "";
+			// this.taskList.addTask(new Task(1, '让小b不开心', async (judgeResult) => {
+			// 	let res = "";
 
-				judgeResult.moods.filter((mood) => {
-					if (mood.role === "领导")
-						res = mood.mood;
-				})
-				const bMood = parseInt(res ? res : 0, 10);
-				if (bMood > 0 && !this.taskList.getTask(1).once) {
-					this.judgeTitle =
-						`做得好！ ${this.taskList.getTask(1).title} (${this.taskList.doneTaskLength + 1}/${this.taskList.taskLength})`;
-					return true;
-				}
-				return false;
-			}));
+			// 	judgeResult.moods.filter((mood) => {
+			// 		if (mood.role === "同事B")
+			// 			res = mood.mood;
+			// 	})
+			// 	const bMood = parseInt(res ? res : 0, 10);
+			// 	if (bMood < 0 && !this.taskList.getTask(1).once) {
+			// 		this.judgeTitle =
+			// 			`做得好！ ${this.taskList.getTask(1).title} (${this.taskList.doneTaskLength + 1}/${this.taskList.taskLength})`;
+			// 		return true;
+			// 	}
+			// 	return false;
+			// }));
 		},
 		methods: {
 			goToDashboard() {
@@ -275,6 +277,7 @@
 				}
 			},
 			handleRecordingDone() {
+				console.log("handling touch move...");
 				if (!this.isRecording) return;
 				recorderManager.stop();
 				clearInterval(this.countdownInterval);
@@ -440,8 +443,14 @@
 				return this.npcs.findIndex((npc) => npc.characterName === name);
 			},
 			async Pass() {
-				const evaluationResult = await evalBattlefield(this.chattingHistory);
+				const isPass = this.isPass; // 假设你从当前状态得知是否通过
+				const gemCount = this.gemCount; // 假设 this.gemCount 是当前的宝石数量
+				const diamonds = this.diamonds; // 假设 this.diamonds 是当前的钻石数量
+
+				const evaluationResult = await evalBattlefield(this.chattingHistory, isPass, gemCount, diamonds);
 				console.log('evaluation result:', evaluationResult);
+				// const evaluationResult = await evalBattlefield(this.chattingHistory);
+				// console.log('evaluation result:', evaluationResult);
 				uni.setStorage({
 					key: 'evalResult',
 					data: evaluationResult,

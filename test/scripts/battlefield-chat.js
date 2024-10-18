@@ -1,8 +1,8 @@
 // 定义常量URL
 const BASE_URL = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/chat/batttlefield';
 const EVAL_URL = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/eval/battlefield';
-
-function sendRequest(person_id, course_id, chat_content, url = BASE_URL) {
+//return await sendRequest(chatHistory.person_id, chatHistory.course_id, body, EVAL_URL);
+function sendRequest(person_id, course_id, chat_content, outerBody, url = BASE_URL) {
 	return new Promise((resolve, reject) => {
 		const formattedChatContent = [];
 		let assistantDialog = {
@@ -44,9 +44,9 @@ function sendRequest(person_id, course_id, chat_content, url = BASE_URL) {
 
 		console.log(formattedChatContent);
 
-		const body = {
-			person_id: person_id || 1,
-			course_id: parseInt(course_id) || 1,
+		const body = outerBody || {
+			person_id: person_id || Math.floor(Math.random() * 500),
+			course_id: parseInt(course_id) || 3,
 			chat_content: JSON.stringify(formattedChatContent)
 		};
 
@@ -134,8 +134,24 @@ export async function continueChat(chatHistory) {
 }
 
 // 导出evalBattlefield函数，发送到 /eval/battlefield
-export async function evalBattlefield(chatHistory) {
-	return await sendRequest(chatHistory.person_id, chatHistory.course_id, chatHistory, EVAL_URL);
+// export async function evalBattlefield(chatHistory) {
+// 	return await sendRequest(chatHistory.person_id, chatHistory.course_id, chatHistory, EVAL_URL);
+// }
+export async function evalBattlefield(chatHistory, isPass, gemCount, diamonds) {
+	// 在 body 中添加 isPass, gemCount, diamonds
+	const body = {
+		person_id: chatHistory.person_id || Math.floor(Math.random() * 500),
+		course_id: chatHistory.course_id || 3,
+		chat_content: JSON.stringify(chatHistory),
+		status: isPass ? "completed" : "incompleted", // 添加 isPass
+		result: gemCount, // 添加 gemCount
+		person_star: diamonds // 添加 diamonds
+	};
+	console.log("evalBattlefield chatHistory: ", chatHistory)
+	console.log("evalBattlefield body: ", body)
+
+	// 发送请求
+	return await sendRequest(chatHistory.person_id, chatHistory.course_id, chatHistory, body, EVAL_URL);
 }
 
 
