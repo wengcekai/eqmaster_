@@ -2,7 +2,10 @@
   <view class="tear-container">
     <view class="tear-calendar1" @tap="tearPage">
       <image class="tear-background-image1" :src="leftImageSrc" mode="widthFit" />
-      <text class="tear-calendar-text left-text">{{ leftText }}</text>
+      <view class="left-text-container">
+        <text class="tear-calendar-text1 left-text-month">{{ currentMonth }}</text>
+        <text class="tear-calendar-text1 left-text-day">{{ currentDay }}</text>
+      </view>
     </view>
 	
     <view class="tear-calendar" @tap="tearPage">
@@ -34,8 +37,11 @@ export default {
       default: '/static/jingjiright1.png'
     },
     leftText: {
-      type: String,
-      default: '左侧文字'
+      type: Object,
+      default: () => ({
+        month: '五月',
+        day: '15'
+      })
     },
     rightText: {
       type: String,
@@ -48,15 +54,32 @@ export default {
   },
   data() {
     return {
-      isTearing: false
+      isTearing: false,
+      currentDate: new Date()
     };
+  },
+  computed: {
+    currentMonth() {
+      const months = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
+      return months[this.currentDate.getMonth()];
+    },
+    currentDay() {
+      return this.currentDate.getDate().toString();
+    }
+  },
+  mounted() {
+    this.updateDate();
+    setInterval(this.updateDate, 60000); // Update every minute
   },
   methods: {
     tearPage() {
       this.isTearing = true;
-      setTimeout(() => {
-        this.isTearing = false;
-      }, 2000);
+      // setTimeout(() => {
+      //   this.isTearing = false;
+      // }, 2000);
+    },
+    updateDate() {
+      this.currentDate = new Date();
     }
   }
 };
@@ -67,26 +90,26 @@ export default {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  height: 100vh;
+  height: 30vh;
   padding-top: 0px;
 }
 
 .tear-calendar {
   position: relative;
   width: 80%;
-  height: 20%;
+  height: 100%;
   overflow: hidden;
 }
 
 .tear-calendar1 {
   position: relative;
   width: 25%;
-  height: 20%;
+  height: 100%;
   overflow: hidden;
 }
 
 .tear-background-image {
-  width: 100%;
+  width: 95%;
   height: 100%;
   object-fit: contain;
 }
@@ -101,7 +124,7 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 95%;
   height: 100%;
   object-fit: contain;
 }
@@ -125,7 +148,16 @@ export default {
 .tear-calendar-text {
   position: absolute;
   color: #fcfcfc;
-  font-size: 16px;
+  font-size: 12px;
+  width: 80%;
+}
+
+.tear-calendar-text1 {
+  /* position: absolute; */
+  color: #fcfcfc;
+  font-size: 12px;
+  width: 100%;
+  left: 10rpx;
 }
 
 .tear-left-text {
@@ -155,5 +187,28 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.left-text-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 3;
+}
+
+.tear-calendar-text1 {
+  color: #fcfcfc;
+  width: 100%;
+}
+
+.left-text-month {
+  font-size: 14px;
+}
+
+.left-text-day {
+  font-size: 24px;
+  font-weight: bold;
 }
 </style>

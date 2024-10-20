@@ -12,7 +12,8 @@
 					<!-- 添加插图 -->
 
 					<view class="dashboard1-card-o">
-						<image class="illustration1" src="/static/dashboard/ciwei.png" mode="widthFix"></image>
+						<!-- <image class="illustration1" src="/static/dashboard/ciwei.png" mode="widthFix"></image> -->
+						<image class="illustration1" :src="userCard" mode="widthFix"></image>
 						<!-- 添加白色卡片 -->
 						<view class="card">
 							<image class="illustration3" src="/static/diamond.png" mode="widthFix"></image>
@@ -33,19 +34,23 @@
 					</view>
 
 
-					<text class="card-title1">今日锦囊</text>
-					<template>
-					  <Tear
-					    leftImageSrc="/static/aboveleft.png"
-					    rightBackImageSrc="/static/aboveright2.png"
-					    rightFrontImageSrc="/static/aboveright1.png"
-					    leftText="自定义左侧文字"
-					    rightText="自定义右侧文字"
-					    pageText="自定义撕页文字"
-					  />
-					</template>
 					
-					<!-- <image class="illustration32" :src="tipImageSrc" mode="widthFix" @click="toggleTipImage"></image> -->
+					
+						
+					<view  class="dashboard1-card-j">
+						<text class="card-title1">今日锦囊</text>
+						<Tear
+								leftImageSrc="/static/above left.png"
+								rightBackImageSrc="/static/aboveright2.png"
+								rightFrontImageSrc="/static/aboveright1.png"
+								leftText="自定义左侧文字"
+								rightText="FFI赞美法指感受(feeling)、事实(fact)和影响(influence)。首先说出内心感受，然后陈述带给你感受的客观事实，再通过举例证实影响结果。"
+								pageText=""
+								
+							/>
+						
+						
+					</view>
 
 					<view class="network-title-container">
 						<text class="card-title1">我的人脉网</text>
@@ -174,13 +179,14 @@
 				<image class="dashboard2-illustration31" src="/static/dashboard2/1.jpg" mode="widthFix"></image>
 
 				<view class="dashboard2-card1">
-					<text class="dashboard2-score-value-large1">情绪刹车术</text>
+					<text class="dashboard2-score-value-large1">{{ homepageData.response.personal_info.tag }}</text>
 					<!-- <text class="dashboard2-score-value-large1">{{homepageData }}</text> -->
 					<view class="dashboard2-level-badge">
 						<text class="dashboard2-score-title1">Lv1小试牛刀</text>
-						<text class="dashboard2-score-title1">{{courseData }}</text>
+						<!-- <text class="dashboard2-score-title1">{{courseData }}</text> -->
 					</view>
 					<view class="dashboard2-progress-container">
+						<!-- <text class="dashboard2-score-title2">情绪掌控力</text> -->
 						<text class="dashboard2-score-title2">情绪掌控力</text>
 						<view class="dashboard2-progress-bar1">
 							<view class="dashboard2-progress"
@@ -196,7 +202,13 @@
 
 				<view class="dashboard2-card-o">
 					<!-- 调用进度条组件 -->
-					<SProgressBar :finishComponents="1" :totalComponents="5" :userId="userId" :username="username" :homepageData="homepageData" />
+					
+					<SProgressBar 
+					  v-if="courseData && courseData.courses"
+					  :finishComponents="courseData.courses.length"
+					  :starRatings="courseData.courses.map(course => course.result)"
+					  :totalComponents="6"
+					/>
 				</view>
 
 
@@ -217,6 +229,7 @@
 	import SProgressBar from '@/components/SProgressBar.vue'; // 根据实际路径调整
 	import apiService from '../../services/api-service';
 	import Tear from '@/components/Tear.vue';
+
 
 
 	export default {
@@ -280,7 +293,7 @@
 					{
 						title: '角色卡5'
 					},
-					// 可以根���需要添加更多卡片
+					// 可以根需要添加更多卡片
 				],
 				showNewPopup: false,
 				tipImageSrc: '/static/tip.png', // Initial image source
@@ -325,28 +338,34 @@
 				// 根据最低分选择图片
 				if (minScore === scores?.dimension1_score) {
 					console.log("usercard src:", '水豚')
-					return '/static/dashboard/shuitu.png';
+					return '/static/dashboard/shuitun.png';
 				} else if (minScore === scores?.dimension2_score) {
-					console.log("usercard src:", '猴子')
-					return '/static/dashboard/houzi.png';
-				} else if (minScore === scores?.dimension3_score) {
 					console.log("usercard src:", '刺猬')
 					return '/static/dashboard/ciwei.png';
+				} else if (minScore === scores?.dimension3_score) {
+					console.log("usercard src:", '狼')
+					return '/static/dashboard/lang.png';
 				} else if (minScore === scores?.dimension4_score) {
 					console.log("usercard src:", '鸵鸟')
 					return '/static/dashboard/tuoniao.png';
 				} else if (minScore === scores?.dimension5_score) {
-					console.log("usercard src:", '狼')
-					return '/static/dashboard/lang.png';
+					console.log("usercard src:", '猴子')
+					return '/static/dashboard/houzi.png';
 				}
 			},
 			truncatedSuggestion() {
 				const suggestion = this.homepageData?.response?.eq_scores?.overall_suggestion || '暂无建议';
-				return suggestion.length > 95 ? suggestion.slice(0, 95) + '...' : suggestion;
+				return suggestion.length > 75 ? suggestion.slice(0, 75) + '...' : suggestion;
+			},
+			safeStarRatings() {
+				return this.courseData && this.courseData.courses
+					? this.courseData.courses.map(course => course.result)
+					: [];
 			}
 		},
 		components: {
-			SProgressBar
+			SProgressBar,
+			Tear
 		},
 		onLoad(option) {
 			console.log('Received options:', option);
@@ -359,7 +378,7 @@
 
 			// 立即调用一次
 			this.getHomepageData(this.userId);
-			this.getBattlefield(this.userId);
+			this.getBattlefield(1);
 			// this.username = this.homepageData.response.personal_info.name || '';
 
 			console.log('Parsed data:', {
@@ -417,7 +436,7 @@
 					this.isLoading = true;
 					this.error = null;
 					this.userId
-					console.log('Fetching homepage data with jobId:', this.userId);
+					console.log('Fetching homepage data with userId:', this.userId);
 
 					const data = await apiService.getHomepageData(this.userId);
 					this.homepageData = data;
@@ -440,7 +459,7 @@
 					this.userId
 					console.log('Fetching homepage data with jobId:', this.userId);
 			
-					const data = await apiService.getBattlefield(this.userId);
+					const data = await apiService.getBattlefield(1);
 					this.courseData = data;
 					console.log('Homepage data received:', this.courseData);
 			
@@ -506,7 +525,7 @@
 
 					// 发送请求创建联系人档案
 					uni.request({
-						url: 'https://eqmaster.azurewebsites.net/create_contact_profile',
+						url: 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/create_contact_profile',
 						method: 'POST',
 						data: requestData,
 						success: (res) => {
@@ -553,7 +572,7 @@
 
 					// 发送请求创建联系人档案
 					uni.request({
-						url: 'https://eqmaster.azurewebsites.net/create_contact_profile',
+						url: 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/create_contact_profile',
 						method: 'POST',
 						data: requestData,
 						success: (res) => {
@@ -583,7 +602,7 @@
 			},
 			navigateToResult() {
 				uni.navigateTo({
-					url: `/pages/result/loading?jobId=${this.jobId}`
+					url: `/pages/result/result?userId=${this.userId}`
 				});
 			},
 			openWeChat() {
@@ -624,10 +643,7 @@
 				}
 				return name;
 			},
-			generateSPath(progress) {
-				// 根据进度生成动态路径，前半段和后半段形成S形曲线
-				return `M 0 25 C ${progress * 0.25} 0, ${progress * 0.75} 0, ${progress} 25 S ${progress * 1.75} 50, ${progress * 2} 25`;
-			},
+
 			navigateToDashboard() {
 				this.switchView('dashboard');
 			},
@@ -1498,7 +1514,7 @@
 		flex-direction: row;
 		/* 改为横向排列 */
 		flex-wrap: wrap;
-		/* 允许换行 */
+		/* 许换行 */
 		align-items: flex-start;
 		width: 100%;
 		/* 按钮组占满整个宽度 */
@@ -1601,7 +1617,9 @@
 		margin-bottom: 20rpx;
 		gap: 5rpx;
 	}
-
+	.dashboard1-card-j {
+		margin-bottom: 50rpx;
+	}
 
 	/* Styles for the first view */
 	.dashboard-content {
@@ -1848,5 +1866,13 @@
 	  margin: 45rpx;
 	  transform: translateX(-20%); /* Move canvas to the left */
 	}
+
+	.tear-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 134px;
+  padding-top: 0px;
+}
 	
 </style>

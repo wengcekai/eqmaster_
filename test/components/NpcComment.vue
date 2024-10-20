@@ -29,7 +29,7 @@
 				type: String,
 				required: true
 			},
-			npcHealth: Number
+			// npcHealth: Number
 		},
 		data() {
 			return {
