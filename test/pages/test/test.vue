@@ -12,9 +12,17 @@
 
 		<!-- Test page content -->
 		<template v-if="currentPage === 'test'">
+			<!-- <view class="banner-container">
+				<image class="logo" src="/static/signa.png" mode="aspectFit" />
+				<view style="display: flex;">
+					<text class="room-text">{{ scenarioData.location }}</text>
+				</view>
+			</view> -->
 			<view class="banner-container">
 				<image class="logo" src="/static/signa.png" mode="aspectFit" />
-				<text class="room-text">{{ scenarioData.location }}</text>
+				<view class="test">
+					<text class="room-text">{{ scenarioData.location }}</text>
+				</view>
 			</view>
 			<view class="text-box" @tap="navigateToTest1" :class="{ 'disabled': isLoading }">
 				<text class="text-content">{{ background }}</text>
@@ -53,7 +61,9 @@
 		<template v-else-if="currentPage === 'test3'">
 			<view class="banner-container">
 				<image class="logo" src="/static/signa.png" mode="aspectFit" />
-				<text class="room-text">{{ scenarioData.location }}</text>
+				<view class="test">
+					<text class="room-text">{{ scenarioData.location }}</text>
+				</view>
 			</view>
 			<view class="text-box" @tap="navigateToTest4" :class="{ 'disabled': isLoading }">
 				<text class="text-content">{{ background }}</text>
@@ -122,7 +132,7 @@
 				num: null,
 				baseURL: apiService.API_ENDPOINT,
 				progress: 0,
-				currentScene: 1,
+				currentScene: 0,
 				totalScenes: 5,
 				isFirstScene: true, // Add this new property
 				scenarioId: 1, // Add this new property
@@ -532,6 +542,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		margin: 20rpx;
 	}
 
 	.disabled {

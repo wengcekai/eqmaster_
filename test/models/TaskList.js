@@ -22,6 +22,12 @@ export default class TaskList {
 		return this.taskLength;
 	}
 
+	getOnceTaskCount() {
+		return this.taskList.reduce((count, task) => {
+			return task.once ? count + 1 : count;
+		}, 0);
+	}
+
 	async execute(judgeResult) {
 		const checkPromises = this.taskList.map((task) => task.executeCheck(judgeResult))
 		await Promise.all(checkPromises)

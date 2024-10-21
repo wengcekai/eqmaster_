@@ -75,9 +75,9 @@
 	}
 
 	.user-avatar {
-		width: 60px;
-		height: 60px;
-		border-radius: 30px;
+		width: 105rpx;
+		height: 105rpx;
+		border-radius: 60rpx;
 		margin-left: 5%;
 		z-index: 3;
 		border: solid 6rpx #F2BC74;
@@ -100,8 +100,8 @@
 
 	.user-info {
 		position: absolute;
-		top: -48px;
-		left: 10px;
+		top: -85rpx;
+		left: 15rpx;
 		width: 100%;
 		display: flex;
 		flex-direction: row;

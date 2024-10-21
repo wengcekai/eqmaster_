@@ -7,9 +7,13 @@
 			<image class="back-button" src="/static/battlefield/back-iconpng.png" @tap="goToDashboard"></image>
 			<reward-bar :gemCount="gemCount"></reward-bar>
 			<view class="setting-group">
-				<image class="setting-item" src="/static/battlefield/copy.png" @click="missionShow = true"></image>
+				<!-- <image class="setting-item" src="/static/battlefield/copy.png" @click="missionShow = true"></image> -->
+				<image class="setting-item" src="/static/battlefield/copy.png" @click="handleClickTaskList"></image>
 				<image class="setting-item" src="/static/battlefield/setting.png"></image>
 			</view>
+		</view>
+		<view v-if="showToolTips && isTooltipVisible && showTaskTooltip" class="taskTooltip">
+			查看任务清单
 		</view>
 
 		<view class="npc-group" :class="{ shadowed: shouldShadow }">
@@ -64,13 +68,31 @@
 			<text class="cancel-text">松开发送，上滑取消</text>
 		</view>
 
+		<view v-if="state==='userTalk' && showToolTips && isTooltipVisible" class="tooltipOverlay" @click="hideTooltip">
+		</view>
+		<!-- tooltip -->
+		<!-- tooltip for record -->
+		<view v-if="state === 'userTalk' && showToolTips && isTooltipVisible && showRecordTooltip"
+			class="recordTooltip">
+			长按开始录音
+		</view>
+		<!-- tooltip for hint -->
+		<view v-if="state === 'userTalk' && showToolTips && isTooltipVisible && showHintTooltip" class="hintTooltip">
+			需要帮助吗？选择锦囊卡片
+		</view>
 		<view class="player-action-container" :class="{ shadowed: shouldShadow }">
 			<view class="action-item" v-if="!isRecording" @click="handleClickInput()">
 				<image class="action-icon" src="/static/battlefield/keyboard.png"></image>
 			</view>
+			
 			<view class="middle-container">
-				<view class="action-item action-item-middle" @touchstart="handleClickRecording"
+<<<<<<< HEAD
+				<view v-if="systemInfo.platform === 'ios' || systemInfo.platform === 'android'" class="action-item action-item-middle" @touchstart="handleClickRecording"
 					@touchend="handleRecordingDone" @touchmove="handleTouchMove">
+=======
+				<view class="action-item action-item-middle" @touchstart="handleClickRecording"
+					@touchend="handleRecordingDone" @touchmove="handleTouchMove" @click="hideTooltip">
+>>>>>>> fe3a4d54640df5b92bd074a4789faa6f4a2e3726
 					<image class="action-icon action-icon-middle" src="/static/battlefield/microphone.png"></image>
 				</view>
 			</view>
@@ -92,7 +114,8 @@
 		</view>
 
 		<view class="judge-container" v-if="state === 'judge' || state === 'judgeTry'">
-			<judge :title="judgeTitle" :wording="judgeContent" @judge="gotoNextRound" :good-judge="isGoodReply"></judge>
+			<judge :title="judgeTitle" :wording="judgeContent" @judge="gotoNextRound" :good-judge="isGoodReply"
+				:isCompleteTask="isCompleteTask" :currentTask="currentTask"></judge>
 		</view>
 
 		<!-- 精囊卡片 -->
@@ -126,6 +149,7 @@
 		hint,
 		continueChat,
 		evalBattlefield,
+		checkShowToolTips,
 	} from '/scripts/battlefield-chat';
 	import {
 		getBattlefieldAvatar,
@@ -159,6 +183,12 @@
 				taskList: new TaskList([]),
 				isGoodReply: true,
 				state: 'NpcTalk', // Current state
+				userTalkCount: 0, // 计数器，用来控制tooltip的出现时机
+				showToolTips: checkShowToolTips(2) ? checkShowToolTips(2) : true, // 假设tooltip显示状态为 true，等后端数据返回后更新
+				showRecordTooltip: true,
+				showHintTooltip: false,
+				showTaskTooltip: false,
+				isTooltipVisible: true, // 控制tooltip的可见性，默认可见
 				showTippingCard: false, // Controls the tipping card visibility
 				talkingNpc: 0,
 				displayedNpcChatIndex: 0, // Tracks the last displayed NPC chat
@@ -223,6 +253,9 @@
 				totalTaskNum: 1,
 				completedTaskNum: 1,
 				scrollIntoViewId: '',
+				isCompleteTask: false,
+				currentTask: null,
+				
 			};
 		},
 		created() {
@@ -239,27 +272,32 @@
 				}
 				return false;
 			}));
-			// this.taskList.addTask(new Task(1, '让小b不开心', async (judgeResult) => {
-			// 	let res = "";
+			this.taskList.addTask(new Task(1, '让老板对你点的菜很满意', async (judgeResult) => {
+				let res = "";
 
-			// 	judgeResult.moods.filter((mood) => {
-			// 		if (mood.role === "同事B")
-			// 			res = mood.mood;
-			// 	})
-			// 	const bMood = parseInt(res ? res : 0, 10);
-			// 	if (bMood < 0 && !this.taskList.getTask(1).once) {
-			// 		this.judgeTitle =
-			// 			`做得好！ ${this.taskList.getTask(1).title} (${this.taskList.doneTaskLength + 1}/${this.taskList.taskLength})`;
-			// 		return true;
-			// 	}
-			// 	return false;
-			// }));
+				judgeResult.moods.filter((mood) => {
+					if (mood.role === "同事B")
+						res = mood.mood;
+				})
+				const bMood = parseInt(res ? res : 0, 10);
+				if (bMood < 0 && !this.taskList.getTask(1).once) {
+					this.judgeTitle =
+						`做得好！ ${this.taskList.getTask(1).title} (${this.taskList.doneTaskLength + 1}/${this.taskList.taskLength})`;
+					return true;
+				}
+				return false;
+			}));
 		},
 		methods: {
 			goToDashboard() {
 				uni.navigateTo({
 					url: '/pages/dashboard/dashboard?currentView=dashboard2',
 				});
+			},
+			handleClickTaskList() {
+				this.missionShow = true; // 显示任务
+				this.showTaskTooltip = false; // 隐藏 Tooltip
+				this.isTooltipVisible = false; //去掉蒙层
 			},
 			handleClickRecording(e) {
 				// console.log("click start , isRecording: ", this.isRecording)
@@ -271,6 +309,10 @@
 				this.touchStartY = e.touches[0].clientY;
 				this.startRecording();
 				this.startCountdown();
+				// 隐藏tooltip
+				this.isTooltipVisible = false;
+				this.showRecordTooltip = false;
+				// console.log(("change tooltip visible into:", this.isTooltipVisible));
 			},
 			handleTouchMove(e) {
 				console.log("move start , isRecording: ", this.isRecording)
@@ -320,37 +362,52 @@
 				this.remainingTime = 30;
 				clearInterval(this.countdownInterval);
 			},
+			hideTooltip() {
+				// 隐藏工具提示
+				this.isTooltipVisible = false;
+				this.showRecordTooltip = false;
+				this.showHintTooltip = false;
+				console.log(("change tooltip visible into:", this.isTooltipVisible));
+			},
 			async gotoNextRound() {
 				if (!this.isGoodReply) {
 					this.retry();
 					this.answerNotGoodNum = 0;
 					return;
 				}
-				this.state = 'NpcTalk';
+				if (this.task1Finished) {
+					await this.Pass();
+				}
 				const nextRound = await continueChat(this.chattingHistory);
 				console.log('next round data', nextRound);
-
-				// this.chattingHistory = this.chattingHistory.concat(nextRound.dialog);
 				this.chattingHistory = nextRound.dialog;
 				console.log('after concat, chatting history:', this.chattingHistory);
-				this.scrollTop = 0;
-				let someoneTalked = false;
-				for (; this.displayedNpcChatIndex < this.chattingHistory.length;
-					++this.displayedNpcChatIndex
-				) {
-					let npcIndex = getNpcIndex(this.chattingHistory[this.displayedNpcChatIndex]);
-					if (npcIndex >= 0) {
-						this.talkingNpc = npcIndex;
-						console.log('someone talk:', this.talkingNpc);
-						someoneTalked = true;
-						break;
-					}
-				}
+				// let someoneTalked = false;
+				this.displayedNpcChatIndex = 0;
+				this.talkingNpc = this.getNpcIndexByName(this.chattingHistory[0].role);
 
-				if (!someoneTalked) {
-					this.displayedNpcChatIndex--;
-				}
-
+				this.state = 'NpcTalk';
+				const isTask2 = await this.checkBossComplimentTask2(nextRound.dialog);
+				// console.log(isTask2);
+				// if(isTask2) {
+				// }
+				// this.chattingHistory = this.chattingHistory.concat(nextRound.dialog);
+				// for (; this.displayedNpcChatIndex < this.chattingHistory.length;
+				// 	++this.displayedNpcChatIndex
+				// ) {
+				// 	let npcIndex = getNpcIndex(this.chattingHistory[this.displayedNpcChatIndex]);
+				// 	if (npcIndex >= 0) {
+				// 		this.talkingNpc = npcIndex;
+				// 		console.log('someone talk:', this.talkingNpc);
+				// 		someoneTalked = true;
+				// 		break;
+				// 	}
+				// }
+				// console.log(this.displayedNpcChatIndex);
+				// if (!someoneTalked) {
+				// 	console.log(this.displayedNpcChatIndex);
+				// 	this.displayedNpcChatIndex--;
+				// }
 			},
 			retry() {
 				this.state = 'userTalk';
@@ -401,6 +458,8 @@
 			clickHintButton() {
 				this.state = 'hint';
 				this.showCardPopup = true;
+				this.showHintTooltip = false;
+				this.isTooltipVisible = false;
 			},
 
 			async uploadAndRecognizeSpeech(filePath) {
@@ -450,7 +509,7 @@
 			},
 			async Pass() {
 				const isPass = this.isPass; // 假设你从当前状态得知是否通过
-				const gemCount = this.gemCount; // 假设 this.gemCount 是当前的宝石数量
+				const gemCount = this.calculateStars();; // 假设 this.gemCount 是当前的宝石数量
 				const diamonds = this.diamonds; // 假设 this.diamonds 是当前的钻石数量
 
 				const evaluationResult = await evalBattlefield(this.chattingHistory, isPass, gemCount, diamonds);
@@ -461,17 +520,38 @@
 					key: 'evalResult',
 					data: evaluationResult,
 				});
-				if (this.task1Finished) {
-					uni.setStorage({
-						key: 'isPass',
-						data: true,
-					});
-					const gemCount = this.calculateStars();
-					uni.setStorage({
-						key: 'gemCount',
-						data: gemCount,
-					});
-				}
+				uni.setStorage({
+					key: 'gemCount',
+					data: this.gemCount,
+					success: () => {
+						console.log('gemCount 设置成功:', this.gemCount);
+					},
+					fail: (err) => {
+						console.error('设置 gemCount 失败:', err);
+					}
+				})
+				uni.setStorage({
+					key: 'isPass',
+					data: this.isPass,
+					success: () => {
+						console.log('isPass 设置成功:', this.isPass);
+					},
+					fail: (err) => {
+						console.error('设置 isPass 失败:', err);
+					}
+				});
+				// if (this.task1Finished) {
+				// 	uni.setStorage({
+				// 		key: 'isPass',
+				// 		data: true,
+				// 	});
+				// 	const gemCount = this.calculateStars();
+				// 	uni.setStorage({
+				// 		key: 'gemCount',
+				// 		data: gemCount,
+				// 	});
+				// }
+
 				setTimeout(() => {
 					uni.navigateTo({
 						url: '/pages/battlefield/battlefield-summary',
@@ -494,6 +574,7 @@
 			},
 			handleContainerClick() {
 				if (this.state === 'NpcTalk') {
+					console.log('handleContainerClick');
 					this.dismissNpcTalk();
 				}
 				// If needed, handle clicks in other states
@@ -592,6 +673,7 @@
 					try {
 						const validChats = filterChatHistory(this.chattingHistory);
 						const judgeResult = await reply(validChats);
+						console.log("judge Result:", judgeResult);
 						await this.handleRecorderReply(judgeResult);
 						this.inputContent = '';
 						this.anasLoadingObj.loading = false;
@@ -688,50 +770,15 @@
 			async handleRecorderReply(judgeResult) {
 				try {
 					if (judgeResult) {
-						const totalScore = judgeResult.moods.reduce((acc, mood) => {
-							return acc + parseInt(mood.mood, 10);
-						}, 0);
 
-						// this.isGoodReply = totalScore > 0 ? true : false;
-						// this.judgeTitle = this.isGoodReply ? "做的好" : "继续努力";
-						console.log("totalScore:", totalScore);
-						if (totalScore > 0) {
-							this.isGoodReply = true;
-							this.state = 'judge';
-							this.judgeTitle = "做的好";
-							this.judgeContent = judgeResult.comments;
+						await this.checkBossComplimentTask1(judgeResult);
 
-						} else {
-							this.isGoodReply = false;
-							if (this.answerNotGoodNum < 2) {
-								this.answerNotGoodNum++;
-								this.state = 'userTalk';
-								this.userJudgeContent = judgeResult.comments;
-							} else {
-								this.judgeTitle = "还有提升空间";
-								this.judgeContent = judgeResult.comments;
-								this.state = 'judgeTry';
-							}
-						}
 						this.updateScrollIntoView();
-						if (!this.task1Finished) {
-							const allPositive = judgeResult.moods.every(item => parseInt(item.mood, 10) > 0); //是否都为正数
-							console.log("allPositive:", allPositive);
-							if (allPositive) {
-								this.task1Finished = true;
-								this.taskList.getTask(0)._status = true;
-								this.taskList.getTask(0)._completedRoundNum++;
-								this.judgeTitle =
-									`${this.judgeTitle} (${this.taskList.getTask(0)._completedRoundNum}/${this.taskList.getTask(0).totalRoundNum})`;
-							} else {
-								this.totalTaskNum++;
-								this.completedTaskNum++;
-							}
-						}
 
 
-						// 遍历 judgeResult.moods 并根据角色调整 this.npcs 的 health 值
-						judgeResult.moods.forEach((item) => {
+						// 遍历 judgeResult.moods 并根据角色调整 this.mood 的值
+						judgeResult.moods.forEach(item => {
+							let randomValue;
 							if (item.role === '领导') {
 								this.npcs[0].health = Math.min(this.npcs[0].health + (parseInt(item
 									.mood, 10) > 0 ? 4 : -2), 20);
@@ -743,6 +790,15 @@
 									.mood, 10) > 0 ? 4 : -2), 20);
 							}
 						});
+						// 检查任何 NPC 的 health 是否 <= 0，通关失败
+						const anyNpcHealthLow = this.npcs.some(npc => npc.health <= 0);
+						if (anyNpcHealthLow) {
+							this.isPass = false;
+							this.diamonds = 3;
+							await this.Pass();
+
+						}
+
 						if (this.task1Finished) {
 							await this.Pass();
 						}
@@ -751,7 +807,7 @@
 						throw new Error('judgeResult is undefined or null');
 					}
 				} catch (error) {
-					console.error('处理录音回复时发生错误:', error);
+					console.error('处理回复时出错:', error);
 					uni.showToast({
 						title: '处理回复时出错，请重试',
 						icon: 'none',
@@ -762,6 +818,111 @@
 					}
 					return false; // 添加返回值，表示处理失败
 				}
+			},
+			async checkBossComplimentTask1(judgeResult) {
+				if (judgeResult) {
+					const totalScore = judgeResult.moods.reduce((sum, item) => sum + parseInt(item.mood, 10), 0);
+
+					if (totalScore > 0) {
+						this.isGoodReply = true;
+						this.judgeContent = judgeResult.comments;
+						const allPositive = judgeResult.moods.every(item => parseInt(item.mood, 10) > 0);
+						if (allPositive) {
+							if (!this.task1Finished && !this.taskList.getTask(0).one) {
+								this.state = 'judge';
+								console.log("allPositive:", allPositive);
+								this.currentTask = this.taskList.getTask(0);
+								const totalTaskLength = this.taskList.getTotalTaskLength();
+								console.log("Total task length:", totalTaskLength);
+								this.taskList.getTask(0)._status = true;
+								this.taskList.getTask(0)._completedRoundNum++;
+								if (this.taskList.getTask(0).totalRoundNum == this.taskList.getTask(0)
+									._completedRoundNum) {
+									this.isCompleteTask = true;
+									this.taskList.getTask(0).one = true;
+									this.taskList.doneTaskLength++;
+									this.judgeTitle = `(${this.taskList.doneTaskLength}/${totalTaskLength})` + ' 任务达成';
+									if (this.taskList.doneTaskLength >= totalTaskLength) {
+										this.task1Finished = true;
+									}
+								} else {
+									this.judgeTitle = '任务达成';
+									this.isCompleteTask = true;
+								}
+							} else {
+								await this.gotoNextRound();
+							}
+						} else {
+							this.state = 'judge';
+							this.judgeTitle = "做的好";
+							this.isCompleteTask = false;
+						}
+
+					} else {
+						if (this.answerNotGoodNum < 2) {
+							this.answerNotGoodNum++;
+							this.isGoodReply = true;
+							// this.state = 'userTalk';
+							// this.userJudgeContent = judgeResult.comments;
+							await this.gotoNextRound();
+						} else {
+							this.isGoodReply = false;
+							this.isTooltipVisible = true;
+							this.showHintTooltip = true;
+							console.log("tooltip for hint", this.isTooltipVisible);
+							this.judgeTitle = "还有提升空间";
+							this.isCompleteTask = false;
+							this.judgeContent = judgeResult.comments;
+							this.state = 'judgeTry';
+						}
+					}
+				}
+			},
+			async checkBossComplimentTask2(dialog) {
+				let taskCompleted = false;
+				if (!this.task1Finished && !this.taskList.getTask(1).one) {
+					const bossCompliment = "你点的菜真不错";
+					for (let chat of dialog) {
+						if (chat.role === '领导' && chat.content.includes(bossCompliment)) {
+							if (this.taskList && this.taskList.getTask(1)) {
+								console.log("task2 is true");
+								this.isGoodReply = true;
+								this.state = 'judge';
+								const task2 = this.taskList.getTask(1);
+								this.currentTask = task2;
+								task2._status = true;
+								task2._completedRoundNum++;
+								if (task2.totalRoundNum === task2._completedRoundNum) {
+									this.isCompleteTask = true;
+									task2.one = true;
+									this.taskList.doneTaskLength++;
+									const totalTaskLength = await this.taskList.getTotalTaskLength();
+									this.judgeTitle = `(${this.taskList.doneTaskLength}/${totalTaskLength})` + ' 任务达成';
+									console.log("Task 2 completed");
+									taskCompleted = false;
+								} else {
+									this.judgeTitle = '任务达成';
+									this.isCompleteTask = true;
+									taskCompleted = true;
+								}
+							}
+							break;
+						} else {
+							taskCompleted = true;
+						}
+					}
+					const totalTaskLength = await this.taskList.getTotalTaskLength();
+					if (this.taskList.doneTaskLength >= totalTaskLength) {
+						console.log("Task 222 completed");
+						this.task1Finished = true;
+						this.isPass = true;
+						await this.Pass();
+						taskCompleted = false;
+					}
+				} else {
+					taskCompleted = true;
+				}
+				return taskCompleted;
 			},
 			closeCueCard() {
 				this.showCardPopup = false
@@ -790,6 +951,11 @@
 			});
 			this.jobId = option.jobId || '154ee592-287b-4675-b8bd-8f88de348476';
 			this.initRecorderManager();
+			uni.getSystemInfo({
+    success: (res) => {
+      this.systemInfo = res;
+    }
+  });
 		},
 		watch: {
 			isCanceling(newValue) {
@@ -806,6 +972,17 @@
 				},
 				deep: true
 			},
+			state(newVal, oldVal) {
+				if (newVal === 'userTalk') {
+					this.userTalkCount++; // 增加计数器
+
+					// 第二次进入 'userTalk' 时显示任务tooltip
+					if (this.userTalkCount === 2) {
+						this.showTaskTooltip = true;
+						this.isTooltipVisible = true;
+					}
+				}
+			}
 		},
 		computed: {
 			shouldShadow() {
@@ -879,7 +1056,7 @@
 		align-items: center;
 		padding: 20rpx;
 		position: relative;
-		z-index: 3;
+		z-index: 12;
 		margin-top: 80rpx;
 		margin-left: 20rpx;
 	}
@@ -920,12 +1097,14 @@
 	.setting-group {
 		display: flex;
 		flex-direction: row;
+		position: relative;
 	}
 
 	.setting-item {
 		width: 24px;
 		margin-right: 20rpx;
 		height: 24px;
+		z-index: 12;
 	}
 
 	.npc-group {
@@ -941,7 +1120,7 @@
 		flex-direction: row;
 		width: 100%;
 		justify-content: space-around;
-		z-index: 3;
+		z-index: 10;
 		overflow: visible;
 		position: absolute;
 		bottom: 80rpx;
@@ -994,14 +1173,61 @@
 		position: absolute;
 		bottom: -10rpx;
 		box-shadow: 0px 0px 4px 0px rgba(254, 211, 151, 1);
-		z-index: 100;
+		z-index: 12;
+	}
+
+	.recordTooltip {
+		position: absolute;
+		z-index: 12;
+		top: 83%;
+		left: 31%;
+		width: 105px;
+		padding: 10px 20px;
+		/* transform: translateX(-50%); */
+		background-color: rgba(16, 16, 16, 0.4);
+		border-radius: 10px;
+	}
+
+	.hintTooltip {
+		position: absolute;
+		z-index: 12;
+		top: 83%;
+		right: 1%;
+		width: 205px;
+		padding: 10px 20px;
+		/* transform: translateX(-50%); */
+		background-color: rgba(16, 16, 16, 0.4);
+		border-radius: 10px;
+	}
+
+
+	.taskTooltip {
+		position: absolute;
+		z-index: 12;
+		top: 11%;
+		right: 1%;
+		width: 105px;
+		padding: 10px 20px;
+		/* transform: translateX(-50%); */
+		background-color: rgba(16, 16, 16, 0.4);
+		border-radius: 10px;
+	}
+
+	.tooltipOverlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(46, 46, 47, 0.75);
+		z-index: 3;
 	}
 
 	.recording-box {
 		position: absolute;
-		z-index: 11;
+		z-index: 12;
 		top: 76%;
-		left: 50%;
+		right: 50%;
 		transform: translateX(-50%);
 		width: 406rpx;
 		height: 160rpx;
@@ -1138,7 +1364,7 @@
 
 	.judge-container {
 		width: 100%;
-		z-index: 3;
+		z-index: 100;
 		position: absolute;
 		height: 350rpx;
 		bottom: 0px;

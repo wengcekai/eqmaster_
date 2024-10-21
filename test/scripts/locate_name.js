@@ -18,7 +18,7 @@ export function getAvatar(name) {
 
 export function getBattlefieldAvatar(name) {
 	if (name == "领导") {
-		return "static/battlefield/boss.png";
+		return "/static/battlefield/boss1.png";
 	}
 	if (name == "同事A") {
 		return '/static/battlefield/xiaoA.png';
