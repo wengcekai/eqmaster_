@@ -499,7 +499,7 @@
 			},
 			async Pass() {
 				const isPass = this.isPass; // 假设你从当前状态得知是否通过
-				const gemCount = this.gemCount; // 假设 this.gemCount 是当前的宝石数量
+				const gemCount = this.calculateStars();; // 假设 this.gemCount 是当前的宝石数量
 				const diamonds = this.diamonds; // 假设 this.diamonds 是当前的钻石数量
 
 				const evaluationResult = await evalBattlefield(this.chattingHistory, isPass, gemCount, diamonds);
@@ -510,17 +510,38 @@
 					key: 'evalResult',
 					data: evaluationResult,
 				});
-				if (this.task1Finished) {
-					uni.setStorage({
-						key: 'isPass',
-						data: true,
-					});
-					const gemCount = this.calculateStars();
-					uni.setStorage({
-						key: 'gemCount',
-						data: gemCount,
-					});
-				}
+				uni.setStorage({
+					key: 'gemCount',
+					data: this.gemCount,
+					success: () => {
+						console.log('gemCount 设置成功:', this.gemCount);
+					},
+					fail: (err) => {
+						console.error('设置 gemCount 失败:', err);
+					}
+				})
+				uni.setStorage({
+					key: 'isPass',
+					data: this.isPass,
+					success: () => {
+						console.log('isPass 设置成功:', this.isPass);
+					},
+					fail: (err) => {
+						console.error('设置 isPass 失败:', err);
+					}
+				});
+				// if (this.task1Finished) {
+				// 	uni.setStorage({
+				// 		key: 'isPass',
+				// 		data: true,
+				// 	});
+				// 	const gemCount = this.calculateStars();
+				// 	uni.setStorage({
+				// 		key: 'gemCount',
+				// 		data: gemCount,
+				// 	});
+				// }
+
 				setTimeout(() => {
 					uni.navigateTo({
 						url: '/pages/battlefield/battlefield-summary',
@@ -759,6 +780,15 @@
 									.mood, 10) > 0 ? 4 : -2), 20);
 							}
 						});
+						// 检查任何 NPC 的 health 是否 <= 0，通关失败
+						const anyNpcHealthLow = this.npcs.some(npc => npc.health <= 0);
+						if (anyNpcHealthLow) {
+							this.isPass = false;
+							this.diamonds = 3;
+							await this.Pass();
+
+						}
+
 						if (this.task1Finished) {
 							await this.Pass();
 						}
@@ -875,6 +905,7 @@
 					if (this.taskList.doneTaskLength >= totalTaskLength) {
 						console.log("Task 222 completed");
 						this.task1Finished = true;
+						this.isPass = true;
 						await this.Pass();
 						taskCompleted = false;
 					}
