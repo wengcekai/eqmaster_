@@ -18,6 +18,7 @@
 		defineComponent
 	} from 'vue';
 	import apiService from '../../services/api-service.js';
+	import state from '../../state.js';
 
 	type BirthdayType = {
 		month : string;
@@ -29,7 +30,7 @@
 		data() {
 			return {
 				scenarioText: '',
-				userId: '',
+				userId: state.userId,
 				username: '',
 				gender: '',
 				// 显式指定 `birthday` 的类型
@@ -113,6 +114,8 @@
 					this.jobId = response.job_id;
 					this.userId = response.user_id;
 
+					state.userId = response.user_id;
+					console.log("state userid", state.userId);
 					const indexes = this.username.split("##");
 					const scenarioId = indexes[1] !== undefined && !isNaN(parseInt(indexes[1], 10))
 						? parseInt(indexes[1], 10)
