@@ -65,6 +65,13 @@
                 "navigationStyle" : "custom"
             }
         },
+		{
+		    "path" : "pages/result/result_en",
+		    "style" : {
+		        // "navigationStyle": "custom",
+		        "navigationStyle" : "custom"
+		    }
+		},
         {
             "path" : "pages/test/test",
             "style" : {
@@ -119,6 +126,10 @@
         },
         {
             "path" : "components/Tear",
+            "style" : {}
+        },
+        {
+            "path" : "App",
             "style" : {}
         }
     ],
