@@ -64,13 +64,25 @@
 			<text class="cancel-text">松开发送，上滑取消</text>
 		</view>
 
+		<view v-if="state==='userTalk' && showToolTips && isTooltipVisible" class="tooltipOverlay" @click="hideTooltip">
+		</view>
+		<!-- tooltip -->
+		<!-- tooltip for record -->
+		<view v-if="state === 'userTalk' && showToolTips && isTooltipVisible && showRecordTooltip"
+			class="recordTooltip">
+			长按开始录音
+		</view>
+		<!-- tooltip for hint -->
+		<view v-if="state === 'userTalk' && showToolTips && isTooltipVisible && showHintTooltip" class="hintTooltip">
+			需要帮助吗？选择锦囊卡片
+		</view>
 		<view class="player-action-container" :class="{ shadowed: shouldShadow }">
 			<view class="action-item" v-if="!isRecording" @click="handleClickInput()">
 				<image class="action-icon" src="/static/battlefield/keyboard.png"></image>
 			</view>
 			<view class="middle-container">
 				<view class="action-item action-item-middle" @touchstart="handleClickRecording"
-					@touchend="handleRecordingDone" @touchmove="handleTouchMove">
+					@touchend="handleRecordingDone" @touchmove="handleTouchMove" @click="hideTooltip">
 					<image class="action-icon action-icon-middle" src="/static/battlefield/microphone.png"></image>
 				</view>
 			</view>
@@ -92,7 +104,8 @@
 		</view>
 
 		<view class="judge-container" v-if="state === 'judge' || state === 'judgeTry'">
-			<judge :title="judgeTitle" :wording="judgeContent" @judge="gotoNextRound" :good-judge="isGoodReply" :isCompleteTask="isCompleteTask" :currentTask="currentTask"></judge>
+			<judge :title="judgeTitle" :wording="judgeContent" @judge="gotoNextRound" :good-judge="isGoodReply"
+				:isCompleteTask="isCompleteTask" :currentTask="currentTask"></judge>
 		</view>
 
 		<!-- 精囊卡片 -->
@@ -157,6 +170,10 @@
 				taskList: new TaskList([]),
 				isGoodReply: true,
 				state: 'NpcTalk', // Current state
+				showToolTips: true, // 假设tooltip显示状态为 true，等后端数据返回后更新
+				showRecordTooltip: true,
+				showHintTooltip: false,
+				isTooltipVisible: true, // 控制tooltip的可见性，默认可见
 				showTippingCard: false, // Controls the tipping card visibility
 				talkingNpc: 0,
 				displayedNpcChatIndex: 0, // Tracks the last displayed NPC chat
@@ -270,6 +287,10 @@
 				this.touchStartY = e.touches[0].clientY;
 				this.startRecording();
 				this.startCountdown();
+				// 隐藏tooltip
+				this.isTooltipVisible = false;
+				this.showRecordTooltip = false;
+				// console.log(("change tooltip visible into:", this.isTooltipVisible));
 			},
 			handleTouchMove(e) {
 				console.log("move start , isRecording: ", this.isRecording)
@@ -319,6 +340,13 @@
 				this.remainingTime = 30;
 				clearInterval(this.countdownInterval);
 			},
+			hideTooltip() {
+				// 隐藏工具提示
+				this.isTooltipVisible = false;
+				this.showRecordTooltip = false;
+				this.showHintTooltip = false;
+				console.log(("change tooltip visible into:", this.isTooltipVisible));
+			},
 			async gotoNextRound() {
 				if (!this.isGoodReply) {
 					this.retry();
@@ -335,7 +363,7 @@
 				// let someoneTalked = false;
 				this.displayedNpcChatIndex = 0;
 				this.talkingNpc = this.getNpcIndexByName(this.chattingHistory[0].role);
-				
+
 				this.state = 'NpcTalk';
 				const isTask2 = await this.checkBossComplimentTask2(nextRound.dialog);
 				// console.log(isTask2);
@@ -408,6 +436,8 @@
 			clickHintButton() {
 				this.state = 'hint';
 				this.showCardPopup = true;
+				this.showHintTooltip = false;
+				this.isTooltipVisible = false;
 			},
 
 			async uploadAndRecognizeSpeech(filePath) {
@@ -695,13 +725,13 @@
 			},
 			async handleRecorderReply(judgeResult) {
 				try {
-					if(judgeResult) {
+					if (judgeResult) {
 
 						await this.checkBossComplimentTask1(judgeResult);
 
 						this.updateScrollIntoView();
-						
-		
+
+
 						// 遍历 judgeResult.moods 并根据角色调整 this.mood 的值
 						judgeResult.moods.forEach(item => {
 							let randomValue;
@@ -737,10 +767,10 @@
 				}
 			},
 			async checkBossComplimentTask1(judgeResult) {
-				if(judgeResult) {
+				if (judgeResult) {
 					const totalScore = judgeResult.moods.reduce((sum, item) => sum + parseInt(item.mood, 10), 0);
-					
-					if(totalScore > 0) {
+
+					if (totalScore > 0) {
 						this.isGoodReply = true;
 						this.judgeContent = judgeResult.comments;
 						const allPositive = judgeResult.moods.every(item => parseInt(item.mood, 10) > 0);
@@ -753,12 +783,13 @@
 								console.log("Total task length:", totalTaskLength);
 								this.taskList.getTask(0)._status = true;
 								this.taskList.getTask(0)._completedRoundNum++;
-								if(this.taskList.getTask(0).totalRoundNum == this.taskList.getTask(0)._completedRoundNum) {
+								if (this.taskList.getTask(0).totalRoundNum == this.taskList.getTask(0)
+									._completedRoundNum) {
 									this.isCompleteTask = true;
 									this.taskList.getTask(0).one = true;
 									this.taskList.doneTaskLength++;
 									this.judgeTitle = `(${this.taskList.doneTaskLength}/${totalTaskLength})` + ' 任务达成';
-									if(this.taskList.doneTaskLength >= totalTaskLength) {
+									if (this.taskList.doneTaskLength >= totalTaskLength) {
 										this.task1Finished = true;
 									}
 								} else {
@@ -773,9 +804,9 @@
 							this.judgeTitle = "做的好";
 							this.isCompleteTask = false;
 						}
-						
+
 					} else {
-						if(this.answerNotGoodNum < 2) {
+						if (this.answerNotGoodNum < 2) {
 							this.answerNotGoodNum++;
 							this.isGoodReply = true;
 							// this.state = 'userTalk';
@@ -783,6 +814,9 @@
 							await this.gotoNextRound();
 						} else {
 							this.isGoodReply = false;
+							this.isTooltipVisible = true;
+							this.showHintTooltip = true;
+							console.log("tooltip for hint", this.isTooltipVisible);
 							this.judgeTitle = "还有提升空间";
 							this.isCompleteTask = false;
 							this.judgeContent = judgeResult.comments;
@@ -825,7 +859,7 @@
 						}
 					}
 					const totalTaskLength = await this.taskList.getTotalTaskLength();
-					if(this.taskList.doneTaskLength >= totalTaskLength) {
+					if (this.taskList.doneTaskLength >= totalTaskLength) {
 						console.log("Task 222 completed");
 						this.task1Finished = true;
 						await this.Pass();
@@ -1014,7 +1048,7 @@
 		flex-direction: row;
 		width: 100%;
 		justify-content: space-around;
-		z-index: 3;
+		z-index: 10;
 		overflow: visible;
 		position: absolute;
 		bottom: 80rpx;
@@ -1070,11 +1104,47 @@
 		z-index: 100;
 	}
 
+	.recordTooltip {
+		position: absolute;
+		z-index: 11;
+		top: 83%;
+		left: 31%;
+		width: 105px;
+		padding: 10px 20px;
+		/* transform: translateX(-50%); */
+		background-color: rgba(16, 16, 16, 0.4);
+		;
+		border-radius: 10px;
+	}
+
+	.hintTooltip {
+		position: absolute;
+		z-index: 11;
+		top: 83%;
+		right: 5%;
+		width: 205px;
+		padding: 10px 20px;
+		/* transform: translateX(-50%); */
+		background-color: rgba(16, 16, 16, 0.4);
+		;
+		border-radius: 10px;
+	}
+
+	.tooltipOverlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(46, 46, 47, 0.75);
+		z-index: 3;
+	}
+
 	.recording-box {
 		position: absolute;
 		z-index: 11;
 		top: 76%;
-		left: 50%;
+		right: 50%;
 		transform: translateX(-50%);
 		width: 406rpx;
 		height: 160rpx;
