@@ -7,9 +7,13 @@
 			<image class="back-button" src="/static/battlefield/back-iconpng.png" @tap="goToDashboard"></image>
 			<reward-bar :gemCount="gemCount"></reward-bar>
 			<view class="setting-group">
-				<image class="setting-item" src="/static/battlefield/copy.png" @click="missionShow = true"></image>
+				<!-- <image class="setting-item" src="/static/battlefield/copy.png" @click="missionShow = true"></image> -->
+				<image class="setting-item" src="/static/battlefield/copy.png" @click="handleClickTaskList"></image>
 				<image class="setting-item" src="/static/battlefield/setting.png"></image>
 			</view>
+		</view>
+		<view v-if="showToolTips && isTooltipVisible && showTaskTooltip" class="taskTooltip">
+			查看任务清单
 		</view>
 
 		<view class="npc-group" :class="{ shadowed: shouldShadow }">
@@ -139,6 +143,7 @@
 		hint,
 		continueChat,
 		evalBattlefield,
+		checkShowToolTips,
 	} from '/scripts/battlefield-chat';
 	import {
 		getBattlefieldAvatar,
@@ -170,9 +175,11 @@
 				taskList: new TaskList([]),
 				isGoodReply: true,
 				state: 'NpcTalk', // Current state
-				showToolTips: true, // 假设tooltip显示状态为 true，等后端数据返回后更新
+				userTalkCount: 0, // 计数器，用来控制tooltip的出现时机
+				showToolTips: checkShowToolTips(2) ? checkShowToolTips(2) : true, // 假设tooltip显示状态为 true，等后端数据返回后更新
 				showRecordTooltip: true,
 				showHintTooltip: false,
+				showTaskTooltip: false,
 				isTooltipVisible: true, // 控制tooltip的可见性，默认可见
 				showTippingCard: false, // Controls the tipping card visibility
 				talkingNpc: 0,
@@ -276,6 +283,11 @@
 				uni.navigateTo({
 					url: '/pages/dashboard/dashboard?currentView=dashboard2',
 				});
+			},
+			handleClickTaskList() {
+				this.missionShow = true; // 显示任务
+				this.showTaskTooltip = false; // 隐藏 Tooltip
+				this.isTooltipVisible = false; //去掉蒙层
 			},
 			handleClickRecording(e) {
 				// console.log("click start , isRecording: ", this.isRecording)
@@ -630,6 +642,7 @@
 					try {
 						const validChats = filterChatHistory(this.chattingHistory);
 						const judgeResult = await reply(validChats);
+						console.log("judge Result:", judgeResult);
 						await this.handleRecorderReply(judgeResult);
 						this.inputContent = '';
 						this.anasLoadingObj.loading = false;
@@ -913,6 +926,17 @@
 				},
 				deep: true
 			},
+			state(newVal, oldVal) {
+				if (newVal === 'userTalk') {
+					this.userTalkCount++; // 增加计数器
+
+					// 第二次进入 'userTalk' 时显示任务tooltip
+					if (this.userTalkCount === 2) {
+						this.showTaskTooltip = true;
+						this.isTooltipVisible = true;
+					}
+				}
+			}
 		},
 		computed: {
 			shouldShadow() {
@@ -986,7 +1010,7 @@
 		align-items: center;
 		padding: 20rpx;
 		position: relative;
-		z-index: 3;
+		z-index: 12;
 		margin-top: 80rpx;
 		margin-left: 20rpx;
 	}
@@ -1027,12 +1051,14 @@
 	.setting-group {
 		display: flex;
 		flex-direction: row;
+		position: relative;
 	}
 
 	.setting-item {
 		width: 24px;
 		margin-right: 20rpx;
 		height: 24px;
+		z-index: 12;
 	}
 
 	.npc-group {
@@ -1101,32 +1127,43 @@
 		position: absolute;
 		bottom: -10rpx;
 		box-shadow: 0px 0px 4px 0px rgba(254, 211, 151, 1);
-		z-index: 100;
+		z-index: 12;
 	}
 
 	.recordTooltip {
 		position: absolute;
-		z-index: 11;
+		z-index: 12;
 		top: 83%;
 		left: 31%;
 		width: 105px;
 		padding: 10px 20px;
 		/* transform: translateX(-50%); */
 		background-color: rgba(16, 16, 16, 0.4);
-		;
 		border-radius: 10px;
 	}
 
 	.hintTooltip {
 		position: absolute;
-		z-index: 11;
+		z-index: 12;
 		top: 83%;
-		right: 5%;
+		right: 1%;
 		width: 205px;
 		padding: 10px 20px;
 		/* transform: translateX(-50%); */
 		background-color: rgba(16, 16, 16, 0.4);
-		;
+		border-radius: 10px;
+	}
+
+
+	.taskTooltip {
+		position: absolute;
+		z-index: 12;
+		top: 11%;
+		right: 1%;
+		width: 105px;
+		padding: 10px 20px;
+		/* transform: translateX(-50%); */
+		background-color: rgba(16, 16, 16, 0.4);
 		border-radius: 10px;
 	}
 
@@ -1142,7 +1179,7 @@
 
 	.recording-box {
 		position: absolute;
-		z-index: 11;
+		z-index: 12;
 		top: 76%;
 		right: 50%;
 		transform: translateX(-50%);
@@ -1281,7 +1318,7 @@
 
 	.judge-container {
 		width: 100%;
-		z-index: 3;
+		z-index: 100;
 		position: absolute;
 		height: 350rpx;
 		bottom: 0px;
