@@ -8,7 +8,10 @@
 
 		<view class="card">
 			<image class="card-image" src="/static/Group 3.png" mode="aspectFit" />
-			<button class="start-button" @click="startTest"><text class="arrow">开始测试 ↗</text></button>
+			<button class="start-button" @click="startTest" :class="{ 'is-loading': isLoading }">
+				<text v-if="!isLoading" class="arrow">开始测试 ↗</text>
+				<view v-else class="loader"></view>
+			</button>
 		</view>
 	</view>
 </template>
@@ -36,7 +39,7 @@
 				birthday: null as BirthdayType | null,
 				// 显式指定 `selectedOptions` 为字符串数组
 				selectedOptions: [] as string[],
-
+				isLoading: false,
 			};
 		},
 		onLoad(options : any) {
@@ -95,8 +98,10 @@
 		},
 		methods: {
 			startTest() {
-				console.log('Start test button clicked');
-				this.navigateToNextPage();
+				if (!this.isLoading) {
+					this.isLoading = true;
+					this.navigateToNextPage();
+				}
 			},
 			async navigateToNextPage() {
 				try {
@@ -145,6 +150,8 @@
 						title: '操作失败',
 						icon: 'none',
 					});
+				} finally {
+					this.isLoading = false;
 				}
 			}
 		}
@@ -191,22 +198,23 @@
 
 	.card-image {
 		width: 100%;
-		height: 280px;
+		height: 400rpx;
 	}
 
 	.start-button {
 		position: relative;
-		left: 0;
 		bottom: 120rpx;
 		background-color: #1c1c1e;
 		border: none;
 		border-radius: 20px;
 		font-size: 14px;
 		width: 40%;
-		height: 4vh;
 		color: #ffffff;
 		font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
-
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		/* padding: 10px 0; */
 	}
 
 	.arrow {
@@ -225,5 +233,25 @@
 		padding: 10px;
 		background-color: #2c2c2e;
 		border-radius: 10px;
+	}
+
+	.start-button.is-loading {
+		/* opacity: 0.7; */
+		cursor: not-allowed;
+		padding: 11.5rpx 0;
+	}
+
+	.loader {
+		border: 2px solid #1c1c1e; /* Match button background color */
+		border-top: 2px solid #ffffff;
+		border-radius: 50%;
+		width: 20px;
+		height: 20px;
+		animation: spin 1s linear infinite;
+	}
+
+	@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
 	}
 </style>

@@ -68,8 +68,9 @@
 			<view class="action-item" v-if="!isRecording" @click="handleClickInput()">
 				<image class="action-icon" src="/static/battlefield/keyboard.png"></image>
 			</view>
+			
 			<view class="middle-container">
-				<view class="action-item action-item-middle" @touchstart="handleClickRecording"
+				<view v-if="systemInfo.platform === 'ios' || systemInfo.platform === 'android'" class="action-item action-item-middle" @touchstart="handleClickRecording"
 					@touchend="handleRecordingDone" @touchmove="handleTouchMove">
 					<image class="action-icon action-icon-middle" src="/static/battlefield/microphone.png"></image>
 				</view>
@@ -223,6 +224,7 @@
 				scrollIntoViewId: '',
 				isCompleteTask: false,
 				currentTask: null,
+				
 			};
 		},
 		created() {
@@ -863,6 +865,11 @@
 			});
 			this.jobId = option.jobId || '154ee592-287b-4675-b8bd-8f88de348476';
 			this.initRecorderManager();
+			uni.getSystemInfo({
+    success: (res) => {
+      this.systemInfo = res;
+    }
+  });
 		},
 		watch: {
 			isCanceling(newValue) {
