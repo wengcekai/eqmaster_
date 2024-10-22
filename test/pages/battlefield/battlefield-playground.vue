@@ -97,9 +97,10 @@
 
 			<!-- #ifndef H5 -->
 			<view class="middle-container">
-				class="action-item action-item-middle" @touchstart="handleClickRecording"
-				@touchend="handleRecordingDone" @touchmove="handleTouchMove">
-				<image class="action-icon action-icon-middle" src="/static/battlefield/microphone.png"></image>
+				<view class="action-item action-item-middle" @touchstart="handleClickRecording"
+					@touchend="handleRecordingDone" @touchmove="handleTouchMove" @click="hideTooltip">
+					<image class="action-icon action-icon-middle" src="/static/battlefield/microphone.png"></image>
+				</view>
 			</view>
 			<!-- #endif -->
 			<view class="action-item" v-if="!isRecording">
