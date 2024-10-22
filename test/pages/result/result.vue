@@ -8,7 +8,7 @@
 				<!-- </view> -->
 				<view class="header">
 					<image class="header-icon" src="/static/back.png"></image>
-					<text class="score-title-head">我的检测结果</text>
+					<text class="score-title-head">My career personality type</text>
 					<image class="header-icon" src="/static/battlefield/share.png"></image>
 				</view>
 				<view class="background-curve"></view>
@@ -275,8 +275,7 @@
 				});
 			}
 		},
-		onUnload() {
-		},
+		onUnload() {},
 		onReady() {
 			console.log('option', option);
 			// 接收上一个页面传递的数据

@@ -18,13 +18,32 @@
 	transform: translate(-50%, -50%);
 	/* 同时水平和垂直居中 */
 }
-	
+
+.background-container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
 .background-image {
 	position: absolute;
-	top: 5rpx;
+	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
+	z-index: 0;
+}
+
+.overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 10%;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+	/* 黑色渐变蒙层 */
+	z-index: 1;
+	/* 确保蒙层在背景图上方 */
 }
 
 .container {
@@ -39,25 +58,25 @@
 }
 
 .continue-button {
-		width: 40rpx;
-		height: 40rpx;
-		background-color: #F2BC74;
-		border-radius: 50rpx;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		padding: 30rpx;
-	}
-	
-	.button-container {
-		width: 100%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		position: absolute;
-		bottom: 100rpx;
-	}
-	
+	width: 40rpx;
+	height: 40rpx;
+	background-color: #F2BC74;
+	border-radius: 50rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 30rpx;
+}
+
+.button-container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	bottom: 100rpx;
+}
+
 /* .button-container {
 	width: 100%;
 	display: flex;
@@ -111,7 +130,7 @@
 	text-align: center;
 	color: #ffffff;
 	font-size: 25rpx;
-	z-index: 3;
+	z-index: 4;
 }
 
 /* Add any additional styles you need */
@@ -123,6 +142,7 @@
 	right: 40rpx;
 	display: flex;
 	align-items: center;
+	z-index: 3;
 }
 
 .progress-bar {
@@ -146,4 +166,5 @@
 	font-size: 24rpx;
 	min-width: 60rpx;
 	text-align: right;
+	z-index: 5;
 }

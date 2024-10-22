@@ -6,7 +6,7 @@
 				<text class="user-name">{{userName}}</text>
 				<image class="name-background" src="/static/rec-right.png" mode="aspectFill" />
 			</view>
-			<view class="text-content" @tap="dismiss" >{{ description }}</view>
+			<view class="text-content" @tap="dismiss">{{ description }}</view>
 			<view class="expand-icon">
 				<image class="icon-image" src="/static/icon3.png" mode="aspectFit" />
 			</view>
@@ -70,6 +70,7 @@
 
 	.text-content {
 		color: white;
+		font-family: Arial;
 		font-size: 28rpx;
 		line-height: 1.4;
 	}
