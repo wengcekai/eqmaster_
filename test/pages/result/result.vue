@@ -19,7 +19,7 @@
 						<text class="score-title">情商得分: {{homepageData.response.eq_scores.score}}</text>
 					</view>
 
-					
+
 					<view class="subtitle-container0">
 						<canvas id="radarCanvas" canvas-id="radarCanvas" class="radar-canvas" width="400"
 							height="400"></canvas>
@@ -280,9 +280,9 @@
 				});
 			}
 		},
-		onUnload() {
-		},
+		onUnload() {},
 		onReady() {
+			// #ifdef H5
 			try {
 				uni.getStorage({
 					key: 'response',
@@ -296,19 +296,7 @@
 			} catch (e) {
 				console.log('something error happened', e)
 			}
-			// 确保数据已经准备好
-			if (!this.username) {
-				uni.getStorage({
-					key: 'username',
-					success: (res) => {
-						this.username = res.data;
-						console.log('Username from storage:', this.username);
-					},
-					fail: () => {
-						console.error('Failed to get username from storage');
-					}
-				});
-			}
+			// #endif
 		},
 		methods: {
 			progressWidth(value) {
@@ -925,10 +913,10 @@
 		opacity: 0.8;
 		overflow: visible;
 	}
-	
-	
+
+
 	.subtitle-container0 {
-		
+
 		overflow: visible;
 		display: flex;
 		justify-content: center;
@@ -938,18 +926,18 @@
 		position: relative;
 		/* 添加这个 */
 	}
-	
+
 	.subtitle-container00 {
-/* 		overflow: visible;
+		/* 		overflow: visible;
 		display: flex;
 		justify-content: center; */
 		/* align-items: center; */
 		/* margin-bottom: 2vh; */
-/* 		z-index: 6;
+		/* 		z-index: 6;
 		position: relative; */
 		/* 添加这个 */
 	}
-	
+
 	.subtitle-container {
 		overflow: visible;
 		display: flex;
