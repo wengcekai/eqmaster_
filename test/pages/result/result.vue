@@ -283,10 +283,6 @@
 		onUnload() {
 		},
 		onReady() {
-			console.log('option', option);
-			// 接收上一个页面传递的数据
-			this.userId = option.userId || '';
-			this.username = decodeURIComponent(option.username || '');
 			try {
 				uni.getStorage({
 					key: 'response',
