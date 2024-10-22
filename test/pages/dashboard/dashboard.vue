@@ -218,7 +218,7 @@
 					<image class="dashboard2-illustration36" src="/static/dashboard2/icon2.jpg" mode="widthFix"
 						@click="switchView('dashboard')"></image>
 					<image class="dashboard2-illustration37" src="/static/dashboard2/icon1.jpg" mode="widthFix"></image>
-					<image class="dashboard2-illustration38" src="/static/Frame3.png" mode="widthFix"></image>
+					<image class="dashboard2-illustration38" src="/static/Frame3.png" mode="widthFix" @click="navigateToProfilePage"></image>
 				</view>
 			</view>
 		</scroll-view>
@@ -430,6 +430,9 @@
 				uni.navigateTo({
 					url: `/pages/dashboard/dashboard?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.jobId}` // 添加查询参数
 				});
+			},
+			navigateToProfilePage() {
+				
 			},
 			async getHomepageData() {
 				try {
