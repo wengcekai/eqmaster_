@@ -68,14 +68,24 @@
 			<text class="cancel-text">松开发送，上滑取消</text>
 		</view>
 
+
 		<view v-if="state==='userTalk' && showToolTips && isTooltipVisible" class="tooltipOverlay" @click="hideTooltip">
 		</view>
 		<!-- tooltip -->
 		<!-- tooltip for record -->
+		<!-- #ifndef H5 -->
 		<view v-if="state === 'userTalk' && showToolTips && isTooltipVisible && showRecordTooltip"
 			class="recordTooltip">
 			长按开始录音
 		</view>
+		<!-- #endif -->
+
+		<!-- #ifdef H5 -->
+		<view v-if="state === 'userTalk' && showToolTips && isTooltipVisible && showRecordTooltip"
+			class="keyboardToolTip">
+			输入您的回复
+		</view>
+		<!-- #endif -->
 		<!-- tooltip for hint -->
 		<view v-if="state === 'userTalk' && showToolTips && isTooltipVisible && showHintTooltip" class="hintTooltip">
 			需要帮助吗？选择锦囊卡片
@@ -84,18 +94,14 @@
 			<view class="action-item" v-if="!isRecording" @click="handleClickInput()">
 				<image class="action-icon" src="/static/battlefield/keyboard.png"></image>
 			</view>
-			
+
+			<!-- #ifndef H5 -->
 			<view class="middle-container">
-<<<<<<< HEAD
-				<view v-if="systemInfo.platform === 'ios' || systemInfo.platform === 'android'" class="action-item action-item-middle" @touchstart="handleClickRecording"
-					@touchend="handleRecordingDone" @touchmove="handleTouchMove">
-=======
-				<view class="action-item action-item-middle" @touchstart="handleClickRecording"
-					@touchend="handleRecordingDone" @touchmove="handleTouchMove" @click="hideTooltip">
->>>>>>> fe3a4d54640df5b92bd074a4789faa6f4a2e3726
-					<image class="action-icon action-icon-middle" src="/static/battlefield/microphone.png"></image>
-				</view>
+				class="action-item action-item-middle" @touchstart="handleClickRecording"
+				@touchend="handleRecordingDone" @touchmove="handleTouchMove">
+				<image class="action-icon action-icon-middle" src="/static/battlefield/microphone.png"></image>
 			</view>
+			<!-- #endif -->
 			<view class="action-item" v-if="!isRecording">
 				<image class="action-icon-hint" src="/static/battlefield/streamline.png" @click="clickHintButton">
 				</image>
@@ -255,7 +261,7 @@
 				scrollIntoViewId: '',
 				isCompleteTask: false,
 				currentTask: null,
-				
+
 			};
 		},
 		created() {
@@ -372,14 +378,20 @@
 			async gotoNextRound() {
 				if (!this.isGoodReply) {
 					this.retry();
-					this.answerNotGoodNum = 0;
 					return;
 				}
+				this.answerNotGoodNum = 0;
+
 				if (this.task1Finished) {
 					await this.Pass();
 				}
 				const nextRound = await continueChat(this.chattingHistory);
 				console.log('next round data', nextRound);
+				nextRound.dialog = nextRound.dialog.map(item => ({
+					role: item.role,
+					content: item.content ?? item.words
+				}));
+
 				this.chattingHistory = nextRound.dialog;
 				console.log('after concat, chatting history:', this.chattingHistory);
 				// let someoneTalked = false;
@@ -581,6 +593,9 @@
 			},
 
 			initRecorderManager() {
+				if (!recorderManager) {
+					return;
+				}
 				recorderManager.onStart(() => {
 					console.log('Recorder start');
 				});
@@ -778,18 +793,25 @@
 
 						// 遍历 judgeResult.moods 并根据角色调整 this.mood 的值
 						judgeResult.moods.forEach(item => {
-							let randomValue;
+							const moodValue = parseInt(item.mood, 10);
 							if (item.role === '领导') {
-								this.npcs[0].health = Math.min(this.npcs[0].health + (parseInt(item
-									.mood, 10) > 0 ? 4 : -2), 20);
+								this.npcs[0].health = Math.min(
+									this.npcs[0].health + (moodValue > 0 ? 4 : moodValue < 0 ? -2 : 0),
+									20
+								);
 							} else if (item.role === '同事A') {
-								this.npcs[1].health = Math.min(this.npcs[1].health + (parseInt(item
-									.mood, 10) > 0 ? 4 : -2), 20);
+								this.npcs[1].health = Math.min(
+									this.npcs[1].health + (moodValue > 0 ? 4 : moodValue < 0 ? -2 : 0),
+									20
+								);
 							} else if (item.role === '同事B') {
-								this.npcs[2].health = Math.min(this.npcs[2].health + (parseInt(item
-									.mood, 10) > 0 ? 4 : -2), 20);
+								this.npcs[2].health = Math.min(
+									this.npcs[2].health + (moodValue > 0 ? 4 : moodValue < 0 ? -2 : 0),
+									20
+								);
 							}
 						});
+
 						// 检查任何 NPC 的 health 是否 <= 0，通关失败
 						const anyNpcHealthLow = this.npcs.some(npc => npc.health <= 0);
 						if (anyNpcHealthLow) {
@@ -821,9 +843,9 @@
 			},
 			async checkBossComplimentTask1(judgeResult) {
 				if (judgeResult) {
-					const totalScore = judgeResult.moods.reduce((sum, item) => sum + parseInt(item.mood, 10), 0);
+					const hasNegativeMood = judgeResult.moods.some(item => parseInt(item.mood, 10) < 0);
 
-					if (totalScore > 0) {
+					if (!hasNegativeMood) {
 						this.isGoodReply = true;
 						this.judgeContent = judgeResult.comments;
 						const allPositive = judgeResult.moods.every(item => parseInt(item.mood, 10) > 0);
@@ -952,10 +974,10 @@
 			this.jobId = option.jobId || '154ee592-287b-4675-b8bd-8f88de348476';
 			this.initRecorderManager();
 			uni.getSystemInfo({
-    success: (res) => {
-      this.systemInfo = res;
-    }
-  });
+				success: (res) => {
+					this.systemInfo = res;
+				}
+			});
 		},
 		watch: {
 			isCanceling(newValue) {
@@ -1188,6 +1210,18 @@
 		border-radius: 10px;
 	}
 
+	.keyboardToolTip {
+		position: absolute;
+		z-index: 12;
+		top: 83%;
+		left: 10%;
+		width: 105px;
+		padding: 10px 20px;
+		/* transform: translateX(-50%); */
+		background-color: rgba(16, 16, 16, 0.4);
+		border-radius: 10px;
+	}
+
 	.hintTooltip {
 		position: absolute;
 		z-index: 12;
@@ -1220,7 +1254,7 @@
 		width: 100%;
 		height: 100%;
 		background-color: rgba(46, 46, 47, 0.75);
-		z-index: 3;
+		z-index: 11;
 	}
 
 	.recording-box {
