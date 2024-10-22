@@ -314,7 +314,7 @@ export default {
     toProfilePage() {
       if (this.canConfirmEdit) {
         uni.navigateTo({
-          url: `/pages/profile/profile?name=${encodeURIComponent(this.profileName)}&jobId=${this.jobId}&relation=${encodeURIComponent(this.selectedOption)}&tags=${encodeURIComponent(JSON.stringify(this.selectedTags))}`
+          url: `/pages/profile/profile_en?name=${encodeURIComponent(this.profileName)}&jobId=${this.jobId}&relation=${encodeURIComponent(this.selectedOption)}&tags=${encodeURIComponent(JSON.stringify(this.selectedTags))}`
         });
       }
     },

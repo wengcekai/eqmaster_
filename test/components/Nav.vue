@@ -56,7 +56,7 @@ export default {
 .nav-contation {
     display: flex;
     z-index: 9999;
-    height: 120rpx;
+    height: 150rpx;
     width: 100%;
     position: fixed;
     bottom: 0px;

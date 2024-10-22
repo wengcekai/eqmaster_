@@ -432,7 +432,9 @@
 				});
 			},
 			navigateToProfilePage() {
-				
+				uni.navigateTo({
+					url: `/pages/profile/profile_en?userId=${this.userId}`
+				});
 			},
 			async getHomepageData() {
 				try {
@@ -536,7 +538,7 @@
 								console.log('Contact profile created successfully:', res.data);
 								// 创建成功后，导航到档案页面
 								uni.navigateTo({
-									url: `/pages/profile/profile?personal_name=${encodeURIComponent(this.username)}&name=${encodeURIComponent(this.profileName)}&jobId=${this.jobId}&relation=${encodeURIComponent(this.selectedOption)}&tags=${encodeURIComponent(JSON.stringify(this.selectedTags))}&contactId=${res.data.contact_id}`
+									url: `/pages/profile/profile_en?personal_name=${encodeURIComponent(this.username)}&name=${encodeURIComponent(this.profileName)}&jobId=${this.jobId}&relation=${encodeURIComponent(this.selectedOption)}&tags=${encodeURIComponent(JSON.stringify(this.selectedTags))}&contactId=${res.data.contact_id}`
 								});
 							} else {
 								console.error('Failed to create contact profile:', res.statusCode, res.data);
@@ -583,7 +585,7 @@
 								console.log('Contact profile created successfully:', res.data);
 								// 创建成功后，导航到档案页面
 								uni.navigateTo({
-									url: `/pages/profile/profile?personal_name=${encodeURIComponent(this.username)}&name=${encodeURIComponent(contact?.name || '')}&jobId=${this.jobId}&relation=${encodeURIComponent(contact?.contact_relationship || '')}&tags=${encodeURIComponent(contact?.tag || '')}&contactId=${res.data.contact_id}`
+									url: `/pages/profile/profile_en?personal_name=${encodeURIComponent(this.username)}&name=${encodeURIComponent(contact?.name || '')}&jobId=${this.jobId}&relation=${encodeURIComponent(contact?.contact_relationship || '')}&tags=${encodeURIComponent(contact?.tag || '')}&contactId=${res.data.contact_id}`
 								});
 							} else {
 								console.error('Failed to create contact profile:', res.statusCode, res.data);
