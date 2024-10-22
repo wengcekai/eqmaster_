@@ -137,7 +137,7 @@
 					<!-- 添加蓝色按钮 -->
 					<view class="card3">
 						<image class="illustration36" src="/static/Frame1.png" mode="widthFix"></image>
-						<image class="illustration37" src="/static/Frame2.png" mode="widthFix"
+						<image class="illustration37" src="/static/Frame22.png" mode="widthFix"
 							@click="navigateToDashboard2"></image>
 						<image class="illustration38" src="/static/Frame3.png" mode="widthFix"></image>
 					</view>
