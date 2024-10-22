@@ -381,7 +381,7 @@
 					this.retry();
 					return;
 				}
-				this.answerNotGoodNum = 0;
+				// this.answerNotGoodNum = 0;
 
 				if (this.task1Finished) {
 					await this.Pass();
@@ -845,10 +845,13 @@
 			async checkBossComplimentTask1(judgeResult) {
 				if (judgeResult) {
 					const hasNegativeMood = judgeResult.moods.some(item => parseInt(item.mood, 10) < 0);
+					console.log("回答评估开始了");
 
 					if (!hasNegativeMood) {
+						console.log("回答评估开始1");
 						this.isGoodReply = true;
 						this.judgeContent = judgeResult.comments;
+						this.answerNotGoodNum = 0;
 						const allPositive = judgeResult.moods.every(item => parseInt(item.mood, 10) > 0);
 						if (allPositive) {
 							if (!this.task1Finished && !this.taskList.getTask(0).one) {
@@ -882,21 +885,32 @@
 						}
 
 					} else {
+						console.log("回答评估开始2");
 						if (this.answerNotGoodNum < 2) {
+							console.log("回答评估开始3");
+							console.log("this.answerNotGoodNum数量", this.answerNotGoodNum);
 							this.answerNotGoodNum++;
 							this.isGoodReply = true;
 							// this.state = 'userTalk';
 							// this.userJudgeContent = judgeResult.comments;
 							await this.gotoNextRound();
 						} else {
+							console.log("回答评估开始4");
 							this.isGoodReply = false;
 							this.isTooltipVisible = true;
-							this.showHintTooltip = true;
+							// this.showHintTooltip = true;
+							if (this.answerNotGoodNum === 2) {
+								this.showHintTooltip = true;
+							} else {
+								this.showHintTooltip = false;
+							}
 							console.log("tooltip for hint", this.isTooltipVisible);
 							this.judgeTitle = "还有提升空间";
 							this.isCompleteTask = false;
 							this.judgeContent = judgeResult.comments;
 							this.state = 'judgeTry';
+							this.answerNotGoodNum++;
+							// this.answerNotGoodNum = 0;
 						}
 					}
 				}
@@ -1262,7 +1276,7 @@
 		position: absolute;
 		z-index: 12;
 		top: 76%;
-		right: 50%;
+		left: 50%;
 		transform: translateX(-50%);
 		width: 406rpx;
 		height: 160rpx;
