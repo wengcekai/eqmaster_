@@ -206,6 +206,7 @@
 					role: '领导',
 					content: '唉，我最近有点上火，医生嘱咐我要清淡饮食。这些重口味的菜我可真不敢吃了，不然怕是吃完嘴上火气就更旺了。',
 				}, ],
+				allHistory: [],
 				showInput: false,
 				focusInput: false,
 				npcs: [{
@@ -392,8 +393,9 @@
 					role: item.role,
 					content: item.content ?? item.words
 				}));
-
+				console.log("current chatting history:", this.chattingHistory);
 				this.chattingHistory = nextRound.dialog;
+				this.allHistory.push(nextRound.dialog);
 				console.log('after concat, chatting history:', this.chattingHistory);
 				// let someoneTalked = false;
 				this.displayedNpcChatIndex = 0;
@@ -525,7 +527,7 @@
 				const gemCount = this.calculateStars();; // 假设 this.gemCount 是当前的宝石数量
 				const diamonds = this.diamonds; // 假设 this.diamonds 是当前的钻石数量
 
-				const evaluationResult = await evalBattlefield(this.chattingHistory, isPass, gemCount, diamonds);
+				const evaluationResult = await evalBattlefield(this.allHistory, isPass, gemCount, diamonds);
 				console.log('evaluation result:', evaluationResult);
 				// const evaluationResult = await evalBattlefield(this.chattingHistory);
 				// console.log('evaluation result:', evaluationResult);
@@ -975,6 +977,7 @@
 			}
 		},
 		onLoad(option) {
+			this.allHistory = this.chattingHistory;
 			console.log("loaded", option)
 			uni.getStorage({
 				key: 'chats',
