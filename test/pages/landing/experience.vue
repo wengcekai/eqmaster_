@@ -7,10 +7,10 @@
 		<!-- 内容区域 -->
 		<view class="content">
 			<view class="text-content">
-				<text class="greeting">嗨👋</text>
+				<text class="greeting">Hi, Welcome!👋</text>
 			</view>
-			<text class="question">很开心见到你！你叫什么名字？</text>
-			<text class="question1">完善个人信息</text>
+			<text class="question">How may I call you?</text>
+			<!-- <text class="question1">完善个人信息</text> -->
 
 			<!-- 输入框 -->
 			<input class="name-input" placeholder="请输入" v-model="username" />
@@ -145,7 +145,7 @@
 		padding: 20rpx 30rpx;
 		color: #ffffff;
 		font-size: 32rpx;
-		margin-top: 100rpx;
+		margin-top: 250rpx;
 		margin-bottom: 150rpx;
 	}
 

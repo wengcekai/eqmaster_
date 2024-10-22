@@ -1,14 +1,14 @@
 <template>
 	<view class="container">
 		<view class="text-content">
-			<text class="question">{{ scenarioText || '让我们看看你现在适合什么情商段位' }}</text>
+			<text class="question">{{ scenarioText || "Next, let's find out your workplace personality type!" }}</text>
 			<!-- <text class="question1">个性化偏好</text> -->
 		</view>
 
 
 		<view class="card">
-			<image class="card-image" src="/static/Group 3.png" mode="aspectFit" />
-			<button class="start-button" @click="startTest"><text class="arrow">开始测试 ↗</text></button>
+			<image class="card-image" src="/static/onboarding/startTest.png" mode="aspectFit" />
+			<button class="start-button" @click="startTest"><text class="arrow">Start testing ↗</text></button>
 		</view>
 	</view>
 </template>

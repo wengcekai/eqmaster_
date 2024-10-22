@@ -1,7 +1,10 @@
 <template>
 	<view class="container">
 		<!-- 背景图 -->
+		<!-- <view class="background-container"> -->
 		<image class="background-image" :src="backgroundImageSrc" mode="aspectFill" />
+		<view class="overlay"></view>
+		<!-- </view> -->
 
 		<view class="progress-container">
 			<view class="progress-bar">
@@ -13,7 +16,7 @@
 		<!-- Test page content -->
 		<template v-if="currentPage === 'test'">
 			<view class="banner-container">
-				<image class="logo" src="/static/signa.png" mode="aspectFit" />
+				<image class="logo" src="/static/onboarding/location.png" mode="aspectFit" />
 				<text class="room-text">{{ scenarioData.location }}</text>
 			</view>
 			<view class="text-box" @tap="navigateToTest1" :class="{ 'disabled': isLoading }">
@@ -515,6 +518,7 @@
 
 	.text-content1 {
 		color: white;
+		font-family: Arial;
 		font-size: 14px;
 		line-height: 1.4;
 	}
