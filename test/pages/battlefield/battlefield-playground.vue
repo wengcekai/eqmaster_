@@ -166,6 +166,7 @@
 	} from '../../scripts/battlefield-chat';
 	import Task from '../../models/Task';
 	import TaskList from '../../models/TaskList';
+	import state from '../../state';
 	export default {
 		components: {
 			RewardBar,
@@ -181,6 +182,7 @@
 		},
 		data() {
 			return {
+				userId: state.userId,
 				judgeTitle: '',
 				judgeContent: '',
 				userJudgeContent: '',
@@ -264,6 +266,7 @@
 		},
 		created() {
 			console.log("created")
+			console.log("state userid", state.userId)
 			// 动态添加任务到 taskList
 			this.taskList.addTask(new Task(0, '一句话让同事们赞不绝口', async (judgeResult) => {
 				const allPositive = judgeResult.moods.every((item) => parseInt(item.mood, 10) > 0);
