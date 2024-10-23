@@ -51,7 +51,7 @@
 							</view>
 							<view class="speed-right">
 								<view class="speed-title">
-									情绪侦查力
+									self awareness
 								</view>
 								<view class="">
 									<view class="blood-container">
@@ -68,7 +68,7 @@
 
 							<view class="speed-right">
 								<view class="speed-title">
-									情绪掌控力
+									self regulation
 								</view>
 								<view class="">
 									<view class="blood-container">
@@ -85,7 +85,7 @@
 
 							<view class="speed-right">
 								<view class="speed-title">
-									人际平衡力
+									social skill
 								</view>
 								<view class="">
 									<view class="blood-container">
@@ -102,7 +102,7 @@
 
 							<view class="speed-right">
 								<view class="speed-title">
-									沟通表达力
+									empathy
 								</view>
 								<view class="">
 									<view class="blood-container">
@@ -119,7 +119,7 @@
 
 							<view class="speed-right">
 								<view class="speed-title">
-									社交得体度
+									motivation
 								</view>
 								<view class="">
 									<view class="blood-container">
