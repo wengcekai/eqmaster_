@@ -13,7 +13,7 @@
 		</view> -->
 
 		<!-- 添加背景图片 -->
-		<image class="background-image" src="/static/landing B_EN.png" mode="widthFix"></image>
+		<image class="background-image" src="/static/onboarding/landing B.png" mode="widthFix"></image>
 
 		<!-- 开始体验按钮 -->
 		<view class="start-button">
@@ -94,7 +94,7 @@
 		background-color: #252529;
 		width: 100%;
 		height: 100vh;
-		z-index: -1;
+		z-index: 1;
 	}
 
 	/* 闪屏样式 */
@@ -118,6 +118,7 @@
 	}
 
 	.splash-image {
+
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
