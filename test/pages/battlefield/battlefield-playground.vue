@@ -893,9 +893,15 @@
 							console.log("this.answerNotGoodNum数量", this.answerNotGoodNum);
 							this.answerNotGoodNum++;
 							this.isGoodReply = true;
-							// this.state = 'userTalk';
-							// this.userJudgeContent = judgeResult.comments;
-							await this.gotoNextRound();
+							this.state = 'userTalk';
+							this.userJudgeContent = judgeResult.comments;
+							console.log("userJudgeContent", this.userJudgeContent);
+							// Add a 3-second delay before going to the next round
+							setTimeout(async () => {
+								await this.gotoNextRound();
+							}, 3000);
+
+							// await this.gotoNextRound();
 						} else {
 							console.log("回答评估开始4");
 							this.isGoodReply = false;
