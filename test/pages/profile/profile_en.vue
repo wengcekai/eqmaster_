@@ -5,7 +5,7 @@
 
         <view class="user-name">
           <image src="/static/user_icon.png" class="user-icon"></image>
-          <text class="user-name-text">User Name</text>
+          <text class="user-name-text">{{ homepageData.response.contacts[0].name }}</text>
         </view>
 
         <view class="have-been-view">
@@ -39,29 +39,71 @@
           </view>
         </view>
 
-        <view class="eqoach-bot-wrapper">
-          <view class="eqoach-bot" :style="{ transform: `translateX(${swipeOffset}px)` }" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
+        <view class="eqoach-bot-wrapper" v-if="!isDelEqoashBot">
+          <view class="eqoach-bot" :style="{ transform: `translateX(${swipeOffset}px)` }" @touchstart="touchStart"
+            @touchmove="touchMove" @touchend="touchEnd">
             <image class="eqoach-bot-icon" src="/static/eqoach-icon.png"></image>
             <view class="eqoach-bot-center">
               <view class="eqoach-bot-title">EQoach bot</view>
               <view class="eqoach-bot-desc">Add for more support!</view>
             </view>
             <view class="eqoach-bot-add">
-              <button class="eqoach-bot-add-btn">Add</button>
+              <button class="eqoach-bot-add-btn" @click="showEqoachPopup = true; saveqrcodeLoding = false;">Add</button>
             </view>
           </view>
           <view class="delete-btn" :style="{ opacity: deleteOpacity }">
-            <image class="delete-btn-icon" src="/static/delete.png"></image>
+            <image class="delete-btn-icon" src="/static/delete.png" @click="isDelEqoashBot = true"></image>
           </view>
         </view>
 
-        <view class="log-out">
+        <view class="log-out" @click="logoutShow = true">
           log out / switch user
         </view>
       </view>
 
     </scroll-view>
     <Nav selectedView="Profile" />
+
+    <!-- 二维码弹框 -->
+    <view v-if="showEqoachPopup" class="popup-overlay" @click="showCardPopup = false">
+      <view class="popup-content" @click.stop>
+        <view class="card-box">
+          <view class="card-header">
+            <view class="title">
+              <image class="card-close-image" src="/static/code_close.png" mode="" @click="showEqoachPopup = false">
+              </image>
+            </view>
+          </view>
+          <view class="eqoach-center" @click.stop>
+            <view class="eqoach-center-text">
+              Add EQoach bot for line
+            </view>
+            <image class="eqoach-center-code-image" src="/static/eqoach-code.png" ref="qrCodeImage"></image>
+            <view class="eqoach-center-line">
+              <view class="save-code-one">
+                <view class="save-code-num">1</view>
+                Save QR code
+              </view>
+              <view class="save-code-two">
+                <view class="save-code-num">2</view>
+                Open Line and scan to add
+              </view>
+            </view>
+          </view>
+          <view class="card-button">
+            <button :disabled="saveqrcodeLoding" @click="saveQRCode()">Save QR Code</button>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view v-if="logoutShow" class="popup-overlay">
+      <view class="logout-popup-content" @click.stop>
+        <view class="logout-header">Log out ?</view>
+        <view class="logout-center" @click="logOutClick()">log out</view>
+        <view class="logout-button" @click="logoutShow = false">Cancel</view>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -71,113 +113,37 @@ import Nav from '../../components/Nav.vue';
 
 export default {
   components: {
-		Nav
-	},
+    Nav
+  },
   data() {
     return {
       name: '',
-      jobId: '',
-      relation: '',
-      tags: [],
-      contactId: '',
-      score: 28, // 示例分数，可根据需要动态更改
-      maxScore: 100, // 假设最大分数为100
-      userId: '',
-      username: '',
-      gender: '',
-      birthday: null,
-      selectedOptions: [],
-      num: null,
+      intervalId: null,
+      swipeOffset: 0,
+      deleteOpacity: 0,
+      startX: 0,
+      showEqoachPopup: false,
+      logoutShow: false,
+      saveqrcodeLoding: false,
+      progressInterval: null,
+      isLoading: true,
+      error: null,
       homepageData: {
         response: {
           personal_info: {
-            name: '',
-            tag: '',
-            tag_description: '',
-            job_id: ''
+            name: ''
           },
           eq_scores: {
             score: 0,
-            dimension1_score: 0,
-            dimension1_detail: '',
-            dimension2_score: 0,
-            dimension2_detail: '',
-            dimension3_score: 0,
-            dimension3_detail: '',
-            dimension4_score: 0,
-            dimension4_detail: '',
-            dimension5_score: 0,
-            dimension5_detail: '',
-            summary: '',
-            detail: '',
-            overall_suggestion: '',
-            detail_summary: ''
+            overall_suggestion: ''
           },
           contacts: []
         }
       },
-      intervalId: null,
-      showSplash: false, // 默认不显示闪屏
-      progress: 0,
-      progressInterval: null,
-      isExpanded: false, // 默认收起状态
-      showPopup: false, // 将初始值设为 false，使弹窗在页面加载时不显示
-      selectedOption: '同事', // 默认选择“同事”
-      // 添同类型的标签列表
-      colleagueTags: ['摸鱼高手', '潜力股', '马屁精', '靠谱伙伴'],
-      bossSubordinateTags: ['完美主义者', 'PUA大师', '加班狂魔', '甩锅侠', '独裁者'],
-      selectedTags: [],
-      isProfileComplete: false, // New data property to track profile completion
-      profileName: '', // New data property for profile name
-      cards: {
-        intimacy: {
-          unlocked: false,
-          score: 0,
-          description: ''
-        },
-        opinion: {
-          unlocked: false,
-          description: ''
-        },
-        // Add similar objects for other cards
-      },
-      personalName: '',
-      editName: '',
-      editRelation: '',
-      editTags: [],
-      currentView: '', // 初始化 currentView
-      swipeOffset: 0,
-      deleteOpacity: 0,
-      startX: 0,
+      isDelEqoashBot: false,
     };
   },
   computed: {
-    formattedBirthday() {
-      if (this.birthday) {
-        const date = new Date(this.birthday.year, this.birthday.month - 1, this.birthday.day);
-        return date.toLocaleDateString();
-      }
-      return '未设置';
-    },
-    currentMonth() {
-      const options = { month: 'long' }; // 'long' for full month name
-      return new Intl.DateTimeFormat('zh-CN', options).format(new Date());
-    },
-    currentDate() {
-      return new Date().getDate(); // Get only the day of the month
-    },
-    currentTags() {
-      if (this.editRelation === '同事') {
-        return this.colleagueTags;
-      } else if (this.editRelation === '老板' || this.editRelation === '下属') {
-        return this.bossSubordinateTags;
-      } else {
-        return [];
-      }
-    },
-    canConfirmEdit() {
-      return this.editName.trim() !== '' && this.editTags.length > 0;
-    }
   },
   onLoad(option) {
     console.log('Received options:', option);
@@ -185,54 +151,27 @@ export default {
     // 接收上一个页面传递的数据
     this.userId = option.userId || '';
     this.username = decodeURIComponent(option.username || '');
-    this.gender = option.gender || '';
-    this.jobId = option.jobId || '';
-    this.num = option.num || '';
-
-    // 新增：接收个人名称
-    this.personalName = decodeURIComponent(option.personal_name || '');
-
-    // 接收联系人相关信息
-    this.name = decodeURIComponent(option.name || '');
-    this.relation = decodeURIComponent(option.relation || '');
-    this.contactId = option.contactId || '';
-
-    // 解析标签
-    if (option.tags) {
-      try {
-        this.tags = JSON.parse(decodeURIComponent(option.tags));
-      } catch (e) {
-        console.error('Error parsing tags:', e);
-        this.tags = [];
-      }
-    }
-
-    // 如果有其他需要的字段，可以继续添加
-
-    console.log('Parsed data:', {
-      userId: this.userId,
-      username: this.username,
-      gender: this.gender,
-      jobId: this.jobId,
-      num: this.num,
-      personalName: this.personalName,
-      name: this.name,
-      relation: this.relation,
-      tags: this.tags,
-      contactId: this.contactId
-    });
-
-    // 在这里可以使用接收到的数据进行进一步的操作
-    // 例如，加载联系人的详细信息
-    // this.loadContactDetails();
+    // this.gender = option.gender || '';
+    // this.jobId = option.jobId || '';
+    // this.num = option.num || '';
 
     // 立即调用一次
-    this.loadContactDetails();
+    this.getHomepageData(this.userId);
+
+    // 新增：接收个人名称
+    // this.personalName = decodeURIComponent(option.personal_name || '');
+
+    // 接收联系人相关信息
+    // this.name = decodeURIComponent(option.name || '');
+    // this.relation = decodeURIComponent(option.relation || '');
+    // this.contactId = option.contactId || '';
 
     // 设置定时调用
     this.intervalId = setInterval(() => {
-      this.loadContactDetails();
+      console.log('this.userId:', this.userId);
+      this.getHomepageData(this.userId);
     }, 50000); // 每50秒调用一次
+
   },
   onUnload() {
     // 页面卸载时清除定时器
@@ -244,142 +183,30 @@ export default {
     }
   },
   methods: {
-    progressWidth(value) {
-      // 计算进度条宽度百分比
-      const percentage = (value / this.maxScore) * 100;
-      // console.log('${percentage}%：', `${percentage}%`)
-      return `${percentage}%`;
-    },
-    circleLeftPosition(value) {
-      // 获取进度条实际宽度
-      const percentage1 = (value / this.maxScore) * 100;
-      const progressBarWidth = uni.getSystemInfoSync().windowWidth * 0.8; // 80%的屏幕宽度作为进度条的实际宽度
-      console.log(percentage1)
-      return (percentage1 / 100) * progressBarWidth;
-    },
-    navigateToGuide() {
-      uni.navigateTo({
-        url: `/pages/dashboard/dashboard?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.jobId}` // 添加查询参数
-      });
-    },
-    async loadContactDetails() {
+    async getHomepageData() {
       try {
-        if (!this.contactId) {
-          console.error('Contact ID is missing or invalid');
-          return;
-        }
+        this.isLoading = true;
+        this.error = null;
+        this.userId
+        console.log('Fetching homepage data with userId:', this.userId);
 
-        const contactDetails = await apiService.getContactProfile(this.contactId);
-        this.contactDetails = contactDetails;
-        console.log('Contact details received:', this.contactDetails);
-        this.$nextTick(() => {
-          this.drawRadar();
-        });
+        const data = await apiService.getHomepageData(this.userId);
+        this.homepageData = data;
+        console.log('Homepage data received:', this.homepageData);
       } catch (error) {
-        console.error('Error fetching contact details:', error);
+        this.error = 'Error fetching homepage data';
+        console.error(this.error, error);
+      } finally {
+        this.isLoading = false;
       }
     },
-    expand() {
-      this.isExpanded = true; // 只展开，不再收起
-    },
-    openPopup() {
-      this.editName = this.name;
-      this.editRelation = this.relation;
-      this.editTags = [...this.tags];
-      this.showPopup = true;
-    },
-    closePopup() {
-      this.showPopup = false;
-    },
-    selectOption(option) {
-      this.editRelation = option;
-    },
-    toggleTag(tag) {
-      const index = this.editTags.indexOf(tag);
-      if (index > -1) {
-        this.editTags.splice(index, 1);
-      } else {
-        this.editTags.push(tag);
-      }
-    },
-    confirmEdit() {
-      if (this.canConfirmEdit) {
-        this.name = this.editName;
-        this.relation = this.editRelation;
-        this.tags = [...this.editTags];
-        this.closePopup();
-        // 这里可以添加保存更改到后端的逻辑
-      }
-    },
-    toProfilePage() {
-      if (this.canConfirmEdit) {
-        uni.navigateTo({
-          url: `/pages/profile/profile_en?name=${encodeURIComponent(this.profileName)}&jobId=${this.jobId}&relation=${encodeURIComponent(this.selectedOption)}&tags=${encodeURIComponent(JSON.stringify(this.selectedTags))}`
-        });
-      }
-    },
-    toHomePage() {
-      if (this.canConfirmEdit) {
-        uni.navigateTo({
-          url: `/pages/dashboard/dashboard`
-        });
-      }
-    },
-
-    // Add new method to handle navigation
-    goToDashboard() {
-      this.currentView = 'dashboard'; // 将 currentView 设置为 'dashboard'
-      uni.navigateTo({
-        url: `/pages/dashboard/dashboard?personalName=${encodeURIComponent(this.personalName)}&jobId=${this.jobId}&currentView=${this.currentView}`
-      });
-    },
-    unlockCard(cardType) {
-      if (!this.cards[cardType].unlocked) {
-        this.cards[cardType].unlocked = true;
-        if (cardType === 'opinion') {
-          // Here you would typically make an API call to get the description
-          // For demonstration, we'll use a placeholder value
-          this.cards[cardType].description = "这是TA对你的看法。";
-        } else {
-          // Handle other card types as before
-          this.cards[cardType].score = Math.floor(Math.random() * 100);
-          this.cards[cardType].description = "这是解锁后的描述文字。";
-        }
-      }
-    },
-    async chooseImage() {
-      try {
-        const res = await uni.chooseImage({
-          count: 1,
-          sizeType: ['original', 'compressed'],
-          sourceType: ['album', 'camera']
-        });
-        const tempFilePaths = res.tempFilePaths;
-        console.log(tempFilePaths);
-        await this.uploadImage(tempFilePaths[0]);
-      } catch (error) {
-        console.error('Error choosing image:', error);
-      }
-    },
-
-    async uploadImage(filePath) {
-      try {
-        const result = await apiService.uploadImage(filePath);
-        console.log('Upload result:', result);
-        // 处理上传成功后的逻辑
-      } catch (error) {
-        console.error('Upload failed:', error);
-        // 处理上传失败的情况
-      }
-    },
-
     touchStart(event) {
       this.startX = event.touches[0].clientX;
     },
     touchMove(event) {
       const currentX = event.touches[0].clientX;
       const diff = currentX - this.startX;
-      
+
       if (diff < 0 && diff > -60) {
         this.swipeOffset = diff;
         this.deleteOpacity = Math.abs(diff) / 60;
@@ -397,6 +224,81 @@ export default {
         this.deleteOpacity = 0;
       }
     },
+    saveQRCode() {
+      this.saveqrcodeLoding = true;
+      const qrCodeImage = this.$refs.qrCodeImage;
+      if (!qrCodeImage) {
+        console.error('QR code image not found');
+        return;
+      }
+      const sysInfo = uni.getSystemInfoSync();
+      if (sysInfo.platform === 'ios' || sysInfo.platform === 'android') {
+        uni.saveImageToPhotosAlbum({
+          filePath: '/static/eqoach-code.png',
+          success: () => {
+            uni.showToast({
+              title: '图片保存成功',
+              icon: 'success'
+            });
+          },
+          fail: (err) => {
+            console.log('保存图片失败：', err);
+            uni.showToast({
+              title: '图片保存失败',
+              icon: 'none'
+            });
+          }
+        });
+      } else {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.src = qrCodeImage.src;
+
+        img.onload = () => {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          context.drawImage(img, 0, 0);
+
+          canvas.toBlob((blob) => {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'qrcode.png';
+            link.click();
+
+            wx.saveImageToPhotosAlbum({
+              filePath: link.href,
+              success: () => {
+                uni.showToast({
+                  title: '图片保存成功',
+                  icon: 'success'
+                });
+              },
+              fail: (err) => {
+                uni.showToast({
+                  title: '图片保存失败',
+                  icon: 'none'
+                });
+              }
+            });
+
+          }, 'image/png');
+        };
+
+        img.onerror = (error) => {
+          console.error('Error loading QR code image:', error);
+        };
+      }
+      this.saveqrcodeLoding = false;
+    },
+    logOutClick() {
+      console.log("logOutClick");
+      this.logoutShow = false;
+      uni.navigateTo({
+        url: `/`
+      });
+    }
   },
   mounted() {
     // this.startProgress(); // 开始进度条
@@ -415,12 +317,6 @@ export default {
   }
 };
 </script>
-
-<style>
-.uni-scroll-view-content {
-  height: auto;
-}
-</style>
 <style scoped>
 .container {
   position: absolute;
@@ -445,7 +341,7 @@ export default {
   flex-direction: column;
   /* align-items: left; */
   width: 654rpx;
-  height: 100%;
+  /* height: 100%; */
   margin: 0 auto;
   /* margin-left: 20px; */
   padding-top: 88rpx;
@@ -596,6 +492,7 @@ export default {
   overflow: hidden;
   margin-top: 32rpx;
 }
+
 .eqoach-bot {
   display: flex;
   /* height: 128rpx; */
@@ -606,31 +503,37 @@ export default {
   margin-top: 32rpx;
   padding: 32rpx 24rpx;
 }
+
 .eqoach-bot-icon {
   width: 88rpx;
   height: 88rpx;
 }
+
 .eqoach-bot-center {
   width: 368rpx;
   display: block;
   padding-left: 8rpx;
 }
+
 .eqoach-bot-add {
   display: flex;
   width: 226rpx;
   justify-content: right;
   /* margin-left: 140rpx; */
 }
+
 .eqoach-bot-title {
   font-size: 30rpx;
   font-weight: 600;
   color: #E8FFC4;
 }
+
 .eqoach-bot-desc {
   font-size: 24rpx;
   font-weight: 400;
   color: #FFFFFF;
 }
+
 .eqoach-bot-add-btn {
   display: flex;
   align-items: center;
@@ -645,9 +548,11 @@ export default {
   font-weight: 600;
   color: #9EE44D;
 }
+
 .eqoach-bot {
   transition: transform 0.3s ease;
 }
+
 .delete-btn {
   position: absolute;
   top: 0;
@@ -669,10 +574,12 @@ export default {
   font-size: 14px;
   transition: opacity 0.3s ease;
 }
+
 .delete-btn-icon {
   width: 40rpx;
   height: 40rpx;
 }
+
 .log-out {
   width: 100%;
   height: 80rpx;
@@ -680,8 +587,196 @@ export default {
   justify-content: center;
   align-items: center;
   position: relative;
-  margin-top: 200rpx;
+  margin-top: 180rpx;
   /* margin-bottom: 250rpx; */
   color: #9EE44D;
+}
+
+
+/* 二维码弹框 */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1000;
+  padding: 10rpx;
+}
+
+.popup-content {
+  width: 580rpx;
+  /* Set the width to 90% */
+  /* height: 810rpx; */
+  background-color: #373742;
+  border-radius: 32rpx;
+  padding: 56rpx 32rpx;
+  display: flex;
+  /* justify-content: center; */
+  align-items: left;
+  flex-direction: column;
+}
+
+.logout-popup-content {
+  width: 580rpx;
+  /* Set the width to 90% */
+  /* height: 810rpx; */
+  background-color: #373742;
+  border-radius: 32rpx;
+  /* padding: 56rpx 32rpx; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.logout-header {
+  display: flex;
+  width: 100%;
+  height: 160rpx;
+  align-items: center;
+  justify-content: center;
+  color: #D7D8E0;
+  font-size: 44rpx;
+  font-weight: 600;
+}
+
+.logout-center {
+  display: flex;
+  width: 100%;
+  height: 88rpx;
+  align-items: center;
+  justify-content: center;
+  color: #FF6262;
+  font-size: 30rpx;
+  font-weight: 600;
+  border-top: 1px solid #454552;
+}
+
+.logout-button {
+  display: flex;
+  width: 100%;
+  height: 88rpx;
+  align-items: center;
+  justify-content: center;
+  color: #D7D8E0;
+  font-size: 30rpx;
+  font-weight: 600;
+  border-top: 1px solid #454552;
+}
+
+.eqoach-center {
+  margin-top: 36rpx;
+  display: block;
+  width: 590rpx;
+  /* height: 508rpx; */
+  text-align: center;
+}
+
+.eqoach-center-text {
+  font-size: 44rpx;
+  font-weight: 6000;
+  color: #FFFFFF;
+}
+
+.eqoach-center-code-image {
+  width: 360rpx;
+  height: 360rpx;
+  margin-top: 32rpx;
+}
+
+.eqoach-center-line {
+  display: block;
+  text-align: left;
+  width: 430rpx;
+  /* height: 96rpx; */
+  margin: 48rpx auto;
+  color: #FFFFFF;
+  line-height: 60rpx;
+}
+
+.save-code-one,
+.save-code-two {
+  display: flex;
+  align-items: center;
+  font-size: 30rpx;
+  gap: 14rpx;
+}
+
+.save-one-two {
+  border-left: 2rpx solid #FFFFFF;
+  height: 28px;
+}
+
+.save-code-num {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #454552;
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 99px;
+  text-align: center;
+  font-size: 26rpx;
+  font-weight: 400;
+}
+
+.card-header {
+  display: block;
+}
+
+.title {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #8C5225;
+}
+
+.card-close-image {
+  position: absolute;
+  right: 0;
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.top {
+  display: block;
+  height: 176rpx;
+  text-align: center;
+}
+
+text {
+  font-size: 34rpx;
+  font-weight: 500;
+  color: #252529;
+}
+
+.card-button {
+  display: flex;
+  width: 100%;
+  margin-top: 48rpx;
+}
+
+.card-button button {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  background: linear-gradient(101.13deg, #EDFB8B 13.84%, #9EE44D 84.78%);
+  border-radius: 400rpx;
+  font-size: 30rpx;
+  color: #2F2F38;
+}
+
+.card-button button[disabled] {
+  opacity: 50%;
 }
 </style>
