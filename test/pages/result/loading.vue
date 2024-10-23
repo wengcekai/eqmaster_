@@ -20,6 +20,8 @@
 </template>
 
 <script>
+	import apiService from '@/services/api-service';
+
 	export default {
 		data() {
 			return {
@@ -148,101 +150,71 @@
 				console.log(percentage1)
 				return (percentage1 / 100) * progressBarWidth;
 			},
-			getHomepageData() {
-				// 不再需要 const that = this;
-				uni.request({
-					url: `https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/get_homepage/${this.userId}`,
-					method: 'POST',
-					success: (response) => {
-						let result = {}
-						if (response.statusCode === 200) {
-							result = response.data;
-							console.log('Homepage data received:', result);
-						} else {
-							let mock = {
-								"response": {
-									"personal_info": {
-										"name": "John Doe",
-										"tag": "Engineer",
-										"tag_description": "A detail-oriented engineer with a passion for problem-solving.",
-										"job_id": "12345"
-									},
-									"eq_scores": {
-										"score": 46,
-										"dimension1_score": 54,
-										"dimension1_detail": "Shows excellent emotional regulation in stressful situations.",
-										"dimension2_score": 26,
-										"dimension2_detail": "Displays strong empathy towards others' feelings.",
-										"dimension3_score": 42,
-										"dimension3_detail": "Able to make decisions without letting emotions interfere.",
-										"dimension4_score": 50,
-										"dimension4_detail": "Communicates emotions clearly and effectively.",
-										"dimension5_score": 44,
-										"dimension5_detail": "Manages interpersonal relationships with ease.",
-										"summary": "Overall, emotionally intelligent and adaptive.",
-										"detail": "John demonstrates balanced emotional intelligence across all areas.",
-										"overall_suggestion": "Continue to enhance emotional regulation and interpersonal communication.",
-										"detail_summary": "A well-rounded emotional intelligence profile with strong interpersonal skills."
-									},
-								}
-							};
-							result = response.data;
+			async getHomepageData() {
+				try {
+					const result = await apiService.getHomepageData(this.userId);
+					console.log('Homepage data received:', result);
 
-							console.error('Failed to fetch homepage data:', response.statusCode);
-						}
+					// Clear intervals and timeouts
+					this.clearIntervals();
 
-						if (this.interval) {
-							clearInterval(this.interval);
-							this.interval = null;
-						}
-						if (this.progressInterval) {
-							clearInterval(this.progressInterval);
-							this.progressInterval = null; // 修正了这里的错误
-						}
-						if (this.timeoutInterval) {
-							clearInterval(this.timeoutInterval);
-							this.timeoutInterval = null;
-						}
+					// Prepare navigation URL
+					const nextPageUrl = this.prepareNextPageUrl();
 
-						// 在构建 nextPageUrl 之前添加日志
-						console.log('Preparing to navigate with data:', {
-							jobId: this.jobId,
-							userId: this.userId,
-							username: this.username,
-							gender: this.gender,
-							birthday: this.birthday,
-							selectedOptions: this.selectedOptions,
-							num: this.num
-						});
+					// Store response in local storage
+					uni.setStorage({
+						key: 'response',
+						data: result
+					});
 
-						const nextPageUrl =
-							`/pages/result/result?jobId=${this.jobId}&userId=${this.userId}&username=${encodeURIComponent(this.username)}&gender=${this.gender}&birthday=${encodeURIComponent(JSON.stringify(this.birthday))}&options=${encodeURIComponent(JSON.stringify(this.selectedOptions))}&num=${this.num}`;
+					// Navigate to next page
+					this.navigateToNextPage(nextPageUrl);
+				} catch (error) {
+					console.error('Error fetching homepage data:', error);
+					// Handle error (e.g., show error message to user)
+				}
+			},
+			clearIntervals() {
+				if (this.interval) {
+					clearInterval(this.interval);
+					this.interval = null;
+				}
+				if (this.progressInterval) {
+					clearInterval(this.progressInterval);
+					this.progressInterval = null;
+				}
+				if (this.timeoutInterval) {
+					clearInterval(this.timeoutInterval);
+					this.timeoutInterval = null;
+				}
+			},
+			prepareNextPageUrl() {
+				console.log('Preparing to navigate with data:', {
+					jobId: this.jobId,
+					userId: this.userId,
+					username: this.username,
+					gender: this.gender,
+					birthday: this.birthday,
+					selectedOptions: this.selectedOptions,
+					num: this.num
+				});
 
-						// 在构建 URL 后再添加一个日志
-						console.log('Navigating to URL:', nextPageUrl);
-
-						uni.setStorage({
-							key: 'response',
-							data: result
-						});
-
-						console.log("begin to navigate");
-						uni.navigateTo({
-							url: nextPageUrl,
-							success: () => {
-								console.log('Navigation initiated successfully');
-							},
-							fail: (err) => {
-								console.error('Navigation failed:', err);
-								uni.showToast({
-									title: '页面跳转失败',
-									icon: 'none'
-								});
-							}
-						});
+				return `/pages/result/result?jobId=${this.jobId}&userId=${this.userId}&username=${encodeURIComponent(this.username)}&gender=${this.gender}&birthday=${encodeURIComponent(JSON.stringify(this.birthday))}&options=${encodeURIComponent(JSON.stringify(this.selectedOptions))}&num=${this.num}`;
+			},
+			navigateToNextPage(url) {
+				console.log('Navigating to URL:', url);
+				console.log("begin to navigate");
+				uni.navigateTo({
+					url: url,
+					success: () => {
+						console.log('Navigation initiated successfully');
 					},
-					fail: (error) => {
-						console.error('Error fetching homepage data:', error);
+					fail: (err) => {
+						console.error('Navigation failed:', err);
+						uni.showToast({
+							title: '页面跳转失败',
+							icon: 'none'
+						});
 					}
 				});
 			},
@@ -419,3 +391,4 @@
 		color: #9EE44D;
 	}
 </style>
+

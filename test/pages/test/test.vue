@@ -137,6 +137,7 @@
 				isFirstScene: true, // Add this new property
 				scenarioId: 1, // Add this new property
 				isLoading: false,
+				chatHistory: [], // Keep this new property
 			};
 		},
 		onLoad(option) {
@@ -253,7 +254,7 @@
 				} else {
 					console.warn("Background information not found in scenario data");
 					this.description = "无法获取背景信息";
-					this.background = "请点击下方箭头继续";
+					this.background = "���点击下方箭头继续";
 					this.scenarioData = {
 						options: [],
 					};
@@ -397,10 +398,20 @@
 					return;
 				}
 
+				// Add the current scenario and selected option to chat history
+				this.chatHistory.push({
+					background: this.background,
+					description: this.description,
+					selectedOption: this.scenarioData.options[this.selectedOptionIndex].text
+				});
+
 				console.log("Sending data to backend:", {
 					choice: this.num,
 					job_id: this.jobId,
 				});
+
+				// Log the chat history before navigating
+				console.log("Chat History:", this.chatHistory);
 
 				apiService
 					.chooseScenario(this.num, this.jobId)
@@ -475,80 +486,6 @@
 <style scoped>
 	@import url("/pages/test/common.css");
 
-	.text-box {
-		position: absolute;
-		bottom: 80rpx;
-		left: 40rpx;
-		right: 40rpx;
-		background-color: rgba(55, 55, 66, 0.8);
-		border-radius: 50rpx;
-		padding: 50rpx;
-		z-index: 1;
-		min-height: 100rpx;
-		max-height: 400rpx;
-		overflow: auto;
-		border: 6rpx solid #f2bc74;
-	}
-
-	.text-content {
-		color: white;
-		font-size: 28rpx;
-		line-height: 1.4;
-	}
-
-	.options-container {
-		position: absolute;
-		bottom: 50rpx;
-		left: 0;
-		right: 0;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 20rpx;
-	}
-
-	.text-box.selected {
-		background-color: #f6ecc9;
-	}
-
-	.text-box1 {
-		width: 80%;
-		background-color: rgba(55, 55, 66, 0.8);
-		border-radius: 50px;
-		padding: 15px 25px;
-		min-height: 80rpx;
-		max-height: 160rpx;
-		transition: background-color 0.3s;
-		display: flex;
-		align-items: center;
-	}
-
-	.text-content1 {
-		color: white;
-		font-size: 14px;
-		line-height: 1.4;
-	}
-
-	.text-box1.selected .text-content {
-		color: #373742 !important;
-	}
-
-	.text-box1.selected {
-		background-color: #f6ecc9;
-	}
-
-	.next-button-container {
-		width: 100%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		margin: 20rpx;
-	}
-
-	.disabled {
-		opacity: 0.5;
-		pointer-events: none;
-	}
 
 	/* ... 其他样式保持不变 ... */
 </style>
