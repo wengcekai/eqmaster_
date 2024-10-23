@@ -39,9 +39,12 @@ function sendRequest(person_id, course_id, chat_content, outerBody, url = BASE_U
 
 		// 将 dialog 转为 JSON 字符串格式
 		assistantDialog.content[0].text = JSON.stringify(assistantDialog.content[0].text, null, 4);
+		console.log("assistant dialog", assistantDialog);
 
 		// 将组合好的 assistant 对象插入到结果数组中
 		formattedChatContent.unshift(assistantDialog);
+
+		console.log("formatted chat content: ", formattedChatContent);
 
 		console.log(formattedChatContent);
 		
@@ -131,6 +134,7 @@ export async function continueChat(chatHistory) {
 	});
 	const result = await sendRequest(chatHistory.person_id, chatHistory.course_id, chatHistory);
 	chatHistory.pop();
+	console.log("after pop:", chatHistory);
 	return result;
 }
 
@@ -158,6 +162,7 @@ export async function checkShowToolTips(personId) {
 		});
 	});
 }
+
 // 导出evalBattlefield函数，发送到 /eval/battlefield
 // export async function evalBattlefield(chatHistory) {
 // 	return await sendRequest(chatHistory.person_id, chatHistory.course_id, chatHistory, EVAL_URL);

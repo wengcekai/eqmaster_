@@ -14,14 +14,14 @@
 				<view class="background-curve">
 					<view class="animal-box">
 						<view class="animal-name" :style="{ backgroundImage: `url(${illustrationSrc.animal_name_bg})` }">
-							Monkey
+							{{ illustrationSrc.animal_name }}
 						</view>
 						<image class="animal-icon" :src="illustrationSrc.animal_icon"></image>
 						<view class="animal-score">
 							<view class="animal-score-title">
 								EQ points
 							</view>
-							<view class="animal-score-desc" :style="{ backgroundImage: `url(${illustrationSrc.animal_score_bg})` }">
+							<view class="animal-score-desc" :style="{ backgroundImage: `url(/static/resulten/animal-name-3.png)` }">
 								{{homepageData.response.eq_scores.score}}/100
 							</view>
 						</view>
@@ -29,8 +29,8 @@
 							<view class="card-text-container">
 								<!-- <text class="card-title">{{ homepageData.response.eq_scores.summary }}</text>
 								<text class="card-description">{{ homepageData.response.eq_scores.overall_suggestion }}</text> -->
-								<text class="card-title">Emotion regulation</text>
-								<text class="card-description">You are a reckless hedgehog You are a reckless hedgehog</text>
+								<text class="card-title">{{ illustrationSrc.weakness }}</text>
+								<text class="card-description">{{ illustrationSrc.characteristics }}</text>
 							</view>
 						</view>
 					</view>
@@ -43,19 +43,90 @@
 							<image class="overview-content-icon" src="/static/resulten/pattern.svg"></image>
 							<view class="overview-content-item">
 								<view class="overview-content-title">
-									Pros and cons prompted wording Pros and cons prompted wording
+									{{ homepageData.response.eq_scores.detail_summary }}
+								</view>
+								<view class="overview-content-detail">
+									{{ homepageData.response.eq_scores.detail }}
 								</view>
 							</view>
-							<view class="speed-right" v-for="item in 5">
+							<view class="speed-right">
 								<view class="speed-title">
-									Self-awareness
+									self awareness
 								</view>
 								<view class="">
 									<view class="blood-container">
 										<view class="health-bar-container">
 											<view class="health-bar-line"></view>
 											<view class="health-bar-background">
-												<view class="health-bar-foreground" :style="healthBarStyle">
+												<view class="health-bar-foreground" :style="progressWidth(homepageData.response.eq_scores.dimension1_score, 1)">
+												</view>
+											</view>
+										</view>
+									</view>
+								</view>
+							</view>
+
+							<view class="speed-right">
+								<view class="speed-title">
+									self regulation
+								</view>
+								<view class="">
+									<view class="blood-container">
+										<view class="health-bar-container">
+											<view class="health-bar-line"></view>
+											<view class="health-bar-background">
+												<view class="health-bar-foreground" :style="progressWidth(homepageData.response.eq_scores.dimension2_score)">
+												</view>
+											</view>
+										</view>
+									</view>
+								</view>
+							</view>
+
+							<view class="speed-right">
+								<view class="speed-title">
+									social skill
+								</view>
+								<view class="">
+									<view class="blood-container">
+										<view class="health-bar-container">
+											<view class="health-bar-line"></view>
+											<view class="health-bar-background">
+												<view class="health-bar-foreground" :style="progressWidth(homepageData.response.eq_scores.dimension3_score)">
+												</view>
+											</view>
+										</view>
+									</view>
+								</view>
+							</view>
+
+							<view class="speed-right">
+								<view class="speed-title">
+									empathy
+								</view>
+								<view class="">
+									<view class="blood-container">
+										<view class="health-bar-container">
+											<view class="health-bar-line"></view>
+											<view class="health-bar-background">
+												<view class="health-bar-foreground" :style="progressWidth(homepageData.response.eq_scores.dimension4_score)">
+												</view>
+											</view>
+										</view>
+									</view>
+								</view>
+							</view>
+
+							<view class="speed-right">
+								<view class="speed-title">
+									motivation
+								</view>
+								<view class="">
+									<view class="blood-container">
+										<view class="health-bar-container">
+											<view class="health-bar-line"></view>
+											<view class="health-bar-background">
+												<view class="health-bar-foreground" :style="progressWidth(homepageData.response.eq_scores.dimension5_score)">
 												</view>
 											</view>
 										</view>
@@ -73,10 +144,10 @@
 							<view class="improved-content-item">
 								<view class="improved-content-title">
 									<image class="improved-show-icon" src="/static/resulten/awareness1.svg"></image>
-									Self perception
+									{{ homepageData.response.eq_scores.summary }}
 								</view>
 								<view class="improved-content-description">
-									In the workplace, even the slightest setback can disturb your thoughts. You need to be more cautious, or you might easily 'burn' yourself and your colleagues.
+									{{ homepageData.response.eq_scores.overall_suggestion }}
 								</view>
 							</view>
 						</view>
@@ -89,7 +160,7 @@
 									Self perception
 								</view>
 								<view class="improved-content-description">
-									In the workplace, even the slightest setback can disturb your thoughts. You need to be more cautious, or you might easily 'burn' yourself and your colleagues.
+									{{ homepageData.response.eq_scores.dimension1_detail }}
 								</view>
 							</view>
 						</view>
@@ -101,7 +172,7 @@
 									Self regulation
 								</view>
 								<view class="improved-content-description">
-									In the workplace, even the slightest setback can disturb your thoughts. You need to be more cautious, or you might easily 'burn' yourself and your colleagues.
+									{{ homepageData.response.eq_scores.dimension2_detail }}
 								</view>
 							</view>
 						</view>
@@ -113,7 +184,7 @@
 									Empathy
 								</view>
 								<view class="improved-content-description">
-									In the workplace, even the slightest setback can disturb your thoughts. You need to be more cautious, or you might easily 'burn' yourself and your colleagues.
+									{{ homepageData.response.eq_scores.dimension3_detail }}
 								</view>
 							</view>
 						</view>
@@ -125,7 +196,7 @@
 									Social Skill
 								</view>
 								<view class="improved-content-description">
-									In the workplace, even the slightest setback can disturb your thoughts. You need to be more cautious, or you might easily 'burn' yourself and your colleagues.
+									{{ homepageData.response.eq_scores.dimension4_detail }}
 								</view>
 							</view>
 						</view>
@@ -137,7 +208,7 @@
 									Motivation
 								</view>
 								<view class="improved-content-description">
-									In the workplace, even the slightest setback can disturb your thoughts. You need to be more cautious, or you might easily 'burn' yourself and your colleagues.
+									{{ homepageData.response.eq_scores.dimension5_detail }}
 								</view>
 							</view>
 						</view>
@@ -211,41 +282,62 @@
 					.dimension4_score, scores.dimension5_score);
 				
 				let returnObj = {
+					animal_name: 'Capypara',
 					animal_icon: '/static/resulten/monkey.png',
 					animal_name_bg: '/static/resulten/animal-name-1.png',
-					animal_score_bg: '/static/resulten/animal-name-3.png',
+					weakness: 'Weakness',
+					characteristics: '',
 				}
 
 				// 根据最低分选择图片
-				// if (minScore === scores.dimension1_score) {
-				// 	console.log("illustration src:", '1')
-				// 	returnObj.animal_name_bg = 'static/resulten/animal-name-161.png';
-				// 	returnObj.animal_icon = 'static/resulten/monkey.png';
-				// 	// return '/static/aniimals/kapibala.png';
-				// } else if (minScore === scores.dimension2_score) {
-				// 	console.log("illustration src:", '2')
-				// 	// return '/static/aniimals/ciwei.png';
-				// } else if (minScore === scores.dimension3_score) {
-				// 	console.log("illustration src:", '3')
-				// 	// return '/static/aniimals/lang.png';
-				// } else if (minScore === scores.dimension4_score) {
-				// 	console.log("illustration src:", '4')
-				// 	return '/static/aniimals/tuoniao.png';
-				// // } else if (minScore === scores.dimension5_score) {
-				// 	console.log("illustration src:", '5')
-				// 	// return '/static/aniimals/houzi.png';
-				// }
+				if (minScore === scores.dimension1_score) { //Capypara 水豚
+					console.log("illustration src:", '1')
+					returnObj = {
+						animal_name: 'Capypara',
+						animal_icon: '/static/resulten/capybara.png',
+						animal_name_bg: '/static/resulten/animal-name-1.png',
+						weakness: 'Motivation',
+						characteristics: 'The capybara reflects a laid-back nature, symbolizing challenges in motivation.',
+					}
+					// return '/static/aniimals/kapibala.png';
+				} else if (minScore === scores.dimension2_score) {//hedgehog 刺猬
+					console.log("illustration src:", '2')
+					returnObj = {
+						animal_name: 'hedgehog',
+						animal_icon: '/static/resulten/hedgehog.png',
+						animal_name_bg: '/static/resulten/animal-name-1.png',
+						weakness: 'Empathy',
+						characteristics: 'The hedgehog represents self-protection, symbolizing difficulty perceiving emotions.',
+					}
+				} else if (minScore === scores.dimension3_score) {//Coyote 狼
+					console.log("illustration src:", '3')
+					returnObj = {
+						animal_name: 'Coyote',
+						animal_icon: '/static/resulten/coyote.png',
+						animal_name_bg: '/static/resulten/animal-name-1.png',
+						weakness: 'Social Skill',
+						characteristics: 'The coyote reflects independence, symbolizing challenges in social connections.',
+					}
+				} else if (minScore === scores.dimension4_score) {//Ostrich 鸵鸟
+					console.log("illustration src:", '4')
+					returnObj = {
+						animal_name: 'Ostrich',
+						animal_icon: '/static/resulten/ostrich.png',
+						animal_name_bg: '/static/resulten/animal-name-1.png',
+						weakness: 'Perception',
+						characteristics: 'The ostrich reflects avoidance, symbolizing difficulty recognizing emotions.',
+					}
+				} else if (minScore === scores.dimension5_score) {//Monkey 猴子
+					console.log("illustration src:", '5')
+					returnObj = {
+						animal_name: 'Monkey',
+						animal_icon: '/static/resulten/monkey.png',
+						animal_name_bg: '/static/resulten/animal-name-1.png',
+						weakness: 'Self-regulation',
+						characteristics: 'The monkey represents impulsiveness, symbolizing difficulty controlling emotions.',
+					}
+				}
 				return returnObj;
-			},
-			healthBarStyle() {
-				const percentage = 0.5 * 100;
-				const color = percentage < 50 ? '#E8FFC4' : '#EA833D';
-				const width = `${percentage}%`;
-				return {
-					width,
-					backgroundColor: color,
-					transition: 'width 0.5s ease, background-color 0.5s ease'
-				};
 			},
 		},
 		onLoad(option) {
@@ -286,11 +378,16 @@
 			console.log('option', option);
 		},
 		methods: {
-			progressWidth(value) {
-				// 计算进度条宽度百分比
-				const percentage = (value / this.maxScore) * 100;
-				// console.log('${percentage}%：', `${percentage}%`)
-				return `${percentage}%`;
+			progressWidth(value, isOne) {
+				console.log(value);
+				const percentage = value;
+				const color = isOne ? '#EA833D' : '#23A06B';
+				const width = `${percentage}%`;
+				return {
+					width,
+					backgroundColor: color,
+					transition: 'width 0.5s ease, background-color 0.5s ease'
+				};
 			},
 			circleLeftPosition(value) {
 				// 获取进度条实际宽度
@@ -443,10 +540,10 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		top: 258rpx;
-		left: 404rpx;
-		width: 238rpx;
-		height: 268rpx;
+		top: 220rpx;
+		left: 400rpx;
+		width: 296rpx;
+		height: 300rpx;
 	}
 	.animal-score {
 		display: block;
@@ -474,7 +571,7 @@
 		background-position: center;
 		background-repeat: no-repeat;
 		font-family: 'Poppins';
-		font-size: 40rpx;
+		font-size: 36rpx;
 		font-family: 'Poppins Italic', sans-serif;
 		color: #FDEDC8;
 		font-weight: 600;
@@ -522,14 +619,15 @@
 	}
 
 	.card-description {
-		font-size: 30rpx;
+		font-size: 28rpx;
 		font-weight: 400;
 		color: #FFFFFF;
 		margin-top: 16rpx;
-		/* line-height: 1.5;
-		margin-top: 10rpx;
-		text-align: left;
-		z-index: 10; */
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
 	}
 
 	.overview-container {
@@ -571,11 +669,18 @@
 	}
 	.overview-content-item {
 		padding: 60rpx 32rpx 32rpx 32rpx;
+		display: block;
 	}
 	.overview-content-title {
 		font-size: 34rpx;
 		color: #2F2F38;
 		font-weight: 600;
+	}
+	.overview-content-detail {
+		margin-top: 16rpx;
+		font-size: 30rpx;
+		color: #373742;
+		font-weight: 400;
 	}
 
 	.speed-right {
@@ -669,17 +774,20 @@
 	}
 	.improved-content {
 		width: 100%;
-		height: 184px;
+		/* height: 184px; */
 		gap: 0px;
 		border-radius: 24rpx;
 		opacity: 0px;
 		background: linear-gradient(90deg, #2C6E5F 0.52%, #50856E 99.36%);
 	}
 	.improved-content-item {
-		padding: 60rpx 32rpx 32rpx 32rpx;
+		padding: 60rpx 32rpx 60rpx 32rpx;
 	}
 	.improved-content-title {
-		font-size: 34rpx;
+		display: flex;
+		align-items: center;
+		gap: 12rpx;
+		font-size: 30rpx;
 		color: #FCDDB2;
 		font-weight: 600;
 	}

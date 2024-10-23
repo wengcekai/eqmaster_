@@ -126,11 +126,9 @@ export default {
         // jobId: this.homepageData.response.personal_info.job_id
       });
       uni.navigateTo({
-        url: `/pages/dashboard/dashboard?userId=${
-          this.userId
-        }&username=${encodeURIComponent(this.username)}&jobId=${
-          this.homepageData.response.personal_info.job_id
-        }`,
+        url: `/pages/dashboard/dashboard?userId=${this.userId}`,
+
+        // url: `/pages/dashboard/dashboard?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.homepageData.response.personal_info.job_id}`
       });
     },
 
@@ -166,8 +164,7 @@ export default {
           .sort() // 如果你想按照 comment1, comment2 的顺序排列
           .map((key) => dbCourse[key]); // 提取这些键的值						;
         this.comments = list;
-
-        this.suggestion = res.data.eq_tips.join("\n");
+        // this.suggestion = res.data.eq_tips.join('\n');
       },
     });
     // 读取 NPC health data

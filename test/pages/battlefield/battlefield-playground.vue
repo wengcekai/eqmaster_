@@ -68,14 +68,24 @@
 			<text class="cancel-text">松开发送，上滑取消</text>
 		</view>
 
+
 		<view v-if="state==='userTalk' && showToolTips && isTooltipVisible" class="tooltipOverlay" @click="hideTooltip">
 		</view>
 		<!-- tooltip -->
 		<!-- tooltip for record -->
+		<!-- #ifndef H5 -->
 		<view v-if="state === 'userTalk' && showToolTips && isTooltipVisible && showRecordTooltip"
 			class="recordTooltip">
 			长按开始录音
 		</view>
+		<!-- #endif -->
+
+		<!-- #ifdef H5 -->
+		<view v-if="state === 'userTalk' && showToolTips && isTooltipVisible && showRecordTooltip"
+			class="keyboardToolTip">
+			输入您的回复
+		</view>
+		<!-- #endif -->
 		<!-- tooltip for hint -->
 		<view v-if="state === 'userTalk' && showToolTips && isTooltipVisible && showHintTooltip" class="hintTooltip">
 			需要帮助吗？选择锦囊卡片
@@ -84,12 +94,15 @@
 			<view class="action-item" v-if="!isRecording" @click="handleClickInput()">
 				<image class="action-icon" src="/static/battlefield/keyboard.png"></image>
 			</view>
+
+			<!-- #ifndef H5 -->
 			<view class="middle-container">
 				<view class="action-item action-item-middle" @touchstart="handleClickRecording"
 					@touchend="handleRecordingDone" @touchmove="handleTouchMove" @click="hideTooltip">
 					<image class="action-icon action-icon-middle" src="/static/battlefield/microphone.png"></image>
 				</view>
 			</view>
+			<!-- #endif -->
 			<view class="action-item" v-if="!isRecording">
 				<image class="action-icon-hint" src="/static/battlefield/streamline.png" @click="clickHintButton">
 				</image>
@@ -154,6 +167,7 @@
 	} from '../../scripts/battlefield-chat';
 	import Task from '../../models/Task';
 	import TaskList from '../../models/TaskList';
+	import state from '../../state';
 	export default {
 		components: {
 			RewardBar,
@@ -169,6 +183,7 @@
 		},
 		data() {
 			return {
+				userId: state.userId,
 				judgeTitle: '',
 				judgeContent: '',
 				userJudgeContent: '',
@@ -191,6 +206,7 @@
 					role: '领导',
 					content: '唉，我最近有点上火，医生嘱咐我要清淡饮食。这些重口味的菜我可真不敢吃了，不然怕是吃完嘴上火气就更旺了。',
 				}, ],
+				allHistory: [],
 				showInput: false,
 				focusInput: false,
 				npcs: [{
@@ -247,10 +263,12 @@
 				scrollIntoViewId: '',
 				isCompleteTask: false,
 				currentTask: null,
+
 			};
 		},
 		created() {
 			console.log("created")
+			console.log("state userid", state.userId)
 			// 动态添加任务到 taskList
 			this.taskList.addTask(new Task(0, '一句话让同事们赞不绝口', async (judgeResult) => {
 				const allPositive = judgeResult.moods.every((item) => parseInt(item.mood, 10) > 0);
@@ -360,17 +378,25 @@
 				console.log(("change tooltip visible into:", this.isTooltipVisible));
 			},
 			async gotoNextRound() {
+				console.log("go next round")
 				if (!this.isGoodReply) {
 					this.retry();
-					this.answerNotGoodNum = 0;
 					return;
 				}
+				// this.answerNotGoodNum = 0;
+
 				if (this.task1Finished) {
 					await this.Pass();
 				}
 				const nextRound = await continueChat(this.chattingHistory);
 				console.log('next round data', nextRound);
+				nextRound.dialog = nextRound.dialog.map(item => ({
+					role: item.role,
+					content: item.content ?? item.words
+				}));
+				console.log("current chatting history:", this.chattingHistory);
 				this.chattingHistory = nextRound.dialog;
+				this.allHistory.push(nextRound.dialog);
 				console.log('after concat, chatting history:', this.chattingHistory);
 				// let someoneTalked = false;
 				this.displayedNpcChatIndex = 0;
@@ -502,7 +528,7 @@
 				const gemCount = this.calculateStars();; // 假设 this.gemCount 是当前的宝石数量
 				const diamonds = this.diamonds; // 假设 this.diamonds 是当前的钻石数量
 
-				const evaluationResult = await evalBattlefield(this.chattingHistory, isPass, gemCount, diamonds);
+				const evaluationResult = await evalBattlefield(this.allHistory, isPass, gemCount, diamonds);
 				console.log('evaluation result:', evaluationResult);
 				// const evaluationResult = await evalBattlefield(this.chattingHistory);
 				// console.log('evaluation result:', evaluationResult);
@@ -571,6 +597,9 @@
 			},
 
 			initRecorderManager() {
+				if (!recorderManager) {
+					return;
+				}
 				recorderManager.onStart(() => {
 					console.log('Recorder start');
 				});
@@ -645,9 +674,10 @@
 						content: this.inputContent,
 						shouldAnimate: false
 					};
+					console.log('输入结果:', newMessage);
 					this.chattingHistory.push(newMessage);
 					// console.log('输入的信息：',newMessage);
-					// console.log('分析前的输入：',this.chattingHistory);
+					console.log('分析前的输入：',this.chattingHistory);
 					this.$nextTick(() => {
 						// Force a repaint to trigger the animation
 						void this.$el.offsetWidth;
@@ -772,8 +802,6 @@
 
 
 						this.updateScrollIntoView();
-						
-						
 
 
 						// 遍历 judgeResult.moods 并根据角色调整 this.mood 的值
@@ -821,11 +849,13 @@
 			},
 			async checkBossComplimentTask1(judgeResult) {
 				if (judgeResult) {
+					console.log("judgeResult111:", judgeResult);
 					const totalScore = judgeResult.moods.reduce((sum, item) => sum + parseInt(item.mood, 10), 0);
 
 					if (totalScore > 0) {
 						this.isGoodReply = true;
 						this.judgeContent = judgeResult.comments;
+						this.answerNotGoodNum = 0;
 						const allPositive = judgeResult.moods.every(item => parseInt(item.mood, 10) > 0);
 						if (allPositive) {
 							if (!this.task1Finished && !this.taskList.getTask(0).one) {
@@ -859,21 +889,32 @@
 						}
 
 					} else {
+						console.log("回答评估开始2");
 						if (this.answerNotGoodNum < 2) {
+							console.log("回答评估开始3");
+							console.log("this.answerNotGoodNum数量", this.answerNotGoodNum);
 							this.answerNotGoodNum++;
 							this.isGoodReply = true;
 							// this.state = 'userTalk';
 							// this.userJudgeContent = judgeResult.comments;
 							await this.gotoNextRound();
 						} else {
+							console.log("回答评估开始4");
 							this.isGoodReply = false;
 							this.isTooltipVisible = true;
-							this.showHintTooltip = true;
+							// this.showHintTooltip = true;
+							if (this.answerNotGoodNum === 2) {
+								this.showHintTooltip = true;
+							} else {
+								this.showHintTooltip = false;
+							}
 							console.log("tooltip for hint", this.isTooltipVisible);
 							this.judgeTitle = "还有提升空间";
 							this.isCompleteTask = false;
 							this.judgeContent = judgeResult.comments;
 							this.state = 'judgeTry';
+							this.answerNotGoodNum++;
+							// this.answerNotGoodNum = 0;
 						}
 					}
 				}
@@ -940,6 +981,7 @@
 			}
 		},
 		onLoad(option) {
+			this.allHistory = this.chattingHistory;
 			console.log("loaded", option)
 			uni.getStorage({
 				key: 'chats',
@@ -954,6 +996,11 @@
 			console.log('chatting histories,', this.chattingHistory);
 			this.jobId = option.jobId || '154ee592-287b-4675-b8bd-8f88de348476';
 			this.initRecorderManager();
+			uni.getSystemInfo({
+				success: (res) => {
+					this.systemInfo = res;
+				}
+			});
 		},
 		watch: {
 			isCanceling(newValue) {
@@ -1170,7 +1217,7 @@
 		align-items: center;
 		position: absolute;
 		bottom: -10rpx;
-		box-shadow: 0px 0px 4px 0px #90E0E7;
+		box-shadow: 0px 0px 4px 0px rgba(254, 211, 151, 1);
 		z-index: 12;
 	}
 
@@ -1179,6 +1226,18 @@
 		z-index: 12;
 		top: 83%;
 		left: 31%;
+		width: 105px;
+		padding: 10px 20px;
+		/* transform: translateX(-50%); */
+		background-color: rgba(16, 16, 16, 0.4);
+		border-radius: 10px;
+	}
+
+	.keyboardToolTip {
+		position: absolute;
+		z-index: 12;
+		top: 83%;
+		left: 10%;
 		width: 105px;
 		padding: 10px 20px;
 		/* transform: translateX(-50%); */
@@ -1218,7 +1277,7 @@
 		width: 100%;
 		height: 100%;
 		background-color: rgba(46, 46, 47, 0.75);
-		z-index: 3;
+		z-index: 11;
 	}
 
 	.recording-box {
