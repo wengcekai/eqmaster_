@@ -43,4 +43,8 @@
 	.uni-column {
 		flex-direction: column;
 	}
+	
+	body {
+		margin: 0;
+	}
 </style>

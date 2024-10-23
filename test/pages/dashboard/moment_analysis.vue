@@ -3,7 +3,7 @@
 		<view v-if="isLoading == true" class="loading">
 			<text>Loading</text>
 		</view>
-		<view v-else style="padding-top: 30rpx;padding-left: 40rpx;padding-right: 40rpx;">
+		<view v-else style="padding-top: 100rpx;padding-left: 40rpx;padding-right: 40rpx;">
 			<view class="analysis-header">
 				<image class="back" 
 					src="../../static/dashboard/left-arrow.png"

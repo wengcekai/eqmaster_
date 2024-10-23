@@ -807,7 +807,7 @@
 		flex-direction: column;
 		align-items: left;
 		padding-top: 100rpx;
-		width: 100vh;
+		width: 100%;
 		height: 100vh;
 		overflow-y: auto;
 		-webkit-overflow-scrolling: touch;
