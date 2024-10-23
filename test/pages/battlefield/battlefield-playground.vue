@@ -25,7 +25,7 @@
 			<scroll-view class="chat-history-container" scroll-y :scroll-top="scrollTop" ref="chatHistoryContainer"
 				:scroll-into-view="scrollIntoViewId">
 				<view v-for="(chat, index) in displayedMessages" :key="index" :id="'chat-item-' + index">
-					<npc-chat-box v-if="['领导', '同事A', '同事B', 'Jason', 'Sam', 'Anna'].includes(chat.role)" :key="'npc-' + index"
+					<npc-chat-box v-if="['领导', '同事A', '同事B'].includes(chat.role)" :key="'npc-' + index"
 						:avatar="getBattlefieldAvatar(chat.role)" :name="chat.role"
 						:dialog="chat.content"></npc-chat-box>
 					<view v-else-if="chat.role === 'user'"
@@ -206,6 +206,7 @@
 					role: '领导',
 					content: '唉，我最近有点上火，医生嘱咐我要清淡饮食。这些重口味的菜我可真不敢吃了，不然怕是吃完嘴上火气就更旺了。',
 				}, ],
+				allHistory: [],
 				showInput: false,
 				focusInput: false,
 				npcs: [{
@@ -392,8 +393,9 @@
 					role: item.role,
 					content: item.content ?? item.words
 				}));
-
+				console.log("current chatting history:", this.chattingHistory);
 				this.chattingHistory = nextRound.dialog;
+				this.allHistory.push(nextRound.dialog);
 				console.log('after concat, chatting history:', this.chattingHistory);
 				// let someoneTalked = false;
 				this.displayedNpcChatIndex = 0;
@@ -525,7 +527,7 @@
 				const gemCount = this.calculateStars();; // 假设 this.gemCount 是当前的宝石数量
 				const diamonds = this.diamonds; // 假设 this.diamonds 是当前的钻石数量
 
-				const evaluationResult = await evalBattlefield(this.chattingHistory, isPass, gemCount, diamonds);
+				const evaluationResult = await evalBattlefield(this.allHistory, isPass, gemCount, diamonds);
 				console.log('evaluation result:', evaluationResult);
 				// const evaluationResult = await evalBattlefield(this.chattingHistory);
 				// console.log('evaluation result:', evaluationResult);
@@ -975,6 +977,7 @@
 			}
 		},
 		onLoad(option) {
+			this.allHistory = this.chattingHistory;
 			console.log("loaded", option)
 			uni.getStorage({
 				key: 'chats',
