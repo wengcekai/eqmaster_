@@ -1,20 +1,33 @@
 <template>
 	<view class="container">
-		<view v-if="showSplash" class="splash-screen">
-			<image class="splash-image" src="/static/splash.png" mode="aspectFill"></image>
+		<view v-if="showSplash" :class="{'splash-screen': true, 'splash-screen-hidden': splashHidden}">
+			<image class="splash-image" src="/static/splashEN.png" mode="aspectFill"></image>
 		</view>
+		<!-- <view class="splashBackground"></view>
+		<view v-if="showSplash" class="splash-screen">
+
+			<view class="slogan">
+				Anyone can become EQ Master
+			</view>
+			<image class="splashImage" src="/static/onboarding/IP.png" mode="widthFix"></image>
+		</view> -->
 
 		<!-- 添加背景图片 -->
-		<image class="background-image" src="/static/landingC.jpg" mode="widthFix"></image>
+		<image class="background-image" src="/static/onboarding/landing B.png" mode="widthFix"></image>
 
 		<!-- 开始体验按钮 -->
-		<view class="button button1" @click="startQuiz">
-			<text class="button-text">开始体验</text>
+		<view class="start-button">
+			<view class="quizButton" @click="startQuiz">
+				<text class="quizText">Start the experience</text>
+			</view>
+			<view class="loginButton" @click="login">
+				<text class="login-text">Login</text>
+			</view>
 		</view>
 
-		<view class="button button2" @click="startDialogue">
+		<!-- <view class="button button2" @click="startDialogue">
 			<text class="button-text">开始对话</text>
-		</view>
+		</view> -->
 
 		<!-- <text class="login-text">登录已有账号</text> -->
 	</view>
@@ -25,7 +38,8 @@
 	export default {
 		data() {
 			return {
-				showSplash: true, // 控制闪屏显示
+				showSplash: true,
+				splashHidden: false, // 控制渐隐
 				username: '' // 用于存储从上一页接收的用户名
 			};
 		},
@@ -60,9 +74,15 @@
 			console.log('页面已挂载，showSplash:', this.showSplash);
 			// 设置闪屏持续时间（例如 3 秒）
 			setTimeout(() => {
-				console.log('隐藏闪屏');
-				this.showSplash = false;
-			}, 300);
+				console.log('开始渐隐');
+				this.splashHidden = true; // 开始渐隐动画
+
+				// 再等待 0.5 秒（与 CSS transition 时间一致）后，彻底移除
+				setTimeout(() => {
+					console.log('隐藏闪屏');
+					this.showSplash = false; // 完全隐藏
+				}, 500); // 等同于 CSS 动画的持续时间
+			}, 2000); // 闪屏持续时间
 		}
 	};
 </script>
@@ -74,7 +94,7 @@
 		background-color: #252529;
 		width: 100%;
 		height: 100vh;
-		z-index: -1;
+		z-index: 1;
 	}
 
 	/* 闪屏样式 */
@@ -85,10 +105,20 @@
 		width: 100%;
 		height: 100%;
 		z-index: 9999;
-		background-color: #ffffff;
+		opacity: 1;
+		/* 初始完全显示 */
+		transition: opacity 2s ease-out;
+		/* 渐隐动画，2 秒 */
+
+	}
+
+	.splash-screen-hidden {
+		opacity: 0;
+		/* 隐藏时的透明度 */
 	}
 
 	.splash-image {
+
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
@@ -100,10 +130,9 @@
 		z-index: 5;
 	}
 
-	.button {
-		width: 600rpx;
+	/* .button {
+		width: 654rpx;
 		height: 80rpx;
-		border: none;
 		position: absolute;
 		left: 50%;
 		transform: translateX(-50%);
@@ -111,16 +140,28 @@
 		border-color: #ffffff;
 		background-color: #ffffff;
 		z-index: 6;
+	} */
+
+	.start-button {
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		top: 68vh;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		z-index: 6;
 	}
 
-	.button1 {
+	.quizButton {
 		background-color: #9EE44D;
-		border-radius: 45rpx;
+		width: 654rpx;
+		height: 80rpx;
+		border-radius: 64rpx;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		bottom: 265rpx;
-		transform: translateX(-50%);
+		margin-bottom: 16rpx;
 	}
 
 	.button2 {
@@ -133,19 +174,25 @@
 		transform: translateX(-50%);
 	}
 
-	.login-text {
-		color: #9EE44D;
-		font-size: 32rpx;
-		text-decoration: underline;
-		position: absolute;
-		bottom: 190rpx;
-		left: 50%;
-		transform: translateX(-50%);
+	.button3 {
+		background-color: #fff;
 	}
 
-	.button-text {
+	.login-text {
+		color: #9EE44D;
+		font-weight: 400;
+		font-size: 30rpx;
+		line-height: 40rpx;
+		font-family: Arial;
+	}
+
+
+
+	.quizText {
 		color: #252529;
-		font-size: 32rpx;
-		font-weight: bold;
+		font-size: 30rpx;
+		line-height: 40rpx;
+		font-weight: 400;
+		font-family: Arial;
 	}
 </style>

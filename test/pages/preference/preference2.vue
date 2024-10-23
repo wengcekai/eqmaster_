@@ -1,17 +1,16 @@
 <template>
 	<view class="container">
 		<view class="text-content">
-			<text class="question">🤔 你希望提升哪些方面的高情商应对能力呢？</text>
+			<text class="question">🤔 In which situations would you like to enhance your EQ?</text>
 			<!-- <text class="question1">个性化偏好</text> -->
 		</view>
-		
 
-		
 
 		<view class="options-container">
 			<view class="option-group">
 				<view class="group-icon">
-					<image class="icon" src="/static/jobicon.png" mode="scaleToFill" />
+					<image class="icon" src="/static/onboarding/career.png" mode="widthFix" />
+					<text class="iconDescribe">Career</text>
 				</view>
 				<view class="option-buttons">
 					<button v-for="(option, index) in jobOptions" :key="index"
@@ -21,10 +20,11 @@
 					</button>
 				</view>
 			</view>
-			
+
 			<view class="option-group">
 				<view class="group-icon">
-					<image class="icon" src="/static/relationshipicon.png" mode="scaleToFill" />
+					<image class="icon" src="/static/onboarding/dating.png" mode="widthFix" />
+					<text class="iconDescribe">Dating</text>
 				</view>
 				<view class="option-buttons">
 					<button v-for="(option, index) in relationshipOptions" :key="index"
@@ -37,7 +37,7 @@
 		</view>
 
 	</view>
-	
+
 	<view class="button-container">
 		<image class="continue-button" src="/static/arrowright.png" mode="aspectFit" @click="goToNextPage()"></image>
 	</view>
@@ -47,8 +47,12 @@
 	export default {
 		data() {
 			return {
-				jobOptions: ['难以融入新环境', '棘手的同事关系', '与上级维持良好关系', '难回的消息', '尴尬的饭局等社交场合', '困难的工作沟通'],
-				relationshipOptions: ['难以维持长期关系', '感情平淡期', '得不到回应的喜欢', '感情受到伤害'],
+				jobOptions: ['Fitting in', 'Upward Management', 'Networking', 'Write better emails',
+					'awkward team bonding activities'
+				],
+				relationshipOptions: ['Maintaining healthy relationships', 'The plateau phase', 'Lovesick crush',
+					'Handling Heartbreak'
+				],
 				selectedOptions: [],
 				userId: '',
 				username: '',
@@ -134,16 +138,25 @@
 
 	/* 文本内容设置 */
 	.text-content {
-	  display: flex;
-	  flex-direction: column;
-	  align-items: flex-start;
-	  margin-top: 0px;
-	  margin-bottom: 40px;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		margin-top: 0px;
+		margin-bottom: 40px;
 	}
 
 	.icon {
-		width: 120%;
-		height: 100%;
+		width: 38rpx;
+		height: auto;
+	}
+
+	.iconDescribe {
+		color: #fff;
+		font-weight: bold;
+		font-size: 34rpx;
+		line-height: 44rpx;
+		margin-left: 16rpx;
+		font-family: Arial;
 	}
 
 	.question {
@@ -167,16 +180,17 @@
 
 	.option-group {
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		align-items: flex-start;
 		gap: 30rpx;
-		margin-bottom: 50px;
+		margin-bottom: 30rpx;
 	}
 
 	.group-icon {
-		width: 55rpx;
-		height: 65rpx;
+		/* width: 100%; */
+		/* height: 65rpx; */
 		display: flex;
+		flex-direction: row;
 		justify-content: center;
 		align-items: center;
 	}
@@ -199,7 +213,9 @@
 		color: #ffffff;
 		border-radius: 25px;
 		padding-left: 20rpx;
-		font-size: 14px;
+		font-size: 30rpx;
+		font-family: Arial;
+		font-weight: 500;
 		margin: 0;
 		line-height: 70rpx;
 	}
