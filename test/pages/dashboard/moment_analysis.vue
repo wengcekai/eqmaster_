@@ -9,7 +9,9 @@
 					src="../../static/dashboard/left-arrow.png"
 					@click="goback"></image>
 				<text class="title">Moment Analysis</text>
-				<image style="width: 64rpx;height:64rpx" src="../../static/dashboard/trash.png"></image>
+				<image style="width: 64rpx;height:64rpx" 
+					src="../../static/dashboard/trash.png"
+					@click="openModal"></image>
 			</view>
 			<view class="details">
 				<ul class="detail-ul">
@@ -27,6 +29,27 @@
 					</scroll-view>
 				</view>
 			</view>
+			
+			<!-- delete model -->
+			<view v-if="isModelOpen" class="overlay">
+				<view class="delete-model">
+					<view v-if="isDeleteSuccess">
+						<view class="model-title">Moment deleted</view>
+						<view class="model-desc">Moment analysis and chat history have both been removed</view>
+						<view class="button-container">
+							<view class="button right" style="width: 446rpx" @click="goback">Back to Home</view>
+						</view>
+					</view>
+					<view v-else>
+						<view class="model-title">Delete this moment?</view>
+						<view class="model-desc">Are you sure you want to delete this moment analysis?</view>
+						<view class="button-container">
+							<view class="button left" @click="cancelDelete">Cancel</view>
+							<view class="button right" @click="deleteMoment">Delete</view>
+						</view>
+					</view>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -36,6 +59,8 @@
 		data() {
 			return {
 				isLoading: false,
+				isModelOpen: false,
+				isDeleteSuccess: false,
 				analysisResult: {
 					id: 1,
 					chat_history: {
@@ -78,6 +103,18 @@
 					delta: 1
 				})
 			},
+			openModal() {
+				this.isModelOpen = true;
+			},
+			cancelDelete() {
+				this.isModelOpen = false;
+			},
+			deleteMoment() {
+				// call delete api
+				// can add spinner when deleting
+				// if return true
+				this.isDeleteSuccess = true;
+			}
 		},
 	}
 </script>
@@ -163,6 +200,84 @@
 		font-weight: bold;
 		position: absolute;
 		left: 32rpx;
+	}
+
+	.overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background: #00000073;
+		backdrop-filter: blur(40rpx);
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.delete-model {
+		width: 542rpx;
+		height: 356rpx;
+		background-color: #2f2f38;
+		border-radius: 32rpx;
+		box-shadow: 0px 16rpx 72rpx 0px #00000029;
+		padding-left: 48rpx;
+	}
+
+	.model-title {
+		width: 542rpx;
+		height: 96rpx;
+		font-size: 38rpx;
+		font-weight: 700;
+		line-height: 48rpx;
+		color: #ffffff;
+
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+	}
+
+	.model-desc {
+		width: 542rpx;
+		height: 96rpx;
+		font-size: 28rpx;
+		font-weight: 400;
+		line-height: 40rpx;
+		color: #ffffff;
+
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+	}
+
+	.button-container {
+		display: flex;
+		flex-direction: row;
+		gap: 12px;
+		margin-top: 24rpx;
+	}
+
+	.button {
+		width: 211rpx;
+		height: 84rpx;
+		border-radius: 40rpx;
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.left {
+		border: 1px solid #67677a;
+		background-color: #2f2f38;
+		box-shadow: 0px 16rpx 72rpx 0px #00000029;
+		color: #fff;
+	}
+
+	.right {
+		background-color: #9ee44d;
+		color: #000;
 	}
 
 </style>
