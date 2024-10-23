@@ -25,7 +25,7 @@
 			<scroll-view class="chat-history-container" scroll-y :scroll-top="scrollTop" ref="chatHistoryContainer"
 				:scroll-into-view="scrollIntoViewId">
 				<view v-for="(chat, index) in displayedMessages" :key="index" :id="'chat-item-' + index">
-					<npc-chat-box v-if="['领导', '同事A', '同事B'].includes(chat.role)" :key="'npc-' + index"
+					<npc-chat-box v-if="['领导', '同事A', '同事B', 'Jason', 'Sam', 'Anna'].includes(chat.role)" :key="'npc-' + index"
 						:avatar="getBattlefieldAvatar(chat.role)" :name="chat.role"
 						:dialog="chat.content"></npc-chat-box>
 					<view v-else-if="chat.role === 'user'"
@@ -486,7 +486,7 @@
 						},
 					});
 
-					console.log('文件上传成功:', response);
+					console.log('语音文件上传成功:', response);
 					const resData = JSON.parse(response.data); // 解析返回的 JSON 数据
 					const transcript = resData.transcript; // 获取返回的识别文本
 					return transcript; // 成功返回识别结果
