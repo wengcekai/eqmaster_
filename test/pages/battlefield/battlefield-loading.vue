@@ -1,9 +1,9 @@
 <template>
 	<view class="background-image loading-container">
-		<image class="background-image" src="/static/battlefield/background.png" mode="aspectFill" />
+		<image class="background-image" src="/static/battlefield/background1.png" mode="aspectFill" />
 		<!-- Content -->
 		<view class="loading-text-container">
-			<text class="loading-text">聚餐中</text>
+			<text class="loading-text">Meeting Room</text>
 		</view>
 	</view>
 </template>
@@ -14,7 +14,7 @@
 	} from '../../scripts/battlefield-chat'
 	export default {
 		async mounted() {
-			const result = await startField(1, "1");
+			const result = await startField(2, "2");
 			console.log("result from start field:", result);
 			uni.setStorage({
 				key: 'chats',

@@ -1,6 +1,6 @@
 <template>
 	<view class="container" @click="handleContainerClick">
-		<image class="background-image" src="/static/battlefield/background.png" mode="aspectFill" />
+		<image class="background-image" src="/static/battlefield/background1.png" mode="aspectFill" />
 		<view class="overlay"></view>
 
 		<view class="navbar" :class="{ shadowed: shouldShadow }">
@@ -25,7 +25,7 @@
 			<scroll-view class="chat-history-container" scroll-y :scroll-top="scrollTop" ref="chatHistoryContainer"
 				:scroll-into-view="scrollIntoViewId">
 				<view v-for="(chat, index) in displayedMessages" :key="index" :id="'chat-item-' + index">
-					<npc-chat-box v-if="['领导', '同事A', '同事B'].includes(chat.role)" :key="'npc-' + index"
+					<npc-chat-box v-if="['领导', '同事A', '同事B', 'Jason', 'Sam', 'Anna'].includes(chat.role)" :key="'npc-' + index"
 						:avatar="getBattlefieldAvatar(chat.role)" :name="chat.role"
 						:dialog="chat.content"></npc-chat-box>
 					<view v-else-if="chat.role === 'user'"
@@ -194,19 +194,19 @@
 				showInput: false,
 				focusInput: false,
 				npcs: [{
-						characterName: '领导',
+						characterName: 'Jason',
 						health: 10,
-						avatar: '/static/battlefield/boss.png',
+						avatar: '/static/battlefield/boss11.png',
 					},
 					{
-						characterName: '同事A',
+						characterName: 'Sam',
 						health: 10,
-						avatar: '/static/battlefield/xiaoA.png',
+						avatar: '/static/battlefield/xiaoA1.png',
 					},
 					{
-						characterName: '同事B',
+						characterName: 'Anna',
 						health: 10,
-						avatar: '/static/battlefield/xiaoB.png',
+						avatar: '/static/battlefield/xiaoB1.png',
 					},
 				],
 				gemCount: 2,
@@ -646,6 +646,8 @@
 						shouldAnimate: false
 					};
 					this.chattingHistory.push(newMessage);
+					// console.log('输入的信息：',newMessage);
+					// console.log('分析前的输入：',this.chattingHistory);
 					this.$nextTick(() => {
 						// Force a repaint to trigger the animation
 						void this.$el.offsetWidth;
@@ -661,8 +663,10 @@
 						});
 					});
 					try {
+						console.log("chattingHistory:", this.chattingHistory);
 						const validChats = filterChatHistory(this.chattingHistory);
 						const judgeResult = await reply(validChats);
+						// console.log("validChat:", validChat);
 						console.log("judge Result:", judgeResult);
 						await this.handleRecorderReply(judgeResult);
 						this.inputContent = '';
@@ -758,24 +762,30 @@
 				}
 			},
 			async handleRecorderReply(judgeResult) {
+				
 				try {
 					if (judgeResult) {
+						console.log("judge Result1111:", judgeResult);
 
 						await this.checkBossComplimentTask1(judgeResult);
+						console.log("judge Result22222:", judgeResult);
+
 
 						this.updateScrollIntoView();
+						
+						
 
 
 						// 遍历 judgeResult.moods 并根据角色调整 this.mood 的值
 						judgeResult.moods.forEach(item => {
 							let randomValue;
-							if (item.role === '领导') {
+							if (item.role === 'Jason') {
 								this.npcs[0].health = Math.min(this.npcs[0].health + (parseInt(item
 									.mood, 10) > 0 ? 4 : -2), 20);
-							} else if (item.role === '同事A') {
+							} else if (item.role === 'Sam') {
 								this.npcs[1].health = Math.min(this.npcs[1].health + (parseInt(item
 									.mood, 10) > 0 ? 4 : -2), 20);
-							} else if (item.role === '同事B') {
+							} else if (item.role === 'Anna') {
 								this.npcs[2].health = Math.min(this.npcs[2].health + (parseInt(item
 									.mood, 10) > 0 ? 4 : -2), 20);
 							}
@@ -872,8 +882,10 @@
 				let taskCompleted = false;
 				if (!this.task1Finished && !this.taskList.getTask(1).one) {
 					const bossCompliment = "你点的菜真不错";
+					// console.log("dialog":this.dialog);
 					for (let chat of dialog) {
-						if (chat.role === '领导' && chat.content.includes(bossCompliment)) {
+						
+						if (chat.role === 'Jason' && chat.content.includes(bossCompliment)) {
 							if (this.taskList && this.taskList.getTask(1)) {
 								console.log("task2 is true");
 								this.isGoodReply = true;
@@ -935,10 +947,11 @@
 					console.log('chatting histories,', res.data);
 					this.chattingHistory = res.data.map(item => ({
 						...item,
-						content: item.words
+						content: item.content
 					}));
 				},
 			});
+			console.log('chatting histories,', this.chattingHistory);
 			this.jobId = option.jobId || '154ee592-287b-4675-b8bd-8f88de348476';
 			this.initRecorderManager();
 		},
@@ -977,7 +990,7 @@
 			displayedMessages() {
 				const validChats = filterChatHistory(this.chattingHistory);
 				const userAndNpcChats = validChats.filter(chat =>
-					chat.role === 'user' || chat.role === '领导' || chat.role === '同事A' || chat.role === '同事B' || chat
+					chat.role === 'user' || chat.role === 'Jason' || chat.role === 'Sam' || chat.role === 'Anna' || chat
 					.role === 'tipping'
 				);
 				console.log("displayedMessages")
@@ -999,7 +1012,7 @@
 
 			displayedHistory() {
 				const userChats = this.chattingHistory.filter((chat) => chat.role === 'user');
-				const npcChats = this.chattingHistory.filter((chat) => ['领导', '同事A', '同事B'].includes(chat.role));
+				const npcChats = this.chattingHistory.filter((chat) => ['Jason', 'Sam', 'Anna'].includes(chat.role));
 
 				// 只保留来自 'user' 的最新一条
 				const latestUserChat = userChats.slice(-1); // 取最后一条
@@ -1124,14 +1137,14 @@
 	.action-icon-hint {
 		width: 30px;
 		height: 30px;
-		box-shadow: 0 0 18px #fed397;
+		box-shadow: 0 0 18px #90E0E7;
 	}
 
 	.action-item {
 		width: 40px;
 		height: 40px;
 		border-radius: 20px;
-		background: rgba(253, 237, 200, 1);
+		background: #D6FCF6;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -1142,8 +1155,8 @@
 		height: 50px;
 		border-radius: 50%;
 		background: linear-gradient(180deg,
-				rgba(253, 242, 211, 1) 0%,
-				rgba(241, 188, 116, 1) 100%);
+				#D6FCF6 0%,
+				#90E0E7 100%);
 	}
 
 	.middle-container {
@@ -1151,13 +1164,13 @@
 		height: 56px;
 		border-radius: 50%;
 		background-color: transparent;
-		border: 2rpx solid rgba(253, 242, 211, 1);
+		border: 2rpx solid #90E0E7;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		position: absolute;
 		bottom: -10rpx;
-		box-shadow: 0px 0px 4px 0px rgba(254, 211, 151, 1);
+		box-shadow: 0px 0px 4px 0px #90E0E7;
 		z-index: 12;
 	}
 
@@ -1212,11 +1225,11 @@
 		position: absolute;
 		z-index: 12;
 		top: 76%;
-		right: 50%;
+		left: 50%;
 		transform: translateX(-50%);
 		width: 406rpx;
 		height: 160rpx;
-		background-color: #fdedc8;
+		background-color: #d6fcf6;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -1258,7 +1271,7 @@
 	.wave {
 		width: 10rpx;
 		/* 每个波形条的宽度 */
-		background-color: #ff8e3a;
+		background-color: #D6fcf6;
 		/* 初始颜色 */
 		border-radius: 5px;
 		margin-left: 10rpx;
@@ -1330,7 +1343,7 @@
 		padding: 20rpx 0;
 		border-radius: 40rpx;
 		/* 增加一些内边距 */
-		background-color: #FDEDC8;
+		background-color: #D6fcf6;
 		/* 可选的背景色，用于强调输入框 */
 	}
 

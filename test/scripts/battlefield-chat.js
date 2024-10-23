@@ -1,5 +1,5 @@
 // 定义常量URL
-const BASE_URL = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/chat/batttlefield';
+const BASE_URL = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/chat/battlefield_agent';
 const EVAL_URL = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/eval/battlefield';
 const TOOLTIP_URL = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/course_exists';
 //return await sendRequest(chatHistory.person_id, chatHistory.course_id, body, EVAL_URL);
@@ -18,7 +18,7 @@ function sendRequest(person_id, course_id, chat_content, outerBody, url = BASE_U
 
 		// 遍历 chat_content，将“领导”、“同事A”、“同事B”的对话存入 dialog 数组中
 		chat_content.forEach(chat => {
-			if (['领导', '同事A', '同事B'].includes(chat.role)) {
+			if (['Jason', 'Sam', 'Anna'].includes(chat.role)) {
 				assistantDialog.content[0].text.dialog.push({
 					role: chat.role,
 					content: chat.content
@@ -44,10 +44,10 @@ function sendRequest(person_id, course_id, chat_content, outerBody, url = BASE_U
 		formattedChatContent.unshift(assistantDialog);
 
 		console.log(formattedChatContent);
-
+		
 		const body = outerBody || {
 			person_id: person_id || Math.floor(Math.random() * 500),
-			course_id: parseInt(course_id) || 1,
+			course_id: parseInt(course_id) || 2,
 			chat_content: JSON.stringify(formattedChatContent)
 		};
 
@@ -85,7 +85,7 @@ export async function startField(person_id, course_id) {
 
 // 导出reply函数
 export async function reply(chatHistory) {
-	// console.log(chatHistory);
+	console.log("发疯了",chatHistory);
 	return await sendRequest(chatHistory.person_id, chatHistory.course_id, chatHistory);
 }
 
@@ -182,20 +182,31 @@ export async function evalBattlefield(chatHistory, isPass, gemCount, diamonds) {
 
 export function filterChatHistory(chatHistory) {
 	const keywords = ["继续", "给我提示", "帮我回答", "开始测试"];
+	const keywords1 = ["You"];
+	console.log("chatHistory: ", chatHistory)
 
 	return chatHistory.filter(chat => {
+		// Check if the chat content includes any of the keywords
 		for (let keyword of keywords) {
 			if (chat.content.includes(keyword)) {
-				return false; // 该条目被过滤掉
+				return false; // Filter out this entry
 			}
 		}
 
-		// 如果 role 不是 tipping 且不包含关键字，则保留该条目
+		// Check if the chat role includes any of the keywords1
+		for (let keyword1 of keywords1) {
+			if (chat.role.includes(keyword1)) {
+				return false; // Filter out this entry
+			}
+		}
+
+		// Keep the entry if it's not filtered out by the above conditions
 		return true;
 	});
 }
 
 export function getNpcIndex(role) {
+	console.log("role： ", role)
 	if (role == '老板') {
 		return 0;
 	}

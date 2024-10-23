@@ -11,15 +11,15 @@
 
 		<!-- Content -->
 		<view class="content">
-			<text class="title content-item">第一关</text>
-			<text class="subtitle content-item">老板肚子里的蛔虫</text>
-			<text class="time-info content-item">3-4分钟</text>
+			<text class="title content-item">UNIT 1</text>
+			<text class="subtitle content-item">A Dilema in a Team Meeting</text>
+			<text class="time-info content-item">3-4min</text>
 			<text class="description content-item">
-				在一个精致的会所包厢里，你与一位高层领导和两名同事共进晚餐。看似轻松的聚会，实际上领导在暗中观察你们，准备决定谁将参与重要项目。你必须讨好领导，同时平衡同事关系，因为一个小小的失误可能改变你的未来。
+				Jason joins your team meeting, frustrated by the lack of feedback on his project. Tension rises as Sam feels uneasy, and Anna stays calm. How will you respond to ease the situation?
 			</text>
 		</view>
 		<view class="continue-button-container">
-			<button class="continue-btn" @click="navigateToNextPage">继续</button>
+			<button class="continue-btn" @click="navigateToNextPage">Continue</button>
 		</view>
 	</view>
 </template>

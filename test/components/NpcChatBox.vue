@@ -6,7 +6,7 @@
 					<image class="avatar" :src="avatar" mode="aspectFill"></image>
 				</view>
 				<view class="name">
-					<image class="character-background" src="/static/battlefield/character_background.png"
+					<image class="character-background" src="/static/battlefield/character_background1.png"
 						mode="scaleToFill"></image>
 					<view class="character">{{ name }}</view>
 				</view>
@@ -83,7 +83,7 @@
 		border-radius: 50%;
 		overflow: hidden;
 		border: solid;
-		border-color: #eeaf62;
+		border-color: #90e0e7;
 		background-color: #fff;
 		display: flex;
 		justify-content: center;

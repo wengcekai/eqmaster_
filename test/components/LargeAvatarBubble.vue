@@ -3,7 +3,7 @@
 		<view class="bubble-container">
 			<image class="avatar" :src="avatar" mode="aspectFill"></image>
 			<view class="background-parent">
-				<image class="character-background" src="/static/battlefield/character_background.png">
+				<image class="character-background" src="/static/battlefield/character_background1.png">
 				</image>
 				<view class="character">{{ character }}</view>
 			</view>
@@ -60,7 +60,7 @@
 		padding: 12px;
 		color: #FFFFFF;
 		max-width: 80%;
-		border: solid 2px #eeaf61;
+		border: solid 2px #90E0E7;
 		overflow: visible;
 		z-index: 3;
 	}

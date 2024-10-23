@@ -10,8 +10,8 @@
 		</view>
 		<view class="content">
 			<view class="task-header">
-				<text class="main-title">老板肚子里的蛔虫</text>
-				<text class="sub-title">本关任务</text>
+				<text class="main-title">A Cross-Department Meeting</text>
+				<text class="sub-title">Tasks</text>
 			</view>
 
 			<!-- 任务列表 -->
@@ -22,7 +22,7 @@
 							1
 						</text>
 					</view>
-					<text class="task-word">一句话让每个人心情愉悦</text>
+					<text class="task-word">Cheer up Sam while avoiding further infuriating Jason.</text>
 					<!-- <text class="task-word">得到领导的夸赞× 2</text> -->
 				</view>
 				<view class="task-item">
@@ -31,12 +31,12 @@
 							2
 						</text>
 					</view>
-					<text class="task-word">让老板对你点得菜满意</text>
+					<text class="task-word">Facilitate team input and ensure at least one colleague supports your approach.</text>
 				</view>
 			</view>
 		</view>
 		<view class="continue-button-container">
-			<button class="continue-btn" @click="navigateToNextPage">我知道了</button>
+			<button class="continue-btn" @click="navigateToNextPage">Got it</button>
 		</view>
 	</view>
 </template>
@@ -137,7 +137,7 @@
 		width: 72rpx;
 		height: 72rpx;
 		border-radius: 50%;
-		background-color: #f2bc74;
+		background-color: #90E0E7;
 		color: #fff;
 		display: flex;
 		justify-content: center;
