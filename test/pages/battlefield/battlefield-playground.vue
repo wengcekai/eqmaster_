@@ -881,7 +881,7 @@
 								await this.gotoNextRound();
 							}
 						} else {
-							this.state = 'judge';
+							this.state = '';
 							this.judgeTitle = "做的好";
 							this.isCompleteTask = false;
 						}
