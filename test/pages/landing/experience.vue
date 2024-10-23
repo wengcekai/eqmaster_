@@ -13,7 +13,7 @@
 			<!-- <text class="question1">完善个人信息</text> -->
 
 			<!-- 输入框 -->
-			<input class="name-input" placeholder="请输入" v-model="username" />
+			<input class="name-input" placeholder="Please input" v-model="username" />
 
 
 			<!-- 继续按钮 -->
@@ -36,8 +36,7 @@
 			};
 		},
 		mounted() {
-			const randomNum = Math.floor(Math.random() * 10); // 生成1到10之间的随机数字
-			this.username = "tester-" + uuidv4().slice(0, 6) + `##${randomNum}`;
+			this.username = "tester-" + uuidv4().slice(0, 6);
 		},
 		methods: {
 			nextStep() {
@@ -53,7 +52,7 @@
 				} else {
 					// 提示用户输入名字
 					uni.showToast({
-						title: '请输入您的名字',
+						title: 'Please input your name',
 						icon: 'none'
 					});
 				}

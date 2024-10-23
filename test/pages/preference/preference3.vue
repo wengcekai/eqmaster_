@@ -8,7 +8,7 @@
     </view>
 
     <view class="card">
-      <image class="card-image" src="/static/Group 3.png" mode="aspectFit" />
+      <image class="card-image" src="/static/onboarding/startTest.png" mode="aspectFit" />
       <button
         class="start-button"
         @click="startTest"
