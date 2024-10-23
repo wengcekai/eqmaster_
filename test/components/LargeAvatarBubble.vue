@@ -47,7 +47,7 @@
 		width: 654rpx;
 		height: 628rpx;
 		position: absolute;
-		top: -630rpx;
+		top: -631rpx;
 		left: 48rpx;
 	}
 
@@ -67,7 +67,7 @@
 
 	.character-background {
 		width: 200rpx;
-		height: 50rpx;
+		height: 48rpx;
 		position: absolute;
 		z-index: 2;
 		left: 5%;
