@@ -345,7 +345,7 @@ export default {
 	},
     navigateToGuide() {
       uni.navigateTo({
-        url: `/pages/dashboard/dashboard?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.jobId}` // 添加查询参数
+        url: `/pages/dashboard/dashboard_en?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.jobId}` // 添加查询参数
       });
     },
     async loadContactDetails() {
@@ -407,7 +407,7 @@ export default {
 	toHomePage() {
 	  if (this.canConfirmEdit) {
 	    uni.navigateTo({
-	      url: `/pages/dashboard/dashboard`
+	      url: `/pages/dashboard/dashboard_en`
 	    });
 	  }
 	},
@@ -416,7 +416,7 @@ export default {
     goToDashboard() {
         this.currentView = 'dashboard'; // 将 currentView 设置为 'dashboard'
         uni.navigateTo({
-            url: `/pages/dashboard/dashboard?personalName=${encodeURIComponent(this.personalName)}&jobId=${this.jobId}&currentView=${this.currentView}`
+            url: `/pages/dashboard/dashboard_en?personalName=${encodeURIComponent(this.personalName)}&jobId=${this.jobId}&currentView=${this.currentView}`
         });
     },
     unlockCard(cardType) {
