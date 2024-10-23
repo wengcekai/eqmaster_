@@ -80,6 +80,7 @@
 		</view>
 		<!-- #endif -->
 
+
 		<!-- #ifdef H5 -->
 		<view v-if="state === 'userTalk' && showToolTips && isTooltipVisible && showRecordTooltip"
 			class="keyboardToolTip">
@@ -91,7 +92,7 @@
 			需要帮助吗？选择锦囊卡片
 		</view>
 		<view class="player-action-container" :class="{ shadowed: shouldShadow }">
-			<view class="action-item" v-if="!isRecording" @click="handleClickInput()">
+			<view class="action-item keyboard-position" v-if="!isRecording" @click="handleClickInput()">
 				<image class="action-icon" src="/static/battlefield/keyboard.png"></image>
 			</view>
 
@@ -103,7 +104,8 @@
 				</view>
 			</view>
 			<!-- #endif -->
-			<view class="action-item" v-if="!isRecording">
+
+			<view class="action-item hint-position" v-if="!isRecording">
 				<image class="action-icon-hint" src="/static/battlefield/streamline.png" @click="clickHintButton">
 				</image>
 			</view>
@@ -1097,7 +1099,7 @@
 		padding: 20rpx;
 		position: relative;
 		z-index: 12;
-		margin-top: 80rpx;
+		margin-top: 3vh;
 		margin-left: 20rpx;
 	}
 
@@ -1183,13 +1185,14 @@
 	}
 
 	.action-item {
-		width: 40px;
-		height: 40px;
-		border-radius: 20px;
+		width: 70rpx;
+		height: 70rpx;
+		border-radius: 50%;
 		background: rgba(253, 237, 200, 1);
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		overflow: hidden;
 	}
 
 	.action-item-middle {
@@ -1219,11 +1222,10 @@
 	.recordTooltip {
 		position: absolute;
 		z-index: 12;
-		top: 83%;
-		left: 31%;
-		width: 105px;
+		bottom: 12vh;
+		left: 33%;
 		padding: 10px 20px;
-		/* transform: translateX(-50%); */
+		font-size: small;
 		background-color: rgba(16, 16, 16, 0.4);
 		border-radius: 10px;
 	}
@@ -1231,38 +1233,37 @@
 	.keyboardToolTip {
 		position: absolute;
 		z-index: 12;
-		top: 83%;
-		left: 10%;
-		width: 105px;
+		bottom: 12vh;
+		left: 0%;
 		padding: 10px 20px;
 		/* transform: translateX(-50%); */
 		background-color: rgba(16, 16, 16, 0.4);
 		border-radius: 10px;
+		font-size: small;
 	}
 
 	.hintTooltip {
 		position: absolute;
 		z-index: 12;
-		top: 83%;
-		right: 1%;
-		width: 205px;
+		bottom: 12vh;
+		right: 0%;
 		padding: 10px 20px;
-		/* transform: translateX(-50%); */
 		background-color: rgba(16, 16, 16, 0.4);
 		border-radius: 10px;
+		font-size: small;
 	}
 
 
 	.taskTooltip {
 		position: absolute;
 		z-index: 12;
-		top: 11%;
-		right: 1%;
-		width: 105px;
-		padding: 10px 20px;
+		top: 10vh;
+		right: 2%;
+		padding: 3% 6%;
 		/* transform: translateX(-50%); */
 		background-color: rgba(16, 16, 16, 0.4);
 		border-radius: 10px;
+		font-size: small;
 	}
 
 	.tooltipOverlay {
@@ -1406,12 +1407,16 @@
 		color: #252529;
 	}
 
-	.keyboard-container {
-		width: 100%;
-		z-index: 3;
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
+	.keyboard-position {
+		position: absolute;
+		left: 12%;
+		bottom: 1vh;
+	}
+
+	.hint-position {
+		position: absolute;
+		right: 12%;
+		bottom: 1vh;
 	}
 
 	.judge-container {
