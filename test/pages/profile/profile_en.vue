@@ -16,7 +16,7 @@
             </view>
             <view class="day">
               <view class="day-content">
-                <view class="day-text">28</view>
+                <view class="day-text">1</view>
                 <text class="day-text-days">days</text>
               </view>
             </view>
@@ -25,14 +25,14 @@
                 <image class="diamonds-icon" src="/static/baoshi.png"></image>
                 <view class="diamonds-source">
                   <view class="diamonds-source-text">Diamonds</view>
-                  <view class="diamonds-source-number">120</view>
+                  <view class="diamonds-source-number">{{ homepageData.response.personal_info.num_diamond }}</view>
                 </view>
               </view>
               <view class="stars">
                 <image class="diamonds-icon" src="/static/xinxin.png"></image>
                 <view class="diamonds-source">
                   <view class="diamonds-source-text">Stars</view>
-                  <view class="diamonds-source-number">120</view>
+                  <view class="diamonds-source-number">{{ homepageData.response.personal_info.num_star }}</view>
                 </view>
               </view>
             </view>
