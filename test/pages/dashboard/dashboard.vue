@@ -137,7 +137,7 @@
 					<!-- 添加蓝色按钮 -->
 					<view class="card3">
 						<image class="illustration36" src="/static/Frame1.png" mode="widthFix"></image>
-						<image class="illustration37" src="/static/Frame2.png" mode="widthFix"
+						<image class="illustration37" src="/static/Frame22.png" mode="widthFix"
 							@click="navigateToDashboard2"></image>
 						<image class="illustration38" src="/static/Frame3.png" mode="widthFix"></image>
 					</view>
@@ -218,7 +218,7 @@
 					<image class="dashboard2-illustration36" src="/static/dashboard2/icon2.jpg" mode="widthFix"
 						@click="switchView('dashboard')"></image>
 					<image class="dashboard2-illustration37" src="/static/dashboard2/icon1.jpg" mode="widthFix"></image>
-					<image class="dashboard2-illustration38" src="/static/Frame3.png" mode="widthFix"></image>
+					<image class="dashboard2-illustration38" src="/static/Frame3.png" mode="widthFix" @click="navigateToProfilePage"></image>
 				</view>
 			</view>
 		</scroll-view>
@@ -431,6 +431,11 @@
 					url: `/pages/dashboard/dashboard?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.jobId}` // 添加查询参数
 				});
 			},
+			navigateToProfilePage() {
+				uni.navigateTo({
+					url: `/pages/profile/profile_en?userId=${this.userId}`
+				});
+			},
 			async getHomepageData() {
 				try {
 					this.isLoading = true;
@@ -533,7 +538,7 @@
 								console.log('Contact profile created successfully:', res.data);
 								// 创建成功后，导航到档案页面
 								uni.navigateTo({
-									url: `/pages/profile/profile?personal_name=${encodeURIComponent(this.username)}&name=${encodeURIComponent(this.profileName)}&jobId=${this.jobId}&relation=${encodeURIComponent(this.selectedOption)}&tags=${encodeURIComponent(JSON.stringify(this.selectedTags))}&contactId=${res.data.contact_id}`
+									url: `/pages/profile/profile_en?personal_name=${encodeURIComponent(this.username)}&name=${encodeURIComponent(this.profileName)}&jobId=${this.jobId}&relation=${encodeURIComponent(this.selectedOption)}&tags=${encodeURIComponent(JSON.stringify(this.selectedTags))}&contactId=${res.data.contact_id}`
 								});
 							} else {
 								console.error('Failed to create contact profile:', res.statusCode, res.data);
@@ -580,7 +585,7 @@
 								console.log('Contact profile created successfully:', res.data);
 								// 创建成功后，导航到档案页面
 								uni.navigateTo({
-									url: `/pages/profile/profile?personal_name=${encodeURIComponent(this.username)}&name=${encodeURIComponent(contact?.name || '')}&jobId=${this.jobId}&relation=${encodeURIComponent(contact?.contact_relationship || '')}&tags=${encodeURIComponent(contact?.tag || '')}&contactId=${res.data.contact_id}`
+									url: `/pages/profile/profile_en?personal_name=${encodeURIComponent(this.username)}&name=${encodeURIComponent(contact?.name || '')}&jobId=${this.jobId}&relation=${encodeURIComponent(contact?.contact_relationship || '')}&tags=${encodeURIComponent(contact?.tag || '')}&contactId=${res.data.contact_id}`
 								});
 							} else {
 								console.error('Failed to create contact profile:', res.statusCode, res.data);

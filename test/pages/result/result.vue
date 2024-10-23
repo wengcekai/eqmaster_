@@ -19,22 +19,27 @@
 						<text class="score-title">情商得分: {{homepageData.response.eq_scores.score}}</text>
 					</view>
 
-					<canvas id="radarCanvas" canvas-id="radarCanvas" class="radar-canvas" width="400"
-						height="400"></canvas>
-					<view class="emotion-detection-box1">
-						<text class="emotion-detection-title">情绪侦查力</text>
-					</view>
-					<view class="emotion-detection-box2">
-						<text class="emotion-detection-title">情绪掌控力</text>
-					</view>
-					<view class="emotion-detection-box3">
-						<text class="emotion-detection-title">沟通表达力</text>
-					</view>
-					<view class="emotion-detection-box4">
-						<text class="emotion-detection-title">人际平衡力</text>
-					</view>
-					<view class="emotion-detection-box5">
-						<text class="emotion-detection-title">社交得体度</text>
+
+					<view class="subtitle-container0">
+						<canvas id="radarCanvas" canvas-id="radarCanvas" class="radar-canvas" width="400"
+							height="400"></canvas>
+						<view class="subtitle-container00">
+							<view class="emotion-detection-box1">
+								<text class="emotion-detection-title">情绪侦查力</text>
+							</view>
+							<view class="emotion-detection-box2">
+								<text class="emotion-detection-title">情绪掌控力</text>
+							</view>
+							<view class="emotion-detection-box3">
+								<text class="emotion-detection-title">沟通表达力</text>
+							</view>
+							<view class="emotion-detection-box4">
+								<text class="emotion-detection-title">人际平衡力</text>
+							</view>
+							<view class="emotion-detection-box5">
+								<text class="emotion-detection-title">社交得体度</text>
+							</view>
+						</view>
 					</view>
 
 					<view class="subtitle-container">
@@ -59,7 +64,7 @@
 					<image class="illustration6" src="/static/up3.png" mode="widthFix"></image>
 
 					<view class="card-text-container">
-						<text class="card-title">{{ homepageData.response.eq_scores.detail_summary }}</text>
+						<text class="card-title3">{{ homepageData.response.eq_scores.detail_summary }}</text>
 						<text class="card-description">{{ homepageData.response.eq_scores.detail }}</text>
 
 					</view>
@@ -277,10 +282,7 @@
 		},
 		onUnload() {},
 		onReady() {
-			console.log('option', option);
-			// 接收上一个页面传递的数据
-			this.userId = option.userId || '';
-			this.username = decodeURIComponent(option.username || '');
+			// #ifdef H5
 			try {
 				uni.getStorage({
 					key: 'response',
@@ -294,19 +296,7 @@
 			} catch (e) {
 				console.log('something error happened', e)
 			}
-			// 确保数据已经准备好
-			if (!this.username) {
-				uni.getStorage({
-					key: 'username',
-					success: (res) => {
-						this.username = res.data;
-						console.log('Username from storage:', this.username);
-					},
-					fail: () => {
-						console.error('Failed to get username from storage');
-					}
-				});
-			}
+			// #endif
 		},
 		methods: {
 			progressWidth(value) {
@@ -698,6 +688,15 @@
 		border-radius: 20rpx 20rpx 20rpx 0rpx;
 	}
 
+	.card-title3 {
+		font-size: 28rpx;
+		background-color: #9EE44D;
+		margin-bottom: 10rpx;
+		padding: 20rpx;
+		text-align: left;
+		max-width: 80%;
+		border-radius: 20rpx 20rpx 20rpx 0rpx;
+	}
 
 	.card-title2 {
 		font-size: 28rpx;
@@ -794,26 +793,27 @@
 	}
 
 	.emotion-detection-box1 {
-		top: 115px;
+		top: 0rpx;
+		left: 0%;
 	}
 
 	.emotion-detection-box2 {
-		top: 210px;
+		top: 120rpx;
 		left: 38%;
 	}
 
 	.emotion-detection-box3 {
-		top: 360px;
+		top: 480rpx;
 		right: 30%;
 	}
 
 	.emotion-detection-box4 {
-		top: 360px;
+		top: 480rpx;
 		left: 30%;
 	}
 
 	.emotion-detection-box5 {
-		top: 210px;
+		top: 120rpx;
 		right: 38%;
 	}
 
@@ -901,6 +901,7 @@
 		background-size: cover;
 		background-position: center;
 		background-repeat: no-repeat;
+		margin-bottom: 40rpx;
 	}
 
 	.title-sub-line {
@@ -911,6 +912,30 @@
 		z-index: 6;
 		opacity: 0.8;
 		overflow: visible;
+	}
+
+
+	.subtitle-container0 {
+
+		overflow: visible;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		/* margin-bottom: 2vh; */
+		z-index: 6;
+		position: relative;
+		/* 添加这个 */
+	}
+
+	.subtitle-container00 {
+		/* 		overflow: visible;
+		display: flex;
+		justify-content: center; */
+		/* align-items: center; */
+		/* margin-bottom: 2vh; */
+		/* 		z-index: 6;
+		position: relative; */
+		/* 添加这个 */
 	}
 
 	.subtitle-container {
