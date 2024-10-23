@@ -50,7 +50,11 @@ export default {
     pageText: {
       type: String,
       default: '撕页文字'
-    }
+    },
+	lang: {
+		type: String,
+		default: 'zh'
+	}
   },
   data() {
     return {
@@ -61,7 +65,8 @@ export default {
   computed: {
     currentMonth() {
       const months = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
-      return months[this.currentDate.getMonth()];
+	  const monthsEnglish = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+	  return this.lang === 'en' ? monthsEnglish[this.currentDate.getMonth()] : months[this.currentDate.getMonth()];
     },
     currentDay() {
       return this.currentDate.getDate().toString();
@@ -90,8 +95,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  height: 30vh;
-  padding-top: 0px;
+  height: 240rpx;
+  margin-top: 18rpx;
 }
 
 .tear-calendar {
