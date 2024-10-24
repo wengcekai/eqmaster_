@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<view class="splash-screen">
-			<text class="splash-text">接下来，\n一起来看看你的职场人格类型吧！</text>
+			<text class="splash-text">Now，Let's see your workplace personality type！</text>
 
 			<image class="splash-image" src="/static/cta-new.png" mode="widthFix"
 				:style="{ left: splashImageLeft1 + 'rpx' }"></image>
@@ -13,7 +13,7 @@
 				<view class="splash-progress-bar">
 					<view class="splash-progress-fill" :style="{ width: progress + '%' }"></view>
 				</view>
-				<text class="status-text">你的动物人格报告合成中</text>
+				<text class="status-text">Generating personalized report...</text>
 			</view>
 		</view>
 	</view>
@@ -359,7 +359,7 @@
 
 	.splash-text {
 		color: #FFFFFF;
-		font-size: 40rpx;
+		font-size: 44rpx;
 		text-align: left;
 		top: 20%;
 		position: absolute;
@@ -369,7 +369,8 @@
 		/* 调整高以提高可读性 */
 		white-space: pre-wrap;
 		/* 确保文本正确换行 */
-		font-weight: bold;
+		font-weight: 600;
+		font-family: Arial;
 	}
 
 	.progress-container {
@@ -415,7 +416,9 @@
 
 	.status-text {
 		position: relative;
-		font-size: 40rpx;
+		font-size: 34rpx;
+		font-weight: 350;
+		font-family: Arial;
 		color: #9EE44D;
 	}
 </style>
