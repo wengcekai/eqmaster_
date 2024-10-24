@@ -92,15 +92,24 @@ function formatChatContent(chat_content) {
         }
 
         // Add the user's dialogue to formattedChatContent
-        formattedChatContent.push({
-          ...chat,
+        const userDialog = {
+          role: chat.role,
           content: Array.isArray(chat.content)
             ? chat.content.map((c) => ({
                 type: c.type || "text",
                 text: c.text || c,
               }))
-            : chat.content,
-        });
+            : [
+                {
+                  type: "text",
+                  text: chat.content,
+                },
+              ],
+        };
+
+        // Add the user's dialogue to formattedChatContent
+        formattedChatContent.push(userDialog);
+
       }
     }
   });
