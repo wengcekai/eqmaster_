@@ -4,7 +4,7 @@
         <view class="item-container">
             <view class="title">{{title}}</view>
             <view class="line"></view>
-            <view class="detail">{{details[0]}}</view>
+            <view class="detail">{{details[0].point}}</view>
         </view>
     </view>
 </template>
