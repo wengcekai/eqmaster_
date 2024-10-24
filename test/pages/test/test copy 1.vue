@@ -42,15 +42,18 @@
 		<template v-else-if="currentPage === 'test2'">
 			<view class="options-container" :class="{ 'disabled': isLoading }">
 				<view v-for="(option, index) in scenarioData && scenarioData.options
-          ? scenarioData.options
-          : []" :key="index" :class="['text-box1', { selected: selectedOptionIndex === index }]"
-					@click="selectOption(index)">
+            ? scenarioData.options
+            : []" :key="index" 
+                :class="['text-box1', { selected: selectedOptionIndex === index }]"
+                @click="selectOption(index)">
 					<text class="text-content1" :style="{ color: option.textColor || 'white' }">
 						{{ option.text }}
 					</text>
 				</view>
 				<view class="next-button-container">
-					<image class="continue-button" src="/static/arrowright.png" mode="aspectFit" @click="nextPage">
+					<image class="continue-button" src="/static/arrowright.png" mode="aspectFit" 
+						@click="handleNextPage"
+						:class="{ 'disabled': isLoading || selectedOptionIndex === null }">
 					</image>
 				</view>
 			</view>
@@ -81,22 +84,22 @@
 
 		<!-- Test5 page content -->
 		<template v-else-if="currentPage === 'test5'">
-			<view class="options-container" :class="{ 'disabled': isLoading }">
+			<view class="options-container">
 				<view v-for="(option, index) in scenarioData && scenarioData.options
-          ? scenarioData.options
-          : []" :key="index" :class="['text-box1', { selected: selectedOptionIndex === index }]" 
-					@click="selectOption(index)">
+            ? scenarioData.options
+            : []" :key="index" :class="['text-box1', { selected: selectedOptionIndex === index }]" 
+					@click="selectOption(index)" >
 					<text class="text-content1" :style="{ color: option.textColor || 'white' }">
 						{{ option.text }}
 					</text>
 				</view>
 				<view class="next-button-container">
-					<image class="continue-button" src="/static/arrowright.png" mode="aspectFit" @click="nextPage">
+					<image class="continue-button" src="/static/arrowright.png" mode="aspectFit" @click="nextPage"
+						:class="{ 'disabled': isLoading }">
 					</image>
 				</view>
 			</view>
 		</template>
-		
 	</view>
 </template>
 
@@ -305,21 +308,27 @@
 					});
 			},
 			navigateToTest3() {
-				return new Promise((resolve) => {
-					this.getScenarioData()
-						.then(() => {
-							this.currentPage = "test3";
-							resolve();
-						})
-						.catch((error) => {
-							console.error("Error loading scenario data:", error);
-							uni.showToast({
-								title: "加载失败，请重试",
-								icon: "none",
-							});
-							resolve();
-						});
+				// Show loading indicator
+				uni.showLoading({
+					title: "加载中...",
 				});
+
+				// Get new scenario data first
+				this.getScenarioData()
+					.then(() => {
+						// Update the page only after new data is loaded
+						this.currentPage = "test3";
+						// Hide loading indicator
+						uni.hideLoading();
+					})
+					.catch((error) => {
+						console.error("Error loading scenario data:", error);
+						uni.hideLoading();
+						uni.showToast({
+							title: "加载失败，请重试",
+							icon: "none",
+						});
+					});
 			},
 			navigateToTest4() {
 				if (this.isLoading) return;
@@ -370,11 +379,11 @@
 				}
 			},
 			selectOption(index) {
-				// if (this.isLoading) return;
-				// this.isLoading = true;
-				// uni.showLoading({
-				// 	title: '加载中...'
-				// });
+				if (this.isLoading) return;
+				this.isLoading = true;
+				uni.showLoading({
+					title: '加载中...'
+				});
 				
 				this.selectedOptionIndex = index;
 				this.num = index + 1;
@@ -391,15 +400,15 @@
 			nextPage() {
 				if (this.isLoading) return;
 				this.isLoading = true;
-				uni.showLoading({ title: '加载中...' });
+				uni.showLoading({
+					title: '加载中...'
+				});
 				
 				if (this.num === null) {
 					uni.showToast({
 						title: "请选择一个选项",
 						icon: "none",
 					});
-					this.isLoading = false;
-					uni.hideLoading();
 					return;
 				}
 
@@ -410,25 +419,36 @@
 					selectedOption: this.scenarioData.options[this.selectedOptionIndex].text
 				});
 
-				// Start preparing the next page immediately
-				const prepareNextPage = this.navigateToNextPage();
+				console.log("Sending data to backend:", {
+					choice: this.num,
+					job_id: this.jobId,
+				});
 
-				// Make the API call
-				const apiCall = apiService.chooseScenario(this.num, this.jobId);
+				// Log the chat history before navigating
+				console.log("Chat History:", this.chatHistory);
 
-				// Use Promise.all to wait for both the API call and page preparation
-				Promise.all([apiCall, prepareNextPage])
-					.then(([result, _]) => {
+				apiService
+					.chooseScenario(this.num, this.jobId)
+					.then((result) => {
 						console.log("Response data:", result);
 
-						if (result.message === "Final choice made. Processing data in background.") {
+						if (
+							result.message ===
+							"Final choice made. Processing data in background."
+						) {
 							this.navigateToLoading();
 						} else {
+							// 更新当前场景
 							this.currentScene++;
+							// 重置选项
 							this.selectedOptionIndex = null;
 							this.num = null;
-							this.updateProgress();
+							// 根据需要更新 currentPage
+							this.navigateToNextPage();
 						}
+
+						// 更新进度
+						this.updateProgress();
 					})
 					.catch((error) => {
 						console.error("Detailed error:", error);
@@ -436,31 +456,19 @@
 							title: `发生错误：${error.message}`,
 							icon: "none",
 						});
-					})
-					.finally(() => {
-						this.isLoading = false;
-						uni.hideLoading();
 					});
 			},
 			navigateToNextPage() {
-				return new Promise((resolve) => {
-					const navigate = () => {
-						if (this.currentPage === "test2" || this.currentPage === "test5") {
-							this.navigateToTest3();
-						} else {
-							this.navigateToTest3();
-						}
-						resolve();
-					};
-
-					// Use nextTick to ensure DOM updates before navigation
-					this.$nextTick(navigate);
-				});
+				// 根据当前页面，决定下一个页面
+				if (this.currentPage === "test2") {
+					this.navigateToTest3();
+				} else if (this.currentPage === "test5") {
+					this.navigateToTest3();
+				} else {
+					this.navigateToTest3();
+				}
 			},
 			navigateToLoading() {
-				this.isLoading = false;
-				uni.hideLoading();
-
 				const loadingPageUrl = `/pages/result/loading?jobId=${
         this.jobId
       }&userId=${this.userId}&username=${encodeURIComponent(
@@ -485,6 +493,67 @@
 			updateProgress() {
 				this.progress = (this.currentScene / this.totalScenes) * 100;
 			},
+			handleNextPage() {
+				if (this.isLoading) return;
+				this.isLoading = true;
+				uni.showLoading({
+					title: '加载中...'
+				});
+				
+				if (this.selectedOptionIndex === null) {
+					uni.showToast({
+						title: "请选择一个选项",
+						icon: "none",
+					});
+					return;
+				}
+
+				// Add the current scenario and selected option to chat history
+				this.chatHistory.push({
+					background: this.background,
+					description: this.description,
+					selectedOption: this.scenarioData.options[this.selectedOptionIndex].text
+				});
+
+				console.log("Sending data to backend:", {
+					choice: this.num,
+					job_id: this.jobId,
+				});
+
+				// Log the chat history before navigating
+				console.log("Chat History:", this.chatHistory);
+
+				apiService
+					.chooseScenario(this.num, this.jobId)
+					.then((result) => {
+						console.log("Response data:", result);
+
+						if (
+							result.message ===
+							"Final choice made. Processing data in background."
+						) {
+							this.navigateToLoading();
+						} else {
+							// 更新当前场景
+							this.currentScene++;
+							// 重置选项
+							this.selectedOptionIndex = null;
+							this.num = null;
+							// 根据需要更新 currentPage
+							this.navigateToNextPage();
+						}
+
+						// 更新进度
+						this.updateProgress();
+					})
+					.catch((error) => {
+						console.error("Detailed error:", error);
+						uni.showToast({
+							title: `发生错误：${error.message}`,
+							icon: "none",
+						});
+					});
+			},
 		},
 	};
 </script>
@@ -494,11 +563,10 @@
 
 
 	/* ... 其他样式保持不变 ... */
+
+	.options-container.disabled {
+		pointer-events: none;
+		opacity: 0.6;
+	}
 </style>
-
-
-
-
-
-
 
