@@ -378,6 +378,7 @@
 				console.log(("change tooltip visible into:", this.isTooltipVisible));
 			},
 			async gotoNextRound() {
+				console.log('下一轮了');
 				if (!this.isGoodReply) {
 					this.retry();
 					return;
@@ -797,17 +798,17 @@
 						// 遍历 judgeResult.moods 并根据角色调整 this.mood 的值
 						judgeResult.moods.forEach(item => {
 							const moodValue = parseInt(item.mood, 10);
-							if (item.role === '领导') {
+							if (item.role === 'Jason') {
 								this.npcs[0].health = Math.min(
 									this.npcs[0].health + (moodValue > 0 ? 4 : moodValue < 0 ? -2 : 0),
 									20
 								);
-							} else if (item.role === '同事A') {
+							} else if (item.role === 'Sam') {
 								this.npcs[1].health = Math.min(
 									this.npcs[1].health + (moodValue > 0 ? 4 : moodValue < 0 ? -2 : 0),
 									20
 								);
-							} else if (item.role === '同事B') {
+							} else if (item.role === 'Anna') {
 								this.npcs[2].health = Math.min(
 									this.npcs[2].health + (moodValue > 0 ? 4 : moodValue < 0 ? -2 : 0),
 									20
