@@ -667,7 +667,9 @@
 							}, 50);
 						});
 						const validChats = filterChatHistory(this.allHistory);
+						console.error("初始输出", judgeResult);
 						const judgeResult = await reply(validChats);
+						console.error("初始输出", judgeResult);
 
 						await this.handleRecorderReply(judgeResult);
 						this.anasLoadingObj.loading = false;
@@ -882,7 +884,8 @@
 					);
 					console.log("回答评估开始了");
 
-					if (totalScore > 0) {
+					// if (totalScore > 0) {
+					if (!hasNegativeMood) {
 						this.isGoodReply = true;
 						this.judgeContent = judgeResult.comments;
 						this.answerNotGoodNum = 0;
@@ -916,6 +919,7 @@
 									this.isCompleteTask = true;
 								}
 							} else {
+								console.log("下一轮");
 								await this.gotoNextRound();
 							}
 						} else {
