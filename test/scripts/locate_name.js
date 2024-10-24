@@ -1,8 +1,8 @@
 export function findLastName(str) {
-	const regex = /(小李|小王)(?!.*(小李|小王))/;
+	const regex = /(Sam|Anna)(?!.*(Sam|Anna))/;
 	const match = str.match(regex);
 
-	return match ? match[0] : '老板';
+	return match ? match[0] : 'Jason';
 }
 
 export function getAvatar(name) {
@@ -17,11 +17,11 @@ export function getAvatar(name) {
 }
 
 export function getBattlefieldAvatar(name) {
-	if (name == "领导") {
-		return "/static/battlefield/boss1.png";
+	if (name == "Jason") {
+		return "/static/battlefield/boss11.png";
 	}
-	if (name == "同事A") {
-		return '/static/battlefield/xiaoA.png';
+	if (name == "Sam") {
+		return '/static/battlefield/xiaoA1.png';
 	}
-	return "/static/battlefield/xiaoB.png";
+	return "/static/battlefield/xiaoB1.png";
 }
