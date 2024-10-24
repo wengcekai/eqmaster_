@@ -319,7 +319,7 @@ export default {
 </script>
 <style scoped>
 .container {
-  /* position: absolute; */
+  position: absolute;
   background-color: #2F2F38;
   display: flex;
   flex-direction: column;
