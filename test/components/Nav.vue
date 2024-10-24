@@ -29,23 +29,45 @@ export default {
             type: String,
             required: true,
             default: 'Home',
-        }
+        },
+        userId: {
+            type: Number,
+            default: 0,
+        },
+        username: {
+            type: String,
+            default: '',
+        },
+        jobId: {
+            type: String,
+            default: '',
+        },
     },
     methods: {
         navigateToProfilePage(val) {
+            const currentPages = getCurrentPages();
+            const currentRoute = currentPages[currentPages.length - 1].route;
             if(val === 'Home') {
-                uni.navigateTo({
-                    url: `/pages/dashboard/dashboard` // 添加查询参数
-                });
+                if (currentRoute !== 'pages/dashboard/dashboard_en') {
+                    uni.navigateTo({
+                        url: `/pages/dashboard/dashboard_en?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.jobId}&currentView=dashboard` // 添加查询参数
+                    });
+                } else {
+                    this.$emit('switchHomeView', "dashboard");
+                }
             }
             if(val === 'Battlefield') {
-                uni.navigateTo({
-                    url: `/pages/dashboard/dashboard` // 添加查询参数
-                });
+                if (currentRoute !== 'pages/dashboard/dashboard_en') {
+                    uni.navigateTo({
+                        url: `/pages/dashboard/dashboard_en?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.jobId}&currentView=dashboard2` // 添加查询参数
+                    });
+                } else {
+                    this.$emit('switchHomeView', "dashboard2");
+                }
             }
             if(val === 'Profile') {
                 uni.navigateTo({
-                    url: `/pages/profile/profile_en` // 添加查询参数
+                    url: `/pages/profile/profile_en?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.jobId}` // 添加查询参数
                 });
             }
         }

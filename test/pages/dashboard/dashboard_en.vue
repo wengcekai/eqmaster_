@@ -139,14 +139,15 @@
 
 
 				<!-- <image class="dashboard2-illustration35" src="/static/dashboard2/plgon9.jpg" mode="widthFix" @click="navigateToBattlefieldIntro"></image> -->
-				<view class="dashboard2-card3">
+				<!-- <view class="dashboard2-card3">
 					<image class="dashboard2-illustration36" src="/static/dashboard2/icon2.jpg" mode="widthFix"
 						@click="switchView('dashboard')"></image>
 					<image class="dashboard2-illustration37" src="/static/dashboard2/icon1.jpg" mode="widthFix"></image>
 					<image class="dashboard2-illustration38" src="/static/Frame3.png" mode="widthFix"></image>
-				</view>
+				</view> -->
 			</view>
 		</scroll-view>
+		<Nav :selectedView="currentView === 'dashboard' ? 'Home' : 'Battlefield'" @switchHomeView="switchView" :userId="userId" :username="username" :jobId="jobId" />
 	</view>
 </template>
 
@@ -154,6 +155,7 @@
 	import SProgressBar from '@/components/SProgressBar.vue'; // 根据实际路径调整
 	import apiService from '../../services/api-service';
 	import ChatHistory from '@/components/ChatHistory.vue';
+	import Nav from '../../components/Nav.vue';
 
 
 	export default {
@@ -346,7 +348,8 @@
 		},
 		components: {
 			SProgressBar,
-			ChatHistory
+			ChatHistory,
+			Nav
 		},
 		onLoad(option) {
 			console.log('Received options:', option);
@@ -356,6 +359,7 @@
 			this.username = decodeURIComponent(option.username || 'Dgidegfiugrwi');
 
 			this.jobId = option.jobId || '154ee592-287b-4675-b8bd-8f88de348476';
+			this.currentView = option.currentView ? option.currentView : 'dashboard'
 
 			// 立即调用一次
 			this.getHomepageData(this.userId);
@@ -668,6 +672,7 @@
 				this.switchView('dashboard2');
 			},
 			switchView(view) {
+				console.log(333);
 				this.currentView = view;
 			},
 		},

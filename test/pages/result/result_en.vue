@@ -454,7 +454,7 @@
 	font-style: normal;
 	}
 	.container {
-		position: absolute;
+		/* position: absolute; */
 		/* position: fixed; */
 		background-color: #2F2F38;
 		display: flex;
