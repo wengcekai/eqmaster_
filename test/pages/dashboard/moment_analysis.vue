@@ -13,19 +13,25 @@
 					src="../../static/dashboard/trash.png"
 					@click="openModal"></image>
 			</view>
-			<view class="details">
+			<scroll-view scroll-y="true" class="details">
 				<ul class="detail-ul">
-					<view class="detail-title" style="padding-left: 64rpx;">{{analysisResult.analysis.title}}</view>
-					<li class="detail-item" v-for="detail in analysisResult.analysis.details">{{ detail }}</li>
+					<view class="detail-title" style="padding-left: 64rpx;">{{analysisResult.analysis.title.title}}</view>
+					<view class="detail-summary" style="padding-left: 64rpx;">{{analysisResult.analysis.summary.summary}}</view>
+					<view class="detail-summary" style="padding: 8rpx 0px 8rpx 64rpx;">You can:</view>
+					<li class="detail-item" v-for="suggestion in analysisResult.analysis.suggestions">{{ suggestion.point }}</li>
 				</ul>
-			</view>
+			</scroll-view>
 			<view class="chat-history">
 				<text class="title">Chat History</text>
 				<view class="chat-list">
 					<scroll-view scroll-y="true" style="height: 594rpx">
-						<view v-for="(message, index) in analysisResult.chat_history.messages"
-							:key="index"
-							class="me: message.user == 'me', 'other': message.user != 'me'"></view>
+						<view class="history-detail">
+							<view v-for="(message, index) in analysisResult.chatHistory"
+								:key="index"
+								:class="['bubble', message.user == 'me' ? 'me' : 'other']">
+								{{message.message}}
+							</view>
+						</view>
 					</scroll-view>
 				</view>
 			</view>
@@ -44,8 +50,11 @@
 						<view class="model-title">Delete this moment?</view>
 						<view class="model-desc">Are you sure you want to delete this moment analysis?</view>
 						<view class="button-container">
-							<view class="button left" @click="cancelDelete">Cancel</view>
-							<view class="button right" @click="deleteMoment">Delete</view>
+							<view class="button left" :class="{ 'is-loading': isLoading }" @click="cancelDelete">Cancel</view>
+							<view class="button right" @click="deleteMoment">
+								<text v-if="!isDeleting">Delete</text>
+								<view v-else class="loader"></view>
+							</view>
 						</view>
 					</view>
 				</view>
@@ -55,26 +64,34 @@
 </template>
 
 <script>
+	import apiService from '../../services/api-service';
+
 	export default {
 		data() {
 			return {
 				isLoading: false,
 				isModelOpen: false,
+				isDeleting: false,
 				isDeleteSuccess: false,
 				analysisResult: {
 					id: 1,
-					chat_history: {
-						messages: [
-							{
-								user: "",
-								message: "",
-							}
-						]
-					},
+					chatHistory: [
+						{
+							user: "",
+							message: "",
+						}
+					],
 					analysis: {
-						title: "1Trying to respond more sdfa fliasdf   xxxxxx xxxx",
-						details: [
-							"1Import chat history to figure out what she shaid ajshdfkahdf"
+						title: {
+							title: "title"
+						},
+						summary: {
+							summary: "summary"
+						},
+						suggustions: [
+							{
+								point: ""
+							}
 						]
 					}
 				},
@@ -82,17 +99,18 @@
 		},
 		onLoad(options) {
 			const { analysisId } = options;
+			this.analysisId = analysisId;
 			uni.getStorage({
 				key: `analysis-${analysisId}`,
 				success: (res) => {
 					this.analysisResult = res.data;
-					console.log("analysis result", this.analysisResult)
-					uni.removeStorage({
-						key: `analysis-${analysisId}`,
-						success: () => {
-						    console.log('Storage data deleted successfully.');
-						},
-					})
+					console.log("analysis result", this.analysisResult);
+					// uni.removeStorage({
+					// 	key: `analysis-${analysisId}`,
+					// 	success: () => {
+					// 	    console.log('Storage data deleted successfully.');
+					// 	},
+					// })
 					
 				},
 			})
@@ -109,12 +127,18 @@
 			cancelDelete() {
 				this.isModelOpen = false;
 			},
-			deleteMoment() {
-				// call delete api
-				// can add spinner when deleting
-				// if return true
-				this.isDeleteSuccess = true;
-			}
+			async deleteMoment() {
+				try {
+					if (this.isDeleting) return;
+					this.isDeleting = true;
+					await apiService.deleteMoment(this.analysisId);
+					this.isDeleteSuccess = true;
+				} catch(error) {
+					return false;
+				}finally {
+					this.isDeleting = false;
+				}
+			},
 		},
 	}
 </script>
@@ -144,6 +168,24 @@
 		width: 34.66rpx;
 		height: 37.76rpx;
 	}
+	
+	.loader {
+	  border: 2px solid #1c1c1e; /* Match button background color */
+	  border-top: 2px solid #ffffff;
+	  border-radius: 50%;
+	  width: 20px;
+	  height: 20px;
+	  animation: spin 1s linear infinite;
+	}
+	
+	@keyframes spin {
+	  0% {
+	    transform: rotate(0deg);
+	  }
+	  100% {
+	    transform: rotate(360deg);
+	  }
+	}
 
 	.title {
 		font-weight: 600;
@@ -158,6 +200,7 @@
 		background-color: #373742;
 		margin-top: 30rpx;
 		border-radius: 32rpx;
+		overflow: hidden;
 	}
 
 	.chat-history {
@@ -177,6 +220,13 @@
 		font-weight: 700;
 		color: #fff;
 		line-height: 50rpx;
+	}
+
+	.detail-summary {
+		font-size: 30rpx;
+		font-weight: 400;
+		color: #fff;
+		line-height: 40rpx;
 	}
 
 	.detail-ul {
@@ -200,6 +250,39 @@
 		font-weight: bold;
 		position: absolute;
 		left: 32rpx;
+	}
+
+	.history-detail {
+		display: flex;
+		flex-direction: column;
+		gap: 24rpx;
+		margin-top: 32rpx;
+		padding-bottom: 32rpx;
+	}
+
+	.bubble {
+		width: auto;
+		max-width: 460rpx;
+		height: auto;
+		border-radius: 16rpx;
+		padding: 8rpx 16rpx 8rpx 16rpx;
+
+		font-weight: 400;
+		font-size: 26rpx;
+		line-height: 36rpx;
+		color: #fff;
+	}
+
+	.me {
+		background-color: #9ee44d4d;
+		margin-left: auto;
+		margin-right: 24rpx;
+	}
+
+	.other {
+		background-color: #ffffff4d;
+		margin-left: 24rpx;
+		margin-right: auto;
 	}
 
 	.overlay {

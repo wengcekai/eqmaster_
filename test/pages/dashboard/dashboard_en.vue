@@ -60,8 +60,8 @@
 							<view class="left-history-container">
 								<ChatHistory v-for="(item, index) in leftList" 
 									:key="index" 
-									:title="item.analysis.title"
-									:details="item.analysis.details"
+									:title="item.analysis.summary.summary"
+									:details="item.analysis.suggestions"
 									@click="navigateToAnalysis(item)">
 								</ChatHistory>
 							</view>
@@ -69,8 +69,8 @@
 						<view class="right-history-container">
 							<ChatHistory v-for="(item, index) in rightList"
 								:key="index"
-								:title="item.analysis.title"
-								:details="item.analysis.details"
+								:title="item.analysis.summary.summary"
+								:details="item.analysis.suggestions"
 								@click="navigateToAnalysis(item)">
 							</ChatHistory>
 						</view>
@@ -208,8 +208,8 @@
 							]
 						},
 						analysis: {
-							title: "1Trying to respond more sdfa fliasdf   xxxxxx xxxx",
-							details: [
+							summary: [{"summary": "ssdf"}],
+							suggestions: [
 								"1Import chat history to figure out what she shaid ajshdfkahdf"
 							]
 						}
@@ -234,7 +234,6 @@
 				],
 				animal: '',
 				courseData:null,
-				intervalId: null,
 				showSplash: false, // 默认不显示闪屏
 				progress: 0,
 				progressInterval: null,
@@ -363,6 +362,7 @@
 
 			// 立即调用一次
 			this.getHomepageData(this.userId);
+			this.getAnalysisList();
 			this.getBattlefield(1);
 			// this.username = this.homepageData.response.personal_info.name || '';
 
@@ -380,22 +380,9 @@
 			}
 
 			console.log('Current View:', this.currentView);
-
-
-			// 设置定时调用
-			this.intervalId = setInterval(() => {
-				console.log('this.userId:', this.userId);
-				this.getHomepageData(this.userId);
-			}, 50000); // 每50秒调用一次
 		},
 		onUnload() {
-			// 页面卸载时清除定时器
-			if (this.intervalId) {
-				clearInterval(this.intervalId);
-			}
-			if (this.progressInterval) {
-				clearInterval(this.progressInterval);
-			}
+
 		},
 		methods: {
 			progressWidth(value) {
@@ -429,6 +416,7 @@
 			},
 			async chooseImage() {
 				try {
+					return;
 				  const res = await uni.chooseImage({
 				    count: 1,
 				    sizeType: ['original', 'compressed'],
@@ -443,10 +431,10 @@
 			},
 			async uploadImage(filePath) {
 			  try {
-				// TODO replace 
-			    const result = await apiService.uploadImage(filePath);
-			    console.log('Upload result:', result);
-			    // to analysis page
+			    const result = await apiService.uploadChatHistory(filePath, this.userId);
+				result.analysis = JSON.parse(result.analysis);
+				result.chatHistory = JSON.parse(result.chatHistory);
+			    this.navigateToAnalysis(result);
 			  } catch (error) {
 			    console.error('Upload failed:', error);
 			    // 处理上传失败的情况
@@ -471,6 +459,23 @@
 					console.error(this.error, error);
 				} finally {
 					this.isLoading = false;
+				}
+			},
+
+			async getAnalysisList() {
+				try {
+					this.userId;
+					const data = await apiService.getAnalysisList(1);
+					data.forEach(item => {
+						item.analysis = JSON.parse(item.analysis);
+						item.chatHistory = JSON.parse(item.chatHistory);
+					});
+					this.analysisList = data;
+				} catch(error) {
+					// this.error = 'Error fetching analysis data';
+					console.error(this.error, error);
+				} finally {
+
 				}
 			},
 			

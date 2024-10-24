@@ -1,4 +1,4 @@
-const API_ENDPOINT = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/';
+const API_ENDPOINT = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net';
 // const API_ENDPOINT = 'https://eqmaster-gfh8gvfsfwgyb7cb.eastus-01.azurewebsites.net/';
 
 export default {
@@ -46,6 +46,64 @@ export default {
 			}
 		} catch (error) {
 			console.error('Error fetching homepage data:', error);
+			throw error;
+		}
+	},
+
+	async getAnalysisList(userId) {
+		try {
+			const response = await uni.request({
+				url: `${API_ENDPOINT}/${userId}/analysisList`,
+				method: 'GET',
+			});
+
+			if (response.statusCode === 200) {
+				return response.data;
+			} else {
+				throw new Error(`Failed to get analysis list: ${response.statusCode}`);
+			}
+		} catch (error) {
+			console.error('Error getting analysis list:', error);
+			throw error;
+		}
+	},
+
+	async uploadChatHistory(filePath, userId) {
+		try {
+			const response = await uni.uploadFile({
+				url: `${API_ENDPOINT}/analyze/history`,
+				filePath: filePath,
+				name: 'file',
+				formData: {
+					user_id: userId
+				}
+			});
+
+			if (response.statusCode === 200) {
+				return response.data;
+			} else {
+				throw new Error(`upload chat history failed: ${response.statusCode}`);
+			}
+		} catch (error) {
+			console.error('upload chat history failed', error);
+			throw error;
+		}
+	},
+
+	async deleteMoment(chatId) {
+		try {
+			const response = await uni.request({
+				url: `${API_ENDPOINT}/delete_chats/${chatId}`,
+				method: 'DELETE',
+			});
+
+			if (response.statusCode === 200) {
+				return response;
+			} else {
+				throw new Error(`Failed to create contact profile: ${response.statusCode}`);
+			}
+		} catch (error) {
+			console.error('Error creating contact profile:', error);
 			throw error;
 		}
 	},
