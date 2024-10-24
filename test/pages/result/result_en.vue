@@ -436,7 +436,7 @@
 					jobId: this.homepageData.response.personal_info.job_id
 				});
 				uni.navigateTo({
-					url: `/pages/dashboard/dashboard?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.homepageData.response.personal_info.job_id}`
+					url: `/pages/dashboard/dashboard_en?userId=${this.userId}&username=${encodeURIComponent(this.username)}&jobId=${this.homepageData.response.personal_info.job_id}`
 				});
 			},
 			expand() {
@@ -454,7 +454,7 @@
 	font-style: normal;
 	}
 	.container {
-		position: absolute;
+		/* position: absolute; */
 		/* position: fixed; */
 		background-color: #2F2F38;
 		display: flex;

@@ -38,6 +38,18 @@
             }
         },
         {
+            "path" : "pages/dashboard/dashboard_en",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+		{
+		    "path" : "pages/dashboard/moment_analysis",
+		    "style" : {
+		        "navigationStyle" : "custom"
+		    }
+		},
+        {
             "path" : "pages/battlefield/battlefield-playground",
             "style" : {
                 // "navigationBarTitleText": "Scroll Test",
@@ -129,6 +141,10 @@
         {
             "path" : "components/SProgressBar",
             "style" : {}
+        },
+        {
+            "path": "components/ChatHistory",
+            "style": {}
         },
         {
             "path" : "components/Tear",

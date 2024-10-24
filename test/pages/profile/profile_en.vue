@@ -5,7 +5,7 @@
 
         <view class="user-name">
           <image src="/static/user_icon.png" class="user-icon"></image>
-          <text class="user-name-text">{{ homepageData.response.contacts[0].name }}</text>
+          <text class="user-name-text">{{ username }}</text>
         </view>
 
         <view class="have-been-view">
@@ -56,13 +56,13 @@
           </view>
         </view>
 
-        <view class="log-out" @click="logoutShow = true">
-          log out / switch user
-        </view>
       </view>
-
+      
     </scroll-view>
-    <Nav selectedView="Profile" />
+    <view class="log-out" @click="logoutShow = true">
+      log out / switch user
+    </view>
+    <Nav selectedView="Profile" :userId="userId" :username="username" :jobId="jobId" />
 
     <!-- 二维码弹框 -->
     <view v-if="showEqoachPopup" class="popup-overlay" @click="showCardPopup = false">
@@ -327,7 +327,8 @@ export default {
   /* padding-top: 100rpx; */
   width: 100%;
   height: calc(100vh - 120rpx);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   background-image: url("/static/profile-bg.png");
   background-size: cover;
@@ -588,7 +589,7 @@ export default {
   align-items: center;
   position: relative;
   margin-top: 180rpx;
-  /* margin-bottom: 250rpx; */
+  bottom: 100rpx;
   color: #9EE44D;
 }
 
