@@ -1,80 +1,80 @@
 .expand-icon {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
 }
 
 .icon-image {
-  width: 20px;
-  height: 20px;
+	width: 20px;
+	height: 20px;
 }
 
 .logo {
-  width: 300rpx;
-  height: 300rpx;
-  position: absolute;
-  top: 11%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  /* 同时水平和垂直居中 */
+	width: 300rpx;
+	height: 300rpx;
+	position: absolute;
+	top: 11%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	/* 同时水平和垂直居中 */
 }
 
 .background-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
+	position: relative;
+	width: 100%;
+	height: 100%;
 }
 
 .background-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
 }
 
 .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 10%;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
-  /* 黑色渐变蒙层 */
-  z-index: 1;
-  /* 确保蒙层在背景图上方 */
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 10%;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+	/* 黑色渐变蒙层 */
+	z-index: 1;
+	/* 确保蒙层在背景图上方 */
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  background-color: #1c1c1e;
-  /* padding: 40px 20px; */
-  height: 100vh;
-  overflow: hidden;
-  touch-action: none;
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	background-color: #1c1c1e;
+	/* padding: 40px 20px; */
+	height: 100vh;
+	overflow: hidden;
+	touch-action: none;
+	align-items: center;
 }
 
 .continue-button {
-  width: 40rpx;
-  height: 40rpx;
-  background-color: #f2bc74;
-  border-radius: 50rpx;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 30rpx;
+	width: 40rpx;
+	height: 40rpx;
+	background-color: #f2bc74;
+	border-radius: 50rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 30rpx;
 }
 
 .button-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  bottom: 100rpx;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	bottom: 100rpx;
 }
 
 /* .button-container {
@@ -99,152 +99,153 @@
 } */
 
 .arrow {
-  color: #242424;
-  font-size: 20px;
+	color: #242424;
+	font-size: 20px;
 }
 
 .logo {
-  width: 100%;
-  height: 90%;
-  position: absolute;
-  top: 2.5vh;
-  left: 50%;
-  opacity: 70%;
-  transform: translate(-50%, -50%);
+	width: 100%;
+	height: 90%;
+	position: absolute;
+	top: 2.9vh;
+	left: 50%;
+	opacity: 70%;
+	transform: translate(-50%, -50%);
 }
 
 .banner-container {
-  overflow: visible;
-  width: 100%;
-  height: 100rpx;
-  position: relative;
-  margin-top: 130rpx;
-  left: 50%;
-  transform: translate(-50%, 0);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	overflow: visible;
+	width: 100%;
+	height: 100rpx;
+	position: relative;
+	margin-top: 130rpx;
+	left: 50%;
+	transform: translate(-50%, 0);
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .test {
-  display: flex;
+	display: flex;
 }
 
 .room-text {
-  text-align: center;
-  color: #ffffff;
-  font-size: 25rpx;
-  z-index: 4;
-  justify-content: center;
+	text-align: center;
+	color: #ffffff;
+	font-size: 24rpx;
+	font-family: Arial;
+	z-index: 4;
+	justify-content: center;
 }
 
 /* Add any additional styles you need */
 
 .progress-container {
-  position: absolute;
-  top: 120rpx;
-  left: 40rpx;
-  right: 40rpx;
-  display: flex;
-  align-items: center;
-  z-index: 3;
+	position: absolute;
+	top: 120rpx;
+	left: 40rpx;
+	right: 40rpx;
+	display: flex;
+	align-items: center;
+	z-index: 3;
 }
 
 .progress-bar {
-  flex-grow: 1;
-  height: 5rpx;
-  background-color: #101010;
-  border-radius: 5rpx;
-  overflow: hidden;
-  width: 90%;
-  margin-right: 20rpx;
+	flex-grow: 1;
+	height: 5rpx;
+	background-color: #101010;
+	border-radius: 5rpx;
+	overflow: hidden;
+	width: 90%;
+	margin-right: 20rpx;
 }
 
 .progress {
-  height: 100%;
-  background-color: #ffffff;
-  transition: width 0.3s ease;
+	height: 100%;
+	background-color: #ffffff;
+	transition: width 0.3s ease;
 }
 
 .progress-text {
-  color: #ffffff;
-  font-size: 24rpx;
-  min-width: 60rpx;
-  text-align: right;
-  z-index: 5;
+	color: #ffffff;
+	font-size: 24rpx;
+	min-width: 60rpx;
+	text-align: right;
+	z-index: 5;
 }
 
 .text-box {
-  position: absolute;
-  bottom: 80rpx;
-  left: 40rpx;
-  right: 40rpx;
-  background-color: rgba(55, 55, 66, 0.8);
-  border-radius: 50rpx;
-  padding: 50rpx;
-  z-index: 1;
-  min-height: 100rpx;
-  max-height: 400rpx;
-  overflow: auto;
-  border: 6rpx solid #f2bc74;
+	position: absolute;
+	bottom: 80rpx;
+	left: 40rpx;
+	right: 40rpx;
+	background-color: rgba(55, 55, 66, 0.8);
+	border-radius: 50rpx;
+	padding: 50rpx;
+	z-index: 1;
+	min-height: 100rpx;
+	max-height: 400rpx;
+	overflow: auto;
+	border: 6rpx solid #f2bc74;
 }
 
 .text-content {
-  color: white;
-  font-size: 28rpx;
-  line-height: 1.4;
+	color: white;
+	font-size: 28rpx;
+	line-height: 1.4;
 }
 
 .options-container {
-  position: absolute;
-  bottom: 50rpx;
-  left: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20rpx;
+	position: absolute;
+	bottom: 50rpx;
+	left: 0;
+	right: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20rpx;
 }
 
 .text-box.selected {
-  background-color: #f6ecc9;
+	background-color: #f6ecc9;
 }
 
 .text-box1 {
-  width: 80%;
-  background-color: rgba(55, 55, 66, 0.8);
-  border-radius: 50px;
-  padding: 15px 25px;
-  min-height: 80rpx;
-  max-height: 160rpx;
-  transition: background-color 0.3s;
-  display: flex;
-  align-items: center;
+	width: 80%;
+	background-color: rgba(55, 55, 66, 0.8);
+	border-radius: 50px;
+	padding: 15px 25px;
+	min-height: 80rpx;
+	max-height: 160rpx;
+	transition: background-color 0.3s;
+	display: flex;
+	align-items: center;
 }
 
 .text-content1 {
-  color: white;
-  font-size: 14px;
-  line-height: 1.4;
+	color: white;
+	font-size: 14px;
+	line-height: 1.4;
 }
 
 .text-box1.selected .text-content {
-  color: #373742 !important;
+	color: #373742 !important;
 }
 
 .text-box1.selected {
-  background-color: #f6ecc9;
+	background-color: #f6ecc9;
 }
 
 .next-button-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20rpx;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 20rpx;
 }
 
 .disabled {
-  opacity: 0.5;
-  pointer-events: none;
+	opacity: 0.5;
+	pointer-events: none;
 }

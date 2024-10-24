@@ -185,7 +185,7 @@
 			},
 			async initializeScenario() {
 				try {
-					this.backgroundImageSrc = `/static/bg${this.scenarioId}.png`;
+					this.backgroundImageSrc = `/static/onboarding/bg${this.scenarioId}.png`;
 					console.log("this scenario id:", this.scenarioId);
 					await this.getScenarioData();
 				} catch (error) {
